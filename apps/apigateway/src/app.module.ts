@@ -4,6 +4,7 @@ import { ProductsModule } from "./products/products.module"
 import { EventEmitterModule } from "@nestjs/event-emitter"
 import { DatabaseModule } from "./shared/database/database.module"
 import { AppController } from "./app.controller"
+import { PlatformModule } from './platform/platform.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { AppController } from "./app.controller"
     CoreModule,
     ProductsModule,
     DatabaseModule,
+    PlatformModule,
   ],
   controllers: [AppController],
   providers: [],
