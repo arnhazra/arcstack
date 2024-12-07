@@ -1,0 +1,39 @@
+name: CI-CD-API-GATEWAY
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PROD_API }}
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  CI-CD-API-GATEWAY:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel
+
+      - name: Build API Gateway application
+        working-directory: apps/apigateway
+        run: |
+          npm install
+          CI=false npm run build
+
+      - name: Configure packages
+        working-directory: apps/apigateway
+        run: sed -i '/"devDependencies":/,/}/d' package.json
+
+      - name: Pull Vercel Environment Information
+        working-directory: apps/apigateway
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        working-directory: apps/apigateway
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Publish Project Artifacts to Vercel
+        working-directory: apps/apigateway
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
