@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { DraftingCompass, PanelLeft } from "lucide-react"
+import { DraftingCompass, Orbit, PanelLeft } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/shared/components/ui/sheet"
 import { generalUserLinks } from "./data"
@@ -13,7 +13,7 @@ export default function Header() {
           href="/"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <DraftingCompass className="h-6 w-6" />
+          <Orbit className="h-5 w-5" />
         </Link>
         {generalUserLinks.map((item, index) => (
           <Link
