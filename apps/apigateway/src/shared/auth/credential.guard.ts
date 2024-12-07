@@ -8,10 +8,10 @@ import { statusMessages } from "src/shared/utils/constants/status-messages"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
 import { ModRequest } from "./types/mod-request.interface"
-import { User } from "src/core/user/schemas/user.schema"
 import { Workspace } from "src/core/workspace/schemas/workspace.schema"
 import { Subscription } from "src/core/subscription/schemas/subscription.schema"
 import { subscriptionPricing } from "src/core/subscription/subscription.config"
+import { User } from "@/core/user/schemas/user.schema"
 
 @Injectable()
 export class CredentialGuard implements CanActivate {

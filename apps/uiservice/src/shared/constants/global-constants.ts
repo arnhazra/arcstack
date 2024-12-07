@@ -2,7 +2,7 @@ export const brandName = "OrbitAI"
 
 export const uiConstants = {
   homeBadge: "Invent with Purpose",
-  homeHeader: "Build, Ship & Analyze your apps from a single platform",
+  homeHeader: "AI for Everyone",
   homeIntro1:
     "Rely on a flexible, industry-leading platform to build your projects",
   homeIntro2: "Create an account & Start with free trial, Upgrade on demand",

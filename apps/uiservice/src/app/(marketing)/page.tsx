@@ -131,8 +131,8 @@ export default function Page() {
       }
       fallback={<Loading />}
     >
-      <Header />
       <div className="min-h-screen w-full bg-white">
+        <Header />
         <HeroSection />
         <section
           id="solutions"
