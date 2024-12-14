@@ -115,7 +115,7 @@ export default function Page() {
           </ul>
           <Link
             className={`${cn(buttonVariants({ variant: "default" }))} mt-4`}
-            href="/dashboard"
+            href="/explore"
           >
             Get Started
           </Link>
