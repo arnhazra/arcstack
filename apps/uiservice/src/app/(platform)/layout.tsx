@@ -9,7 +9,7 @@ import Show from "@/shared/components/show"
 import AuthProvider from "./auth"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import Sidebar from "../../shared/components/sidebar"
-import { Workspace, Subscription, User } from "@/shared/types"
+import { Subscription, User } from "@/shared/types"
 import Loading from "../loading"
 import { useQuery } from "@tanstack/react-query"
 
@@ -25,19 +25,12 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       try {
         const response: {
           user: User
-          workspace: Workspace
           subscription: Subscription | null
         } = await ky
           .get(endPoints.userDetails, { timeout: FETCH_TIMEOUT })
           .json()
-        const workspaces: Workspace[] = await ky
-          .get(endPoints.workspace, { timeout: FETCH_TIMEOUT })
-          .json()
-        localStorage.setItem("accessKey", response.workspace.accessKey)
         dispatch("setUser", response.user)
-        dispatch("setSelectedWorkspace", response.workspace)
         dispatch("setSubscription", response.subscription)
-        dispatch("setWorkspaces", workspaces)
         setAuthorized(true)
       } catch (error: any) {
         if (error.response) {
