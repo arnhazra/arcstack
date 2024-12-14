@@ -63,28 +63,7 @@ export default function ProductLayout({ children }: { children: ReactNode }) {
 
   return (
     <Show condition={!products.isLoading} fallback={<Loading />}>
-      <Show condition={!isSubscriptionActive} fallback={productLayout}>
-        <div className="fixed inset-0 overflow-y-auto flex justify-center items-center auth-landing">
-          <Card className="mx-auto max-w-sm">
-            <CardHeader>
-              <CardTitle className="text-2xl">Hold On</CardTitle>
-              <CardDescription>
-                Seems like you do not have an active subscription to use/view
-                this product
-              </CardDescription>
-            </CardHeader>
-            <CardFooter>
-              <Button
-                size="lg"
-                className="w-full"
-                onClick={(): void => router.push("/settings/subscription")}
-              >
-                Go to Subscriptions
-              </Button>
-            </CardFooter>
-          </Card>
-        </div>
-      </Show>
+      {productLayout}
     </Show>
   )
 }

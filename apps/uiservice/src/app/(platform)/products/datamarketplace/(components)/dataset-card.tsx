@@ -28,7 +28,10 @@ export function DatasetCard({
   handleClick,
 }: GenericCardProps) {
   return (
-    <Card className="cursor-pointer" onClick={(): void => handleClick(id)}>
+    <Card
+      className="w-64 mx-auto h-[22rem] flex flex-col relative cursor-pointer"
+      onClick={(): void => handleClick(id)}
+    >
       <CardHeader>
         <div className="space-y-1">
           <CardTitle>{title}</CardTitle>
@@ -44,10 +47,6 @@ export function DatasetCard({
           <div className="flex items-center">
             <Star className="mr-1 h-3 w-3 fill-yellow-400 text-yellow-400" />
             {rating}
-          </div>
-          <div className="flex items-center">
-            <Medal className="mr-1 h-3 w-3 text-cyan-400" />
-            {quality}
           </div>
           <ActivityLog keyword={id} />
         </div>

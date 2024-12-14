@@ -192,7 +192,7 @@ export default function Page() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
+            <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4">
               {renderDatasets}
             </div>
           </section>
