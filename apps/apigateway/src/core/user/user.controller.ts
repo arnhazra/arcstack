@@ -44,6 +44,7 @@ export class UserController {
         throw new BadRequestException(statusMessages.invalidOTP)
       }
     } catch (error) {
+      console.log(error)
       throw error
     }
   }
@@ -52,14 +53,12 @@ export class UserController {
   @Get("userdetails")
   async getUserDetails(@Request() request: ModRequest) {
     try {
-      const { user, workspace, subscription } =
-        await this.userService.getUserDetails(
-          request.user.userId,
-          request.user.workspaceId
-        )
+      const { user, subscription } = await this.userService.getUserDetails(
+        request.user.userId
+      )
 
       if (user) {
-        return { user, workspace, subscription }
+        return { user, subscription }
       } else {
         throw new BadRequestException(statusMessages.invalidUser)
       }

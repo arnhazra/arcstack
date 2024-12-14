@@ -23,7 +23,7 @@ export class IntelligenceController {
   ) {
     try {
       return await this.intelligenceService.generateRecommendation(
-        request.user.workspaceId,
+        request.user.userId,
         aiGenerationDto.prompt,
         aiGenerationDto.temperature,
         aiGenerationDto.topP,

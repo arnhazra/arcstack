@@ -16,7 +16,6 @@ import CopyToClipboard from "@/shared/components/copy"
 
 interface WorkspacePanelProps {
   workspaceId: string
-  isSelected: boolean
   displayName: string
   createdAt: string
   accessKey: string
@@ -26,7 +25,6 @@ interface WorkspacePanelProps {
 
 export default function WorkspacePanel({
   workspaceId,
-  isSelected,
   displayName,
   createdAt,
   accessKey,
@@ -38,9 +36,6 @@ export default function WorkspacePanel({
       <CardHeader>
         <CardTitle className="text-md flex gap-2">
           {displayName}
-          <Show condition={isSelected}>
-            <CheckCircle2 className="scale-75" />
-          </Show>
         </CardTitle>
         <CardDescription className="text-sm">
           {format(new Date(createdAt), "MMM, do yyyy")}
@@ -68,7 +63,6 @@ export default function WorkspacePanel({
           variant="destructive"
           size="icon"
           className="rounded-full"
-          disabled={isSelected}
           onClick={() => onDelete(workspaceId)}
         >
           <Trash className="scale-75" />

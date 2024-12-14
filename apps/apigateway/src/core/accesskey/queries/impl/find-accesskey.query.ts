@@ -1,3 +1,3 @@
-export class FindWorkspaceByCredentialQuery {
+export class FindAccessKeyQuery {
   constructor(public readonly accessKey: string) {}
 }

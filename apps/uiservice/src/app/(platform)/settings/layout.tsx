@@ -5,11 +5,11 @@ import { Button } from "@/shared/components/ui/button"
 import {
   CalendarClock,
   Info,
+  Key,
   Leaf,
   PlusCircle,
   ShieldCheck,
   User,
-  Workflow,
 } from "lucide-react"
 import { GlobalContext } from "@/context/globalstate.provider"
 import { usePromptContext } from "@/shared/providers/prompt.provider"
@@ -26,7 +26,7 @@ import Show from "@/shared/components/show"
 const mapTabIcons: Record<Tabs, ReactElement> = {
   user: <User />,
   privacy: <ShieldCheck />,
-  workspace: <Workflow />,
+  accesskey: <Key />,
   subscription: <CalendarClock />,
   sustainability: <Leaf />,
   about: <Info />,
@@ -38,7 +38,7 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
 
   const createWorkspace = async () => {
-    const { hasConfirmed, value } = await prompt("Create New Workspace")
+    const { hasConfirmed, value } = await prompt("Create New Access Key")
 
     if (hasConfirmed && value) {
       try {
@@ -50,7 +50,7 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
         toast({
           title: uiConstants.notification,
           description: (
-            <p className="text-slate-600">{uiConstants.workspaceCreated}</p>
+            <p className="text-slate-600">{uiConstants.accessKeyCreated}</p>
           ),
         })
       } catch (error) {

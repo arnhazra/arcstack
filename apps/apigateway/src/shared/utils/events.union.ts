@@ -6,7 +6,6 @@ export enum EventsUnion {
   CreateActivity = "createActivity",
   GetUserDetails = "getUserDetails",
   UpdateUserDetails = "updateUserDetails",
-  GetWorkspaceDetails = "getWorkspaceDetails",
-  CreateWorkspace = "createWorkspace",
   GetSubscriptionDetails = "getSubscriptionDetails",
+  GetAccessKeyDetails = "getAccessKeyDetails",
 }

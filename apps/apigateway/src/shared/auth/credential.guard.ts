@@ -8,7 +8,7 @@ import { statusMessages } from "src/shared/utils/constants/status-messages"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
 import { ModRequest } from "./types/mod-request.interface"
-import { Workspace } from "src/core/workspace/schemas/workspace.schema"
+import { AccessKey } from "@/core/accesskey/schemas/accesskey.schema"
 import { Subscription } from "src/core/subscription/schemas/subscription.schema"
 import { subscriptionPricing } from "src/core/subscription/subscription.config"
 import { User } from "@/core/user/schemas/user.schema"
@@ -25,23 +25,22 @@ export class CredentialGuard implements CanActivate {
       if (!accessKey) {
         throw new ForbiddenException(statusMessages.noCredentialsProvided)
       } else {
-        const workspaceResponse: Workspace[] =
-          await this.eventEmitter.emitAsync(EventsUnion.GetWorkspaceDetails, {
+        const accessKeyResponse: AccessKey[] =
+          await this.eventEmitter.emitAsync(EventsUnion.GetAccessKeyDetails, {
             accessKey,
           })
 
         if (
-          !workspaceResponse ||
-          !workspaceResponse.length ||
-          (workspaceResponse &&
-            workspaceResponse.length &&
-            workspaceResponse[0] === null)
+          !accessKeyResponse ||
+          !accessKeyResponse.length ||
+          (accessKeyResponse &&
+            accessKeyResponse.length &&
+            accessKeyResponse[0] === null)
         ) {
           throw new ForbiddenException(statusMessages.invalidCredentials)
         } else {
-          const workspace = workspaceResponse[0]
-          const userId = String(workspace.userId)
-          const workspaceId = String(workspace.id)
+          const accessKey = accessKeyResponse[0]
+          const userId = String(accessKey.userId)
           const userResponse: User[] = await this.eventEmitter.emitAsync(
             EventsUnion.GetUserDetails,
             { _id: userId }
@@ -73,7 +72,7 @@ export class CredentialGuard implements CanActivate {
                 await new Promise((resolve) =>
                   setTimeout(resolve, subscription.platformDelay)
                 )
-                request.user = { userId, workspaceId }
+                request.user = { userId }
                 subscription.xp -= requestCost
                 await subscription.save()
 

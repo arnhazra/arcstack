@@ -18,7 +18,7 @@ import { FindUserByEmailQuery } from "./queries/impl/find-user-by-email.query"
 import { User } from "./schemas/user.schema"
 import { FindUserByIdQuery } from "./queries/impl/find-user-by-id.query"
 import { CreateUserCommand } from "./commands/impl/create-user.command"
-import { Workspace } from "../workspace/schemas/workspace.schema"
+import { AccessKey } from "../accesskey/schemas/accesskey.schema"
 import {
   AttributeNames,
   UpdateAttributeCommand,
@@ -74,23 +74,6 @@ export class UserService {
             { userId: user.id }
           )
 
-          if (user.selectedWorkspaceId === null) {
-            const workspace: Workspace[] = await this.eventEmitter.emitAsync(
-              EventsUnion.CreateWorkspace,
-              {
-                name: "Default Workspace",
-                userId: user.id,
-              }
-            )
-            await this.commandBus.execute<UpdateAttributeCommand, User>(
-              new UpdateAttributeCommand(
-                user.id,
-                AttributeNames.selectedWorkspaceId,
-                workspace[0].id
-              )
-            )
-          }
-
           if (refreshTokenFromRedis.toString()) {
             const refreshToken = refreshTokenFromRedis.toString()
             const tokenPayload = {
@@ -127,20 +110,7 @@ export class UserService {
             CreateUserCommand,
             User
           >(new CreateUserCommand(email, name))
-          const workspace: Workspace[] = await this.eventEmitter.emitAsync(
-            EventsUnion.CreateWorkspace,
-            {
-              name: "Default Workspace",
-              userId: newUser.id,
-            }
-          )
-          await this.commandBus.execute<UpdateAttributeCommand, User>(
-            new UpdateAttributeCommand(
-              newUser.id,
-              AttributeNames.selectedWorkspaceId,
-              workspace[0].id
-            )
-          )
+
           const tokenPayload = {
             id: newUser.id,
             email: newUser.email,
@@ -166,17 +136,13 @@ export class UserService {
     }
   }
 
-  async getUserDetails(userId: string, workspaceId: string) {
+  async getUserDetails(userId: string) {
     try {
       const user = await this.queryBus.execute<FindUserByIdQuery, User>(
         new FindUserByIdQuery(userId)
       )
 
       if (user) {
-        const workspaceResponse: Workspace[] =
-          await this.eventEmitter.emitAsync(EventsUnion.GetWorkspaceDetails, {
-            _id: workspaceId,
-          })
         const subscriptionRes: Subscription[] =
           await this.eventEmitter.emitAsync(
             EventsUnion.GetSubscriptionDetails,
@@ -191,8 +157,7 @@ export class UserService {
           subscription = subscriptionRes[0]
         }
 
-        const workspace = workspaceResponse[0]
-        return { user, workspace, subscription }
+        return { user, subscription }
       } else {
         throw new BadRequestException(statusMessages.invalidUser)
       }

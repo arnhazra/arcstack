@@ -4,7 +4,6 @@ import {
   AttributeNames,
   UpdateAttributeCommand,
 } from "../impl/update-attribute.command"
-import objectId from "src/shared/utils/convert-objectid"
 
 @CommandHandler(UpdateAttributeCommand)
 export class UpdateAttributeCommandHandler
@@ -25,11 +24,6 @@ export class UpdateAttributeCommandHandler
       }
 
       return await this.repository.updateOneById(userId, attributeName, false)
-    }
-
-    if (attributeName === AttributeNames.selectedWorkspaceId) {
-      const value = objectId(attributeValue)
-      return await this.repository.updateOneById(userId, attributeName, value)
     }
   }
 }

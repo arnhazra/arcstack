@@ -66,7 +66,6 @@ export default function Page() {
       <WorkspacePanel
         key={workspace?._id}
         workspaceId={workspace?._id}
-        isSelected={workspace._id === user.selectedWorkspaceId}
         displayName={workspace?.name}
         accessKey={workspace?.accessKey}
         createdAt={workspace?.createdAt}

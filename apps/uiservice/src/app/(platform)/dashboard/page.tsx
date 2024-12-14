@@ -23,7 +23,7 @@ import Show from "@/shared/components/show"
 import Loading from "@/app/loading"
 
 export default function Page() {
-  const [{ user, selectedWorkspace, subscription }] = useContext(GlobalContext)
+  const [{ user, subscription }] = useContext(GlobalContext)
   const router = useRouter()
   const products = useFetch({
     queryKey: ["products"],
@@ -127,7 +127,7 @@ export default function Page() {
                     <span className="sr-only">Copy Order ID</span>
                   </Button>
                 </CardTitle>
-                <CardDescription>{selectedWorkspace.name}</CardDescription>
+                <CardDescription>Ok</CardDescription>
               </div>
               <div className="ml-auto flex items-center gap-1">
                 <Button
@@ -152,7 +152,7 @@ export default function Page() {
                       Workspace Access Key
                     </span>
                     <span>
-                      <MaskText value={selectedWorkspace.accessKey} />
+                      {/* <MaskText value={selectedWorkspace.accessKey} /> */}
                     </span>
                   </li>
                 </ul>

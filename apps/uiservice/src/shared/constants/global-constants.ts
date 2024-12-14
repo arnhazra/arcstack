@@ -2,7 +2,7 @@ export const brandName = "OrbitAI"
 
 export const uiConstants = {
   homeBadge: "Invent with Purpose",
-  homeHeader: "AI for Everyone",
+  homeHeader: "AI for everyone.",
   homeIntro1:
     "Rely on a flexible, industry-leading platform to build your projects",
   homeIntro2: "Create an account & Start with free trial, Upgrade on demand",
@@ -26,10 +26,8 @@ export const uiConstants = {
   pricingTierHeader: `Choose an ${brandName} subscription that is right for you. Downgrade, upgrade any time. ${brandName} offers a variety of plans to meet your requirements.`,
   privacyPolicyStatement: `By using ${brandName}, you agree to our Terms of Service and Privacy Policy`,
   verifyEmailStatement: `Please verify your auth by entering the OTP we sent to your email`,
-  workspaceCreated: "Workspace created",
-  workspaceSwitched: "Workspace switched",
-  workspaceDeleted: "Workspace deleted",
-  apiRefreneceStatement:
-    "You must send access_key in headers to authenticate with your workspace",
+  accessKeyCreated: "Access Key created",
+  accessKeyDeleted: "Access Key deleted",
+  apiRefreneceStatement: "You must send access_key in headers to authenticate",
   aiSafetyStatement: `As an AI LLM ${brandName} Intelligence can make mistakes. Please be aware.`,
 }

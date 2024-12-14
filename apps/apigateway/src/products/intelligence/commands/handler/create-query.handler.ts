@@ -12,7 +12,7 @@ export class CreateQueryCommandHandler
   async execute(command: CreateQueryCommand) {
     const { workspaceId, prompt, response } = command
     return await this.repository.create({
-      workspaceId: objectId(workspaceId),
+      accessKeyId: objectId(workspaceId),
       prompt,
       response,
     })

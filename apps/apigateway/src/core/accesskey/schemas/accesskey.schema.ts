@@ -3,13 +3,10 @@ import { Document, Types } from "mongoose"
 
 @Schema({
   versionKey: false,
-  collection: "workspaces",
+  collection: "accesskeys",
   timestamps: { createdAt: true, updatedAt: false },
 })
-export class Workspace extends Document {
-  @Prop({ required: true })
-  name: string
-
+export class AccessKey extends Document {
   @Prop({ type: Types.ObjectId, ref: "user", required: true })
   userId: Types.ObjectId
 
@@ -17,4 +14,4 @@ export class Workspace extends Document {
   accessKey: string
 }
 
-export const WorkspaceSchema = SchemaFactory.createForClass(Workspace)
+export const AccessKeySchema = SchemaFactory.createForClass(AccessKey)

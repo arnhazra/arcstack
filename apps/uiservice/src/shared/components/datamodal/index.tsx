@@ -20,7 +20,7 @@ export function DataModal({ dataObj }: { dataObj: any }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <p>View Data</p>
+        <DialogTitle>View Data</DialogTitle>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

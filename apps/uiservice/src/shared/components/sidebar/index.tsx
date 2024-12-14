@@ -16,7 +16,6 @@ import {
   BreadcrumbSeparator,
 } from "@/shared/components/ui/breadcrumb"
 import { UserNav } from "./user-nav"
-import { WorkspaceSwitcher } from "./workspace-switcher"
 import { brandName } from "@/shared/constants/global-constants"
 import useFetch from "@/shared/hooks/use-fetch"
 import { endPoints } from "@/shared/constants/api-endpoints"
@@ -189,9 +188,6 @@ export default function Sidebar() {
               </Show>
             </BreadcrumbList>
           </Breadcrumb>
-          <div className="relative ml-auto flex-1 md:grow-0">
-            <WorkspaceSwitcher />
-          </div>
           <UserNav />
         </header>
       </div>

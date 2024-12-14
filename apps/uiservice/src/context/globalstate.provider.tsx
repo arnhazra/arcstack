@@ -24,18 +24,9 @@ const initialState: GlobalState = {
     name: "",
     reduceCarbonEmissions: true,
     role: "",
-    selectedWorkspaceId: "",
     hasTrial: false,
   },
   subscription: null,
-  selectedWorkspace: {
-    _id: "",
-    accessKey: "",
-    createdAt: "",
-    name: "",
-    userId: "",
-  },
-  workspaces: [],
   refreshId: generateUUID(),
 }
 

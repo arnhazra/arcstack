@@ -20,7 +20,7 @@ export const endPoints = {
   getProductConfig: `${apiHost}/products/config`,
   getSolutionConfig: `${apiHost}/solutions/config`,
   getapireference: `${apiHost}/apireference`,
-  workspace: `${apiHost}/workspace`,
+  accesskey: `${apiHost}/accesskey`,
   activityTrends: `${apiHost}/activity/trends`,
   intelligenceGenerateEndpoint: `${apiHost}/products/intelligence/generate`,
   datamarketplaceFilterAndSortOptions: `${apiHost}/products/datamarketplace/filters-and-sort-options`,
