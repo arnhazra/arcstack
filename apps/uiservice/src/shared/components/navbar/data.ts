@@ -18,15 +18,15 @@ export const generalUserLinks: LinkData[] = [
     link: "/favourites",
   },
   {
-    displayName: "Watching",
-    link: "/watching",
-  },
-  {
     displayName: "NewsRoom",
     link: "/newsroom",
   },
   {
     displayName: "API Reference",
     link: "/apireference",
+  },
+  {
+    displayName: "Orbit One",
+    link: "/orbitone",
   },
 ]

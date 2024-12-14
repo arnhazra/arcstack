@@ -1,191 +1,222 @@
 "use client"
-import { Copy, Workflow } from "lucide-react"
+import Show from "@/shared/components/show"
 import { Button } from "@/shared/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card"
-import { Separator } from "@/shared/components/ui/separator"
-import { useContext } from "react"
-import { GlobalContext } from "@/context/globalstate.provider"
-import { useRouter } from "next/navigation"
-import useFetch from "@/shared/hooks/use-fetch"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
-import { brandName } from "@/shared/constants/global-constants"
-import { Product } from "@/shared/types"
-import MaskText from "@/shared/components/mask"
-import Show from "@/shared/components/show"
+import useFetch from "@/shared/hooks/use-fetch"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu"
+import {
+  ChevronLeft,
+  ChevronRight,
+  SlidersHorizontal,
+  SortAsc,
+  Sparkles,
+} from "lucide-react"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { Input } from "@/shared/components/ui/input"
+import { DatasetCard } from "./(components)/dataset-card"
 import Loading from "@/app/loading"
+import { Badge } from "@/shared/components/ui/badge"
+
+export interface DatasetRequestState {
+  searchQuery: string
+  selectedFilter: string
+  selectedSortOption: string
+  offset: number
+}
 
 export default function Page() {
-  const [{ user, subscription }] = useContext(GlobalContext)
   const router = useRouter()
-  const products = useFetch({
-    queryKey: ["products"],
-    queryUrl: endPoints.getProductConfig,
+  const [datasetRequestState, setDatasetRequestState] =
+    useState<DatasetRequestState>({
+      searchQuery: "",
+      selectedFilter: "All",
+      selectedSortOption: "name",
+      offset: 0,
+    })
+  const filtersAndSortOptions = useFetch({
+    queryKey: ["filters-and-sorts"],
+    queryUrl: endPoints.datamarketplaceFilterAndSortOptions,
     method: HTTPMethods.GET,
   })
+  const datasets = useFetch({
+    queryKey: [
+      "datasets",
+      datasetRequestState.selectedFilter,
+      datasetRequestState.selectedSortOption,
+      String(datasetRequestState.offset),
+    ],
+    queryUrl: endPoints.datamarketplaceFindDatasets,
+    method: HTTPMethods.POST,
+    requestBody: datasetRequestState,
+  })
 
-  const renderProducts = products?.data?.map((product: Product) => {
-    return (
-      <div
-        className="relative overflow-hidden rounded-lg border bg-white p-2 cursor-pointer"
-        key={product?._id}
-        onClick={(): void => router.push(`/products/${product?.productName}`)}
-      >
-        <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-          <div
-            dangerouslySetInnerHTML={{ __html: product?.productIcon }}
-            style={{ zoom: "150%" }}
-          ></div>
-          <div className="space-y-2">
-            <h3 className="font-bold">
-              {brandName} {product?.displayName}
-            </h3>
-            <p className="text-sm text-slate-600">{product?.description}</p>
-          </div>
+  useEffect(() => {
+    if (!datasetRequestState.searchQuery) datasets.refetch()
+  }, [datasetRequestState.searchQuery])
+
+  const renderFilterTabs = filtersAndSortOptions?.data?.filters?.map(
+    (item: string) => {
+      return (
+        <div
+          key={item}
+          className={`cursor-pointer flex capitalize ${
+            datasetRequestState.selectedFilter === item ? "" : "text-slate-500"
+          }`}
+          onClick={(): void =>
+            setDatasetRequestState({
+              ...datasetRequestState,
+              selectedFilter: item,
+              offset: 0,
+              searchQuery: "",
+            })
+          }
+        >
+          <Badge>{item}</Badge>
         </div>
-      </div>
+      )
+    }
+  )
+
+  const renderSortOptions = filtersAndSortOptions?.data?.sortOptions?.map(
+    (item: any) => {
+      return (
+        <DropdownMenuCheckboxItem
+          key={item.value}
+          checked={datasetRequestState.selectedSortOption === item.value}
+          onClick={(): void =>
+            setDatasetRequestState({
+              ...datasetRequestState,
+              selectedSortOption: item.value,
+              offset: 0,
+            })
+          }
+        >
+          {item.label}
+        </DropdownMenuCheckboxItem>
+      )
+    }
+  )
+
+  const dataQuality = (rating: number): string => {
+    if (rating > 4.5) return "Gold"
+    if (rating > 4.0) return "Silver"
+    return "Bronze"
+  }
+
+  const renderDatasets = datasets?.data?.map((dataset: any) => {
+    return (
+      <DatasetCard
+        key={dataset?._id}
+        id={dataset?._id}
+        title={dataset?.name}
+        desc={dataset?.description}
+        category={dataset?.category}
+        rating={dataset?.rating}
+        quality={dataQuality(dataset?.rating)}
+        handleClick={(id: string) =>
+          router.push(`/products/datamarketplace/dataset/${id}`)
+        }
+      />
     )
   })
 
+  const prevPage = () => {
+    const prevDatasetReqNumber = datasetRequestState.offset - 30
+    setDatasetRequestState({
+      ...datasetRequestState,
+      offset: prevDatasetReqNumber,
+    })
+    window.scrollTo(0, 0)
+  }
+
+  const nextPage = () => {
+    const nextOffset = datasetRequestState.offset + 30
+    setDatasetRequestState({ ...datasetRequestState, offset: nextOffset })
+    window.scrollTo(0, 0)
+  }
+
   return (
-    <Show condition={!products.isLoading} fallback={<Loading />}>
-      <main className="grid flex-1 items-start gap-4 lg:grid-cols-3 xl:grid-cols-3">
-        <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-            <Card className="sm:col-span-2">
-              <CardHeader className="pb-3">
-                <CardTitle>Hey, {user.name.split(" ")[0]}</CardTitle>
-                <CardDescription className="max-w-lg text-balance leading-relaxed">
-                  Introducing Our Dynamic Dashboard for Seamless Management and
-                  Insightful Analysis.
-                </CardDescription>
-              </CardHeader>
-              <CardFooter>
-                <Button
-                  onClick={(): void => router.push("/settings/workspace")}
-                >
-                  View Workspaces
-                </Button>
-              </CardFooter>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription className="text-lg">
-                  XP Credits
-                </CardDescription>
-                <CardTitle className="text-2xl">
-                  {subscription ? subscription.xp.toFixed(2) : 0}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-xs text-muted-foreground">
-                  Available Credits
-                </div>
-              </CardContent>
-              <CardFooter></CardFooter>
-            </Card>
-            <Card>
-              <CardHeader className="pb-2">
-                <CardDescription className="text-lg">
-                  Subscription Tier
-                </CardDescription>
-                <CardTitle className="text-2xl capitalize">
-                  {subscription?.subscriptionTier ?? "No Subscription"}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-xs text-muted-foreground">
-                  Selected Tier
-                </div>
-              </CardContent>
-              <CardFooter></CardFooter>
-            </Card>
-          </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:max-w-[64rem] md:grid-cols-2 lg:grid-cols-2">
-            {renderProducts}
-          </div>
-        </div>
+    <Show
+      condition={!filtersAndSortOptions.isLoading && !datasets.isLoading}
+      fallback={<Loading />}
+    >
+      <div className="mx-auto grid w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
+        <nav className="grid gap-4 text-sm">{renderFilterTabs}</nav>
         <div>
-          <Card className="overflow-hidden">
-            <CardHeader className="flex flex-row items-start bg-slate-50">
-              <div className="grid gap-0.5">
-                <CardTitle className="group flex items-center gap-2 text-lg">
-                  Workspace
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    className="h-6 w-6 opacity-0 transition-opacity group-hover:opacity-100"
-                  >
-                    <Copy className="h-3 w-3" />
-                    <span className="sr-only">Copy Order ID</span>
+          <div className="w-full">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                datasets.refetch()
+              }}
+            >
+              <div className="relative">
+                <Sparkles className="absolute left-3 top-4 h-4 w-4 text-muted-foreground" />
+                <Input
+                  defaultValue={datasetRequestState.searchQuery}
+                  onChange={(e): void =>
+                    setDatasetRequestState({
+                      ...datasetRequestState,
+                      searchQuery: e.target.value,
+                    })
+                  }
+                  type="search"
+                  placeholder="Type anything and press enter to find datasets"
+                  className="mb-4 pl-8 w-full h-12 focus:outline-none"
+                />
+              </div>
+            </form>
+          </div>
+          <section className="grid gap-6 mb-4">
+            <div className="ml-auto flex items-center gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="sm" className="h-8 gap-1">
+                    <SortAsc className="h-3.5 w-3.5" />
+                    <span>Sort</span>
                   </Button>
-                </CardTitle>
-                <CardDescription>Ok</CardDescription>
-              </div>
-              <div className="ml-auto flex items-center gap-1">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="h-8 gap-1"
-                  onClick={(): void => router.push("/settings/workspace")}
-                >
-                  <Workflow className="h-3.5 w-3.5" />
-                  <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                    Open Workspace
-                  </span>
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="p-6 text-sm">
-              <div className="grid gap-3">
-                <div className="font-semibold">Workspace Information</div>
-                <ul className="grid gap-3">
-                  <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">
-                      Workspace Access Key
-                    </span>
-                    <span>
-                      {/* <MaskText value={selectedWorkspace.accessKey} /> */}
-                    </span>
-                  </li>
-                </ul>
-              </div>
-              <Separator className="my-4" />
-              <div className="grid gap-3">
-                <div className="font-semibold">User Information</div>
-                <dl className="grid gap-3">
-                  <div className="flex items-center justify-between">
-                    <dt className="text-muted-foreground">Name</dt>
-                    <dd>{user.name}</dd>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <dt className="text-muted-foreground">Email</dt>
-                    <dd>
-                      <a href="mailto:">{user.email}</a>
-                    </dd>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <dt className="text-muted-foreground">XP</dt>
-                    <dd>{subscription ? subscription.xp.toFixed(2) : 0}</dd>
-                  </div>
-                </dl>
-              </div>
-            </CardContent>
-            <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
-              <div className="text-xs text-muted-foreground">
-                {brandName} Inc.
-              </div>
-            </CardFooter>
-          </Card>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Sort</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  {renderSortOptions}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+            <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4">
+              {renderDatasets}
+            </div>
+          </section>
+          <Show condition={!datasetRequestState.searchQuery}>
+            <Button
+              disabled={datasetRequestState.offset === 0}
+              variant="outline"
+              onClick={prevPage}
+              size="icon"
+              className="me-2"
+            >
+              <ChevronLeft className="scale-75" />
+            </Button>
+            <Button
+              disabled={datasets?.data?.length !== 30}
+              variant="outline"
+              onClick={nextPage}
+              size="icon"
+            >
+              <ChevronRight className="scale-75" />
+            </Button>
+          </Show>
         </div>
-      </main>
+      </div>
     </Show>
   )
 }
