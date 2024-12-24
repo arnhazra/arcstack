@@ -1,7 +1,6 @@
 export enum DbConnectionMap {
   Core = "core",
+  Platform = "platform",
   DataMarketplace = "datamarketplace",
-  HttpNoSql = "httpnosql",
   Intelligence = "intelligence",
-  WebAnalytics = "webanalytics",
 }

@@ -1,24 +1,46 @@
 import { Injectable } from "@nestjs/common"
+import { FindAllModelsDto } from "./dto/find-all-models.dto"
+import { CreateModelDto } from "./dto/create-model.dto"
+import { CommandBus, QueryBus } from "@nestjs/cqrs"
+import { CreateModelCommand } from "./commands/impl/create-model.command"
+import { Model } from "./schemas/model.schema"
+import { FindAllModelsQuery } from "./queries/impl/find-all-models.query"
+import { FindOneModelQuery } from "./queries/impl/find-one-model.query"
 
 @Injectable()
 export class ModelsService {
-  create(createModelDto: any) {
-    return "This action adds a new model"
+  constructor(
+    private readonly queryBus: QueryBus,
+    private readonly commandBus: CommandBus
+  ) {}
+
+  async createModel(createModelDto: CreateModelDto) {
+    try {
+      return await this.commandBus.execute<CreateModelCommand, Model>(
+        new CreateModelCommand(createModelDto)
+      )
+    } catch (error) {
+      throw error
+    }
   }
 
-  findAll() {
-    return `This action returns all models`
+  async findAllModels(findAllModelsDto: FindAllModelsDto) {
+    try {
+      return await this.queryBus.execute<FindAllModelsQuery, Model[]>(
+        new FindAllModelsQuery(findAllModelsDto)
+      )
+    } catch (error) {
+      throw error
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} model`
-  }
-
-  update(id: number, updateModelDto: any) {
-    return `This action updates a #${id} model`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} model`
+  async findOneModel(modelId: string) {
+    try {
+      return await this.queryBus.execute<FindOneModelQuery, Model>(
+        new FindOneModelQuery(modelId)
+      )
+    } catch (error) {
+      throw error
+    }
   }
 }

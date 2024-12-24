@@ -7,6 +7,7 @@ export const envConfig = {
   brandName: process.env.BRAND_NAME,
   coreDatabaseURI: process.env.CORE_DATABASE_URI,
   productsDatabaseURI: process.env.PRODUCTS_DATABASE_URI,
+  platformDatabaseURI: process.env.PLATFORM_DATABASE_URI,
   redisURI: process.env.REDIS_URI,
   geminiAPIKey: process.env.GEMINI_API_KEY,
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,

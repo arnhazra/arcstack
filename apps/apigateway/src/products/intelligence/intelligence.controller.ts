@@ -3,7 +3,6 @@ import {
   Post,
   Body,
   BadRequestException,
-  UseGuards,
   Request,
 } from "@nestjs/common"
 import { IntelligenceService } from "./intelligence.service"
@@ -15,7 +14,6 @@ import { ModRequest } from "src/shared/auth/types/mod-request.interface"
 export class IntelligenceController {
   constructor(private readonly intelligenceService: IntelligenceService) {}
 
-  @UseGuards(CredentialGuard)
   @Post("generate")
   async generateRecommendation(
     @Request() request: ModRequest,
@@ -23,7 +21,7 @@ export class IntelligenceController {
   ) {
     try {
       return await this.intelligenceService.generateRecommendation(
-        request.user.userId,
+        null,
         aiGenerationDto.prompt,
         aiGenerationDto.temperature,
         aiGenerationDto.topP,
