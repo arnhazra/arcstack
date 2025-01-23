@@ -11,6 +11,8 @@ import { ModelsService } from "./models.service"
 import { TokenGuard } from "@/shared/auth/token.guard"
 import { FindAllModelsDto } from "./dto/find-all-models.dto"
 import { CreateModelDto } from "./dto/create-model.dto"
+import { OnEvent } from "@nestjs/event-emitter"
+import { EventsUnion } from "@/shared/utils/events.union"
 
 @Controller("models")
 export class ModelsController {
@@ -32,13 +34,13 @@ export class ModelsController {
     try {
       return await this.modelsService.findAllModels(findAllModelsDto)
     } catch (error) {
-      console.log(error)
       throw new BadRequestException()
     }
   }
 
   @UseGuards(TokenGuard)
   @Get("viewmodel/:modelId")
+  @OnEvent(EventsUnion.GetModelDetails)
   async findOneModel(@Param("modelId") modelId: string) {
     try {
       return await this.modelsService.findOneModel(modelId)

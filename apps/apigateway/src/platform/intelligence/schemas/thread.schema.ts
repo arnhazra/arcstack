@@ -3,12 +3,12 @@ import { Document, Types } from "mongoose"
 
 @Schema({
   versionKey: false,
-  collection: "queries",
+  collection: "threads",
   timestamps: { createdAt: true, updatedAt: false },
 })
-export class Query extends Document {
-  @Prop({ type: Types.ObjectId, ref: "accesskey", required: true })
-  readonly accessKeyId: Types.ObjectId
+export class Thread extends Document {
+  @Prop({ type: Types.ObjectId, required: true })
+  readonly threadId: Types.ObjectId
 
   @Prop({ required: true })
   readonly prompt: string
@@ -17,4 +17,4 @@ export class Query extends Document {
   readonly response: string
 }
 
-export const QuerySchema = SchemaFactory.createForClass(Query)
+export const ThreadSchema = SchemaFactory.createForClass(Thread)

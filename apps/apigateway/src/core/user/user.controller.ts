@@ -44,7 +44,6 @@ export class UserController {
         throw new BadRequestException(statusMessages.invalidOTP)
       }
     } catch (error) {
-      console.log(error)
       throw error
     }
   }

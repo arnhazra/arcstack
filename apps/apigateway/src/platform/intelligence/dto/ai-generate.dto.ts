@@ -2,14 +2,13 @@ import { IsNotEmpty } from "class-validator"
 
 export class AIGenerationDto {
   @IsNotEmpty()
+  modelId: string
+
+  @IsNotEmpty()
   prompt: string
 
-  @IsNotEmpty()
+  threadId: string
   temperature: number
-
-  @IsNotEmpty()
   topP: number
-
-  @IsNotEmpty()
   topK: number
 }

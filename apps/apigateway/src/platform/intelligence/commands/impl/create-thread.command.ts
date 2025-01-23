@@ -1,6 +1,6 @@
-export class CreateQueryCommand {
+export class CreateThreadCommand {
   constructor(
-    public readonly workspaceId: string,
+    public readonly threadId: string,
     public readonly prompt: string,
     public readonly response: string
   ) {}
