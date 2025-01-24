@@ -5,6 +5,7 @@ import { IntelligenceModule } from "./intelligence/intelligence.module"
 import { envConfig } from "@/config"
 import { DatabaseModule } from "@/shared/database/database.module"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
+import { BaseModelsModule } from "./basemodels/basemodels.module"
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { DbConnectionMap } from "@/shared/utils/db-connection.map"
       envConfig.platformDatabaseURI,
       DbConnectionMap.Platform
     ),
+    BaseModelsModule,
     ModelsModule,
     IntelligenceModule,
     FavouritesModule,
