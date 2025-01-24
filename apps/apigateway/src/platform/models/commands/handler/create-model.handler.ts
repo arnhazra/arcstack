@@ -1,6 +1,7 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs"
 import { CreateModelCommand } from "../impl/create-model.command"
 import { ModelsRepository } from "../../models.repository"
+import objectId from "@/shared/utils/convert-objectid"
 
 @CommandHandler(CreateModelCommand)
 export class CreateModelCommandHandler
@@ -17,23 +18,19 @@ export class CreateModelCommandHandler
       isPro,
       promptStyle,
       responseFormat,
-      series,
       systemPrompt,
       title,
-      vendor,
     } = command.createModelDto
     return await this.repository.create({
-      baseModel,
+      baseModel: objectId(baseModel),
       category,
       description,
       isFineTuned,
       isPro,
       promptStyle,
       responseFormat,
-      series,
       systemPrompt,
       title,
-      vendor,
     })
   }
 }

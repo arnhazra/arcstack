@@ -11,16 +11,10 @@ export class CreateModelDto {
   readonly category: string
 
   @IsNotEmpty()
-  readonly series: string
-
-  @IsNotEmpty()
   readonly baseModel: string
 
   @IsNotEmpty()
   readonly isFineTuned: boolean
-
-  @IsNotEmpty()
-  readonly vendor: string
 
   @IsNotEmpty()
   readonly promptStyle: string

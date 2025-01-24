@@ -5,7 +5,6 @@ import { CreateModelCommandHandler } from "./commands/handler/create-model.handl
 import { ModelsRepository } from "./models.repository"
 import { CqrsModule } from "@nestjs/cqrs"
 import { DatabaseModule } from "@/shared/database/database.module"
-import { envConfig } from "@/config"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
 import { Model, ModelSchema } from "./schemas/model.schema"
 import { FindAllModelsQueryHandler } from "./queries/handler/find-all-models.handler"
