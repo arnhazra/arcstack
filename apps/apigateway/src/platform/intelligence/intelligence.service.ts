@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common"
+import { BadRequestException, Injectable } from "@nestjs/common"
 import {
   Content,
   GenerationConfig,
@@ -35,18 +35,23 @@ export class IntelligenceService {
           FetchThreadByIdQuery,
           Thread[]
         >(new FetchThreadByIdQuery(threadId))
-        const history: Content[] = thread.flatMap((chat) => [
-          {
-            role: "user",
-            parts: [{ text: chat.prompt }],
-          },
-          {
-            role: "model",
-            parts: [{ text: chat.response }],
-          },
-        ])
 
-        historyMain.push(...history)
+        if (!!thread && thread.length) {
+          const history: Content[] = thread.flatMap((chat) => [
+            {
+              role: "user",
+              parts: [{ text: chat.prompt }],
+            },
+            {
+              role: "model",
+              parts: [{ text: chat.response }],
+            },
+          ])
+
+          historyMain.push(...history)
+        } else {
+          throw new BadRequestException("Thread not found")
+        }
       }
 
       const res: Model[] = await this.eventEmitter.emitAsync(
@@ -79,7 +84,7 @@ export class IntelligenceService {
         )
         return { response, threadId }
       } else {
-        throw new Error("Model not found")
+        throw new BadRequestException("Model not found")
       }
     } catch (error) {
       throw error

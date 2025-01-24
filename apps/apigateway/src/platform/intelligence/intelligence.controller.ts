@@ -24,7 +24,7 @@ export class IntelligenceController {
         aiGenerationDto
       )
     } catch (error) {
-      throw new BadRequestException()
+      throw error
     }
   }
 }
