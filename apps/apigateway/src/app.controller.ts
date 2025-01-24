@@ -1,5 +1,5 @@
 import { Controller, Get, Redirect } from "@nestjs/common"
-import { devUIUri, prodUIUri } from "./shared/utils/constants/other-constants"
+import { devUIUri, prodUIUri } from "./shared/constants/other-constants"
 import { envConfig } from "./config"
 
 @Controller()

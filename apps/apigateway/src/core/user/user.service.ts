@@ -9,8 +9,8 @@ import {
   generateOTPEmailBody,
   generateOTPEmailSubject,
 } from "./user.util"
-import { tokenIssuer } from "src/shared/utils/constants/other-constants"
-import { statusMessages } from "src/shared/utils/constants/status-messages"
+import { tokenIssuer } from "@/shared/constants/other-constants"
+import { statusMessages } from "@/shared/constants/status-messages"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"

@@ -9,7 +9,7 @@ import {
   Param,
 } from "@nestjs/common"
 import { AccessKeyService } from "./accesskey.service"
-import { statusMessages } from "@/shared/utils/constants/status-messages"
+import { statusMessages } from "@/shared/constants/status-messages"
 import { TokenGuard } from "@/shared/auth/token.guard"
 import { ModRequest } from "@/shared/auth/types/mod-request.interface"
 

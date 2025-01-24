@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common"
-import { statusMessages } from "src/shared/utils/constants/status-messages"
+import { statusMessages } from "@/shared/constants/status-messages"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { FindAllAccessKeyQuery } from "./queries/impl/find-all-accesskeys.query"
 import { FindAccessKeyByIdQuery } from "./queries/impl/find-accesskey-by-id.query"

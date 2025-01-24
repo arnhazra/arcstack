@@ -4,7 +4,7 @@ import {
   ForbiddenException,
   Injectable,
 } from "@nestjs/common"
-import { statusMessages } from "src/shared/utils/constants/status-messages"
+import { statusMessages } from "@/shared/constants/status-messages"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
 import { ModRequest } from "./types/mod-request.interface"
