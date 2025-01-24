@@ -1,7 +1,12 @@
 import Link from "next/link"
 import { DraftingCompass, PanelLeft } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/shared/components/ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/shared/components/ui/sheet"
 import { generalUserLinks } from "./data"
 
 export default function Header() {
@@ -36,6 +41,7 @@ export default function Header() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left">
+          <SheetTitle></SheetTitle>
           <nav className="grid gap-6 text-lg font-medium">
             <Link
               href="/"
