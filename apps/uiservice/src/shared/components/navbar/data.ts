@@ -26,7 +26,7 @@ export const generalUserLinks: LinkData[] = [
     link: "/apireference",
   },
   {
-    displayName: "Orbit One",
-    link: "/orbitone",
+    displayName: "ArcStack One",
+    link: "/arcstackone",
   },
 ]

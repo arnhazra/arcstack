@@ -26,7 +26,7 @@ export class IntelligenceService {
   async generateRecommendation(aiGenerationDto: AIGenerationDto) {
     try {
       const { modelId, prompt, temperature, topK, topP } = aiGenerationDto
-      const historyMain: Content[] = []
+      const chatHistory: Content[] = []
       const threadId =
         aiGenerationDto.threadId ?? new Types.ObjectId().toString()
 
@@ -48,19 +48,19 @@ export class IntelligenceService {
             },
           ])
 
-          historyMain.push(...history)
+          chatHistory.push(...history)
         } else {
           throw new BadRequestException("Thread not found")
         }
       }
 
-      const res: Model[] = await this.eventEmitter.emitAsync(
+      const modelResponse: Model[] = await this.eventEmitter.emitAsync(
         EventsUnion.GetModelDetails,
         modelId
       )
 
-      if (res && res.length) {
-        const modelRes = res[0]
+      if (modelResponse && modelResponse.length && modelResponse[0] !== null) {
+        const modelRes = modelResponse[0]
         const genAI = new GoogleGenerativeAI(envConfig.geminiAPIKey)
         const generationConfig: GenerationConfig = {
           temperature: temperature ?? modelRes.defaultTemperature,
@@ -75,7 +75,7 @@ export class IntelligenceService {
         })
 
         const result = model.startChat({
-          history: historyMain,
+          history: chatHistory,
         })
 
         const response = (await result.sendMessage(prompt)).response.text()

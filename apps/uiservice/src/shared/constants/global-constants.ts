@@ -1,4 +1,4 @@
-export const brandName = "OrbitAI"
+export const brandName = "ArcStack"
 
 export const uiConstants = {
   homeBadge: "Invent with Purpose",

@@ -14,10 +14,6 @@ import { FindOneModelQueryHandler } from "./queries/handler/find-one-model.handl
 @Module({
   imports: [
     CqrsModule,
-    DatabaseModule.forRoot(
-      envConfig.platformDatabaseURI,
-      DbConnectionMap.Platform
-    ),
     DatabaseModule.forFeature(
       [{ name: Model.name, schema: ModelSchema }],
       DbConnectionMap.Platform
