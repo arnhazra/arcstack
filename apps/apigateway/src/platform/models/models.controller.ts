@@ -9,11 +9,11 @@ import {
 } from "@nestjs/common"
 import { ModelsService } from "./models.service"
 import { TokenGuard } from "@/shared/auth/token.guard"
-import { FindDerivedModelsDto } from "./dto/find-dervied-models.dto"
-import { CreateDerivedModelDto } from "./dto/create-derived-model.dto"
+import { FindDerivedModelsDto } from "./dto/request/find-dervied-models.request.dto"
+import { CreateDerivedModelDto } from "./dto/request/create-derived-model.request.dto"
 import { OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "@/shared/utils/events.union"
-import { CreateBaseModelDto } from "./dto/create-base-model.dto"
+import { CreateBaseModelDto } from "./dto/request/create-base-model.request.dto"
 
 @Controller("models")
 export class ModelsController {

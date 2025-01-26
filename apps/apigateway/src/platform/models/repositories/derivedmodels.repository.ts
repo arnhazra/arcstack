@@ -4,7 +4,7 @@ import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { DerivedModel } from "../schemas/derivedmodel.schema"
 import { Model } from "mongoose"
 import { BaseRepository } from "@/shared/database/database.repository"
-import { FindDerivedModelsDto } from "../dto/find-dervied-models.dto"
+import { FindDerivedModelsDto } from "../dto/request/find-dervied-models.request.dto"
 
 @Injectable()
 export class DerivedModelsRepository extends BaseRepository<DerivedModel> {
