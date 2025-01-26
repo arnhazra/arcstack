@@ -6,20 +6,18 @@ import { CreateDerivedModelCommand } from "./commands/impl/create-derived-model.
 import { DerivedModel } from "./schemas/derivedmodel.schema"
 import { FindAllDerivedModelsQuery } from "./queries/impl/find-all-derived-models.query"
 import { FindOneDerivedModelQuery } from "./queries/impl/find-one-derived-model.query"
-import { EventEmitter2 } from "@nestjs/event-emitter"
-import { EventsUnion } from "@/shared/utils/events.union"
 import { CreateBaseModelDto } from "./dto/create-base-model.dto"
 import { BaseModel } from "./schemas/basemodel.schema"
 import { CreateBaseModelCommand } from "./commands/impl/create-base-model.command"
 import { FindAllBaseModelsQuery } from "./queries/impl/find-all-base-models.query"
 import { FindOneBaseModelQuery } from "./queries/impl/find-one-base-model.query"
+import { DerivedModelResponseDto } from "./dto/response/derived-model.response.dto"
 
 @Injectable()
 export class ModelsService {
   constructor(
     private readonly queryBus: QueryBus,
-    private readonly commandBus: CommandBus,
-    private readonly eventEmitter: EventEmitter2
+    private readonly commandBus: CommandBus
   ) {}
 
   async createBaseModel(createBaseModelDto: CreateBaseModelDto) {
@@ -67,7 +65,7 @@ export class ModelsService {
     try {
       return await this.queryBus.execute<
         FindAllDerivedModelsQuery,
-        DerivedModel[]
+        DerivedModelResponseDto[]
       >(new FindAllDerivedModelsQuery(findDerivedModelsDto))
     } catch (error) {
       throw error
@@ -76,16 +74,10 @@ export class ModelsService {
 
   async findOneDerivedModel(modelId: string) {
     try {
-      const model = await this.queryBus.execute<
+      return await this.queryBus.execute<
         FindOneDerivedModelQuery,
-        DerivedModel
+        DerivedModelResponseDto
       >(new FindOneDerivedModelQuery(modelId))
-      const baseModelResponse: BaseModel[] = await this.eventEmitter.emitAsync(
-        EventsUnion.GetBaseModelDetails,
-        model.baseModel
-      )
-
-      return { model, baseModel: baseModelResponse[0] }
     } catch (error) {
       throw error
     }

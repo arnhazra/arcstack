@@ -23,5 +23,5 @@ export const endPoints = {
   getapireference: `${apiHost}/apireference`,
   accesskey: `${apiHost}/accesskey`,
   activityTrends: `${apiHost}/activity/trends`,
-  modelsListings: `${apiHost}/models/listings`,
+  modelsListings: `${apiHost}/models/derivedmodel/listings`,
 }

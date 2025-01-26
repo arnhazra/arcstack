@@ -11,6 +11,8 @@ export class FindOneDerivedModelQueryHandler
 
   async execute(query: FindOneDerivedModelQuery): Promise<DerivedModel> {
     const { modelId } = query
-    return await this.repository.findOne({ _id: modelId })
+    return (await this.repository.findOne({ _id: modelId })).populate(
+      "baseModel"
+    )
   }
 }

@@ -41,7 +41,6 @@ export class ModelsController {
 
   @UseGuards(TokenGuard)
   @Get("basemodel/:baseModelId")
-  @OnEvent(EventsUnion.GetBaseModelDetails)
   async findOneBaseModel(@Param("baseModelId") baseModelId: string) {
     try {
       return await this.modelsService.findOneBaseModel(baseModelId)
@@ -72,7 +71,7 @@ export class ModelsController {
 
   @UseGuards(TokenGuard)
   @Get("derivedmodel/:modelId")
-  @OnEvent(EventsUnion.GetModelDetails)
+  @OnEvent(EventsUnion.GetDerivedModelDetails)
   async findOneModel(@Param("modelId") modelId: string) {
     try {
       return await this.modelsService.findOneDerivedModel(modelId)

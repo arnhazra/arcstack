@@ -10,11 +10,10 @@ import { CreateThreadCommand } from "./commands/impl/create-thread.command"
 import { Thread } from "./schemas/thread.schema"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "@/shared/utils/events.union"
-import { DerivedModel } from "../models/schemas/derivedmodel.schema"
 import { AIGenerationDto } from "./dto/ai-generate.dto"
 import { Types } from "mongoose"
 import { FetchThreadByIdQuery } from "./queries/impl/fetch-thread-by-id.query"
-import { BaseModel } from "../models/schemas/basemodel.schema"
+import { DerivedModelResponseDto } from "../models/dto/response/derived-model.response.dto"
 
 @Injectable()
 export class IntelligenceService {
@@ -55,11 +54,14 @@ export class IntelligenceService {
         }
       }
 
-      const modelResponse: { model: DerivedModel; baseModel: BaseModel }[] =
-        await this.eventEmitter.emitAsync(EventsUnion.GetModelDetails, modelId)
+      const modelResponse: DerivedModelResponseDto[] =
+        await this.eventEmitter.emitAsync(
+          EventsUnion.GetDerivedModelDetails,
+          modelId
+        )
 
       if (modelResponse && modelResponse.length && modelResponse[0] !== null) {
-        const modelRes = modelResponse[0]
+        const modelRes = modelResponse.shift()
         const genAI = new GoogleGenerativeAI(envConfig.geminiAPIKey)
         const generationConfig: GenerationConfig = {
           temperature: temperature ?? modelRes.baseModel.defaultTemperature,
@@ -70,7 +72,7 @@ export class IntelligenceService {
         const model = genAI.getGenerativeModel({
           model: modelRes.baseModel.genericName,
           generationConfig,
-          systemInstruction: modelRes.model.systemPrompt,
+          systemInstruction: modelRes.systemPrompt,
         })
 
         const result = model.startChat({

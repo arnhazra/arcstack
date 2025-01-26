@@ -32,6 +32,7 @@ export class DerivedModelsRepository extends BaseRepository<DerivedModel> {
         ],
         category: { $regex: selectedFilterCategory },
       })
+      .populate("baseModel")
       .select("-systemPrompt")
       .sort(selectedSortOption)
       .skip(offset)
