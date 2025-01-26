@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Document, Types } from "mongoose"
 
-@Schema({ versionKey: false, collection: "models" })
-export class Model extends Document {
+@Schema({ versionKey: false, collection: "derivedmodels" })
+export class DerivedModel extends Document {
   @Prop({ required: true })
-  title: string
+  displayName: string
 
   @Prop({ required: true })
   description: string
@@ -31,4 +31,4 @@ export class Model extends Document {
   responseFormat: string
 }
 
-export const ModelSchema = SchemaFactory.createForClass(Model)
+export const DerivedModelSchema = SchemaFactory.createForClass(DerivedModel)

@@ -1,6 +1,7 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs"
-import { FindAllBaseModelsQuery } from "../impl/find-all-models.query"
-import { BaseModelsRepository } from "../../basemodels.repository"
+import { FindAllBaseModelsQuery } from "../impl/find-all-base-models.query"
+import { BaseModelsRepository } from "../../repositories/basemodels.repository"
+import { BaseModel } from "../../schemas/basemodel.schema"
 
 @QueryHandler(FindAllBaseModelsQuery)
 export class FindAllBaseModelsQueryHandler
@@ -8,7 +9,7 @@ export class FindAllBaseModelsQueryHandler
 {
   constructor(private readonly repository: BaseModelsRepository) {}
 
-  async execute(query: FindAllBaseModelsQuery) {
+  async execute(query: FindAllBaseModelsQuery): Promise<BaseModel[]> {
     return await this.repository.findAll()
   }
 }

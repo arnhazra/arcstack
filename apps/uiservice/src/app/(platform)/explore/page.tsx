@@ -12,21 +12,15 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
-import {
-  ChevronLeft,
-  ChevronRight,
-  SlidersHorizontal,
-  SortAsc,
-  Sparkles,
-} from "lucide-react"
+import { ChevronLeft, ChevronRight, SortAsc, Sparkles } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/shared/components/ui/input"
-import { DatasetCard } from "./(components)/dataset-card"
+import { AIModelCard } from "./(components)/ai-model-card"
 import Loading from "@/app/loading"
 import { Badge } from "@/shared/components/ui/badge"
 
-export interface DatasetRequestState {
+export interface FindModelRequestState {
   searchQuery: string
   selectedFilter: string
   selectedSortOption: string
@@ -35,8 +29,8 @@ export interface DatasetRequestState {
 
 export default function Page() {
   const router = useRouter()
-  const [datasetRequestState, setDatasetRequestState] =
-    useState<DatasetRequestState>({
+  const [findModelRequestState, setFindModelRequestState] =
+    useState<FindModelRequestState>({
       searchQuery: "",
       selectedFilter: "All",
       selectedSortOption: "name",
@@ -44,24 +38,24 @@ export default function Page() {
     })
   const filtersAndSortOptions = useFetch({
     queryKey: ["filters-and-sorts"],
-    queryUrl: endPoints.datamarketplaceFilterAndSortOptions,
+    queryUrl: endPoints.accesskey,
     method: HTTPMethods.GET,
   })
-  const datasets = useFetch({
+  const models = useFetch({
     queryKey: [
-      "datasets",
-      datasetRequestState.selectedFilter,
-      datasetRequestState.selectedSortOption,
-      String(datasetRequestState.offset),
+      "models-listings",
+      findModelRequestState.selectedFilter,
+      findModelRequestState.selectedSortOption,
+      String(findModelRequestState.offset),
     ],
-    queryUrl: endPoints.datamarketplaceFindDatasets,
+    queryUrl: endPoints.modelsListings,
     method: HTTPMethods.POST,
-    requestBody: datasetRequestState,
+    requestBody: findModelRequestState,
   })
 
   useEffect(() => {
-    if (!datasetRequestState.searchQuery) datasets.refetch()
-  }, [datasetRequestState.searchQuery])
+    if (!findModelRequestState.searchQuery) models.refetch()
+  }, [findModelRequestState.searchQuery])
 
   const renderFilterTabs = filtersAndSortOptions?.data?.filters?.map(
     (item: string) => {
@@ -69,11 +63,13 @@ export default function Page() {
         <div
           key={item}
           className={`cursor-pointer flex capitalize ${
-            datasetRequestState.selectedFilter === item ? "" : "text-slate-500"
+            findModelRequestState.selectedFilter === item
+              ? ""
+              : "text-slate-500"
           }`}
           onClick={(): void =>
-            setDatasetRequestState({
-              ...datasetRequestState,
+            setFindModelRequestState({
+              ...findModelRequestState,
               selectedFilter: item,
               offset: 0,
               searchQuery: "",
@@ -91,10 +87,10 @@ export default function Page() {
       return (
         <DropdownMenuCheckboxItem
           key={item.value}
-          checked={datasetRequestState.selectedSortOption === item.value}
+          checked={findModelRequestState.selectedSortOption === item.value}
           onClick={(): void =>
-            setDatasetRequestState({
-              ...datasetRequestState,
+            setFindModelRequestState({
+              ...findModelRequestState,
               selectedSortOption: item.value,
               offset: 0,
             })
@@ -106,47 +102,40 @@ export default function Page() {
     }
   )
 
-  const dataQuality = (rating: number): string => {
-    if (rating > 4.5) return "Gold"
-    if (rating > 4.0) return "Silver"
-    return "Bronze"
-  }
-
-  const renderDatasets = datasets?.data?.map((dataset: any) => {
+  const renderModels = models?.data?.map((model: any) => {
     return (
-      <DatasetCard
-        key={dataset?._id}
-        id={dataset?._id}
-        title={dataset?.name}
-        desc={dataset?.description}
-        category={dataset?.category}
-        rating={dataset?.rating}
-        quality={dataQuality(dataset?.rating)}
-        handleClick={(id: string) =>
-          router.push(`/products/datamarketplace/dataset/${id}`)
-        }
+      <AIModelCard
+        key={model._id}
+        id={model._id}
+        displayName={model.displayName}
+        category={model.category}
+        promptStyle={model.promptStyle}
+        responseFormat={model.responseFormat}
+        viewCount={1234}
+        favoriteCount={567}
+        isFineTuned={model.isFineTuned ? "Yes" : "No"}
       />
     )
   })
 
   const prevPage = () => {
-    const prevDatasetReqNumber = datasetRequestState.offset - 30
-    setDatasetRequestState({
-      ...datasetRequestState,
-      offset: prevDatasetReqNumber,
+    const prevModelReqNumber = findModelRequestState.offset - 30
+    setFindModelRequestState({
+      ...findModelRequestState,
+      offset: prevModelReqNumber,
     })
     window.scrollTo(0, 0)
   }
 
   const nextPage = () => {
-    const nextOffset = datasetRequestState.offset + 30
-    setDatasetRequestState({ ...datasetRequestState, offset: nextOffset })
+    const nextOffset = findModelRequestState.offset + 30
+    setFindModelRequestState({ ...findModelRequestState, offset: nextOffset })
     window.scrollTo(0, 0)
   }
 
   return (
     <Show
-      condition={!filtersAndSortOptions.isLoading && !datasets.isLoading}
+      condition={!filtersAndSortOptions.isLoading && !models.isLoading}
       fallback={<Loading />}
     >
       <div className="mx-auto grid w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
@@ -156,21 +145,21 @@ export default function Page() {
             <form
               onSubmit={(e) => {
                 e.preventDefault()
-                datasets.refetch()
+                models.refetch()
               }}
             >
               <div className="relative">
                 <Sparkles className="absolute left-3 top-4 h-4 w-4 text-muted-foreground" />
                 <Input
-                  defaultValue={datasetRequestState.searchQuery}
+                  defaultValue={findModelRequestState.searchQuery}
                   onChange={(e): void =>
-                    setDatasetRequestState({
-                      ...datasetRequestState,
+                    setFindModelRequestState({
+                      ...findModelRequestState,
                       searchQuery: e.target.value,
                     })
                   }
                   type="search"
-                  placeholder="Type anything and press enter to find datasets"
+                  placeholder="Type anything and press enter to find models"
                   className="mb-4 pl-8 w-full h-12 focus:outline-none"
                 />
               </div>
@@ -193,12 +182,12 @@ export default function Page() {
               </DropdownMenu>
             </div>
             <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4">
-              {renderDatasets}
+              {renderModels}
             </div>
           </section>
-          <Show condition={!datasetRequestState.searchQuery}>
+          <Show condition={!findModelRequestState.searchQuery}>
             <Button
-              disabled={datasetRequestState.offset === 0}
+              disabled={findModelRequestState.offset === 0}
               variant="outline"
               onClick={prevPage}
               size="icon"
@@ -207,7 +196,7 @@ export default function Page() {
               <ChevronLeft className="scale-75" />
             </Button>
             <Button
-              disabled={datasets?.data?.length !== 30}
+              disabled={models?.data?.length !== 30}
               variant="outline"
               onClick={nextPage}
               size="icon"

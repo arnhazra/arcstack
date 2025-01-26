@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs"
-import { BaseModelsRepository } from "../../basemodels.repository"
-import { FindOneBaseModelQuery } from "../impl/find-one-model.query"
+import { BaseModelsRepository } from "../../repositories/basemodels.repository"
+import { FindOneBaseModelQuery } from "../impl/find-one-base-model.query"
 import { BaseModel } from "../../schemas/basemodel.schema"
 
 @QueryHandler(FindOneBaseModelQuery)

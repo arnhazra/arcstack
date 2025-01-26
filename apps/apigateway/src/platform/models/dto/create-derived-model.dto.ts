@@ -1,8 +1,8 @@
 import { IsNotEmpty } from "class-validator"
 
-export class CreateModelDto {
+export class CreateDerivedModelDto {
   @IsNotEmpty()
-  readonly title: string
+  readonly displayName: string
 
   @IsNotEmpty()
   readonly description: string

@@ -10,11 +10,11 @@ import { CreateThreadCommand } from "./commands/impl/create-thread.command"
 import { Thread } from "./schemas/thread.schema"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "@/shared/utils/events.union"
-import { Model } from "../models/schemas/model.schema"
+import { DerivedModel } from "../models/schemas/derivedmodel.schema"
 import { AIGenerationDto } from "./dto/ai-generate.dto"
 import { Types } from "mongoose"
 import { FetchThreadByIdQuery } from "./queries/impl/fetch-thread-by-id.query"
-import { BaseModel } from "../basemodels/schemas/basemodel.schema"
+import { BaseModel } from "../models/schemas/basemodel.schema"
 
 @Injectable()
 export class IntelligenceService {
@@ -55,7 +55,7 @@ export class IntelligenceService {
         }
       }
 
-      const modelResponse: { model: Model; baseModel: BaseModel }[] =
+      const modelResponse: { model: DerivedModel; baseModel: BaseModel }[] =
         await this.eventEmitter.emitAsync(EventsUnion.GetModelDetails, modelId)
 
       if (modelResponse && modelResponse.length && modelResponse[0] !== null) {
