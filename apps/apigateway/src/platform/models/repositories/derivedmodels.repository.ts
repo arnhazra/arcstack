@@ -15,6 +15,13 @@ export class DerivedModelsRepository extends BaseRepository<DerivedModel> {
     super(derivedModelModel)
   }
 
+  async findOneModel(modelId: string) {
+    return await this.derivedModelModel
+      .findById(modelId)
+      .populate("baseModel")
+      .select("-systemPrompt")
+  }
+
   async findAllModels(findDerivedModelsDto: FindDerivedModelsDto) {
     const searchQuery = findDerivedModelsDto.searchQuery || ""
     const selectedFilterCategory =
