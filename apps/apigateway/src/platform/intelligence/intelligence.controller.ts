@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  BadRequestException,
-  Request,
-} from "@nestjs/common"
+import { Controller, Post, Body, Request } from "@nestjs/common"
 import { IntelligenceService } from "./intelligence.service"
 import { AIGenerationDto } from "./dto/ai-generate.dto"
 import { CredentialGuard } from "src/shared/auth/credential.guard"

@@ -1,10 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common"
-import {
-  Content,
-  GenerationConfig,
-  GoogleGenerativeAI,
-} from "@google/generative-ai"
-import { envConfig } from "src/config"
+import { ChatMessage, Gemini, GEMINI_MODEL } from "llamaindex"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { CreateThreadCommand } from "./commands/impl/create-thread.command"
 import { Thread } from "./schemas/thread.schema"
@@ -26,7 +21,7 @@ export class IntelligenceService {
   async generateRecommendation(aiGenerationDto: AIGenerationDto) {
     try {
       const { modelId, prompt, temperature, topK, topP } = aiGenerationDto
-      const chatHistory: Content[] = []
+      const chatHistory: ChatMessage[] = []
       const threadId =
         aiGenerationDto.threadId ?? new Types.ObjectId().toString()
 
@@ -37,17 +32,16 @@ export class IntelligenceService {
         >(new FetchThreadByIdQuery(threadId))
 
         if (!!thread && thread.length) {
-          const history: Content[] = thread.flatMap((chat) => [
+          const history: ChatMessage[] = thread.flatMap((chat) => [
             {
               role: "user",
-              parts: [{ text: chat.prompt }],
+              content: chat.prompt,
             },
             {
-              role: "model",
-              parts: [{ text: chat.response }],
+              role: "assistant",
+              content: chat.response,
             },
           ])
-
           chatHistory.push(...history)
         } else {
           throw new BadRequestException("Thread not found")
@@ -62,24 +56,17 @@ export class IntelligenceService {
 
       if (modelResponse && modelResponse.length && modelResponse[0] !== null) {
         const modelRes = modelResponse.shift()
-        const genAI = new GoogleGenerativeAI(envConfig.geminiAPIKey)
-        const generationConfig: GenerationConfig = {
+        const gemini = new Gemini({
+          model: modelRes.baseModel.genericName as GEMINI_MODEL,
           temperature: temperature ?? modelRes.baseModel.defaultTemperature,
           topP: topP ?? modelRes.baseModel.defaultTopP,
-          topK: topK ?? modelRes.baseModel.defaultTopK,
-        }
-
-        const model = genAI.getGenerativeModel({
-          model: modelRes.baseModel.genericName,
-          generationConfig,
-          systemInstruction: modelRes.systemPrompt,
         })
 
-        const result = model.startChat({
-          history: chatHistory,
+        const result = await gemini.chat({
+          messages: [...chatHistory, { role: "user", content: prompt }],
         })
 
-        const response = (await result.sendMessage(prompt)).response.text()
+        const response = result.message.content.toString()
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(threadId, prompt, response)
         )

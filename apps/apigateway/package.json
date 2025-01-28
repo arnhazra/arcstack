@@ -13,7 +13,6 @@
     "start:prod": "node dist/main"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.21.0",
     "@nestjs/common": "^11.0.5",
     "@nestjs/core": "^11.0.5",
     "@nestjs/cqrs": "^11.0.0",
@@ -27,6 +26,7 @@
     "googleapis": "^144.0.0",
     "ioredis": "^5.4.2",
     "jsonwebtoken": "^9.0.2",
+    "llamaindex": "^0.8.31",
     "mongoose": "^8.9.5",
     "nodemailer": "^6.10.0",
     "reflect-metadata": "^0.2.2",
