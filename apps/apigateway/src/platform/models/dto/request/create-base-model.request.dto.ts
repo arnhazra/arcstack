@@ -12,4 +12,13 @@ export class CreateBaseModelDto {
 
   @IsNotEmpty()
   readonly vendor: string
+
+  @IsNotEmpty()
+  parameters: string
+
+  @IsNotEmpty()
+  contextWindow: string
+
+  @IsNotEmpty()
+  architecture: string
 }

@@ -9,13 +9,23 @@ export class CreateBaseModelCommandHandler
   constructor(private readonly repository: BaseModelsRepository) {}
 
   async execute(command: CreateBaseModelCommand) {
-    const { displayName, genericName, series, vendor } =
-      command.createBaseModelDto
+    const {
+      displayName,
+      genericName,
+      series,
+      vendor,
+      contextWindow,
+      parameters,
+      architecture,
+    } = command.createBaseModelDto
     return await this.repository.create({
       displayName,
       genericName,
       series,
       vendor,
+      contextWindow,
+      parameters,
+      architecture,
     })
   }
 }

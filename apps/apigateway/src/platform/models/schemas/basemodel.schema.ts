@@ -3,7 +3,7 @@ import { Document } from "mongoose"
 
 @Schema({ versionKey: false, collection: "basemodels" })
 export class BaseModel extends Document {
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   genericName: string
 
   @Prop({ required: true })
@@ -14,6 +14,15 @@ export class BaseModel extends Document {
 
   @Prop({ required: true })
   vendor: string
+
+  @Prop({ required: true })
+  parameters: string
+
+  @Prop({ required: true })
+  contextWindow: string
+
+  @Prop({ required: true })
+  architecture: string
 
   @Prop({ required: true, default: 0.7 })
   defaultTemperature: number
