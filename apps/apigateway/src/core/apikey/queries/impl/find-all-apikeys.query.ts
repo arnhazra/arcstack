@@ -1,3 +1,3 @@
-export class FindAllAccessKeyQuery {
+export class FindAllAPIKeyQuery {
   constructor(public readonly userId: string) {}
 }

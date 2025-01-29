@@ -8,20 +8,20 @@ import {
   Request,
   Param,
 } from "@nestjs/common"
-import { AccessKeyService } from "./accesskey.service"
+import { APIKeyService } from "./apikey.service"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { TokenGuard } from "@/shared/auth/token.guard"
 import { ModRequest } from "@/shared/auth/types/mod-request.interface"
 
-@Controller("accesskey")
-export class AccessKeyController {
-  constructor(private readonly accesskeyService: AccessKeyService) {}
+@Controller("apikey")
+export class APIKeyController {
+  constructor(private readonly service: APIKeyService) {}
 
   @UseGuards(TokenGuard)
   @Post()
-  async createAccessKey(@Request() request: ModRequest) {
+  async createAPIKey(@Request() request: ModRequest) {
     try {
-      return await this.accesskeyService.createAccessKey(request.user.userId)
+      return await this.service.createAPIKey(request.user.userId)
     } catch (error) {
       throw error
     }
@@ -29,21 +29,21 @@ export class AccessKeyController {
 
   @UseGuards(TokenGuard)
   @Get()
-  async findMyAccessKeys(@Request() request: ModRequest) {
+  async findMyAPIKeys(@Request() request: ModRequest) {
     try {
-      return await this.accesskeyService.findMyAccessKeys(request.user.userId)
+      return await this.service.findMyAPIKeys(request.user.userId)
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)
     }
   }
 
   @UseGuards(TokenGuard)
-  @Delete("/:accesskeyId")
-  async deleteAccessKey(@Request() request: ModRequest, @Param() params: any) {
+  @Delete("/:apiKeyId")
+  async deleteAPIKey(@Request() request: ModRequest, @Param() params: any) {
     try {
-      return await this.accesskeyService.deleteAccessKey(
+      return await this.service.deleteAPIKey(
         request.user.userId,
-        params.accesskeyId
+        params.apiKeyId
       )
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)

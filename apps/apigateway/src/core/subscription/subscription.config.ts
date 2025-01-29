@@ -1,66 +1,37 @@
 export enum SubscriptionTier {
-  Trial = "trial",
-  Basic = "basic",
-  Standard = "standard",
-  Premium = "premium",
+  Free = "free",
+  One = "one",
 }
 
 export interface SubscriptionConfig {
   subscriptionTier: SubscriptionTier
-  xp: number
   price: number
   platformDelay: number
-  requestCost: number
   features: string[]
 }
 
 export const subscriptionPricing: SubscriptionConfig[] = [
   {
-    subscriptionTier: SubscriptionTier.Trial,
-    xp: 200,
+    subscriptionTier: SubscriptionTier.Free,
     price: 0,
     platformDelay: 1000,
-    requestCost: 0.01,
     features: [
       "Good for exploration",
-      "One month free trial",
-      "Basic API response delay",
+      "Delayed API response",
+      "200 API calls per day",
+      "Includes Only Free Models",
     ],
   },
   {
-    subscriptionTier: SubscriptionTier.Basic,
-    xp: 200,
+    subscriptionTier: SubscriptionTier.One,
     price: 19,
-    platformDelay: 500,
-    requestCost: 0.015,
-    features: [
-      "Good for exploration",
-      "One month free trial",
-      "Basic API response delay",
-    ],
-  },
-  {
-    subscriptionTier: SubscriptionTier.Standard,
-    xp: 400,
-    price: 29,
-    platformDelay: 200,
-    requestCost: 0.025,
+    platformDelay: 0,
     features: [
       "Good for developers",
-      "Valid for a month",
-      "Standard API response",
-    ],
-  },
-  {
-    subscriptionTier: SubscriptionTier.Premium,
-    xp: 800,
-    price: 49,
-    platformDelay: 0,
-    requestCost: 0.03,
-    features: [
-      "Good for creators",
-      "Valid for a month",
       "Priority API response",
+      "Unlimited API calls subject to abuse guardrails",
+      "Includes Pro Models",
+      "Ability to build & train own model",
     ],
   },
 ]

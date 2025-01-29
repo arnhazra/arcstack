@@ -8,9 +8,8 @@ import { statusMessages } from "@/shared/constants/status-messages"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
 import { ModRequest } from "./types/mod-request.interface"
-import { AccessKey } from "@/core/accesskey/schemas/accesskey.schema"
+import { APIKey } from "@/core/apikey/schemas/apikey.schema"
 import { Subscription } from "src/core/subscription/schemas/subscription.schema"
-import { subscriptionPricing } from "src/core/subscription/subscription.config"
 import { User } from "@/core/user/schemas/user.schema"
 
 @Injectable()
@@ -19,16 +18,18 @@ export class CredentialGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: ModRequest = context.switchToHttp().getRequest()
-    const accessKey = request.headers["access_key"] || request.query.access_key
+    const apiKey = request.headers["x-api-key"]
 
     try {
-      if (!accessKey) {
+      if (!apiKey) {
         throw new ForbiddenException(statusMessages.noCredentialsProvided)
       } else {
-        const accessKeyResponse: AccessKey[] =
-          await this.eventEmitter.emitAsync(EventsUnion.GetAccessKeyDetails, {
-            accessKey,
-          })
+        const accessKeyResponse: APIKey[] = await this.eventEmitter.emitAsync(
+          EventsUnion.GetAPIKeyDetails,
+          {
+            apiKey,
+          }
+        )
 
         if (
           !accessKeyResponse ||
@@ -39,8 +40,8 @@ export class CredentialGuard implements CanActivate {
         ) {
           throw new ForbiddenException(statusMessages.invalidCredentials)
         } else {
-          const accessKey = accessKeyResponse[0]
-          const userId = String(accessKey.userId)
+          const apiKey = accessKeyResponse[0]
+          const userId = String(apiKey.userId)
           const userResponse: User[] = await this.eventEmitter.emitAsync(
             EventsUnion.GetUserDetails,
             { _id: userId }
@@ -60,33 +61,17 @@ export class CredentialGuard implements CanActivate {
               throw new ForbiddenException(statusMessages.subscriptionNotFound)
             } else {
               const subscription = subscriptionRes[0]
-              const requestCost = subscriptionPricing.find(
-                (item) =>
-                  item.subscriptionTier === subscription.subscriptionTier
-              ).requestCost
-              if (requestCost > subscription.xp) {
-                throw new ForbiddenException(
-                  statusMessages.insufficientXPCredits
-                )
-              } else {
-                await new Promise((resolve) =>
-                  setTimeout(resolve, subscription.platformDelay)
-                )
-                request.user = { userId }
-                subscription.xp -= requestCost
-                await subscription.save()
-
-                if (user.activityLog) {
-                  const { method, url: apiUri } = request
-                  this.eventEmitter.emit(EventsUnion.CreateActivity, {
-                    userId,
-                    method,
-                    apiUri,
-                  })
-                }
-
-                return true
+              request.user = { userId }
+              if (user.activityLog) {
+                const { method, url: apiUri } = request
+                this.eventEmitter.emit(EventsUnion.CreateActivity, {
+                  userId,
+                  method,
+                  apiUri,
+                })
               }
+
+              return true
             }
           }
         }

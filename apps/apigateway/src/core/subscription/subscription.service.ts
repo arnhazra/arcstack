@@ -2,7 +2,6 @@ import Stripe from "stripe"
 import { Injectable, BadRequestException } from "@nestjs/common"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { envConfig } from "src/config"
-import { User } from "../user/schemas/user.schema"
 import { EventEmitter2, OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
 import { subscriptionPricing, SubscriptionTier } from "./subscription.config"
@@ -73,36 +72,12 @@ export class SubscriptionService {
     try {
       const session = await this.stripe.checkout.sessions.retrieve(sessionId)
       const { userId, price, tier } = session.metadata
-      const userResponse: User[] = await this.eventEmitter.emitAsync(
-        EventsUnion.GetUserDetails,
-        { _id: userId }
-      )
-      const user = userResponse[0]
-
-      if (tier === SubscriptionTier.Trial) {
-        if (!user.hasTrial) {
-          throw new BadRequestException(statusMessages.connectionError)
-        }
-
-        await this.eventEmitter.emitAsync(
-          EventsUnion.UpdateUserDetails,
-          userId,
-          "hasTrial",
-          false
-        )
-      }
-
-      const { xp, platformDelay } = subscriptionPricing.find(
-        (item) => item.subscriptionTier === tier
-      )
 
       await this.commandBus.execute(
         new CreateSubscriptionCommand(
           userId,
           tier as SubscriptionTier,
-          xp,
-          Number(price),
-          platformDelay
+          Number(price)
         )
       )
       return { success: true }

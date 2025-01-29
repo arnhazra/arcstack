@@ -3,15 +3,15 @@ import { Document, Types } from "mongoose"
 
 @Schema({
   versionKey: false,
-  collection: "accesskeys",
+  collection: "apikeys",
   timestamps: { createdAt: true, updatedAt: false },
 })
-export class AccessKey extends Document {
+export class APIKey extends Document {
   @Prop({ type: Types.ObjectId, ref: "user", required: true })
   userId: Types.ObjectId
 
   @Prop({ required: true })
-  accessKey: string
+  apiKey: string
 }
 
-export const AccessKeySchema = SchemaFactory.createForClass(AccessKey)
+export const APIKeySchema = SchemaFactory.createForClass(APIKey)

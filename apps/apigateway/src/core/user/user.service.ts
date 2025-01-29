@@ -18,7 +18,6 @@ import { FindUserByEmailQuery } from "./queries/impl/find-user-by-email.query"
 import { User } from "./schemas/user.schema"
 import { FindUserByIdQuery } from "./queries/impl/find-user-by-id.query"
 import { CreateUserCommand } from "./commands/impl/create-user.command"
-import { AccessKey } from "../accesskey/schemas/accesskey.schema"
 import {
   AttributeNames,
   UpdateAttributeCommand,

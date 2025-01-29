@@ -1,16 +1,16 @@
 import { Injectable } from "@nestjs/common"
 import { InjectModel } from "@nestjs/mongoose"
-import { AccessKey } from "./schemas/accesskey.schema"
+import { APIKey } from "./schemas/apikey.schema"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { Model } from "mongoose"
 import { BaseRepository } from "@/shared/database/database.repository"
 
 @Injectable()
-export class AccessKeyRepository extends BaseRepository<AccessKey> {
+export class APIKeyRepository extends BaseRepository<APIKey> {
   constructor(
-    @InjectModel(AccessKey.name, DbConnectionMap.Core)
-    private accessKeyModel: Model<AccessKey>
+    @InjectModel(APIKey.name, DbConnectionMap.Core)
+    private apiKeyModel: Model<APIKey>
   ) {
-    super(accessKeyModel)
+    super(apiKeyModel)
   }
 }

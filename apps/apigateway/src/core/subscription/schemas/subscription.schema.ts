@@ -15,13 +15,7 @@ export class Subscription extends Document {
   subscriptionTier: SubscriptionTier
 
   @Prop({ required: true })
-  xp: number
-
-  @Prop({ required: true })
   purchasePrice: number
-
-  @Prop({ required: true })
-  platformDelay: number
 
   @Prop({
     type: Date,
