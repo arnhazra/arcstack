@@ -5,7 +5,7 @@ import HeroSection from "./(components)/hero-section"
 import OpenSourceSection from "./(components)/opensource-section"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
-import { Product, Solution, Subscription } from "@/shared/types"
+import { BaseModel, Subscription } from "@/shared/types"
 import { brandName, uiConstants } from "@/shared/constants/global-constants"
 import { CheckCircle2 } from "lucide-react"
 import Link from "next/link"
@@ -14,17 +14,12 @@ import { buttonVariants } from "@/shared/components/ui/button"
 import Show from "@/shared/components/show"
 import Loading from "../loading"
 import useFetch from "@/shared/hooks/use-fetch"
+import { AIModelCard } from "@/shared/components/modelcard"
 
 export default function Page() {
-  const solutions = useFetch({
-    queryKey: ["solutions"],
-    queryUrl: endPoints.getSolutionConfig,
-    method: HTTPMethods.GET,
-  })
-
-  const products = useFetch({
-    queryKey: ["products-marketing"],
-    queryUrl: endPoints.getProductConfig,
+  const models = useFetch({
+    queryKey: ["models"],
+    queryUrl: endPoints.getModels,
     method: HTTPMethods.GET,
   })
 
@@ -34,45 +29,19 @@ export default function Page() {
     method: HTTPMethods.GET,
   })
 
-  const renderProducts = products?.data?.map((product: Product) => {
+  const renderBaseModels = models?.data?.map((model: BaseModel) => {
     return (
-      <div
-        className="relative overflow-hidden rounded-lg border bg-white p-2"
-        key={product?._id}
-      >
-        <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-          <div
-            dangerouslySetInnerHTML={{ __html: product?.productIcon }}
-            style={{ zoom: "150%" }}
-          ></div>
-          <div className="space-y-2">
-            <h3 className="font-bold">
-              {brandName} {product?.displayName}
-            </h3>
-            <p className="text-sm text-slate-600">{product?.description}</p>
-          </div>
-        </div>
-      </div>
-    )
-  })
-
-  const renderSolutions = solutions?.data?.map((solution: Solution) => {
-    return (
-      <div
-        className="relative overflow-hidden rounded-lg border bg-white p-2"
-        key={solution?._id}
-      >
-        <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-          <div
-            dangerouslySetInnerHTML={{ __html: solution?.solutionIcon }}
-            style={{ zoom: "150%" }}
-          ></div>
-          <div className="space-y-2">
-            <h3 className="font-bold">{solution?.solutionName}</h3>
-            <p className="text-sm text-slate-600">{solution?.description}</p>
-          </div>
-        </div>
-      </div>
+      <AIModelCard
+        key={model._id}
+        id={model._id}
+        displayName={model.displayName}
+        category={model.architecture}
+        promptStyle={model.series}
+        responseFormat={model.contextWindow}
+        viewCount={1234}
+        favoriteCount={567}
+        isFineTuned={!!model.series ? "Yes" : "No"}
+      />
     )
   })
 
@@ -126,47 +95,29 @@ export default function Page() {
 
   return (
     <Show
-      condition={
-        !products.isLoading && !solutions.isLoading && !pricing.isLoading
-      }
+      condition={!models.isLoading && !pricing.isLoading}
       fallback={<Loading />}
     >
       <div className="min-h-screen w-full bg-white">
         <Header />
         <HeroSection />
         <section
-          id="solutions"
+          id="models"
           className="mt-8 container space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24 lg:rounded-lg"
         >
           <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
             <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
-              Solutions
+              Generic Models
             </h2>
             <p className="max-w-[85%] leading-normal text-slate-600 sm:text-lg sm:leading-7">
-              {uiConstants.solutionHeader}
+              {uiConstants.modelsHeader}
             </p>
           </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-2 lg:grid-cols-2">
-            {renderSolutions}
+          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:max-w-[35rem] md:grid-cols-2 lg:max-w-[50rem] lg:grid-cols-3 xl:max-w-[68rem] xl:grid-cols-4">
+            {renderBaseModels}
           </div>
         </section>
         <OpenSourceSection />
-        <section
-          id="products"
-          className="container space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24 lg:rounded-lg"
-        >
-          <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
-            <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
-              Products
-            </h2>
-            <p className="max-w-[85%] leading-normal text-slate-600 sm:text-lg sm:leading-7">
-              {uiConstants.productsHeader}
-            </p>
-          </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-2 lg:grid-cols-2">
-            {renderProducts}
-          </div>
-        </section>
         <section id="pricing" className="container py-8 md:py-12 lg:py-24">
           <div className="mx-auto flex max-w-[70rem] flex-col items-center justify-center gap-4 text-center mb-8">
             <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">

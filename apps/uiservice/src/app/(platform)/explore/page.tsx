@@ -16,9 +16,9 @@ import { ChevronLeft, ChevronRight, SortAsc, Sparkles } from "lucide-react"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { Input } from "@/shared/components/ui/input"
-import { AIModelCard } from "./(components)/ai-model-card"
 import Loading from "@/app/loading"
 import { Badge } from "@/shared/components/ui/badge"
+import { AIModelCard } from "@/shared/components/modelcard"
 
 export interface FindModelRequestState {
   searchQuery: string

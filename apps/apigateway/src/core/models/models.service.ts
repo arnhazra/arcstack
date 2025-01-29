@@ -1,17 +1,17 @@
 import { Injectable, BadRequestException } from "@nestjs/common"
 import { QueryBus } from "@nestjs/cqrs"
 import { statusMessages } from "@/shared/constants/status-messages"
-import { GetSolutionsQuery } from "./queries/impl/get-solutions.query"
-import { Solution } from "./schemas/solutions.schema"
+import { GetModelsQuery } from "./queries/impl/get-models.query"
+import { Model } from "./schemas/models.schema"
 
 @Injectable()
-export class SolutionService {
+export class ModelsService {
   constructor(private readonly qureryBus: QueryBus) {}
 
-  async getSolutionConfig() {
+  async getModelConfig() {
     try {
-      return await this.qureryBus.execute<GetSolutionsQuery, Solution[]>(
-        new GetSolutionsQuery()
+      return await this.qureryBus.execute<GetModelsQuery, Model[]>(
+        new GetModelsQuery()
       )
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)

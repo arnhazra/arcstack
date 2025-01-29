@@ -1,18 +1,14 @@
-export type Product = {
+export type BaseModel = {
   _id: string
-  productName: string
+  genericName: string
   displayName: string
-  description: string
-  productStatus: string
-  productCategory: string
-  productIcon: string
-}
-
-export type Solution = {
-  _id: string
-  solutionName: string
-  description: string
-  solutionIcon: string
+  series: string
+  vendor: string
+  defaultTemperature: number
+  defaultTopP: number
+  architecture: string
+  contextWindow: string
+  parameters: string
 }
 
 export type User = {

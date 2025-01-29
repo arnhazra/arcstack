@@ -153,7 +153,7 @@ export class UserService {
         if (!subscriptionRes || !subscriptionRes.length) {
           subscription = null
         } else {
-          subscription = subscriptionRes[0]
+          subscription = subscriptionRes.shift()
         }
 
         return { user, subscription }

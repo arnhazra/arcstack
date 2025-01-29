@@ -14,12 +14,12 @@ export const generalUserLinks: LinkData[] = [
     mainLink: true,
   },
   {
-    displayName: "Solutions",
-    link: "/#solutions",
+    displayName: "Models",
+    link: "/#models",
   },
   {
-    displayName: "Products",
-    link: "/#products",
+    displayName: "Safety",
+    link: "/#safety",
   },
   {
     displayName: "Pricing",

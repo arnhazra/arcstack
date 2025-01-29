@@ -8,9 +8,9 @@ import * as jwt from "jsonwebtoken"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { envConfig } from "src/config"
 import { EventEmitter2 } from "@nestjs/event-emitter"
-import { EventsUnion } from "src/shared/utils/events.union"
+import { EventsUnion } from "../utils/events.union"
 import { ModRequest } from "./types/mod-request.interface"
-import { User } from "src/core//user/schemas/user.schema"
+import { User } from "@/core/user/schemas/user.schema"
 import { Response } from "express"
 import { tokenIssuer } from "@/shared/constants/other-constants"
 
@@ -42,7 +42,7 @@ export class TokenGuard implements CanActivate {
         if (!userResponse || !userResponse.length) {
           throw new UnauthorizedException(statusMessages.unauthorized)
         } else {
-          const { activityLog } = userResponse[0]
+          const { activityLog } = userResponse.shift()
           request.user = { userId }
 
           if (activityLog) {

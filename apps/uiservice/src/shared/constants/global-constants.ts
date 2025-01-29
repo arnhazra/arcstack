@@ -19,7 +19,7 @@ export const uiConstants = {
   confirmDescription:
     "This action may not be undone. Be sure before you click on continue, you can cancel if you do not want to proceed.",
   copyrightText: "Inc, All rights reserved.",
-  solutionHeader: `Find solutions for putting your ideas into action. Solve your business problems with proven combinations of ${brandName} services, as well as sample architectures and documentation.`,
+  modelsHeader: `Find solutions for putting your ideas into action. Solve your business problems with proven combinations of ${brandName} services, as well as sample architectures and documentation.`,
   openSourceHeader: `${brandName} is open source and powered by open source software.`,
   productsHeader:
     "Explore products for bringing your vision to life. Access all products for different needs with just a free account.",
