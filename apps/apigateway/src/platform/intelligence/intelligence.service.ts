@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common"
-import { ChatMessage, Gemini, GEMINI_MODEL } from "llamaindex"
+import { ChatMessage, Gemini, Groq } from "llamaindex"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { CreateThreadCommand } from "./commands/impl/create-thread.command"
 import { Thread } from "./schemas/thread.schema"
@@ -20,7 +20,7 @@ export class IntelligenceService {
 
   async generateRecommendation(aiGenerationDto: AIGenerationDto) {
     try {
-      const { modelId, prompt, temperature, topK, topP } = aiGenerationDto
+      const { modelId, prompt, temperature, topP } = aiGenerationDto
       const chatHistory: ChatMessage[] = []
       const threadId =
         aiGenerationDto.threadId ?? new Types.ObjectId().toString()
@@ -56,25 +56,46 @@ export class IntelligenceService {
 
       if (modelResponse && modelResponse.length && modelResponse[0] !== null) {
         const modelRes = modelResponse.shift()
-        const gemini = new Gemini({
-          model: modelRes.baseModel.genericName as GEMINI_MODEL,
-          temperature: temperature ?? modelRes.baseModel.defaultTemperature,
-          topP: topP ?? modelRes.baseModel.defaultTopP,
-        })
 
-        const result = await gemini.chat({
-          messages: [...chatHistory, { role: "user", content: prompt }],
-        })
+        if (modelRes.baseModel.genericName.includes("gemini")) {
+          const gemini = new Gemini({
+            model: modelRes.baseModel.genericName as any,
+            temperature: temperature ?? modelRes.baseModel.defaultTemperature,
+            topP: topP ?? modelRes.baseModel.defaultTopP,
+          })
 
-        const response = result.message.content.toString()
-        await this.commandBus.execute<CreateThreadCommand, Thread>(
-          new CreateThreadCommand(threadId, prompt, response)
-        )
-        return { response, threadId }
+          const result = await gemini.chat({
+            messages: [...chatHistory, { role: "user", content: prompt }],
+          })
+          const response = result.message.content.toString()
+          await this.commandBus.execute<CreateThreadCommand, Thread>(
+            new CreateThreadCommand(threadId, prompt, response)
+          )
+
+          return { response, threadId }
+        } else {
+          console.log("here")
+          const groq = new Groq({
+            model: modelRes.baseModel.genericName,
+            temperature: temperature ?? modelRes.baseModel.defaultTemperature,
+            topP: topP ?? modelRes.baseModel.defaultTopP,
+          })
+
+          const result = await groq.chat({
+            messages: [...chatHistory, { role: "user", content: prompt }],
+          })
+          const response = result.message.content.toString()
+          await this.commandBus.execute<CreateThreadCommand, Thread>(
+            new CreateThreadCommand(threadId, prompt, response)
+          )
+
+          return { response, threadId }
+        }
       } else {
         throw new BadRequestException("Model not found")
       }
     } catch (error) {
+      console.log(error)
       throw error
     }
   }

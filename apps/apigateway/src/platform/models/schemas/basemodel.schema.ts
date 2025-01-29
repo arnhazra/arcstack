@@ -29,9 +29,6 @@ export class BaseModel extends Document {
 
   @Prop({ required: true, default: 1 })
   defaultTopP: number
-
-  @Prop({ required: true, default: 50 })
-  defaultTopK: number
 }
 
 export const BaseModelSchema = SchemaFactory.createForClass(BaseModel)
