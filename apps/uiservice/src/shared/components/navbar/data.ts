@@ -1,32 +1,27 @@
-import { brandName, uiConstants } from "@/shared/constants/global-constants"
+export const getBreadcrumbTitle = (uri: string) => {
+  if (uri.includes("apireference")) {
+    return "API Reference"
+  }
 
-interface LinkData {
-  displayName: string
-  link: string
-  external?: boolean
-  mainLink?: boolean
+  if (uri.includes("settings")) {
+    return "Settings"
+  }
+
+  if (uri.includes("datamarketplace")) {
+    return "Data MarketPlace"
+  }
+
+  if (uri.includes("httpnosql")) {
+    return "HTTP NoSQL"
+  }
+
+  if (uri.includes("intelligence")) {
+    return "Intelligence"
+  }
+
+  if (uri.includes("webanalytics")) {
+    return "Web Analytics"
+  }
+
+  return ""
 }
-
-export const generalUserLinks: LinkData[] = [
-  {
-    displayName: brandName,
-    link: "/explore",
-    mainLink: true,
-  },
-  {
-    displayName: "Favourites",
-    link: "/favourites",
-  },
-  {
-    displayName: "NewsRoom",
-    link: "/newsroom",
-  },
-  {
-    displayName: "API Reference",
-    link: "/apireference",
-  },
-  {
-    displayName: "ArcStack One",
-    link: "/arcstackone",
-  },
-]
