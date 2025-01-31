@@ -8,7 +8,7 @@ import {
   SheetTrigger,
 } from "@/shared/components/ui/sheet"
 import { generalUserLinks } from "./data"
-import { brandName } from "@/shared/constants/global-constants"
+import { brandName, uiConstants } from "@/shared/constants/global-constants"
 
 export default function Header() {
   return (
@@ -52,7 +52,7 @@ export default function Header() {
               )
           )}
           <Link href="/explore">
-            <Button variant="default">Get Started</Button>
+            <Button variant="default">{uiConstants.getStartedButton}</Button>
           </Link>
           <Sheet>
             <SheetTrigger asChild>

@@ -11,7 +11,7 @@ export default function HeroSection() {
           {uiConstants.homeHeader}
         </h1>
         <p className="max-w-[42rem] leading-normal text-white sm:text-xl sm:leading-8">
-          {uiConstants.homeIntro1}. {uiConstants.homeIntro2}
+          {uiConstants.homeIntro1}
         </p>
         <Link
           href="/explore"
@@ -23,7 +23,7 @@ export default function HeroSection() {
             })
           )}
         >
-          Get Started with {brandName}
+          {uiConstants.getStartedButton}
         </Link>
       </div>
     </section>

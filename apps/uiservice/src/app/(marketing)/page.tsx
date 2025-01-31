@@ -68,7 +68,7 @@ export default function Page() {
             className={`${cn(buttonVariants({ variant: "default" }))} mt-4`}
             href="/explore"
           >
-            Get Started
+            {uiConstants.getStartedButton}
           </Link>
         </div>
       </div>
