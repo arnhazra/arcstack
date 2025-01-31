@@ -1,4 +1,4 @@
-import { Plus } from "lucide-react"
+import { Check } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 
 export default function SafetySection() {
@@ -12,7 +12,7 @@ export default function SafetySection() {
             size="icon"
             className="rounded-full bg-gray-100 hover:bg-gray-200"
           >
-            <Plus className="h-4 w-4" />
+            <Check className="h-4 w-4" />
             <span className="sr-only">Learn more about teaching</span>
           </Button>
         </div>
@@ -34,7 +34,7 @@ export default function SafetySection() {
             size="icon"
             className="rounded-full bg-gray-100 hover:bg-gray-200"
           >
-            <Plus className="h-4 w-4" />
+            <Check className="h-4 w-4" />
             <span className="sr-only">Learn more about testing</span>
           </Button>
         </div>
@@ -75,7 +75,7 @@ export default function SafetySection() {
             size="icon"
             className="rounded-full bg-gray-100 hover:bg-gray-200"
           >
-            <Plus className="h-4 w-4" />
+            <Check className="h-4 w-4" />
             <span className="sr-only">Learn more about sharing</span>
           </Button>
         </div>
