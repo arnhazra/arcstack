@@ -138,34 +138,9 @@ export default function Page() {
       condition={!filtersAndSortOptions.isLoading && !models.isLoading}
       fallback={<Loading />}
     >
-      <div className="mx-auto grid w-full items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">
-        <nav className="grid gap-4 text-sm">{renderFilterTabs}</nav>
-        <div>
-          <div className="w-full">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault()
-                models.refetch()
-              }}
-            >
-              <div className="relative">
-                <Sparkles className="absolute left-3 top-4 h-4 w-4 text-muted-foreground" />
-                <Input
-                  defaultValue={findModelRequestState.searchQuery}
-                  onChange={(e): void =>
-                    setFindModelRequestState({
-                      ...findModelRequestState,
-                      searchQuery: e.target.value,
-                    })
-                  }
-                  type="search"
-                  placeholder="Type anything and press enter to find models"
-                  className="mb-4 pl-8 w-full h-12 focus:outline-none"
-                />
-              </div>
-            </form>
-          </div>
-          <section className="grid gap-6 mb-4">
+      <div className="mx-auto grid w-full items-start gap-6">
+        <section>
+          <div className="flex">
             <div className="ml-auto flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -181,30 +156,30 @@ export default function Page() {
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-4">
-              {renderModels}
-            </div>
-          </section>
-          <Show condition={!findModelRequestState.searchQuery}>
-            <Button
-              disabled={findModelRequestState.offset === 0}
-              variant="outline"
-              onClick={prevPage}
-              size="icon"
-              className="me-2"
-            >
-              <ChevronLeft className="scale-75" />
-            </Button>
-            <Button
-              disabled={models?.data?.length !== 30}
-              variant="outline"
-              onClick={nextPage}
-              size="icon"
-            >
-              <ChevronRight className="scale-75" />
-            </Button>
-          </Show>
-        </div>
+          </div>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 p-4 ml-[20px] lg:ml-[30px]">
+            {renderModels}
+          </div>
+        </section>
+        <Show condition={!findModelRequestState.searchQuery}>
+          <Button
+            disabled={findModelRequestState.offset === 0}
+            variant="outline"
+            onClick={prevPage}
+            size="icon"
+            className="me-2"
+          >
+            <ChevronLeft className="scale-75" />
+          </Button>
+          <Button
+            disabled={models?.data?.length !== 30}
+            variant="outline"
+            onClick={nextPage}
+            size="icon"
+          >
+            <ChevronRight className="scale-75" />
+          </Button>
+        </Show>
       </div>
     </Show>
   )

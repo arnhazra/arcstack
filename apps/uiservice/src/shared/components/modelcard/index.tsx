@@ -30,10 +30,10 @@ export function AIModelCard({
 }: AIModelCardProps) {
   return (
     <Link href={`/explore/model/${id}`}>
-      <Card className="w-64 mx-auto h-[22rem] flex flex-col relative">
-        <CardHeader className="flex-shrink-0 pb-2">
+      <Card className="w-full max-w-xs mx-auto h-[22rem] flex flex-col relative hover:shadow-md transition-shadow">
+        <CardHeader className="pb-2">
           <div className="flex items-start">
-            <Brain className="w-8 h-8 text-primary mr-3 mt-1 flex-shrink-0" />
+            <Brain className="w-8 h-8 text-primary mr-3 mt-1" />
             <div className="flex flex-col min-w-0">
               <CardTitle
                 className="text-lg font-bold truncate"
@@ -55,27 +55,27 @@ export function AIModelCard({
           </div>
         </CardHeader>
         <CardContent className="flex-grow py-2">
-          <dl className="grid grid-cols-1 gap-4">
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-slate-600">Category</dt>
+          <dl className="grid gap-3">
+            <div>
+              <dt className="text-xs font-medium text-gray-500">Category</dt>
               <dd className="text-sm font-semibold">{category}</dd>
             </div>
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-slate-600">
+            <div>
+              <dt className="text-xs font-medium text-gray-500">
                 Prompt Style
               </dt>
               <dd className="text-sm font-semibold">{promptStyle}</dd>
             </div>
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-slate-600">
+            <div>
+              <dt className="text-xs font-medium text-gray-500">
                 Response Format
               </dt>
               <dd className="text-sm font-semibold capitalize">
                 {responseFormat}
               </dd>
             </div>
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-slate-600">Fine Tuned</dt>
+            <div>
+              <dt className="text-xs font-medium text-gray-500">Fine Tuned</dt>
               <dd className="text-sm font-semibold">{isFineTuned}</dd>
             </div>
           </dl>
