@@ -14,7 +14,8 @@ import { buttonVariants } from "@/shared/components/ui/button"
 import Show from "@/shared/components/show"
 import Loading from "../loading"
 import useFetch from "@/shared/hooks/use-fetch"
-import { AIModelCard } from "@/shared/components/modelcard"
+import { AIBaseModelCard } from "./(components)/basemodel-card"
+import SafetySection from "./(components)/safety-section"
 
 export default function Page() {
   const models = useFetch({
@@ -29,21 +30,9 @@ export default function Page() {
     method: HTTPMethods.GET,
   })
 
-  const renderBaseModels = models?.data?.map((model: BaseModel) => {
-    return (
-      <AIModelCard
-        key={model._id}
-        id={model._id}
-        displayName={model.displayName}
-        category={model.architecture}
-        promptStyle={model.series}
-        responseFormat={model.contextWindow}
-        viewCount={1234}
-        favoriteCount={567}
-        isFineTuned={!!model.series ? "Yes" : "No"}
-      />
-    )
-  })
+  const renderBaseModels = models?.data?.map((model: BaseModel) => (
+    <AIBaseModelCard key={model._id} model={model} />
+  ))
 
   const renderPricingTiers = pricing?.data?.map((tier: Subscription) => {
     return (
@@ -54,7 +43,7 @@ export default function Page() {
         <div className="flex flex-col justify-between rounded-md p-6">
           <div className="space-y-2">
             <h2 className="font-bold text-md capitalize text-slate-700">
-              {tier.subscriptionTier}
+              {brandName} {tier.subscriptionTier}
             </h2>
             <div className="flex">
               <h2 className="font-bold text-3xl capitalize">${tier.price}</h2>
@@ -74,13 +63,6 @@ export default function Page() {
                 {feature}
               </li>
             ))}
-            <li
-              className="flex text-xs items-center text-slate-600"
-              key={tier.xp}
-            >
-              <CheckCircle2 className="scale-75 me-2" />
-              {tier.xp} XP for a month
-            </li>
           </ul>
           <Link
             className={`${cn(buttonVariants({ variant: "default" }))} mt-4`}
@@ -118,6 +100,20 @@ export default function Page() {
           </div>
         </section>
         <OpenSourceSection />
+        <section
+          id="safety"
+          className="mt-8 container space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24 lg:rounded-lg"
+        >
+          <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+            <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
+              Safety at every step
+            </h2>
+            <p className="max-w-[85%] leading-normal text-slate-600 sm:text-lg sm:leading-7">
+              {uiConstants.safetyHeader}
+            </p>
+          </div>
+          <SafetySection />
+        </section>
         <section id="pricing" className="container py-8 md:py-12 lg:py-24">
           <div className="mx-auto flex max-w-[70rem] flex-col items-center justify-center gap-4 text-center mb-8">
             <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
@@ -127,7 +123,7 @@ export default function Page() {
               {uiConstants.pricingTierHeader}
             </p>
           </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[70rem] md:grid-cols-2 lg:grid-cols-4">
+          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 lg:max-w-[40rem]">
             {renderPricingTiers}
           </div>
         </section>

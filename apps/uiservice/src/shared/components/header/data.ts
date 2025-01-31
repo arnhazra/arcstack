@@ -9,11 +9,6 @@ interface LinkData {
 
 export const generalUserLinks: LinkData[] = [
   {
-    displayName: brandName,
-    link: "/",
-    mainLink: true,
-  },
-  {
     displayName: "Models",
     link: "/#models",
   },

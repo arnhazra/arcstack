@@ -20,6 +20,7 @@ export const subscriptionPricing: SubscriptionConfig[] = [
       "Delayed API response",
       "200 API calls per day",
       "Includes Only Free Models",
+      "Use pretrained models",
     ],
   },
   {
@@ -29,9 +30,9 @@ export const subscriptionPricing: SubscriptionConfig[] = [
     features: [
       "Good for developers",
       "Priority API response",
-      "Unlimited API calls subject to abuse guardrails",
+      "Unlimited API calls",
       "Includes Pro Models",
-      "Ability to build & train own model",
+      "Build & train own model",
     ],
   },
 ]

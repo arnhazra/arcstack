@@ -21,8 +21,7 @@ export const uiConstants = {
   copyrightText: "Inc, All rights reserved.",
   modelsHeader: `Find solutions for putting your ideas into action. Solve your business problems with proven combinations of ${brandName} services, as well as sample architectures and documentation.`,
   openSourceHeader: `${brandName} is open source and powered by open source software.`,
-  productsHeader:
-    "Explore products for bringing your vision to life. Access all products for different needs with just a free account.",
+  safetyHeader: `We teach our AI good behavior so it can be both capable and aligned with human values. At every stage of the model training we apply methods to imbue the principles, policies and human values as suggested in the Model Spec⁠ and our safety policy taxonomies, minimizing harmful or biased outputs from the model.`,
   pricingTierHeader: `Choose an ${brandName} subscription that is right for you. Downgrade, upgrade any time. ${brandName} offers a variety of plans to meet your requirements.`,
   privacyPolicyStatement: `By using ${brandName}, you agree to our Terms of Service and Privacy Policy`,
   verifyEmailStatement: `Please verify your auth by entering the OTP we sent to your email`,
