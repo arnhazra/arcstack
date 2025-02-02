@@ -42,8 +42,8 @@ export class TokenGuard implements CanActivate {
         if (!userResponse || !userResponse.length) {
           throw new UnauthorizedException(statusMessages.unauthorized)
         } else {
-          const { activityLog } = userResponse.shift()
-          request.user = { userId }
+          const { activityLog, role } = userResponse.shift()
+          request.user = { userId, role }
 
           if (activityLog) {
             const { method, url: apiUri } = request
@@ -75,8 +75,8 @@ export class TokenGuard implements CanActivate {
             EventsUnion.GetUserDetails,
             { _id: userId }
           )
-          const { activityLog, email } = user[0]
-          request.user = { userId }
+          const { activityLog, email, role } = user.shift()
+          request.user = { userId, role }
 
           if (activityLog) {
             const { method, url: apiUri } = request

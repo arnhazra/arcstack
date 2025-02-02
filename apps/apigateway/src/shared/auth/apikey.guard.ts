@@ -13,7 +13,7 @@ import { Subscription } from "src/core/subscription/schemas/subscription.schema"
 import { User } from "@/core/user/schemas/user.schema"
 
 @Injectable()
-export class CredentialGuard implements CanActivate {
+export class APIKeyGuard implements CanActivate {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -40,7 +40,7 @@ export class CredentialGuard implements CanActivate {
         ) {
           throw new ForbiddenException(statusMessages.invalidCredentials)
         } else {
-          const apiKey = accessKeyResponse[0]
+          const apiKey = accessKeyResponse.shift()
           const userId = String(apiKey.userId)
           const userResponse: User[] = await this.eventEmitter.emitAsync(
             EventsUnion.GetUserDetails,
@@ -50,7 +50,7 @@ export class CredentialGuard implements CanActivate {
           if (!userResponse || !userResponse.length) {
             throw new ForbiddenException(statusMessages.invalidCredentials)
           } else {
-            const user = userResponse[0]
+            const user = userResponse.shift()
             const subscriptionRes: Subscription[] =
               await this.eventEmitter.emitAsync(
                 EventsUnion.GetSubscriptionDetails,
@@ -60,8 +60,8 @@ export class CredentialGuard implements CanActivate {
             if (!subscriptionRes || !subscriptionRes.length) {
               throw new ForbiddenException(statusMessages.subscriptionNotFound)
             } else {
-              const subscription = subscriptionRes[0]
-              request.user = { userId }
+              const subscription = subscriptionRes.shift()
+              request.user = { userId, role: user.role }
               if (user.activityLog) {
                 const { method, url: apiUri } = request
                 this.eventEmitter.emit(EventsUnion.CreateActivity, {

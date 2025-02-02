@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Request } from "@nestjs/common"
 import { IntelligenceService } from "./intelligence.service"
 import { AIGenerationDto } from "./dto/ai-generate.dto"
-import { CredentialGuard } from "src/shared/auth/credential.guard"
+import { APIKeyGuard } from "@/shared/auth/apikey.guard"
 import { ModRequest } from "src/shared/auth/types/mod-request.interface"
 
 @Controller("intelligence")
