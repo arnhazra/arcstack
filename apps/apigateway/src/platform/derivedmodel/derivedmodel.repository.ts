@@ -15,6 +15,13 @@ export class DerivedModelRepository extends BaseRepository<DerivedModel> {
     super(derivedModelModel)
   }
 
+  async findUniqueCategories() {
+    const filters = await this.derivedModelModel.find().distinct("category")
+    filters.push("All")
+    filters.sort()
+    return filters
+  }
+
   async findOneModel(modelId: string) {
     return await this.derivedModelModel
       .findById(modelId)

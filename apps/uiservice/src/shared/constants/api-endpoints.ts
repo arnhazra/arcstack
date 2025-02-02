@@ -11,16 +11,19 @@ export const uiHost =
     : `https://${brandName.toLowerCase()}.vercel.app`
 
 export const endPoints = {
+  activityTrends: `${apiHost}/activity/trends`,
+  apiKey: `${apiHost}/apikey`,
+  getapireference: `${apiHost}/apireference`,
+  getDisplayModels: `${apiHost}/getmodels`,
+  getSubscriptionPricing: `${apiHost}/subscription/pricing`,
+  createCheckoutSession: `${apiHost}/subscription/checkout`,
   generateOTP: `${apiHost}/user/generateotp`,
   validateOTP: `${apiHost}/user/validateotp`,
   userDetails: `${apiHost}/user/userdetails`,
   signOut: `${apiHost}/user/signout`,
   updateAttribute: `${apiHost}/user/attribute`,
-  getSubscriptionPricing: `${apiHost}/subscription/pricing`,
-  createCheckoutSession: `${apiHost}/subscription/checkout`,
-  getModels: `${apiHost}/getmodels`,
-  getapireference: `${apiHost}/apireference`,
-  apiKey: `${apiHost}/apikey`,
-  activityTrends: `${apiHost}/activity/trends`,
-  modelsListings: `${apiHost}/derivedmodel/listings`,
+  baseModel: `${apiHost}/basemodel`,
+  createDerivedModel: `${apiHost}/derivedmodel/create`,
+  getDerivedModels: `${apiHost}/derivedmodel/listings`,
+  getDerivedModelFilterAndSortOptions: `${apiHost}/derivedmodel/filters-and-sort-options`,
 }

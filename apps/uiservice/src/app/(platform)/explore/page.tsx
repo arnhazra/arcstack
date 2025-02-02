@@ -12,10 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
-import { ChevronLeft, ChevronRight, SortAsc, Sparkles } from "lucide-react"
+import { ChevronLeft, ChevronRight, SortAsc } from "lucide-react"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { Input } from "@/shared/components/ui/input"
 import Loading from "@/app/loading"
 import { Badge } from "@/shared/components/ui/badge"
 import { ModelCard } from "@/shared/components/modelcard"
@@ -29,17 +27,16 @@ export interface FindModelRequestState {
 }
 
 export default function Page() {
-  const router = useRouter()
   const [findModelRequestState, setFindModelRequestState] =
     useState<FindModelRequestState>({
       searchQuery: "",
       selectedFilter: "All",
-      selectedSortOption: "name",
+      selectedSortOption: "displayName",
       offset: 0,
     })
   const filtersAndSortOptions = useFetch({
-    queryKey: ["apikeys"],
-    queryUrl: endPoints.apiKey,
+    queryKey: ["filter-and-sort-options"],
+    queryUrl: endPoints.getDerivedModelFilterAndSortOptions,
     method: HTTPMethods.GET,
   })
   const models = useFetch({
@@ -49,7 +46,7 @@ export default function Page() {
       findModelRequestState.selectedSortOption,
       String(findModelRequestState.offset),
     ],
-    queryUrl: endPoints.modelsListings,
+    queryUrl: endPoints.getDerivedModels,
     method: HTTPMethods.POST,
     requestBody: findModelRequestState,
   })
@@ -58,16 +55,17 @@ export default function Page() {
     if (!findModelRequestState.searchQuery) models.refetch()
   }, [findModelRequestState.searchQuery])
 
-  const renderFilterTabs = filtersAndSortOptions?.data?.filters?.map(
+  const renderFilters = filtersAndSortOptions?.data?.filters?.map(
     (item: string) => {
       return (
-        <div
+        <Badge
           key={item}
-          className={`cursor-pointer flex capitalize ${
+          className="mr-2 p-2 ps-6 pe-6 cursor-pointer"
+          variant={
             findModelRequestState.selectedFilter === item
-              ? ""
-              : "text-slate-500"
-          }`}
+              ? "default"
+              : "outline"
+          }
           onClick={(): void =>
             setFindModelRequestState({
               ...findModelRequestState,
@@ -77,8 +75,8 @@ export default function Page() {
             })
           }
         >
-          <Badge>{item}</Badge>
-        </div>
+          {item}
+        </Badge>
       )
     }
   )
@@ -130,6 +128,7 @@ export default function Page() {
       <div className="mx-auto grid w-full items-start gap-6">
         <section>
           <div className="flex">
+            <div>{renderFilters}</div>
             <div className="ml-auto flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

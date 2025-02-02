@@ -16,7 +16,7 @@ export class BaseModelController {
   constructor(private readonly service: BaseModelService) {}
 
   @UseGuards(TokenGuard)
-  @Post("create")
+  @Post()
   async createBaseModel(@Body() createBaseModelDto: CreateBaseModelDto) {
     try {
       return await this.service.createBaseModel(createBaseModelDto)
@@ -26,7 +26,7 @@ export class BaseModelController {
   }
 
   @UseGuards(TokenGuard)
-  @Get("listings")
+  @Get()
   async findBaseModels() {
     try {
       return await this.service.findAllBaseModels()

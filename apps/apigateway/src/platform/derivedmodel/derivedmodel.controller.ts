@@ -13,10 +13,23 @@ import { FindDerivedModelsDto } from "./dto/request/find-dervied-models.request.
 import { CreateDerivedModelDto } from "./dto/request/create-derived-model.request.dto"
 import { OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "@/shared/utils/events.union"
+import { sortOptions } from "./data/model-sort-options"
 
 @Controller("derivedmodel")
 export class DerivedModelController {
   constructor(private readonly service: DerivedModelService) {}
+
+  @UseGuards(TokenGuard)
+  @Get("filters-and-sort-options")
+  async getFiltersAndSortOptions() {
+    try {
+      const filters = await this.service.getFiltersAndSortOptions()
+      return { filters, sortOptions }
+    } catch (error) {
+      console.log(error)
+      throw new BadRequestException()
+    }
+  }
 
   @UseGuards(TokenGuard)
   @Post("create")

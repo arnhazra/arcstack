@@ -7,6 +7,7 @@ import { DerivedModel } from "./schemas/derivedmodel.schema"
 import { FindAllDerivedModelsQuery } from "./queries/impl/find-all-derived-models.query"
 import { FindOneDerivedModelQuery } from "./queries/impl/find-one-derived-model.query"
 import { DerivedModelResponseDto } from "./dto/response/derived-model.response.dto"
+import { FindFilterCategoriesQuery } from "./queries/impl/find-filter-categories.query"
 
 @Injectable()
 export class DerivedModelService {
@@ -14,6 +15,16 @@ export class DerivedModelService {
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus
   ) {}
+
+  async getFiltersAndSortOptions() {
+    try {
+      return await this.queryBus.execute<FindFilterCategoriesQuery, string[]>(
+        new FindFilterCategoriesQuery()
+      )
+    } catch (error) {
+      throw error
+    }
+  }
 
   async createDerivedModel(createDerivedModelDto: CreateDerivedModelDto) {
     try {

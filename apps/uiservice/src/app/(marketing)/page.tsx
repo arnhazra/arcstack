@@ -19,8 +19,8 @@ import SafetySection from "./(components)/safety-section"
 
 export default function Page() {
   const models = useFetch({
-    queryKey: ["models"],
-    queryUrl: endPoints.getModels,
+    queryKey: ["display-models"],
+    queryUrl: endPoints.getDisplayModels,
     method: HTTPMethods.GET,
   })
 
