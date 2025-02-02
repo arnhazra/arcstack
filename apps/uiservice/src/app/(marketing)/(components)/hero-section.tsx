@@ -10,7 +10,7 @@ export default function HeroSection() {
         <h1 className="text-white text-2xl sm:text-4xl md:text-5xl lg:text-5xl tracking-tight mb-4 max-w-[30rem]">
           {uiConstants.homeHeader}
         </h1>
-        <p className="max-w-[42rem] leading-normal text-white sm:text-xl sm:leading-8 mb-6">
+        <p className="max-w-[35rem] leading-normal text-zinc-300 sm:text-lg sm:leading-8 mb-6">
           {uiConstants.homeIntro1}
         </p>
         <Link
