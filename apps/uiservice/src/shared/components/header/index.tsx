@@ -12,23 +12,23 @@ import { brandName, uiConstants } from "@/shared/constants/global-constants"
 
 export default function Header() {
   return (
-    <header className="top-0 z-50 flex h-16 items-center bg-black text-white px-4 md:px-6">
-      <div className="flex w-full items-center justify-between lg:container">
+    <header className="top-0 z-50 flex h-[72px] items-center bg-black text-white px-4 md:px-6">
+      <div className="flex w-full items-center justify-between lg:container lg:max-w-[75rem]">
         <Link
           href="/"
-          className="flex items-center gap-2 text-md font-semibold"
+          className="flex items-center gap-2 text-lg font-semibold"
         >
           <DraftingCompass className="h-6 w-6" />
           {brandName}
         </Link>
-        <nav className="hidden md:flex items-center justify-end gap-1 flex-1">
+        <nav className="hidden md:flex items-center justify-end gap-2 flex-1">
           {generalUserLinks.map(
             (item, index) =>
               !item.mainLink && (
                 <Link
                   key={index}
                   href={item.link}
-                  className="text-md font-medium text-foreground hover:text-primary mx-3"
+                  className="text-lg font-medium text-foreground hover:text-primary mx-3"
                   target={item.external ? "_blank" : ""}
                   rel={item.external ? "noopener noreferrer" : ""}
                 >
