@@ -60,11 +60,15 @@ export default function Page() {
       return (
         <Badge
           key={item}
-          className="mr-2 p-2 ps-6 pe-6 cursor-pointer"
+          className={
+            findModelRequestState.selectedFilter === item
+              ? "mr-2 p-2 ps-6 pe-6 cursor-pointer"
+              : "mr-2 p-2 ps-6 pe-6 cursor-pointer bg-zinc-800 hover:bg-zinc-700"
+          }
           variant={
             findModelRequestState.selectedFilter === item
-              ? "default"
-              : "outline"
+              ? "secondary"
+              : "default"
           }
           onClick={(): void =>
             setFindModelRequestState({
@@ -132,14 +136,20 @@ export default function Page() {
             <div className="ml-auto flex items-center gap-2">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm" className="h-8 gap-1">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    className="h-8 gap-1 bg-zinc-800 hover:bg-zinc-800"
+                  >
                     <SortAsc className="h-3.5 w-3.5" />
                     <span>Sort</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent
+                  align="end"
+                  className="bg-zinc-800 border-zinc-800 text-white"
+                >
                   <DropdownMenuLabel>Sort</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
                   {renderSortOptions}
                 </DropdownMenuContent>
               </DropdownMenu>

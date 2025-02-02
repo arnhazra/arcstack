@@ -19,13 +19,13 @@ export default function SectionPanel({
   icon,
 }: SectionPanelProps) {
   return (
-    <section className="grid gap-6 bg-white rounded-lg">
-      <div className="flex flex-row items-center justify-between rounded-lg border p-4">
+    <section className="grid gap-6 bg-zinc-800 text-white rounded-lg">
+      <div className="flex flex-row items-center justify-between rounded-lg border-zinc-700 p-4">
         <div className="flex flex-row items-center gap-4">
           {icon}
           <div className="space-y-0.5">
             <p className="text-sm">{title}</p>
-            <p className="text-sm text-zinc-500">
+            <p className="text-sm text-zinc-300">
               <Show condition={!!masked} fallback={content}>
                 <MaskText value={content} />
               </Show>

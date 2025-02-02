@@ -27,7 +27,7 @@ export default function Sidebar() {
 
   const generateLinkClassName = (uri: string) => {
     if (pathName.includes(uri)) {
-      return "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-100 text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+      return "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-800 text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
     }
 
     return "flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
@@ -66,7 +66,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-white sm:flex">
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-black text-white border-none sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link href="/explore" className={generateLinkClassName("explore")}>
             <DraftingCompass className="h-4 w-4 transition-all group-hover:scale-110" />
@@ -144,24 +144,39 @@ export default function Sidebar() {
               </nav>
             </SheetContent>
           </Sheet>
-          <Breadcrumb className="hidden md:flex">
-            <BreadcrumbList>
+          <Breadcrumb className="hidden md:flex text-white">
+            <BreadcrumbList className="text-white">
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href="/explore">{brandName}</Link>
+                  <Link
+                    href="/explore"
+                    className="text-white hover:text-zinc-300"
+                  >
+                    {brandName}
+                  </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator />
+              <BreadcrumbSeparator className="text-zinc-500" />
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href="/explore">Explore</Link>
+                  <Link
+                    href="/explore"
+                    className="text-white hover:text-zinc-300"
+                  >
+                    Explore
+                  </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <Show condition={!!getBreadcrumbTitle(pathName)}>
-                <BreadcrumbSeparator />
+                <BreadcrumbSeparator className="text-zinc-500" />
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link href={pathName}>{getBreadcrumbTitle(pathName)}</Link>
+                    <Link
+                      href={pathName}
+                      className="text-white hover:text-zinc-300"
+                    >
+                      {getBreadcrumbTitle(pathName)}
+                    </Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               </Show>

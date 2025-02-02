@@ -33,7 +33,7 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
       <Link
         key={tab}
         className={`cursor-pointer flex capitalize ${
-          pathname.includes(tab) ? "" : "text-zinc-500"
+          pathname.includes(tab) ? "text-zinc-300" : "text-white"
         }`}
         href={`/settings/${tab}`}
       >
@@ -48,14 +48,16 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
       <div className="mx-auto grid w-full gap-2">
         <div className="flex justify-between">
           <div className="flex gap-4 mb-4">
-            <Button variant="outline" size="icon" className="rounded-full">
+            <Button
+              variant="default"
+              size="icon"
+              className="rounded-full bg-zinc-800"
+            >
               <User className="scale-75" />
             </Button>
-            <div>
-              <p className="text-sm  font-semibold">{user.name}</p>
-              <p className="text-sm text-zinc-600 font-semibold">
-                {user.email}
-              </p>
+            <div className="text-white">
+              <p className="text-sm font-semibold">{user.name}</p>
+              <p className="text-sm font-semibold">{user.email}</p>
             </div>
           </div>
         </div>

@@ -16,7 +16,7 @@ export default function Header() {
       <div className="flex w-full items-center justify-between lg:container lg:max-w-[75rem]">
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-semibold"
+          className="flex items-center gap-2 text-xl font-semibold"
         >
           <DraftingCompass className="h-6 w-6" />
           {brandName}
@@ -28,7 +28,7 @@ export default function Header() {
                 <Link
                   key={index}
                   href={item.link}
-                  className="text-lg font-medium text-foreground hover:text-primary mx-3"
+                  className="text-md font-medium text-foreground hover:text-primary mx-3"
                   target={item.external ? "_blank" : ""}
                   rel={item.external ? "noopener noreferrer" : ""}
                 >
@@ -53,7 +53,10 @@ export default function Header() {
                 <PanelLeft className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent
+              side="right"
+              className="bg-black text-white border-none"
+            >
               <SheetTitle></SheetTitle>
               <nav className="grid gap-6 text-lg font-medium">
                 <Link

@@ -10,7 +10,7 @@ export default function SafetySection() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full bg-lime-300 hover:bg-gray-200"
+            className="rounded-full bg-lime-300 hover:bg-lime-300"
           >
             <Check className="h-4 w-4 text-zinc-900" />
             <span className="sr-only">Learn more about teaching</span>
@@ -18,7 +18,7 @@ export default function SafetySection() {
         </div>
         <div className="flex gap-8 mb-8 justify-center">
           <div className="w-16 h-16 bg-black rounded-full" />
-          <div className="w-16 h-16 bg-gray-300 rounded-full" />
+          <div className="w-16 h-16 bg-zinc-100 rounded-full" />
         </div>
         <p className="text-md leading-relaxed">
           We start by teaching our AI right from wrong, filtering harmful
@@ -32,7 +32,7 @@ export default function SafetySection() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full bg-lime-300 hover:bg-gray-200"
+            className="rounded-full bg-lime-300 hover:bg-lime-300"
           >
             <Check className="h-4 w-4 text-zinc-900" />
             <span className="sr-only">Learn more about testing</span>
@@ -57,8 +57,8 @@ export default function SafetySection() {
                 />
               </svg>
             </div>
-            <div className="absolute top-12 left-4 w-48 h-4 bg-gray-200 rounded" />
-            <div className="absolute top-20 left-4 w-36 h-4 bg-gray-200 rounded" />
+            <div className="absolute top-12 left-4 w-48 h-4 bg-zinc-100 rounded" />
+            <div className="absolute top-20 left-4 w-36 h-4 bg-zinc-100 rounded" />
           </div>
         </div>
         <p className="text-md leading-relaxed">
@@ -73,7 +73,7 @@ export default function SafetySection() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full bg-lime-300 hover:bg-gray-200"
+            className="rounded-full bg-lime-300 hover:bg-lime-300"
           >
             <Check className="h-4 w-4 text-zinc-900" />
             <span className="sr-only">Learn more about sharing</span>
@@ -82,21 +82,21 @@ export default function SafetySection() {
         <div className="grid grid-cols-2 gap-4 mb-8 max-w-[200px] mx-auto">
           <div className="space-y-4">
             <div className="w-16 h-16">
-              <div className="w-16 h-8 bg-gray-300 rounded-t-full" />
+              <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
               <div className="w-16 h-8 bg-black rounded-b-full" />
             </div>
             <div className="w-16 h-16">
-              <div className="w-16 h-8 bg-gray-300 rounded-t-full" />
+              <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
               <div className="w-16 h-8 bg-black rounded-b-full" />
             </div>
           </div>
           <div className="space-y-4">
             <div className="w-16 h-16">
-              <div className="w-16 h-8 bg-gray-300 rounded-t-full" />
+              <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
               <div className="w-16 h-8 bg-black rounded-b-full" />
             </div>
             <div className="w-16 h-16 relative">
-              <div className="w-16 h-8 bg-gray-300 rounded-t-full" />
+              <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
               <div className="w-16 h-8 bg-black rounded-b-full" />
               <div className="absolute bottom-0 right-0 bg-lime-300 p-1 rounded-lg">
                 <svg
