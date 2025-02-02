@@ -104,9 +104,6 @@ export default function Page() {
             </li>
           </ul>
           <Button
-            disabled={
-              tier.subscriptionTier === "trial" && user.hasTrial === false
-            }
             className="mt-4"
             onClick={() => activateSubscription(tier.subscriptionTier)}
           >

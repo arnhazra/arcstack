@@ -1,6 +1,5 @@
 "use client"
 import { ReactElement, ReactNode, useContext } from "react"
-import { uiConstants } from "@/shared/constants/global-constants"
 import { Button } from "@/shared/components/ui/button"
 import {
   CalendarClock,
@@ -12,16 +11,9 @@ import {
   User,
 } from "lucide-react"
 import { GlobalContext } from "@/context/globalstate.provider"
-import { usePromptContext } from "@/shared/providers/prompt.provider"
-import ky from "ky"
-import { endPoints } from "@/shared/constants/api-endpoints"
-import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
-import { toast } from "@/shared/components/ui/use-toast"
-import { generateUUID } from "@/shared/lib/uuid-gen"
 import { Tabs, tabsList } from "./data"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import Show from "@/shared/components/show"
 
 const mapTabIcons: Record<Tabs, ReactElement> = {
   user: <User />,
@@ -33,36 +25,8 @@ const mapTabIcons: Record<Tabs, ReactElement> = {
 }
 
 export default function SetingsLayout({ children }: { children: ReactNode }) {
-  const [{ user }, dispatch] = useContext(GlobalContext)
-  const { prompt } = usePromptContext()
+  const [{ user }] = useContext(GlobalContext)
   const pathname = usePathname()
-
-  const createWorkspace = async () => {
-    const { hasConfirmed, value } = await prompt("Create New Access Key")
-
-    if (hasConfirmed && value) {
-      try {
-        await ky.post(endPoints.workspace, {
-          json: { name: value },
-          timeout: FETCH_TIMEOUT,
-        })
-        dispatch("setRefreshId", generateUUID())
-        toast({
-          title: uiConstants.notification,
-          description: (
-            <p className="text-slate-600">{uiConstants.accessKeyCreated}</p>
-          ),
-        })
-      } catch (error) {
-        toast({
-          title: uiConstants.notification,
-          description: (
-            <p className="text-slate-600">{uiConstants.toastError}</p>
-          ),
-        })
-      }
-    }
-  }
 
   const renderTabs = tabsList.map((tab: Tabs) => {
     return (
@@ -94,16 +58,6 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
               </p>
             </div>
           </div>
-          <Show condition={pathname.includes("workspace")}>
-            <Button
-              size="icon"
-              className="rounded-full"
-              onClick={createWorkspace}
-              title="Create Workspace"
-            >
-              <PlusCircle className="scale-65" />
-            </Button>
-          </Show>
         </div>
       </div>
       <div className="mx-auto grid w-full items-start gap-4 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">

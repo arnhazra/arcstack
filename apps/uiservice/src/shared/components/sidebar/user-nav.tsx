@@ -48,11 +48,6 @@ export function UserNav() {
           <DropdownMenuItem onClick={(): void => router.push("/settings/user")}>
             Settings
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={(): void => router.push("/settings/workspace")}
-          >
-            Workspace
-          </DropdownMenuItem>
           <DropdownMenuItem onClick={(): void => router.push("/")}>
             Home Page
           </DropdownMenuItem>

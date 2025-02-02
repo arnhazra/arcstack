@@ -17,9 +17,6 @@ export class User extends Document {
   role: string
 
   @Prop({ type: Boolean, default: true })
-  hasTrial: boolean
-
-  @Prop({ type: Boolean, default: true })
   reduceCarbonEmissions: boolean
 
   @Prop({ type: Boolean, default: true })

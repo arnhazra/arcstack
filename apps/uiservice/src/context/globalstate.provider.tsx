@@ -24,7 +24,6 @@ const initialState: GlobalState = {
     name: "",
     reduceCarbonEmissions: true,
     role: "",
-    hasTrial: false,
   },
   subscription: null,
   refreshId: generateUUID(),

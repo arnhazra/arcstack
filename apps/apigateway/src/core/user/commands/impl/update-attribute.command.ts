@@ -1,7 +1,6 @@
 export enum AttributeNames {
   ReduceCarbonEmissions = "reduceCarbonEmissions",
   ActivityLog = "activityLog",
-  HasTrial = "hasTrial",
   Name = "name",
 }
 

@@ -28,7 +28,6 @@ export type User = {
   email: string
   name: string
   role: string
-  hasTrial: boolean
   reduceCarbonEmissions: boolean
   activityLog: boolean
   createdAt: string

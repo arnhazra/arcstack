@@ -1,5 +1,5 @@
 import { buttonVariants } from "@/shared/components/ui/button"
-import { brandName, uiConstants } from "@/shared/constants/global-constants"
+import { uiConstants } from "@/shared/constants/global-constants"
 import { cn } from "@/shared/lib/utils"
 import Link from "next/link"
 

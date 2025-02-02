@@ -16,8 +16,7 @@ export class UpdateAttributeCommandHandler
 
     if (
       attributeName === AttributeNames.ReduceCarbonEmissions ||
-      attributeName === AttributeNames.ActivityLog ||
-      attributeName === AttributeNames.HasTrial
+      attributeName === AttributeNames.ActivityLog
     ) {
       if (attributeValue === "true") {
         return await this.repository.updateOneById(userId, attributeName, true)
