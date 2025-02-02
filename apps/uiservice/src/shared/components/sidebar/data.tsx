@@ -44,20 +44,24 @@ export const getBreadcrumbTitle = (uri: string) => {
     return "Settings"
   }
 
-  if (uri.includes("datamarketplace")) {
-    return "Data MarketPlace"
+  if (uri.includes("favourites")) {
+    return "Favourites"
   }
 
-  if (uri.includes("httpnosql")) {
-    return "HTTP NoSQL"
+  if (uri.includes("history")) {
+    return "History"
   }
 
-  if (uri.includes("intelligence")) {
-    return "Intelligence"
+  if (uri.includes("mybuilds")) {
+    return "My Builds"
   }
 
-  if (uri.includes("webanalytics")) {
-    return "Web Analytics"
+  if (uri.includes("build")) {
+    return "Build"
+  }
+
+  if (uri.includes("newsroom")) {
+    return "NewsRoom"
   }
 
   return ""
