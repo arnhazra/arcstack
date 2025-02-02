@@ -18,7 +18,7 @@ interface WorkspacePanelProps {
   workspaceId: string
   displayName: string
   createdAt: string
-  accessKey: string
+  apiKey: string
   onRegenCred: (workspaceId: string) => void
   onDelete: (workspaceId: string) => void
 }
@@ -27,16 +27,14 @@ export default function WorkspacePanel({
   workspaceId,
   displayName,
   createdAt,
-  accessKey,
+  apiKey,
   onRegenCred,
   onDelete,
 }: WorkspacePanelProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-md flex gap-2">
-          {displayName}
-        </CardTitle>
+        <CardTitle className="text-md flex gap-2">{displayName}</CardTitle>
         <CardDescription className="text-sm">
           {format(new Date(createdAt), "MMM, do yyyy")}
         </CardDescription>
@@ -45,9 +43,9 @@ export default function WorkspacePanel({
         <SectionPanel
           icon={<Key className="scale-75" />}
           title="Access Key"
-          content={accessKey}
+          content={apiKey}
           masked
-          actionComponent={<CopyToClipboard value={accessKey} />}
+          actionComponent={<CopyToClipboard value={apiKey} />}
         />
       </CardContent>
       <CardFooter className="flex justify-end gap-2">

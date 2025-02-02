@@ -11,6 +11,18 @@ export type BaseModel = {
   parameters: string
 }
 
+export type DerivedModel = {
+  _id: string
+  displayName: string
+  description: string
+  category: string
+  baseModel: BaseModel
+  isFineTuned: boolean
+  promptStyle: string
+  isPro: boolean
+  responseFormat: string
+}
+
 export type User = {
   _id: string
   email: string

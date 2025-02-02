@@ -20,7 +20,7 @@ export const endPoints = {
   createCheckoutSession: `${apiHost}/subscription/checkout`,
   getModels: `${apiHost}/getmodels`,
   getapireference: `${apiHost}/apireference`,
-  accesskey: `${apiHost}/accesskey`,
+  apiKey: `${apiHost}/apikey`,
   activityTrends: `${apiHost}/activity/trends`,
   modelsListings: `${apiHost}/models/derivedmodel/listings`,
 }

@@ -11,7 +11,7 @@ import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import { Subscription, User } from "@/shared/types"
 import Loading from "../loading"
 import { useQuery } from "@tanstack/react-query"
-import NavBar from "@/shared/components/navbar"
+import Sidebar from "@/shared/components/sidebar"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const [{ refreshId }, dispatch] = useContext(GlobalContext)
@@ -72,7 +72,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
   const appLayout = (
     <div className="min-h-screen w-full">
-      <NavBar />
+      <Sidebar />
       <div className="flex min-h-screen w-full flex-col">
         <div className="flex flex-col sm:gap-4 sm:py-4">
           <div className="p-4 sm:px-6 sm:py-0">{children}</div>

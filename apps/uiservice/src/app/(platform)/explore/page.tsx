@@ -18,7 +18,8 @@ import { useRouter } from "next/navigation"
 import { Input } from "@/shared/components/ui/input"
 import Loading from "@/app/loading"
 import { Badge } from "@/shared/components/ui/badge"
-import { AIModelCard } from "@/shared/components/modelcard"
+import { ModelCard } from "@/shared/components/modelcard"
+import { DerivedModel } from "@/shared/types"
 
 export interface FindModelRequestState {
   searchQuery: string
@@ -37,8 +38,8 @@ export default function Page() {
       offset: 0,
     })
   const filtersAndSortOptions = useFetch({
-    queryKey: ["filters-and-sorts"],
-    queryUrl: endPoints.accesskey,
+    queryKey: ["apikeys"],
+    queryUrl: endPoints.apiKey,
     method: HTTPMethods.GET,
   })
   const models = useFetch({
@@ -102,20 +103,8 @@ export default function Page() {
     }
   )
 
-  const renderModels = models?.data?.map((model: any) => {
-    return (
-      <AIModelCard
-        key={model._id}
-        id={model._id}
-        displayName={model.displayName}
-        category={model.category}
-        promptStyle={model.promptStyle}
-        responseFormat={model.responseFormat}
-        viewCount={1234}
-        favoriteCount={567}
-        isFineTuned={model.isFineTuned ? "Yes" : "No"}
-      />
-    )
+  const renderModels = models?.data?.map((model: DerivedModel) => {
+    return <ModelCard key={model._id} model={model} />
   })
 
   const prevPage = () => {

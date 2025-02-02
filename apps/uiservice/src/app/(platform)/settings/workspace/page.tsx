@@ -67,7 +67,7 @@ export default function Page() {
         key={workspace?._id}
         workspaceId={workspace?._id}
         displayName={workspace?.name}
-        accessKey={workspace?.accessKey}
+        apiKey={workspace?.apiKey}
         createdAt={workspace?.createdAt}
         onRegenCred={(workspaceId) => regenerateCreds(workspaceId)}
         onDelete={(workspaceId) => deleteWorkspace(workspaceId)}

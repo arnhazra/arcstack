@@ -1,7 +1,7 @@
 export enum Tabs {
   User = "user",
   Privacy = "privacy",
-  AccessKey = "accesskey",
+  APIKey = "apikey",
   Subscription = "subscription",
   Sustainability = "sustainability",
   About = "about",
@@ -10,7 +10,7 @@ export enum Tabs {
 export const tabsList: Tabs[] = [
   Tabs.User,
   Tabs.Privacy,
-  Tabs.AccessKey,
+  Tabs.APIKey,
   Tabs.Subscription,
   Tabs.Sustainability,
   Tabs.About,

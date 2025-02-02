@@ -4,32 +4,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card"
+import { DerivedModel } from "@/shared/types"
 import { Brain, Eye, Heart } from "lucide-react"
 import Link from "next/link"
 
-interface AIModelCardProps {
-  id: string
-  displayName: string
-  category: string
-  promptStyle: string
-  responseFormat: string
-  viewCount: number
-  favoriteCount: number
-  isFineTuned: string
+interface ModelProps {
+  model: DerivedModel
 }
 
-export function AIModelCard({
-  id,
-  displayName,
-  category,
-  promptStyle,
-  responseFormat,
-  viewCount,
-  favoriteCount,
-  isFineTuned,
-}: AIModelCardProps) {
+export function ModelCard({ model }: ModelProps) {
+  const {
+    _id,
+    baseModel,
+    category,
+    displayName,
+    isFineTuned,
+    isPro,
+    promptStyle,
+  } = model
   return (
-    <Link href={`/explore/model/${id}`}>
+    <Link href={`/explore/model/${_id}`}>
       <Card className="w-full max-w-xs mx-auto h-[22rem] flex flex-col relative hover:shadow-md transition-shadow">
         <CardHeader className="pb-2">
           <div className="flex items-start">
@@ -44,11 +38,11 @@ export function AIModelCard({
               <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-1">
                 <div className="flex items-center">
                   <Eye className="w-3 h-3 mr-1" />
-                  <span>{viewCount}</span>
+                  <span>1234</span>
                 </div>
                 <div className="flex items-center">
                   <Heart className="w-3 h-3 mr-1" />
-                  <span>{favoriteCount}</span>
+                  <span>567</span>
                 </div>
               </div>
             </div>
@@ -61,22 +55,30 @@ export function AIModelCard({
               <dd className="text-sm font-semibold">{category}</dd>
             </div>
             <div>
-              <dt className="text-xs font-medium text-gray-500">
-                Prompt Style
-              </dt>
-              <dd className="text-sm font-semibold">{promptStyle}</dd>
+              <dt className="text-xs font-medium text-gray-500">Base Model</dt>
+              <dd className="text-sm font-semibold capitalize">
+                {baseModel.displayName}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs font-medium text-gray-500">Parameters</dt>
+              <dd className="text-sm font-semibold capitalize">
+                {baseModel.parameters}
+              </dd>
             </div>
             <div>
               <dt className="text-xs font-medium text-gray-500">
-                Response Format
+                Architecture
               </dt>
-              <dd className="text-sm font-semibold capitalize">
-                {responseFormat}
+              <dd className="text-sm font-semibold">
+                {baseModel.architecture}
               </dd>
             </div>
             <div>
               <dt className="text-xs font-medium text-gray-500">Fine Tuned</dt>
-              <dd className="text-sm font-semibold">{isFineTuned}</dd>
+              <dd className="text-sm font-semibold">
+                {isFineTuned ? "Yes" : "No"}
+              </dd>
             </div>
           </dl>
         </CardContent>

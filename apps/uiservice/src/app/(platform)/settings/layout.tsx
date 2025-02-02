@@ -26,7 +26,7 @@ import Show from "@/shared/components/show"
 const mapTabIcons: Record<Tabs, ReactElement> = {
   user: <User />,
   privacy: <ShieldCheck />,
-  accesskey: <Key />,
+  apikey: <Key />,
   subscription: <CalendarClock />,
   sustainability: <Leaf />,
   about: <Info />,
