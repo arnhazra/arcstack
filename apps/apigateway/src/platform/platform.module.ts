@@ -1,10 +1,11 @@
 import { Module } from "@nestjs/common"
-import { ModelsModule } from "./models/models.module"
+import { BaseModelModule } from "./basemodel/basemodel.module"
 import { FavouritesModule } from "./favourites/favourites.module"
 import { IntelligenceModule } from "./intelligence/intelligence.module"
 import { envConfig } from "@/config"
 import { DatabaseModule } from "@/shared/database/database.module"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
+import { DerivedModelModule } from "./derivedmodel/derivedmodel.module"
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { DbConnectionMap } from "@/shared/utils/db-connection.map"
       envConfig.platformDatabaseURI,
       DbConnectionMap.Platform
     ),
-    ModelsModule,
+    BaseModelModule,
+    DerivedModelModule,
     IntelligenceModule,
     FavouritesModule,
   ],

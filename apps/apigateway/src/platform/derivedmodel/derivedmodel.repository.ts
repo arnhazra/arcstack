@@ -1,13 +1,13 @@
 import { Injectable } from "@nestjs/common"
 import { InjectModel } from "@nestjs/mongoose"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
-import { DerivedModel } from "../schemas/derivedmodel.schema"
+import { DerivedModel } from "./schemas/derivedmodel.schema"
 import { Model } from "mongoose"
 import { BaseRepository } from "@/shared/database/database.repository"
-import { FindDerivedModelsDto } from "../dto/request/find-dervied-models.request.dto"
+import { FindDerivedModelsDto } from "./dto/request/find-dervied-models.request.dto"
 
 @Injectable()
-export class DerivedModelsRepository extends BaseRepository<DerivedModel> {
+export class DerivedModelRepository extends BaseRepository<DerivedModel> {
   constructor(
     @InjectModel(DerivedModel.name, DbConnectionMap.Platform)
     private derivedModelModel: Model<DerivedModel>

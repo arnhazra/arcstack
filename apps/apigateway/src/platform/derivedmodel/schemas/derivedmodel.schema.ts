@@ -1,6 +1,6 @@
+import { BaseModel } from "@/platform/basemodel/schemas/basemodel.schema"
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Document, Types } from "mongoose"
-import { BaseModel } from "./basemodel.schema"
 
 @Schema({ versionKey: false, collection: "derivedmodels" })
 export class DerivedModel extends Document {

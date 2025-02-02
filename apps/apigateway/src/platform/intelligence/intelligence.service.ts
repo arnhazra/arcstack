@@ -8,7 +8,7 @@ import { EventsUnion } from "@/shared/utils/events.union"
 import { AIGenerationDto } from "./dto/ai-generate.dto"
 import { Types } from "mongoose"
 import { FetchThreadByIdQuery } from "./queries/impl/fetch-thread-by-id.query"
-import { DerivedModelResponseDto } from "../models/dto/response/derived-model.response.dto"
+import { DerivedModelResponseDto } from "../derivedmodel/dto/response/derived-model.response.dto"
 
 @Injectable()
 export class IntelligenceService {

@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from "@nestjs/cqrs"
 import { CreateBaseModelCommand } from "../impl/create-base-model.command"
-import { BaseModelsRepository } from "../../repositories/basemodels.repository"
+import { BaseModelsRepository } from "../../basemodel.repository"
 
 @CommandHandler(CreateBaseModelCommand)
 export class CreateBaseModelCommandHandler

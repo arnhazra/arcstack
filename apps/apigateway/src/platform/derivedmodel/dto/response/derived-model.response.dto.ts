@@ -1,4 +1,4 @@
-import { BaseModel } from "../../schemas/basemodel.schema"
+import { BaseModel } from "@/platform/basemodel/schemas/basemodel.schema"
 
 export class DerivedModelResponseDto {
   _id: string
