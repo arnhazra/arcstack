@@ -25,7 +25,7 @@ export function ModelCard({ model }: ModelProps) {
 
   return (
     <Link href={`/model/${_id}`}>
-      <Card className="w-full max-w-xs mx-auto h-[23rem] flex flex-col relative hover:shadow-md transition-shadow bg-zinc-800 border-zinc-800 text-white">
+      <Card className="w-full max-w-xs mx-auto h-[23rem] flex flex-col relative hover:shadow-md transition-shadow bg-zinc-900 border-zinc-800 text-white">
         <CardHeader className="pb-2">
           <div className="flex items-start">
             <Brain className="w-8 h-8 text-primary mr-3 mt-1 text-lime-300" />

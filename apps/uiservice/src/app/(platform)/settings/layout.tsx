@@ -51,7 +51,7 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
             <Button
               variant="default"
               size="icon"
-              className="rounded-full bg-zinc-800"
+              className="rounded-full bg-zinc-900"
             >
               <User className="scale-75" />
             </Button>

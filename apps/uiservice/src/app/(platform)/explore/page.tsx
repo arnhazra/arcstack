@@ -63,7 +63,7 @@ export default function Page() {
           className={
             findModelRequestState.selectedFilter === item
               ? "mr-2 p-2 ps-6 pe-6 cursor-pointer"
-              : "mr-2 p-2 ps-6 pe-6 cursor-pointer bg-zinc-800 hover:bg-zinc-700"
+              : "mr-2 p-2 ps-6 pe-6 cursor-pointer bg-zinc-900 hover:bg-zinc-800"
           }
           variant={
             findModelRequestState.selectedFilter === item
@@ -139,7 +139,7 @@ export default function Page() {
                   <Button
                     variant="default"
                     size="sm"
-                    className="h-8 gap-1 bg-zinc-800 hover:bg-zinc-800"
+                    className="h-8 gap-1 bg-zinc-900 hover:bg-zinc-900"
                   >
                     <SortAsc className="h-3.5 w-3.5" />
                     <span>Sort</span>
@@ -147,7 +147,7 @@ export default function Page() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="end"
-                  className="bg-zinc-800 border-zinc-800 text-white"
+                  className="bg-zinc-900 border-zinc-900 text-white"
                 >
                   <DropdownMenuLabel>Sort</DropdownMenuLabel>
                   {renderSortOptions}
