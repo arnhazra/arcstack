@@ -146,7 +146,7 @@ export default function Page() {
               </DropdownMenu>
             </div>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 p-4 ml-[20px] lg:ml-[30px]">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4">
             {renderModels}
           </div>
         </section>

@@ -74,7 +74,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen w-full">
       <Sidebar />
       <div className="flex min-h-screen w-full flex-col">
-        <div className="flex flex-col sm:gap-4 sm:py-4">
+        <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
           <div className="p-4 sm:px-6 sm:py-0">{children}</div>
         </div>
       </div>

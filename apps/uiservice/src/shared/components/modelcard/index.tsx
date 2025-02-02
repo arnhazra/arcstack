@@ -23,7 +23,7 @@ export function ModelCard({ model }: ModelProps) {
     promptStyle,
   } = model
   return (
-    <Link href={`/explore/model/${_id}`}>
+    <Link href={`/model/${_id}`}>
       <Card className="w-full max-w-xs mx-auto h-[22rem] flex flex-col relative hover:shadow-md transition-shadow">
         <CardHeader className="pb-2">
           <div className="flex items-start">
