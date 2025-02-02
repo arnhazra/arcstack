@@ -49,7 +49,7 @@ export default function AuthenticationPage({
       toast({
         title: uiConstants.notification,
         description: (
-          <p className="text-slate-600">{uiConstants.connectionErrorMessage}</p>
+          <p className="text-zinc-600">{uiConstants.connectionErrorMessage}</p>
         ),
       })
     } finally {
@@ -75,7 +75,7 @@ export default function AuthenticationPage({
     } catch (error: any) {
       toast({
         title: uiConstants.notification,
-        description: <p className="text-slate-600">{uiConstants.invalidOTP}</p>,
+        description: <p className="text-zinc-600">{uiConstants.invalidOTP}</p>,
       })
       onAuthorized(false)
     } finally {
@@ -195,7 +195,7 @@ export default function AuthenticationPage({
                 </form>
               </Show>
             </div>
-            <div className="mt-4 text-center text-sm text-slate-600">
+            <div className="mt-4 text-center text-sm text-zinc-600">
               {uiConstants.privacyPolicyStatement}
             </div>
           </CardContent>

@@ -22,9 +22,10 @@ export function ModelCard({ model }: ModelProps) {
     isPro,
     promptStyle,
   } = model
+
   return (
     <Link href={`/model/${_id}`}>
-      <Card className="w-full max-w-xs mx-auto h-[22rem] flex flex-col relative hover:shadow-md transition-shadow">
+      <Card className="w-full max-w-xs mx-auto h-[23rem] flex flex-col relative hover:shadow-md transition-shadow">
         <CardHeader className="pb-2">
           <div className="flex items-start">
             <Brain className="w-8 h-8 text-primary mr-3 mt-1" />
@@ -50,23 +51,23 @@ export function ModelCard({ model }: ModelProps) {
         </CardHeader>
         <CardContent className="flex-grow py-2">
           <dl className="grid gap-3">
-            <div>
+            <div className="space-y-1">
               <dt className="text-xs font-medium text-gray-500">Category</dt>
               <dd className="text-sm font-semibold">{category}</dd>
             </div>
-            <div>
+            <div className="space-y-1">
               <dt className="text-xs font-medium text-gray-500">Base Model</dt>
               <dd className="text-sm font-semibold capitalize">
                 {baseModel.displayName}
               </dd>
             </div>
-            <div>
+            <div className="space-y-1">
               <dt className="text-xs font-medium text-gray-500">Parameters</dt>
               <dd className="text-sm font-semibold capitalize">
                 {baseModel.parameters}
               </dd>
             </div>
-            <div>
+            <div className="space-y-1">
               <dt className="text-xs font-medium text-gray-500">
                 Architecture
               </dt>
@@ -74,7 +75,7 @@ export function ModelCard({ model }: ModelProps) {
                 {baseModel.architecture}
               </dd>
             </div>
-            <div>
+            <div className="space-y-1">
               <dt className="text-xs font-medium text-gray-500">Fine Tuned</dt>
               <dd className="text-sm font-semibold">
                 {isFineTuned ? "Yes" : "No"}

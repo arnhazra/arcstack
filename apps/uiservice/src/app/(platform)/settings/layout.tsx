@@ -33,7 +33,7 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
       <Link
         key={tab}
         className={`cursor-pointer flex capitalize ${
-          pathname.includes(tab) ? "" : "text-slate-500"
+          pathname.includes(tab) ? "" : "text-zinc-500"
         }`}
         href={`/settings/${tab}`}
       >
@@ -53,7 +53,7 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
             </Button>
             <div>
               <p className="text-sm  font-semibold">{user.name}</p>
-              <p className="text-sm text-slate-600 font-semibold">
+              <p className="text-sm text-zinc-600 font-semibold">
                 {user.email}
               </p>
             </div>

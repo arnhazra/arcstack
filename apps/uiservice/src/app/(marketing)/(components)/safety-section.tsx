@@ -4,7 +4,7 @@ import { Button } from "@/shared/components/ui/button"
 export default function SafetySection() {
   return (
     <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:max-w-[35rem] md:grid-cols-1 lg:max-w-[50rem] lg:grid-cols-2 xl:max-w-[68rem] xl:grid-cols-3">
-      <div className="bg-white p-8 rounded-lg">
+      <div className="bg-zinc-900 p-8 rounded-lg">
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-3xl">Teach</h2>
           <Button
@@ -12,7 +12,7 @@ export default function SafetySection() {
             size="icon"
             className="rounded-full bg-gray-100 hover:bg-gray-200"
           >
-            <Check className="h-4 w-4" />
+            <Check className="h-4 w-4 text-zinc-900" />
             <span className="sr-only">Learn more about teaching</span>
           </Button>
         </div>
@@ -26,7 +26,7 @@ export default function SafetySection() {
         </p>
       </div>
 
-      <div className="bg-white p-8 rounded-lg">
+      <div className="bg-zinc-900 p-8 rounded-lg">
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-3xl">Test</h2>
           <Button
@@ -34,7 +34,7 @@ export default function SafetySection() {
             size="icon"
             className="rounded-full bg-gray-100 hover:bg-gray-200"
           >
-            <Check className="h-4 w-4" />
+            <Check className="h-4 w-4 text-zinc-900" />
             <span className="sr-only">Learn more about testing</span>
           </Button>
         </div>
@@ -67,7 +67,7 @@ export default function SafetySection() {
         </p>
       </div>
 
-      <div className="bg-white p-8 rounded-lg">
+      <div className="bg-zinc-900 p-8 rounded-lg">
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-3xl">Share</h2>
           <Button
@@ -75,7 +75,7 @@ export default function SafetySection() {
             size="icon"
             className="rounded-full bg-gray-100 hover:bg-gray-200"
           >
-            <Check className="h-4 w-4" />
+            <Check className="h-4 w-4 text-zinc-900" />
             <span className="sr-only">Learn more about sharing</span>
           </Button>
         </div>

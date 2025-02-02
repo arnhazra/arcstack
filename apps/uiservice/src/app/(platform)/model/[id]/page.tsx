@@ -60,7 +60,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     toast({
       title: uiConstants.notification,
       description: (
-        <p className="text-slate-600">{uiConstants.copiedToClipBoard}</p>
+        <p className="text-zinc-600">{uiConstants.copiedToClipBoard}</p>
       ),
     })
   }

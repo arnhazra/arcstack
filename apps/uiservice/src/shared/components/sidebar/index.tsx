@@ -18,10 +18,6 @@ import {
 import { UserNav } from "./user-nav"
 import { Search } from "./search"
 import { brandName } from "@/shared/constants/global-constants"
-import useFetch from "@/shared/hooks/use-fetch"
-import { endPoints } from "@/shared/constants/api-endpoints"
-import HTTPMethods from "@/shared/constants/http-methods"
-// import { Product } from "@/shared/types"
 import { usePathname } from "next/navigation"
 import { getBreadcrumbTitle, sidebarLinks } from "./data"
 import Show from "@/shared/components/show"
@@ -31,7 +27,7 @@ export default function Sidebar() {
 
   const generateLinkClassName = (uri: string) => {
     if (pathName.includes(uri)) {
-      return "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-slate-100 text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
+      return "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-100 text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
     }
 
     return "flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"

@@ -12,16 +12,16 @@ import { brandName, uiConstants } from "@/shared/constants/global-constants"
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 flex h-16 items-center bg-white px-4 md:px-6">
+    <header className="sticky top-0 z-50 flex h-16 items-center bg-black text-white px-4 md:px-6">
       <div className="flex w-full items-center justify-between lg:container">
         <Link
           href="/"
           className="flex items-center gap-2 text-lg font-semibold md:text-base"
         >
-          <DraftingCompass className="h-5 w-5" />
+          <DraftingCompass className="h-6 w-6" />
           {brandName}
         </Link>
-        <nav className="hidden md:flex items-center justify-center flex-1">
+        <nav className="hidden md:flex items-center justify-end gap-1 flex-1">
           {generalUserLinks.map(
             (item, index) =>
               !item.mainLink && (
@@ -37,27 +37,16 @@ export default function Header() {
               )
           )}
         </nav>
-
         <div className="flex items-center space-x-4">
-          {generalUserLinks.map(
-            (item, index) =>
-              item.mainLink && (
-                <Link
-                  key={index}
-                  href={item.link}
-                  className="hidden md:inline-block text-sm font-medium text-foreground hover:text-primary"
-                >
-                  {item.displayName}
-                </Link>
-              )
-          )}
           <Link href="/explore">
-            <Button variant="default">{uiConstants.getStartedButton}</Button>
+            <Button variant="secondary" className="ms-4 rounded-full">
+              {uiConstants.getStartedButton}
+            </Button>
           </Link>
           <Sheet>
             <SheetTrigger asChild>
               <Button
-                variant="outline"
+                variant="default"
                 size="icon"
                 className="shrink-0 md:hidden"
               >

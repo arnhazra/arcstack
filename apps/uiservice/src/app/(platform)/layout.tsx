@@ -40,7 +40,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             toast({
               title: uiConstants.notification,
               description: (
-                <p className="text-slate-600">
+                <p className="text-zinc-600">
                   {uiConstants.connectionErrorMessage}
                 </p>
               ),
@@ -50,7 +50,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           toast({
             title: uiConstants.notification,
             description: (
-              <p className="text-slate-600">
+              <p className="text-zinc-600">
                 {uiConstants.connectionErrorMessage}
               </p>
             ),
