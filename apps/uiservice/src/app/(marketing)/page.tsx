@@ -7,7 +7,7 @@ import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { BaseModel, Subscription } from "@/shared/types"
 import { brandName, uiConstants } from "@/shared/constants/global-constants"
-import { CheckCircle2 } from "lucide-react"
+import { CheckCircle2, Dot } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
 import { buttonVariants } from "@/shared/components/ui/button"
@@ -43,7 +43,7 @@ export default function Page() {
         <div className="flex flex-col justify-between rounded-md p-6">
           <div className="space-y-2">
             <h2 className="font-bold text-md capitalize">{brandName}</h2>
-            <h1 className="font-bold text-md capitalize text-2xl text-lime-300">
+            <h1 className="font-bolder text-md capitalize text-3xl text-lime-300">
               {tier.subscriptionTier}
             </h1>
             <div className="flex">
@@ -57,7 +57,7 @@ export default function Page() {
           <ul className="grid gap-3 text-sm text-muted-foreground">
             {tier.features.slice(1).map((feature) => (
               <li className="flex text-xs items-center" key={feature}>
-                <CheckCircle2 className="scale-75 me-2" />
+                <Dot className="scale-150 me-2" />
                 {feature}
               </li>
             ))}

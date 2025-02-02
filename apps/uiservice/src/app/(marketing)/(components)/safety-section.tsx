@@ -10,7 +10,7 @@ export default function SafetySection() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full bg-gray-100 hover:bg-gray-200"
+            className="rounded-full bg-lime-300 hover:bg-gray-200"
           >
             <Check className="h-4 w-4 text-zinc-900" />
             <span className="sr-only">Learn more about teaching</span>
@@ -32,7 +32,7 @@ export default function SafetySection() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full bg-gray-100 hover:bg-gray-200"
+            className="rounded-full bg-lime-300 hover:bg-gray-200"
           >
             <Check className="h-4 w-4 text-zinc-900" />
             <span className="sr-only">Learn more about testing</span>
@@ -40,7 +40,7 @@ export default function SafetySection() {
         </div>
         <div className="flex justify-center mb-8">
           <div className="w-64 h-32 relative">
-            <div className="absolute top-0 left-0 bg-[#4ade80] p-2 rounded-lg">
+            <div className="absolute top-0 left-0 bg-lime-300 p-2 rounded-lg">
               <svg
                 width="24"
                 height="24"
@@ -73,7 +73,7 @@ export default function SafetySection() {
           <Button
             variant="ghost"
             size="icon"
-            className="rounded-full bg-gray-100 hover:bg-gray-200"
+            className="rounded-full bg-lime-300 hover:bg-gray-200"
           >
             <Check className="h-4 w-4 text-zinc-900" />
             <span className="sr-only">Learn more about sharing</span>
@@ -98,7 +98,7 @@ export default function SafetySection() {
             <div className="w-16 h-16 relative">
               <div className="w-16 h-8 bg-gray-300 rounded-t-full" />
               <div className="w-16 h-8 bg-black rounded-b-full" />
-              <div className="absolute bottom-0 right-0 bg-[#4ade80] p-1 rounded-lg">
+              <div className="absolute bottom-0 right-0 bg-lime-300 p-1 rounded-lg">
                 <svg
                   width="16"
                   height="16"

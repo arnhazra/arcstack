@@ -12,11 +12,11 @@ import { brandName, uiConstants } from "@/shared/constants/global-constants"
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-50 flex h-16 items-center bg-black text-white px-4 md:px-6">
+    <header className="top-0 z-50 flex h-16 items-center bg-black text-white px-4 md:px-6">
       <div className="flex w-full items-center justify-between lg:container">
         <Link
           href="/"
-          className="flex items-center gap-2 text-lg font-semibold md:text-base"
+          className="flex items-center gap-2 text-md font-semibold"
         >
           <DraftingCompass className="h-6 w-6" />
           {brandName}
@@ -28,7 +28,7 @@ export default function Header() {
                 <Link
                   key={index}
                   href={item.link}
-                  className="text-sm font-medium text-foreground hover:text-primary mx-3"
+                  className="text-md font-medium text-foreground hover:text-primary mx-3"
                   target={item.external ? "_blank" : ""}
                   rel={item.external ? "noopener noreferrer" : ""}
                 >
