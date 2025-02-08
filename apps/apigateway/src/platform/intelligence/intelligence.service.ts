@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from "@nestjs/common"
-import { ChatMessage, Gemini, Groq } from "llamaindex"
+import { ChatMessage, Gemini, Groq, OpenAI } from "llamaindex"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { CreateThreadCommand } from "./commands/impl/create-thread.command"
 import { Thread } from "./schemas/thread.schema"
@@ -73,8 +73,28 @@ export class IntelligenceService {
           )
 
           return { response, threadId }
+        } else if (modelRes.baseModel.genericName.includes("gpt")) {
+          const openai = new OpenAI({
+            azure: {
+              endpoint: "https://models.inference.ai.azure.com",
+              apiKey: process.env.OPENAI_API_KEY,
+            },
+
+            model: modelRes.baseModel.genericName as any,
+            temperature: temperature ?? modelRes.baseModel.defaultTemperature,
+            topP: topP ?? modelRes.baseModel.defaultTopP,
+          })
+
+          const result = await openai.chat({
+            messages: [...chatHistory, { role: "user", content: prompt }],
+          })
+          const response = result.message.content.toString()
+          await this.commandBus.execute<CreateThreadCommand, Thread>(
+            new CreateThreadCommand(threadId, prompt, response)
+          )
+
+          return { response, threadId }
         } else {
-          console.log("here")
           const groq = new Groq({
             model: modelRes.baseModel.genericName,
             temperature: temperature ?? modelRes.baseModel.defaultTemperature,
@@ -95,7 +115,6 @@ export class IntelligenceService {
         throw new BadRequestException("Model not found")
       }
     } catch (error) {
-      console.log(error)
       throw error
     }
   }

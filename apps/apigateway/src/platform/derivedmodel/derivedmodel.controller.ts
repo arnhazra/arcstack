@@ -26,7 +26,6 @@ export class DerivedModelController {
       const filters = await this.service.getFiltersAndSortOptions()
       return { filters, sortOptions }
     } catch (error) {
-      console.log(error)
       throw new BadRequestException()
     }
   }
