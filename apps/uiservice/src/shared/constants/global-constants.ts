@@ -1,8 +1,7 @@
 export const brandName = "ArcStack"
 
 export const uiConstants = {
-  homeBadge: "Invent with Purpose",
-  homeHeader: "Your AI journey starts with a single step",
+  homeHeader: "AI for everyone.",
   homeIntro1:
     "We believe research will eventually lead to AGI i.e. Artificial General Intelligence, a system that can solve human-level problems",
   connectionErrorMessage: "Connection Error",
