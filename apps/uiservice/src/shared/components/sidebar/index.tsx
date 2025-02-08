@@ -6,7 +6,12 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip"
-import { Sheet, SheetContent, SheetTrigger } from "@/shared/components/ui/sheet"
+import {
+  Sheet,
+  SheetContent,
+  SheetTitle,
+  SheetTrigger,
+} from "@/shared/components/ui/sheet"
 import { Button } from "@/shared/components/ui/button"
 import {
   Breadcrumb,
@@ -105,12 +110,20 @@ export default function Sidebar() {
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <Sheet>
             <SheetTrigger asChild>
-              <Button size="icon" variant="outline" className="sm:hidden">
+              <Button
+                size="icon"
+                variant="default"
+                className="shrink-0 md:hidden"
+              >
                 <PanelLeft className="scale-75" />
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className="sm:max-w-xs">
+            <SheetContent
+              side="left"
+              className="bg-black text-white border-none"
+            >
+              <SheetTitle></SheetTitle>
               <nav className="grid gap-6 text-lg font-medium">
                 <Link
                   href="/explore"
