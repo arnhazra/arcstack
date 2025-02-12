@@ -14,7 +14,7 @@ export default function HeroSection() {
           {uiConstants.homeIntro1}
         </p>
         <Link
-          href="/explore"
+          href="/catalog"
           className={cn(
             buttonVariants({
               size: "lg",

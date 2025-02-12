@@ -22,7 +22,7 @@ export default function NotFound() {
         </CardHeader>
         <CardFooter>
           <Link
-            href="/explore"
+            href="/catalog"
             className={`w-full ${cn(buttonVariants({ variant: "default" }))}`}
           >
             Go Back

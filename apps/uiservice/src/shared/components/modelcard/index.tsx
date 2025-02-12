@@ -5,23 +5,17 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card"
 import { DerivedModel } from "@/shared/types"
-import { Brain, Eye, Heart } from "lucide-react"
+import { Brain, Heart } from "lucide-react"
 import Link from "next/link"
+import { Badge } from "../ui/badge"
+import ActivityLog from "../activity"
 
 interface ModelProps {
   model: DerivedModel
 }
 
 export function ModelCard({ model }: ModelProps) {
-  const {
-    _id,
-    baseModel,
-    category,
-    displayName,
-    isFineTuned,
-    isPro,
-    promptStyle,
-  } = model
+  const { _id, baseModel, category, displayName, isFineTuned, isPro } = model
 
   return (
     <Link href={`/model/${_id}`}>
@@ -30,16 +24,18 @@ export function ModelCard({ model }: ModelProps) {
           <div className="flex items-start">
             <Brain className="w-8 h-8 text-primary mr-3 mt-1 text-lime-300" />
             <div className="flex flex-col min-w-0">
-              <CardTitle
-                className="text-lg font-bold truncate"
-                title={displayName}
-              >
-                {displayName}
-              </CardTitle>
+              <div className="flex items-center space-x-2">
+                <CardTitle
+                  className="text-lg font-bold truncate"
+                  title={displayName}
+                >
+                  {displayName}
+                </CardTitle>
+                {isPro && <Badge className="bg-lime-500">Pro</Badge>}
+              </div>
               <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-1">
                 <div className="flex items-center">
-                  <Eye className="w-3 h-3 mr-1 text-lime-300" />
-                  <span>1234</span>
+                  <ActivityLog keyword={_id} />
                 </div>
                 <div className="flex items-center">
                   <Heart className="w-3 h-3 mr-1 text-red-400" />

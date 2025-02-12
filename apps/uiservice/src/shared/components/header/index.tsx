@@ -38,7 +38,7 @@ export default function Header() {
           )}
         </nav>
         <div className="flex items-center space-x-4">
-          <Link href="/explore">
+          <Link href="/catalog">
             <Button variant="secondary" className="ms-4 rounded-full">
               {uiConstants.getStartedButton}
             </Button>

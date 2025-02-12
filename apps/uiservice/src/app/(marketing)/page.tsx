@@ -64,7 +64,7 @@ export default function Page() {
           </ul>
           <Link
             className={`${cn(buttonVariants({ variant: "secondary", className: "rounded-full" }))} mt-4`}
-            href="/explore"
+            href="/catalog"
           >
             {uiConstants.getStartedButton}
           </Link>

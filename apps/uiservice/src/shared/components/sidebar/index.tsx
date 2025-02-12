@@ -73,9 +73,9 @@ export default function Sidebar() {
     <>
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-black text-white border-zinc-900 sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
-          <Link href="/explore" className={generateLinkClassName("explore")}>
+          <Link href="/catalog" className={generateLinkClassName("catalog")}>
             <DraftingCompass className="h-4 w-4 transition-all group-hover:scale-110" />
-            <span className="sr-only">Explore</span>
+            <span className="sr-only">Catalog</span>
           </Link>
           {renderSideBarProducts}
         </nav>
@@ -107,7 +107,7 @@ export default function Sidebar() {
         </nav>
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 lg:-mb-4">
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -126,18 +126,18 @@ export default function Sidebar() {
               <SheetTitle></SheetTitle>
               <nav className="grid gap-6 text-lg font-medium">
                 <Link
-                  href="/explore"
+                  href="/catalog"
                   className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
                 >
                   <DraftingCompass className="scale-75" />
                   <span className="sr-only">{brandName}</span>
                 </Link>
                 <Link
-                  href="/explore"
+                  href="/catalog"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
                 >
                   <DraftingCompass className="scale-75" />
-                  Explore
+                  Catalog
                 </Link>
                 {renderSheetProducts}
                 <Link
@@ -162,7 +162,7 @@ export default function Sidebar() {
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
                   <Link
-                    href="/explore"
+                    href="/catalog"
                     className="text-white hover:text-zinc-300"
                   >
                     {brandName}
@@ -173,10 +173,10 @@ export default function Sidebar() {
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
                   <Link
-                    href="/explore"
+                    href="/catalog"
                     className="text-white hover:text-zinc-300"
                   >
-                    Explore
+                    Catalog
                   </Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
