@@ -24,7 +24,7 @@ export default function Page() {
     } catch (error) {
       toast({
         title: uiConstants.notification,
-        description: <p className="text-slate-600">{uiConstants.toastError}</p>,
+        description: <p className="text-zinc-600">{uiConstants.toastError}</p>,
       })
     }
   }
@@ -37,6 +37,7 @@ export default function Page() {
         content="Choose whether to save the things you do to get more relevant results"
         actionComponent={
           <Switch
+            className="bg-white"
             checked={user.activityLog}
             onCheckedChange={(value): Promise<void> =>
               saveActivityLogSettings(value)

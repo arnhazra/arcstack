@@ -8,10 +8,10 @@ import { toast } from "@/shared/components/ui/use-toast"
 import Show from "@/shared/components/show"
 import AuthProvider from "./auth"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
-import Sidebar from "../../shared/components/sidebar"
-import { Workspace, Subscription, User } from "@/shared/types"
+import { Subscription, User } from "@/shared/types"
 import Loading from "../loading"
 import { useQuery } from "@tanstack/react-query"
+import Sidebar from "@/shared/components/sidebar"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const [{ refreshId }, dispatch] = useContext(GlobalContext)
@@ -25,19 +25,12 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       try {
         const response: {
           user: User
-          workspace: Workspace
           subscription: Subscription | null
         } = await ky
           .get(endPoints.userDetails, { timeout: FETCH_TIMEOUT })
           .json()
-        const workspaces: Workspace[] = await ky
-          .get(endPoints.workspace, { timeout: FETCH_TIMEOUT })
-          .json()
-        localStorage.setItem("accessKey", response.workspace.accessKey)
         dispatch("setUser", response.user)
-        dispatch("setSelectedWorkspace", response.workspace)
         dispatch("setSubscription", response.subscription)
-        dispatch("setWorkspaces", workspaces)
         setAuthorized(true)
       } catch (error: any) {
         if (error.response) {
@@ -47,7 +40,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
             toast({
               title: uiConstants.notification,
               description: (
-                <p className="text-slate-600">
+                <p className="text-zinc-600">
                   {uiConstants.connectionErrorMessage}
                 </p>
               ),
@@ -57,7 +50,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           toast({
             title: uiConstants.notification,
             description: (
-              <p className="text-slate-600">
+              <p className="text-zinc-600">
                 {uiConstants.connectionErrorMessage}
               </p>
             ),
@@ -78,14 +71,14 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   })
 
   const appLayout = (
-    <>
+    <div className="min-h-screen w-full">
       <Sidebar />
       <div className="flex min-h-screen w-full flex-col">
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
           <div className="p-4 sm:px-6 sm:py-0">{children}</div>
         </div>
       </div>
-    </>
+    </div>
   )
 
   return (

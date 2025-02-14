@@ -12,9 +12,9 @@ import {
 import { UserService } from "./user.service"
 import { GenerateOTPDto } from "./dto/generate-otp.dto"
 import { VerifyOTPDto } from "./dto/validate-otp.dto"
-import { statusMessages } from "src/shared/utils/constants/status-messages"
-import { TokenGuard } from "src/shared/auth/token.guard"
-import { ModRequest } from "src/shared/auth/types/mod-request.interface"
+import { statusMessages } from "@/shared/constants/status-messages"
+import { TokenGuard } from "@/shared/auth/token.guard"
+import { ModRequest } from "@/shared/auth/types/mod-request.interface"
 
 @Controller("user")
 export class UserController {
@@ -52,14 +52,12 @@ export class UserController {
   @Get("userdetails")
   async getUserDetails(@Request() request: ModRequest) {
     try {
-      const { user, workspace, subscription } =
-        await this.userService.getUserDetails(
-          request.user.userId,
-          request.user.workspaceId
-        )
+      const { user, subscription } = await this.userService.getUserDetails(
+        request.user.userId
+      )
 
       if (user) {
-        return { user, workspace, subscription }
+        return { user, subscription }
       } else {
         throw new BadRequestException(statusMessages.invalidUser)
       }

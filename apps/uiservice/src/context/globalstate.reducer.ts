@@ -1,18 +1,14 @@
-import { Workspace, Subscription, User } from "@/shared/types"
+import { Subscription, User } from "@/shared/types"
 
 export type GlobalState = {
   user: User
   subscription: Subscription | null
-  selectedWorkspace: Workspace
-  workspaces: Workspace[]
   refreshId: string
 }
 
 export type ActionsMap = {
   setUser: Partial<User>
   setSubscription: Subscription | null
-  setSelectedWorkspace: Workspace
-  setWorkspaces: Workspace[]
   setRefreshId: string
 }
 
@@ -38,18 +34,6 @@ export const GlobalReducer = (
       return {
         ...state,
         subscription: action.payload,
-      }
-
-    case "setSelectedWorkspace":
-      return {
-        ...state,
-        selectedWorkspace: action.payload,
-      }
-
-    case "setWorkspaces":
-      return {
-        ...state,
-        workspaces: action.payload,
       }
 
     case "setRefreshId":

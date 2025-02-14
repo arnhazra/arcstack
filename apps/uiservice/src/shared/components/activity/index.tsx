@@ -1,6 +1,6 @@
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
-import { Activity } from "lucide-react"
+import { Eye } from "lucide-react"
 import useFetch from "@/shared/hooks/use-fetch"
 
 export default function ActivityLog({ keyword }: { keyword: string }) {
@@ -13,11 +13,8 @@ export default function ActivityLog({ keyword }: { keyword: string }) {
 
   return (
     <div className="flex gap-4">
-      <div
-        className="flex items-center text-slate-600 text-sm"
-        title="Total App Usage"
-      >
-        <Activity className="mr-1 h-3 w-3 text-teal-600" />
+      <div className="flex items-center text-zinc-100 text-sm">
+        <Eye className="w-3 h-3 mr-1 text-lime-300" />
         {activityCount?.data?.totalUsage ?? "..."}
       </div>
     </div>

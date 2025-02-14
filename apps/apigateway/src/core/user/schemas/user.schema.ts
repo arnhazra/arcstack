@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
-import { Document, Types } from "mongoose"
+import { Document } from "mongoose"
 
 @Schema({
   versionKey: false,
@@ -17,16 +17,10 @@ export class User extends Document {
   role: string
 
   @Prop({ type: Boolean, default: true })
-  hasTrial: boolean
-
-  @Prop({ type: Boolean, default: true })
   reduceCarbonEmissions: boolean
 
   @Prop({ type: Boolean, default: true })
   activityLog: boolean
-
-  @Prop({ type: Types.ObjectId, ref: "workspace" })
-  selectedWorkspaceId: Types.ObjectId
 }
 
 export const UserSchema = SchemaFactory.createForClass(User)

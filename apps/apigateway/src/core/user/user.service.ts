@@ -9,8 +9,8 @@ import {
   generateOTPEmailBody,
   generateOTPEmailSubject,
 } from "./user.util"
-import { tokenIssuer } from "src/shared/utils/constants/other-constants"
-import { statusMessages } from "src/shared/utils/constants/status-messages"
+import { tokenIssuer } from "@/shared/constants/other-constants"
+import { statusMessages } from "@/shared/constants/status-messages"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
@@ -18,7 +18,6 @@ import { FindUserByEmailQuery } from "./queries/impl/find-user-by-email.query"
 import { User } from "./schemas/user.schema"
 import { FindUserByIdQuery } from "./queries/impl/find-user-by-id.query"
 import { CreateUserCommand } from "./commands/impl/create-user.command"
-import { Workspace } from "../workspace/schemas/workspace.schema"
 import {
   AttributeNames,
   UpdateAttributeCommand,
@@ -28,14 +27,14 @@ import { Subscription } from "../subscription/schemas/subscription.schema"
 
 @Injectable()
 export class UserService {
-  private readonly accessTokenPrivateKey: string
+  private readonly jwtSecret: string
 
   constructor(
     private readonly eventEmitter: EventEmitter2,
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus
   ) {
-    this.accessTokenPrivateKey = envConfig.accessTokenPrivateKey
+    this.jwtSecret = envConfig.jwtSecret
   }
 
   async generateOTP(generateOTPDto: GenerateOTPDto) {
@@ -74,23 +73,6 @@ export class UserService {
             { userId: user.id }
           )
 
-          if (user.selectedWorkspaceId === null) {
-            const workspace: Workspace[] = await this.eventEmitter.emitAsync(
-              EventsUnion.CreateWorkspace,
-              {
-                name: "Default Workspace",
-                userId: user.id,
-              }
-            )
-            await this.commandBus.execute<UpdateAttributeCommand, User>(
-              new UpdateAttributeCommand(
-                user.id,
-                AttributeNames.selectedWorkspaceId,
-                workspace[0].id
-              )
-            )
-          }
-
           if (refreshTokenFromRedis.toString()) {
             const refreshToken = refreshTokenFromRedis.toString()
             const tokenPayload = {
@@ -98,11 +80,10 @@ export class UserService {
               email: user.email,
               iss: tokenIssuer,
             }
-            const accessToken = jwt.sign(
-              tokenPayload,
-              this.accessTokenPrivateKey,
-              { algorithm: "RS512", expiresIn: "5m" }
-            )
+            const accessToken = jwt.sign(tokenPayload, this.jwtSecret, {
+              algorithm: "HS512",
+              expiresIn: "5m",
+            })
             return { accessToken, refreshToken, user, success: true }
           } else {
             const tokenPayload = {
@@ -110,11 +91,10 @@ export class UserService {
               email: user.email,
               iss: tokenIssuer,
             }
-            const accessToken = jwt.sign(
-              tokenPayload,
-              this.accessTokenPrivateKey,
-              { algorithm: "RS512", expiresIn: "5m" }
-            )
+            const accessToken = jwt.sign(tokenPayload, this.jwtSecret, {
+              algorithm: "HS512",
+              expiresIn: "5m",
+            })
             const refreshToken = `rt_as-${randomUUID()}`
             await this.eventEmitter.emitAsync(EventsUnion.SetToken, {
               userId: user.id,
@@ -127,30 +107,16 @@ export class UserService {
             CreateUserCommand,
             User
           >(new CreateUserCommand(email, name))
-          const workspace: Workspace[] = await this.eventEmitter.emitAsync(
-            EventsUnion.CreateWorkspace,
-            {
-              name: "Default Workspace",
-              userId: newUser.id,
-            }
-          )
-          await this.commandBus.execute<UpdateAttributeCommand, User>(
-            new UpdateAttributeCommand(
-              newUser.id,
-              AttributeNames.selectedWorkspaceId,
-              workspace[0].id
-            )
-          )
+
           const tokenPayload = {
             id: newUser.id,
             email: newUser.email,
             iss: tokenIssuer,
           }
-          const accessToken = jwt.sign(
-            tokenPayload,
-            this.accessTokenPrivateKey,
-            { algorithm: "RS512", expiresIn: "5m" }
-          )
+          const accessToken = jwt.sign(tokenPayload, this.jwtSecret, {
+            algorithm: "HS512",
+            expiresIn: "5m",
+          })
           const refreshToken = `rt_as-${randomUUID()}`
           await this.eventEmitter.emitAsync(EventsUnion.SetToken, {
             userId: newUser.id,
@@ -166,17 +132,13 @@ export class UserService {
     }
   }
 
-  async getUserDetails(userId: string, workspaceId: string) {
+  async getUserDetails(userId: string) {
     try {
       const user = await this.queryBus.execute<FindUserByIdQuery, User>(
         new FindUserByIdQuery(userId)
       )
 
       if (user) {
-        const workspaceResponse: Workspace[] =
-          await this.eventEmitter.emitAsync(EventsUnion.GetWorkspaceDetails, {
-            _id: workspaceId,
-          })
         const subscriptionRes: Subscription[] =
           await this.eventEmitter.emitAsync(
             EventsUnion.GetSubscriptionDetails,
@@ -188,11 +150,10 @@ export class UserService {
         if (!subscriptionRes || !subscriptionRes.length) {
           subscription = null
         } else {
-          subscription = subscriptionRes[0]
+          subscription = subscriptionRes.shift()
         }
 
-        const workspace = workspaceResponse[0]
-        return { user, workspace, subscription }
+        return { user, subscription }
       } else {
         throw new BadRequestException(statusMessages.invalidUser)
       }

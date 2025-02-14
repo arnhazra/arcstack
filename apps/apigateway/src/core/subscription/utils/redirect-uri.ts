@@ -4,7 +4,7 @@ import {
   devUIUri,
   prodAPIUri,
   prodUIUri,
-} from "src/shared/utils/constants/other-constants"
+} from "@/shared/constants/other-constants"
 
 export function getRediretUriUI(success: boolean) {
   if (success) {

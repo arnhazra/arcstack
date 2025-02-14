@@ -36,7 +36,7 @@ export default function Page() {
         toast({
           title: uiConstants.notification,
           description: (
-            <p className="text-slate-600">Subscription Activation Success</p>
+            <p className="text-zinc-600">Subscription Activation Success</p>
           ),
         })
         router.push("/settings/subscription")
@@ -46,7 +46,7 @@ export default function Page() {
         toast({
           title: uiConstants.notification,
           description: (
-            <p className="text-slate-600">Subscription Activation Failure</p>
+            <p className="text-zinc-600">Subscription Activation Failure</p>
           ),
         })
         router.push("/settings/subscription")
@@ -74,7 +74,7 @@ export default function Page() {
       >
         <div className="flex flex-col justify-between rounded-md p-6">
           <div className="space-y-2">
-            <h2 className="font-bold text-md capitalize text-slate-700">
+            <h2 className="font-bold text-md capitalize text-zinc-700">
               {tier.subscriptionTier}
             </h2>
             <div className="flex">
@@ -84,11 +84,11 @@ export default function Page() {
               </span>
             </div>
           </div>
-          <p className="text-slate-600 text-sm mt-4 mb-4">{tier.features[0]}</p>
+          <p className="text-zinc-600 text-sm mt-4 mb-4">{tier.features[0]}</p>
           <ul className="grid gap-3 text-sm text-muted-foreground">
             {tier.features.slice(1).map((feature) => (
               <li
-                className="flex text-xs items-center text-slate-600"
+                className="flex text-xs items-center text-zinc-600"
                 key={feature}
               >
                 <CheckCircle2 className="scale-75 me-2" />
@@ -96,7 +96,7 @@ export default function Page() {
               </li>
             ))}
             <li
-              className="flex text-xs items-center text-slate-600"
+              className="flex text-xs items-center text-zinc-600"
               key={tier.xp}
             >
               <CheckCircle2 className="scale-75 me-2" />
@@ -104,9 +104,6 @@ export default function Page() {
             </li>
           </ul>
           <Button
-            disabled={
-              tier.subscriptionTier === "trial" && user.hasTrial === false
-            }
             className="mt-4"
             onClick={() => activateSubscription(tier.subscriptionTier)}
           >
@@ -129,7 +126,7 @@ export default function Page() {
     } catch (error) {
       toast({
         title: uiConstants.notification,
-        description: <p className="text-slate-600">{uiConstants.toastError}</p>,
+        description: <p className="text-zinc-600">{uiConstants.toastError}</p>,
       })
     }
   }

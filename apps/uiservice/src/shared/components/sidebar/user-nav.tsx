@@ -27,9 +27,9 @@ export function UserNav() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant="outline"
+          variant="default"
           size="icon"
-          className="overflow-hidden rounded-full"
+          className="overflow-hidden rounded-full bg-zinc-800"
         >
           <User className="scale-75" />
         </Button>
@@ -47,11 +47,6 @@ export function UserNav() {
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={(): void => router.push("/settings/user")}>
             Settings
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={(): void => router.push("/settings/workspace")}
-          >
-            Workspace
           </DropdownMenuItem>
           <DropdownMenuItem onClick={(): void => router.push("/")}>
             Home Page

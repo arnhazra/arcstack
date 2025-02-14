@@ -1,18 +1,26 @@
-export type Product = {
+export type BaseModel = {
   _id: string
-  productName: string
+  genericName: string
   displayName: string
-  description: string
-  productStatus: string
-  productCategory: string
-  productIcon: string
+  series: string
+  vendor: string
+  defaultTemperature: number
+  defaultTopP: number
+  architecture: string
+  contextWindow: string
+  parameters: string
 }
 
-export type Solution = {
+export type DerivedModel = {
   _id: string
-  solutionName: string
+  displayName: string
   description: string
-  solutionIcon: string
+  category: string
+  baseModel: BaseModel
+  isFineTuned: boolean
+  promptStyle: string
+  isPro: boolean
+  responseFormat: string
 }
 
 export type User = {
@@ -20,11 +28,9 @@ export type User = {
   email: string
   name: string
   role: string
-  hasTrial: boolean
   reduceCarbonEmissions: boolean
   activityLog: boolean
   createdAt: string
-  selectedWorkspaceId: string
 }
 
 export type Subscription = {
@@ -38,9 +44,8 @@ export type Subscription = {
   endsAt: string
 }
 
-export type Workspace = {
+export type AccessKey = {
   _id: string
-  name: string
   userId: string
   accessKey: string
   createdAt: string

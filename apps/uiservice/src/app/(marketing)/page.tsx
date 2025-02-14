@@ -5,26 +5,22 @@ import HeroSection from "./(components)/hero-section"
 import OpenSourceSection from "./(components)/opensource-section"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
-import { Product, Solution, Subscription } from "@/shared/types"
+import { BaseModel, Subscription } from "@/shared/types"
 import { brandName, uiConstants } from "@/shared/constants/global-constants"
-import { CheckCircle2 } from "lucide-react"
+import { CheckCircle2, Dot } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
 import { buttonVariants } from "@/shared/components/ui/button"
 import Show from "@/shared/components/show"
 import Loading from "../loading"
 import useFetch from "@/shared/hooks/use-fetch"
+import { AIBaseModelCard } from "./(components)/basemodel-card"
+import SafetySection from "./(components)/safety-section"
 
 export default function Page() {
-  const solutions = useFetch({
-    queryKey: ["solutions"],
-    queryUrl: endPoints.getSolutionConfig,
-    method: HTTPMethods.GET,
-  })
-
-  const products = useFetch({
-    queryKey: ["products-marketing"],
-    queryUrl: endPoints.getProductConfig,
+  const models = useFetch({
+    queryKey: ["display-models"],
+    queryUrl: endPoints.getDisplayModels,
     method: HTTPMethods.GET,
   })
 
@@ -34,59 +30,22 @@ export default function Page() {
     method: HTTPMethods.GET,
   })
 
-  const renderProducts = products?.data?.map((product: Product) => {
-    return (
-      <div
-        className="relative overflow-hidden rounded-lg border bg-white p-2"
-        key={product?._id}
-      >
-        <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-          <div
-            dangerouslySetInnerHTML={{ __html: product?.productIcon }}
-            style={{ zoom: "150%" }}
-          ></div>
-          <div className="space-y-2">
-            <h3 className="font-bold">
-              {brandName} {product?.displayName}
-            </h3>
-            <p className="text-sm text-slate-600">{product?.description}</p>
-          </div>
-        </div>
-      </div>
-    )
-  })
-
-  const renderSolutions = solutions?.data?.map((solution: Solution) => {
-    return (
-      <div
-        className="relative overflow-hidden rounded-lg border bg-white p-2"
-        key={solution?._id}
-      >
-        <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-          <div
-            dangerouslySetInnerHTML={{ __html: solution?.solutionIcon }}
-            style={{ zoom: "150%" }}
-          ></div>
-          <div className="space-y-2">
-            <h3 className="font-bold">{solution?.solutionName}</h3>
-            <p className="text-sm text-slate-600">{solution?.description}</p>
-          </div>
-        </div>
-      </div>
-    )
-  })
+  const renderBaseModels = models?.data?.map((model: BaseModel) => (
+    <AIBaseModelCard key={model._id} model={model} />
+  ))
 
   const renderPricingTiers = pricing?.data?.map((tier: Subscription) => {
     return (
       <div
-        className="relative overflow-hidden rounded-lg border bg-white"
+        className="relative overflow-hidden rounded-lg border bg-zinc-900 border-zinc-800"
         key={tier.subscriptionTier}
       >
         <div className="flex flex-col justify-between rounded-md p-6">
           <div className="space-y-2">
-            <h2 className="font-bold text-md capitalize text-slate-700">
+            <h2 className="font-bold text-md capitalize">{brandName}</h2>
+            <h1 className="font-bolder text-md capitalize text-3xl text-lime-300">
               {tier.subscriptionTier}
-            </h2>
+            </h1>
             <div className="flex">
               <h2 className="font-bold text-3xl capitalize">${tier.price}</h2>
               <span className="flex flex-col justify-end text-sm mb-1">
@@ -94,30 +53,20 @@ export default function Page() {
               </span>
             </div>
           </div>
-          <p className="text-slate-600 text-sm mt-4 mb-4">{tier.features[0]}</p>
+          <p className="text-sm mt-4 mb-4">{tier.features[0]}</p>
           <ul className="grid gap-3 text-sm text-muted-foreground">
             {tier.features.slice(1).map((feature) => (
-              <li
-                className="flex text-xs items-center text-slate-600"
-                key={feature}
-              >
-                <CheckCircle2 className="scale-75 me-2" />
+              <li className="flex text-xs items-center" key={feature}>
+                <Dot className="scale-150 me-2" />
                 {feature}
               </li>
             ))}
-            <li
-              className="flex text-xs items-center text-slate-600"
-              key={tier.xp}
-            >
-              <CheckCircle2 className="scale-75 me-2" />
-              {tier.xp} XP for a month
-            </li>
           </ul>
           <Link
-            className={`${cn(buttonVariants({ variant: "default" }))} mt-4`}
-            href="/dashboard"
+            className={`${cn(buttonVariants({ variant: "secondary", className: "rounded-full" }))} mt-4`}
+            href="/catalog"
           >
-            Get Started
+            {uiConstants.getStartedButton}
           </Link>
         </div>
       </div>
@@ -126,57 +75,53 @@ export default function Page() {
 
   return (
     <Show
-      condition={
-        !products.isLoading && !solutions.isLoading && !pricing.isLoading
-      }
+      condition={!models.isLoading && !pricing.isLoading}
       fallback={<Loading />}
     >
-      <Header />
-      <div className="min-h-screen w-full bg-white">
+      <div className="min-h-screen w-full bg-black text-white">
+        <Header />
         <HeroSection />
         <section
-          id="solutions"
-          className="mt-8 container space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24 lg:rounded-lg"
+          id="models"
+          className="mt-8 container space-y-6 py-8 md:py-12 lg:py-24 lg:rounded-lg text-zinc-300"
         >
           <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
             <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
-              Solutions
+              Generic Models
             </h2>
-            <p className="max-w-[85%] leading-normal text-slate-600 sm:text-lg sm:leading-7">
-              {uiConstants.solutionHeader}
+            <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7">
+              {uiConstants.modelsHeader}
             </p>
           </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-2 lg:grid-cols-2">
-            {renderSolutions}
+          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:max-w-[35rem] md:grid-cols-2 lg:max-w-[50rem] lg:grid-cols-3 xl:max-w-[68rem] xl:grid-cols-4">
+            {renderBaseModels}
           </div>
         </section>
         <OpenSourceSection />
         <section
-          id="products"
-          className="container space-y-6 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24 lg:rounded-lg"
+          id="safety"
+          className="mt-8 container space-y-6 py-8 md:py-12 lg:py-24 lg:rounded-lg"
         >
           <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
             <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
-              Products
+              Safety at every step
             </h2>
-            <p className="max-w-[85%] leading-normal text-slate-600 sm:text-lg sm:leading-7">
-              {uiConstants.productsHeader}
+            <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7">
+              {uiConstants.safetyHeader}
             </p>
           </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-2 lg:grid-cols-2">
-            {renderProducts}
-          </div>
+          <SafetySection />
         </section>
-        <section id="pricing" className="container py-8 md:py-12 lg:py-24">
+        <section id="plans" className="container py-8 md:py-12 lg:py-24">
           <div className="mx-auto flex max-w-[70rem] flex-col items-center justify-center gap-4 text-center mb-8">
             <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
               Simple, transparent pricing
             </h2>
-            <p className="max-w-[85%] leading-normal text-slate-600 sm:text-lg sm:leading-7">
+            <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7">
               {uiConstants.pricingTierHeader}
             </p>
           </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[70rem] md:grid-cols-2 lg:grid-cols-4">
+          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 lg:max-w-[40rem]">
             {renderPricingTiers}
           </div>
         </section>

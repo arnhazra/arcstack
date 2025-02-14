@@ -24,7 +24,6 @@ export class UserRepository extends BaseRepository<User> {
     return await super.findOne(filter as FilterQuery<User>)
   }
 
-  @OnEvent(EventsUnion.UpdateUserDetails)
   async updateOneById<K extends keyof User>(
     userId: string,
     key: K,
