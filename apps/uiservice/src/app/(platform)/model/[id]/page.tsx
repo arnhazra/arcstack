@@ -98,11 +98,19 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex gap-4 mt-4 -mb-4">
-                <Button className="bg-zinc-800 hover:bg-zinc-800">
+                <Button
+                  className="bg-zinc-800 hover:bg-zinc-800"
+                  onClick={(): void =>
+                    router.push(`/model/${modelId}/playground`)
+                  }
+                >
                   <MessageCircleIcon className="me-2 scale-75" />
                   Open Playground
                 </Button>
-                <Button className="bg-zinc-800 hover:bg-zinc-800">
+                <Button
+                  className="bg-zinc-800 hover:bg-zinc-800"
+                  onClick={(): void => router.push(`/model/${modelId}/chat`)}
+                >
                   <MessageCircleIcon className="me-2 scale-75" />
                   Chat with this model
                 </Button>
