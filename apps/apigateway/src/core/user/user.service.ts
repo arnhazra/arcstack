@@ -27,14 +27,14 @@ import { Subscription } from "../subscription/schemas/subscription.schema"
 
 @Injectable()
 export class UserService {
-  private readonly accessTokenPrivateKey: string
+  private readonly jwtSecret: string
 
   constructor(
     private readonly eventEmitter: EventEmitter2,
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus
   ) {
-    this.accessTokenPrivateKey = envConfig.accessTokenPrivateKey
+    this.jwtSecret = envConfig.jwtSecret
   }
 
   async generateOTP(generateOTPDto: GenerateOTPDto) {
@@ -80,11 +80,10 @@ export class UserService {
               email: user.email,
               iss: tokenIssuer,
             }
-            const accessToken = jwt.sign(
-              tokenPayload,
-              this.accessTokenPrivateKey,
-              { algorithm: "RS512", expiresIn: "5m" }
-            )
+            const accessToken = jwt.sign(tokenPayload, this.jwtSecret, {
+              algorithm: "HS512",
+              expiresIn: "5m",
+            })
             return { accessToken, refreshToken, user, success: true }
           } else {
             const tokenPayload = {
@@ -92,11 +91,10 @@ export class UserService {
               email: user.email,
               iss: tokenIssuer,
             }
-            const accessToken = jwt.sign(
-              tokenPayload,
-              this.accessTokenPrivateKey,
-              { algorithm: "RS512", expiresIn: "5m" }
-            )
+            const accessToken = jwt.sign(tokenPayload, this.jwtSecret, {
+              algorithm: "HS512",
+              expiresIn: "5m",
+            })
             const refreshToken = `rt_as-${randomUUID()}`
             await this.eventEmitter.emitAsync(EventsUnion.SetToken, {
               userId: user.id,
@@ -115,11 +113,10 @@ export class UserService {
             email: newUser.email,
             iss: tokenIssuer,
           }
-          const accessToken = jwt.sign(
-            tokenPayload,
-            this.accessTokenPrivateKey,
-            { algorithm: "RS512", expiresIn: "5m" }
-          )
+          const accessToken = jwt.sign(tokenPayload, this.jwtSecret, {
+            algorithm: "HS512",
+            expiresIn: "5m",
+          })
           const refreshToken = `rt_as-${randomUUID()}`
           await this.eventEmitter.emitAsync(EventsUnion.SetToken, {
             userId: newUser.id,

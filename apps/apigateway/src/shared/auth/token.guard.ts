@@ -5,14 +5,14 @@ import {
   UnauthorizedException,
 } from "@nestjs/common"
 import * as jwt from "jsonwebtoken"
-import { statusMessages } from "@/shared/constants/status-messages"
+import { statusMessages } from "../constants/status-messages"
 import { envConfig } from "src/config"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "../utils/events.union"
 import { ModRequest } from "./types/mod-request.interface"
 import { User } from "@/core/user/schemas/user.schema"
 import { Response } from "express"
-import { tokenIssuer } from "@/shared/constants/other-constants"
+import { tokenIssuer } from "../constants/other-constants"
 
 @Injectable()
 export class TokenGuard implements CanActivate {
@@ -30,8 +30,8 @@ export class TokenGuard implements CanActivate {
       } else {
         const decodedAccessToken = jwt.verify(
           accessToken,
-          envConfig.accessTokenPublicKey,
-          { algorithms: ["RS512"] }
+          envConfig.jwtSecret,
+          { algorithms: ["HS512"] }
         )
         const userId = (decodedAccessToken as any).id
         const userResponse: User[] = await this.eventEmitter.emitAsync(
@@ -92,11 +92,10 @@ export class TokenGuard implements CanActivate {
             email,
             iss: tokenIssuer,
           }
-          const newAccessToken = jwt.sign(
-            tokenPayload,
-            envConfig.accessTokenPrivateKey,
-            { algorithm: "RS512", expiresIn: "5m" }
-          )
+          const newAccessToken = jwt.sign(tokenPayload, envConfig.jwtSecret, {
+            algorithm: "HS512",
+            expiresIn: "5m",
+          })
           globalResponse.setHeader("token", newAccessToken)
           return true
         }

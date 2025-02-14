@@ -16,6 +16,5 @@ export const envConfig = {
   gcloudClientSecret: process.env.GCLOUD_CLIENT_SECRET,
   refreshToken: process.env.GCLOUD_REFRESH_TOKEN,
   mailerEmail: process.env.MAILER_EMAIL,
-  accessTokenPrivateKey: process.env.ACCESS_TOKEN_RSA_PRIVATE_KEY,
-  accessTokenPublicKey: process.env.ACCESS_TOKEN_RSA_PUBLIC_KEY,
+  jwtSecret: process.env.JWT_SECRET,
 }
