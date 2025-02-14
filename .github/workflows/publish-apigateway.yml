@@ -24,7 +24,7 @@ jobs:
 
       - name: Configure packages
         working-directory: apps/apigateway
-        run: sed -i '/"devDependencies":/,/}/d' package.json
+        run: jq 'del(.devDependencies)' package.json > temp.json && mv temp.json package.json
 
       - name: Pull Vercel Environment Information
         working-directory: apps/apigateway

@@ -1,6 +1,5 @@
 # Dependencies
 
-- @google/generative-ai: Gen AI library for generating artificial intelligence content from Google.
 - @nestjs: Fast backend framework for Node.js to build APIs, providing a robust structure for web applications.
 - ky: Promise-based fetch client for the browser and Node.js, simplifying asynchronous fetch requests.
 - @mswjs/interceptors: Global interceptors to intercept fetch request & response.

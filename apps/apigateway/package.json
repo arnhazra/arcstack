@@ -26,7 +26,6 @@
     "googleapis": "^144.0.0",
     "ioredis": "^5.4.2",
     "jsonwebtoken": "^9.0.2",
-    "llamaindex": "^0.8.31",
     "mongoose": "^8.9.5",
     "nodemailer": "^6.10.0",
     "reflect-metadata": "^0.2.2",
