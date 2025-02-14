@@ -24,7 +24,6 @@ import useFetch from "@/shared/hooks/use-fetch"
 import { DerivedModel } from "@/shared/types"
 import { UseQueryResult } from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
-import MarkDown from "react-markdown"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
