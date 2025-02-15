@@ -1,29 +1,20 @@
 "use client"
-import { CornerDownLeft } from "lucide-react"
-import { Button } from "@/shared/components/ui/button"
-import { Input } from "@/shared/components/ui/input"
-import { Label } from "@/shared/components/ui/label"
-import { Textarea } from "@/shared/components/ui/textarea"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/shared/components/ui/card"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { use, useEffect, useState } from "react"
-import ky from "ky"
-import { toast } from "@/shared/components/ui/use-toast"
-import { uiConstants } from "@/shared/constants/global-constants"
-import Show from "@/shared/components/show"
-import LoaderIcon from "@/shared/components/loaderIcon"
-import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import HTTPMethods from "@/shared/constants/http-methods"
 import useFetch from "@/shared/hooks/use-fetch"
+import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import { DerivedModel } from "@/shared/types"
 import { UseQueryResult } from "@tanstack/react-query"
-import { useRouter, useSearchParams } from "next/navigation"
+import ky from "ky"
+import { useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
+import React, { useState, useEffect, useRef, use } from "react"
+
+interface Message {
+  id: number
+  text: string
+  sender: "user" | "bot"
+}
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
@@ -35,162 +26,92 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     queryUrl: `${endPoints.getDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
-  const [requestBody, setRequestBody] = useState({
-    modelId: modelId,
-    prompt: "",
-    temperature: 0.5,
-    topP: 0.9,
-    threadId: threadId ?? undefined,
-  })
-  const [response, setReseponse] = useState<any>({})
-  const [isLoading, setLoading] = useState(false)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [inputText, setInputText] = useState("")
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setRequestBody({
-      ...requestBody,
-      temperature: model.data?.baseModel.defaultTemperature ?? 0.5,
-      topP: model.data?.baseModel.defaultTopP ?? 0.9,
-    })
-  }, [model.data])
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
 
-  useEffect(() => {
-    setRequestBody({
-      ...requestBody,
-      threadId: threadId ?? undefined,
-    })
-  }, [threadId])
-
-  const hitAPI = async (e: any) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (inputText.trim() === "") return
 
-    try {
-      setReseponse({})
-      setLoading(true)
-      const res = await ky
-        .post(`${endPoints.intelligenceChat}`, {
-          json: requestBody,
-          timeout: FETCH_TIMEOUT,
-        })
-        .json()
-      setReseponse(res)
-      if (!threadId) {
-        router.push(`?threadId=${(res as any).threadId}`)
-      }
-    } catch (error: any) {
-      setReseponse({})
-      toast({
-        title: uiConstants.notification,
-        description: (
-          <p className="text-zinc-600">{uiConstants.connectionErrorMessage}</p>
-        ),
-      })
-    } finally {
-      setLoading(false)
+    const newMessage: Message = {
+      id: Date.now(),
+      text: inputText,
+      sender: "user",
     }
+
+    setMessages([...messages, newMessage])
+
+    const res: any = await ky
+      .post(`${endPoints.intelligenceChat}`, {
+        json: {
+          modelId: modelId,
+          prompt: inputText,
+          temperature: model.data?.baseModel.defaultTemperature,
+          topP: model.data?.baseModel.defaultTopP,
+          threadId: threadId ?? undefined,
+        },
+        timeout: FETCH_TIMEOUT,
+      })
+      .json()
+    if (!threadId) {
+      router.push(`?threadId=${(res as any).threadId}`)
+    }
+
+    setInputText("")
+    const botResponse: Message = {
+      id: Date.now(),
+      text: res?.response,
+      sender: "bot",
+    }
+    setMessages((prevMessages) => [...prevMessages, botResponse])
   }
 
   return (
-    <>
-      <Card className="xl:col-span-2 bg-zinc-900 border-zinc-800 text-white">
-        <CardHeader className="px-7">
-          <CardTitle>Playground</CardTitle>
-          <CardDescription className="text-zinc-200">
-            Your Intelligence Playground
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-2 lg:grid-cols-3">
-            <div className="relative flex-col items-start gap-8 md:flex">
-              <div className="grid w-full items-start gap-6">
-                <fieldset className="grid gap-6 rounded-lg border border-zinc-800 p-4">
-                  <legend className="px-1 text-sm font-medium">Settings</legend>
-                  <div className="grid gap-3">
-                    <Label htmlFor="model">Model</Label>
-                    <Input
-                      className="bg-zinc-800 text-white border-zinc-700"
-                      disabled
-                      defaultValue={model.data?.displayName}
-                    />
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="temperature">Temperature</Label>
-                    <Input
-                      className="bg-zinc-800 text-white border-zinc-700"
-                      id="temperature"
-                      type="number"
-                      defaultValue={requestBody.temperature}
-                      onChange={(e): void =>
-                        setRequestBody({
-                          ...requestBody,
-                          temperature: Number(e.target.value),
-                        })
-                      }
-                    />
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="top-p">Top P</Label>
-                    <Input
-                      className="bg-zinc-800 text-white border-zinc-700"
-                      id="top-p"
-                      type="number"
-                      defaultValue={requestBody.topP}
-                      onChange={(e): void =>
-                        setRequestBody({
-                          ...requestBody,
-                          topP: Number(e.target.value),
-                        })
-                      }
-                    />
-                  </div>
-                </fieldset>
-              </div>
-            </div>
-            <div className="relative flex h-full flex-col rounded-xl bg-muted/50 pt-4 lg:col-span-2">
-              <form onSubmit={hitAPI}>
-                <div className="relative overflow-hidden rounded-lg border border-zinc-700 bg-background focus-within:ring-1 focus-within:ring-ring -mt-2">
-                  <Label htmlFor="message" className="sr-only">
-                    Message
-                  </Label>
-                  <Textarea
-                    id="message"
-                    required
-                    placeholder="Type your message here..."
-                    className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0 bg-zinc-800 text-white border-zinc-700"
-                    onChange={(e): void =>
-                      setRequestBody({ ...requestBody, prompt: e.target.value })
-                    }
-                  />
-                  <div className="flex items-center p-3 pt-0">
-                    <Button
-                      size="sm"
-                      className="ml-auto gap-1.5 mt-4"
-                      type="submit"
-                      disabled={isLoading}
-                    >
-                      <Show
-                        condition={!isLoading}
-                        fallback={
-                          <>
-                            <LoaderIcon />
-                            Loading
-                          </>
-                        }
-                      >
-                        Send Message
-                        <CornerDownLeft className="scale-75" />
-                      </Show>
-                    </Button>
-                  </div>
-                </div>
-              </form>
-              <p className="text-xs text-zinc-200 mt-2 mb-2">
-                {uiConstants.aiSafetyStatement}
-              </p>
-              <div className="mt-4 ms-2">{response?.response ?? ""}</div>
+    <div className="relative flex flex-col h-screen mx-auto bg-zinc-900 text-gray-100 rounded-lg">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-24">
+        {messages.map((message) => (
+          <div
+            key={message.id}
+            className={`flex ${
+              message.sender === "user" ? "justify-end" : "justify-start"
+            }`}
+          >
+            <div
+              className={`max-w-xs p-3 rounded-lg ${
+                message.sender === "user"
+                  ? "bg-lime-400 text-white"
+                  : "bg-zinc-700 text-gray-100"
+              }`}
+            >
+              {message.text}
             </div>
           </div>
-        </CardContent>
-      </Card>
-    </>
+        ))}
+        <div ref={messagesEndRef} />
+      </div>
+      <form
+        onSubmit={handleSendMessage}
+        className="fixed bottom-4 left-1/2 transform -translate-x-1/2 w-[90%] max-w-md p-4 border-none rounded-lg flex space-x-2 shadow-lg"
+      >
+        <input
+          type="text"
+          value={inputText}
+          onChange={(e) => setInputText(e.target.value)}
+          className="flex-1 px-3 py-2 bg-zinc-800 text-gray-100 border border-zinc-700 rounded-lg focus:outline-none"
+          placeholder="Type a message..."
+        />
+        <button
+          type="submit"
+          className="px-4 py-2 bg-lime-500 text-white rounded-lg hover:bg-lime-700 focus:outline-none"
+        >
+          Send
+        </button>
+      </form>
+    </div>
   )
 }
