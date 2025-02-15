@@ -75,18 +75,6 @@ export default function Sidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="/apireference/webanalytics"
-                className={generateLinkClassName("apireference")}
-              >
-                <Book className="scale-75" />
-                <span className="sr-only">API Reference</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">API Reference</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
                 href="/settings/user"
                 className={generateLinkClassName("settings")}
               >
@@ -132,13 +120,6 @@ export default function Sidebar() {
                   Catalog
                 </Link>
                 {renderSheetProducts}
-                <Link
-                  href="/apireference/webanalytics"
-                  className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-                >
-                  <Book className="scale-75" />
-                  API Reference
-                </Link>
                 <Link
                   href="/settings/user"
                   className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"

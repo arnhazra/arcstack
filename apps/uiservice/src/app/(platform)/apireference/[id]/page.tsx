@@ -11,9 +11,9 @@ import { use } from "react"
 import Show from "@/shared/components/show"
 import Loading from "@/app/loading"
 
-export default function Page({ params }: { params: Promise<{ tab: string }> }) {
+export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
-  const { tab } = use(params)
+  const { id } = use(params)
 
-  return <></>
+  return <>{id}</>
 }

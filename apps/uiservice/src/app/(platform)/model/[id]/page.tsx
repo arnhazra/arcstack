@@ -201,9 +201,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <Button
                 variant="default"
                 className="w-full bg-zinc-800 hover:bg-zinc-800"
-                onClick={(): void =>
-                  router.push("/apireference/datamarketplace")
-                }
+                onClick={(): void => router.push(`/apireference/${modelId}`)}
               >
                 Data API Reference
                 <BookMarked className="scale-75" />
