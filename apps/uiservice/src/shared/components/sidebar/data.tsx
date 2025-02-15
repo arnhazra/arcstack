@@ -34,35 +34,3 @@ export const sidebarLinks: LinkData[] = [
     icon: <Newspaper className="scale-75" />,
   },
 ]
-
-export const getBreadcrumbTitle = (uri: string) => {
-  if (uri.includes("apireference")) {
-    return "API Reference"
-  }
-
-  if (uri.includes("settings")) {
-    return "Settings"
-  }
-
-  if (uri.includes("favourites")) {
-    return "Favourites"
-  }
-
-  if (uri.includes("history")) {
-    return "History"
-  }
-
-  if (uri.includes("mybuilds")) {
-    return "My Builds"
-  }
-
-  if (uri.includes("build")) {
-    return "Build"
-  }
-
-  if (uri.includes("newsroom")) {
-    return "NewsRoom"
-  }
-
-  return ""
-}

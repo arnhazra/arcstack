@@ -13,19 +13,11 @@ import {
   SheetTrigger,
 } from "@/shared/components/ui/sheet"
 import { Button } from "@/shared/components/ui/button"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from "@/shared/components/ui/breadcrumb"
 import { UserNav } from "./user-nav"
 import { Search } from "./search"
 import { brandName } from "@/shared/constants/global-constants"
 import { usePathname } from "next/navigation"
-import { getBreadcrumbTitle, sidebarLinks } from "./data"
-import Show from "@/shared/components/show"
+import { sidebarLinks } from "./data"
 
 export default function Sidebar() {
   const pathName = usePathname()
@@ -157,44 +149,9 @@ export default function Sidebar() {
               </nav>
             </SheetContent>
           </Sheet>
-          <Breadcrumb className="hidden md:flex text-white">
-            <BreadcrumbList className="text-white">
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link
-                    href="/catalog"
-                    className="text-white hover:text-zinc-300"
-                  >
-                    {brandName}
-                  </Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="text-zinc-500" />
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link
-                    href="/catalog"
-                    className="text-white hover:text-zinc-300"
-                  >
-                    Catalog
-                  </Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <Show condition={!!getBreadcrumbTitle(pathName)}>
-                <BreadcrumbSeparator className="text-zinc-500" />
-                <BreadcrumbItem>
-                  <BreadcrumbLink asChild>
-                    <Link
-                      href={pathName}
-                      className="text-white hover:text-zinc-300"
-                    >
-                      {getBreadcrumbTitle(pathName)}
-                    </Link>
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-              </Show>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <Link href="/catalog" className="hidden md:flex text-white">
+            {brandName}
+          </Link>
           <div className="relative ml-auto flex-1 md:grow-0">
             <Search />
           </div>
