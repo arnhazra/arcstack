@@ -6,7 +6,7 @@ import { Model } from "mongoose"
 import { BaseRepository } from "src/shared/database/database.repository"
 
 @Injectable()
-export class IntelligenceRepository extends BaseRepository<Thread> {
+export class ChatRepository extends BaseRepository<Thread> {
   constructor(
     @InjectModel(Thread.name, DbConnectionMap.Platform)
     private threadModel: Model<Thread>

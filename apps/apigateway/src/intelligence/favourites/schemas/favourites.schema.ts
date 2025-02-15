@@ -1,5 +1,5 @@
 import { User } from "@/core/user/schemas/user.schema"
-import { DerivedModel } from "@/platform/derivedmodel/schemas/derivedmodel.schema"
+import { DerivedModel } from "@/intelligence/derivedmodel/schemas/derivedmodel.schema"
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Document, Types } from "mongoose"
 

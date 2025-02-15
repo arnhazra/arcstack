@@ -14,7 +14,7 @@ import GroqStrategy from "./strategies/groq.strategy"
 import OpenAIStrategy from "./strategies/openai.strategy"
 
 @Injectable()
-export class IntelligenceService {
+export class ChatService {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,

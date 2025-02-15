@@ -3,14 +3,14 @@ import { CoreModule } from "./core/core.module"
 import { EventEmitterModule } from "@nestjs/event-emitter"
 import { DatabaseModule } from "./shared/database/database.module"
 import { AppController } from "./app.controller"
-import { PlatformModule } from "./platform/platform.module"
+import { IntelligenceModule } from "./intelligence/intelligence.module"
 
 @Module({
   imports: [
     EventEmitterModule.forRoot(),
     CoreModule,
     DatabaseModule,
-    PlatformModule,
+    IntelligenceModule,
   ],
   controllers: [AppController],
   providers: [],
