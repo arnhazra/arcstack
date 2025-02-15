@@ -104,10 +104,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <Button
                   size="sm"
                   className="bg-lime-500 hover:bg-lime-500"
-                  onClick={(): void => router.push(`/model/${modelId}/chat`)}
+                  onClick={(): void =>
+                    router.push(`/model/${modelId}/playground`)
+                  }
                 >
                   <MessageCircleIcon className="me-2 scale-75" />
-                  Chat with this model
+                  Open Playground
                 </Button>
               </CardContent>
             </Card>
@@ -126,18 +128,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <CardDescription className="text-white">
                 {model?.data?.category}
               </CardDescription>
-            </div>
-            <div className="ml-auto flex items-center gap-1">
-              <Button
-                size="sm"
-                className="bg-lime-500 hover:bg-lime-500"
-                onClick={(): void =>
-                  router.push(`/model/${modelId}/playground`)
-                }
-              >
-                <MessageCircleIcon className="me-2 scale-75" />
-                Open Playground
-              </Button>
             </div>
           </CardHeader>
           <CardContent className="p-6 text-sm">

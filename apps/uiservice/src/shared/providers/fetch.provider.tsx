@@ -26,8 +26,8 @@ interceptor.on("response", ({ response }) => {
   }
 
   if (response.status === 401) {
-    // localStorage.clear()
-    // window.location.replace("/")
+    localStorage.clear()
+    window.location.replace("/")
   }
 })
 
