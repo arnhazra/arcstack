@@ -78,13 +78,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   })
 
   return (
-    <Show condition={!model.isLoading} fallback={<Loading />}>
+    <Show
+      condition={!model.isLoading && !relatedModels.isLoading}
+      fallback={<Loading />}
+    >
       <div className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
         <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
             <Card className="sm:col-span-4 pb-4 text-white bg-zinc-900 border-zinc-800">
               <CardHeader className="pb-3">
-                <CardTitle className="flex justify-between">
+                <CardTitle className="flex flex-wrap justify-between">
                   {model?.data?.displayName}
                   <div className="flex gap-4">
                     <ActivityLog keyword={modelId} />
@@ -93,22 +96,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     </Show>
                   </div>
                 </CardTitle>
-                <CardDescription className="justify-normal text-zinc-200">
+                <CardDescription className="w-full text-zinc-200">
                   {model?.data?.description}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex gap-4 mt-4 -mb-4">
                 <Button
-                  className="bg-zinc-800 hover:bg-zinc-800"
-                  onClick={(): void =>
-                    router.push(`/model/${modelId}/playground`)
-                  }
-                >
-                  <MessageCircleIcon className="me-2 scale-75" />
-                  Open Playground
-                </Button>
-                <Button
-                  className="bg-zinc-800 hover:bg-zinc-800"
+                  size="sm"
+                  className="bg-lime-500 hover:bg-lime-500"
                   onClick={(): void => router.push(`/model/${modelId}/chat`)}
                 >
                   <MessageCircleIcon className="me-2 scale-75" />
@@ -135,14 +130,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <div className="ml-auto flex items-center gap-1">
               <Button
                 size="sm"
-                variant="default"
-                className="h-8 gap-1 bg-zinc-800 hover:bg-zinc-800"
-                onClick={copyModelId}
+                className="bg-lime-500 hover:bg-lime-500"
+                onClick={(): void =>
+                  router.push(`/model/${modelId}/playground`)
+                }
               >
-                <Copy className="h-3.5 w-3.5" />
-                <span className="lg:sr-only xl:not-sr-only xl:whitespace-nowrap">
-                  Copy Model Id
-                </span>
+                <MessageCircleIcon className="me-2 scale-75" />
+                Open Playground
               </Button>
             </div>
           </CardHeader>
