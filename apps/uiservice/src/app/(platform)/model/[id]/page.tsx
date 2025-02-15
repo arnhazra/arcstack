@@ -104,9 +104,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <Button
                   size="sm"
                   className="bg-lime-500 hover:bg-lime-500"
-                  onClick={(): void =>
-                    router.push(`/model/${modelId}/playground`)
-                  }
+                  onClick={(): void => router.push(`/playground/${modelId}`)}
                 >
                   <MessageCircleIcon className="me-2 scale-75" />
                   Open Playground

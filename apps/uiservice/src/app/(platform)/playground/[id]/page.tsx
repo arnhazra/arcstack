@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { use, useEffect, useState } from "react"
+import { use, useState } from "react"
 import ky from "ky"
 import { toast } from "@/shared/components/ui/use-toast"
 import { uiConstants } from "@/shared/constants/global-constants"
@@ -24,6 +24,7 @@ import useFetch from "@/shared/hooks/use-fetch"
 import { DerivedModel } from "@/shared/types"
 import { UseQueryResult } from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
+import Loading from "@/app/loading"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
@@ -38,27 +39,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [requestBody, setRequestBody] = useState({
     modelId: modelId,
     prompt: "",
-    temperature: 0.5,
-    topP: 0.9,
-    threadId: threadId ?? undefined,
+    temperature: model?.data?.baseModel.defaultTemperature ?? 0.7,
+    topP: model?.data?.baseModel.defaultTemperature ?? 1,
   })
   const [response, setReseponse] = useState<any>({})
   const [isLoading, setLoading] = useState(false)
-
-  useEffect(() => {
-    setRequestBody({
-      ...requestBody,
-      temperature: model.data?.baseModel.defaultTemperature ?? 0.5,
-      topP: model.data?.baseModel.defaultTopP ?? 0.9,
-    })
-  }, [model.data])
-
-  useEffect(() => {
-    setRequestBody({
-      ...requestBody,
-      threadId: threadId ?? undefined,
-    })
-  }, [threadId])
 
   const hitAPI = async (e: any) => {
     e.preventDefault()
@@ -68,7 +53,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       setLoading(true)
       const res = await ky
         .post(`${endPoints.intelligenceChat}`, {
-          json: requestBody,
+          json: { ...requestBody, threadId: threadId ?? undefined },
           timeout: FETCH_TIMEOUT,
         })
         .json()
@@ -90,12 +75,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }
 
   return (
-    <>
+    <Show condition={!model.isLoading} fallback={<Loading />}>
       <Card className="xl:col-span-2 bg-zinc-900 border-zinc-800 text-white">
         <CardHeader className="px-7">
-          <CardTitle>Playground</CardTitle>
+          <CardTitle>{model.data?.displayName}</CardTitle>
           <CardDescription className="text-zinc-200">
-            Your Intelligence Playground
+            Playground
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -105,11 +90,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <fieldset className="grid gap-6 rounded-lg border border-zinc-800 p-4">
                   <legend className="px-1 text-sm font-medium">Settings</legend>
                   <div className="grid gap-3">
-                    <Label htmlFor="model">Model</Label>
+                    <Label htmlFor="model">Base Model</Label>
                     <Input
                       className="bg-zinc-800 text-white border-zinc-700"
                       disabled
-                      defaultValue={model.data?.displayName}
+                      defaultValue={model.data?.baseModel?.displayName}
                     />
                   </div>
                   <div className="grid gap-3">
@@ -118,7 +103,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       className="bg-zinc-800 text-white border-zinc-700"
                       id="temperature"
                       type="number"
-                      defaultValue={requestBody.temperature}
+                      defaultValue={model?.data?.baseModel.defaultTemperature}
                       onChange={(e): void =>
                         setRequestBody({
                           ...requestBody,
@@ -133,7 +118,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       className="bg-zinc-800 text-white border-zinc-700"
                       id="top-p"
                       type="number"
-                      defaultValue={requestBody.topP}
+                      defaultValue={model?.data?.baseModel.defaultTopP}
                       onChange={(e): void =>
                         setRequestBody({
                           ...requestBody,
@@ -143,11 +128,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     />
                   </div>
                 </fieldset>
+                <p className="text-xs text-zinc-200 mt-2 mb-2">
+                  {uiConstants.aiSafetyStatement}
+                </p>
               </div>
             </div>
             <div className="relative flex h-full flex-col rounded-xl bg-muted/50 pt-4 lg:col-span-2">
               <form onSubmit={hitAPI}>
-                <div className="relative overflow-hidden rounded-lg border border-zinc-700 bg-background focus-within:ring-1 focus-within:ring-ring -mt-2">
+                <div className="relative overflow-hidden rounded-lg border-none bg-background -mt-2">
                   <Label htmlFor="message" className="sr-only">
                     Message
                   </Label>
@@ -155,15 +143,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     id="message"
                     required
                     placeholder="Type your message here..."
-                    className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0 bg-zinc-800 text-white border-zinc-700"
+                    className="min-h-12 resize-none border-0 p-3 shadow-none bg-zinc-800 text-white border-zinc-700"
                     onChange={(e): void =>
                       setRequestBody({ ...requestBody, prompt: e.target.value })
                     }
                   />
-                  <div className="flex items-center p-3 pt-0">
+                  <div className="flex items-center pt-0">
                     <Button
                       size="sm"
-                      className="ml-auto gap-1.5 mt-4"
+                      className="ml-auto gap-1.5 mt-4 bg-lime-500 hover:bg-lime-500"
                       type="submit"
                       disabled={isLoading}
                     >
@@ -183,14 +171,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </div>
                 </div>
               </form>
-              <p className="text-xs text-zinc-200 mt-2 mb-2">
-                {uiConstants.aiSafetyStatement}
-              </p>
               <div className="mt-4 ms-2">{response?.response ?? ""}</div>
             </div>
           </div>
         </CardContent>
       </Card>
-    </>
+    </Show>
   )
 }
