@@ -36,12 +36,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   })
 
   const relatedModels: UseQueryResult<DerivedModel[], Error> = useFetch({
-    queryKey: ["related-models", model?.data?.category ?? ""],
+    queryKey: ["related-models", model?.data?.category as any],
     queryUrl: endPoints.getDerivedModels,
     method: HTTPMethods.POST,
     requestBody: {
       searchQuery: "",
-      selectedFilter: model?.data?.category ?? "",
+      selectedFilter: model?.data?.category,
       selectedSortOption: "displayName",
       offset: 0,
     },

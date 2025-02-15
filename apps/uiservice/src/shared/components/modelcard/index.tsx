@@ -5,7 +5,7 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card"
 import { DerivedModel } from "@/shared/types"
-import { Brain, Heart } from "lucide-react"
+import { Brain, CircleFadingPlus, Heart, Variable } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "../ui/badge"
 import ActivityLog from "../activity"
@@ -31,15 +31,20 @@ export function ModelCard({ model }: ModelProps) {
                 >
                   {displayName}
                 </CardTitle>
-                {isPro && <Badge className="bg-lime-500">Pro</Badge>}
+                {isPro && (
+                  <Badge className="bg-lime-500 hover:bg-lime-500 ">Pro</Badge>
+                )}
               </div>
               <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-1">
-                <div className="flex items-center">
+                <div
+                  className="flex items-center"
+                  title="Number of Model Views"
+                >
                   <ActivityLog keyword={_id} />
                 </div>
-                <div className="flex items-center">
-                  <Heart className="w-3 h-3 mr-1 text-red-400" />
-                  <span>567</span>
+                <div className="flex items-center" title="Number of Parameters">
+                  <CircleFadingPlus className="w-3 h-3 mr-1 text-red-500" />
+                  <span>{model?.baseModel?.contextWindow}</span>
                 </div>
               </div>
             </div>

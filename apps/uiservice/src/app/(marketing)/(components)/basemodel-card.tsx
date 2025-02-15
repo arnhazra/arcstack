@@ -5,7 +5,7 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card"
 import { BaseModel } from "@/shared/types"
-import { Brain, Eye, Heart } from "lucide-react"
+import { Brain, CircleFadingPlus, Variable } from "lucide-react"
 
 interface AIBaseModelCardProps {
   model: BaseModel
@@ -29,12 +29,12 @@ export function AIBaseModelCard({ model }: AIBaseModelCardProps) {
             </CardTitle>
             <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-1">
               <div className="flex items-center">
-                <Eye className="w-3 h-3 mr-1 text-lime-500" />
-                <span>{1234}</span>
+                <CircleFadingPlus className="w-3 h-3 mr-1 text-lime-500" />
+                <span>{model.contextWindow}</span>
               </div>
               <div className="flex items-center">
-                <Heart className="w-3 h-3 mr-1 text-red-400" />
-                <span>{567}</span>
+                <Variable className="w-3 h-3 mr-1 text-red-400" />
+                <span>{model.parameters}</span>
               </div>
             </div>
           </div>
@@ -55,14 +55,16 @@ export function AIBaseModelCard({ model }: AIBaseModelCardProps) {
             <dd className="text-sm font-semibold capitalize">{model.series}</dd>
           </div>
           <div className="space-y-1">
-            <dt className="text-xs font-medium text-zinc-300">Parameters</dt>
-            <dd className="text-sm font-semibold">{model.parameters}</dd>
+            <dt className="text-xs font-medium text-zinc-300">Generic Name</dt>
+            <dd className="text-sm font-semibold">{model.genericName}</dd>
           </div>
           <div className="space-y-1">
             <dt className="text-xs font-medium text-zinc-300">
-              Context Window
+              Default Temperature
             </dt>
-            <dd className="text-sm font-semibold">{model.contextWindow}</dd>
+            <dd className="text-sm font-semibold">
+              {model.defaultTemperature}
+            </dd>
           </div>
         </dl>
       </CardContent>
