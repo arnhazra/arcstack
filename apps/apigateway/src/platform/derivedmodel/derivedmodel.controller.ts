@@ -57,7 +57,7 @@ export class DerivedModelController {
     try {
       return await this.service.findOneDerivedModel(modelId)
     } catch (error) {
-      throw new BadRequestException()
+      throw error
     }
   }
 }

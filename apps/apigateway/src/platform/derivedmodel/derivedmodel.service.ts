@@ -1,4 +1,8 @@
-import { Injectable } from "@nestjs/common"
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common"
 import { FindDerivedModelsDto } from "./dto/request/find-dervied-models.request.dto"
 import { CreateDerivedModelDto } from "./dto/request/create-derived-model.request.dto"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
@@ -50,10 +54,16 @@ export class DerivedModelService {
 
   async findOneDerivedModel(modelId: string) {
     try {
-      return await this.queryBus.execute<
+      const model = await this.queryBus.execute<
         FindOneDerivedModelQuery,
         DerivedModelResponseDto
       >(new FindOneDerivedModelQuery(modelId))
+
+      if (model) {
+        return model
+      } else {
+        throw new NotFoundException()
+      }
     } catch (error) {
       throw error
     }
