@@ -31,7 +31,7 @@ export default function Page() {
     useState<FindModelRequestState>({
       searchQuery: "",
       selectedFilter: "All",
-      selectedSortOption: "displayName",
+      selectedSortOption: "-_id",
       offset: 0,
     })
   const filtersAndSortOptions = useFetch({
@@ -160,23 +160,26 @@ export default function Page() {
           </div>
         </section>
         <Show condition={!findModelRequestState.searchQuery}>
-          <Button
-            disabled={findModelRequestState.offset === 0}
-            variant="outline"
-            onClick={prevPage}
-            size="icon"
-            className="me-2"
-          >
-            <ChevronLeft className="scale-75" />
-          </Button>
-          <Button
-            disabled={models?.data?.length !== 30}
-            variant="outline"
-            onClick={nextPage}
-            size="icon"
-          >
-            <ChevronRight className="scale-75" />
-          </Button>
+          <div className="flex gap-4">
+            <Button
+              disabled={findModelRequestState.offset === 0}
+              variant="default"
+              onClick={prevPage}
+              size="icon"
+              className="rounded-full bg-lime-500 hover:bg-lime:500"
+            >
+              <ChevronLeft className="scale-75" />
+            </Button>
+            <Button
+              disabled={models?.data?.length !== 30}
+              variant="default"
+              onClick={nextPage}
+              size="icon"
+              className="rounded-full bg-lime-500 hover:bg-lime:500"
+            >
+              <ChevronRight className="scale-75" />
+            </Button>
+          </div>
         </Show>
       </div>
     </Show>

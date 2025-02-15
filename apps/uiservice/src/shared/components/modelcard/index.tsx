@@ -22,7 +22,7 @@ export function ModelCard({ model }: ModelProps) {
       <Card className="w-full max-w-xs mx-auto h-[23rem] flex flex-col relative hover:shadow-md transition-shadow bg-zinc-900 border-zinc-800 text-white">
         <CardHeader className="pb-2">
           <div className="flex items-start">
-            <Brain className="w-8 h-8 text-primary mr-3 mt-1 text-lime-300" />
+            <Brain className="w-8 h-8 text-primary mr-3 mt-1 text-lime-400" />
             <div className="flex flex-col min-w-0">
               <div className="flex items-center space-x-2">
                 <CardTitle
