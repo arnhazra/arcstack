@@ -31,7 +31,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const model: UseQueryResult<DerivedModel, Error> = useFetch({
     queryKey: ["model", modelId ?? ""],
-    queryUrl: `${endPoints.getDerivedModel}/${modelId}`,
+    queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
 

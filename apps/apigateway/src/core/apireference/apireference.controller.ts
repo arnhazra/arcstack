@@ -13,12 +13,10 @@ export class ApiReferenceController {
   constructor(private readonly apireferenceService: ApiReferenceService) {}
 
   @UseGuards(TokenGuard)
-  @Get("/:productName")
-  async getApiReferenceByProductName(@Param() params: any) {
+  @Get()
+  async getApiReference() {
     try {
-      return await this.apireferenceService.getApiReferenceByProductName(
-        params.productName
-      )
+      return await this.apireferenceService.getApiReference()
     } catch (error) {
       throw new BadRequestException()
     }

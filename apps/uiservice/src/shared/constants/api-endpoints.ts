@@ -23,9 +23,9 @@ export const endPoints = {
   signOut: `${apiHost}/user/signout`,
   updateAttribute: `${apiHost}/user/attribute`,
   baseModel: `${apiHost}/basemodel`,
-  getDerivedModel: `${apiHost}/derivedmodel`,
+  intelligenceChat: `${apiHost}/chat`,
+  getOneDerivedModel: `${apiHost}/derivedmodel`,
   createDerivedModel: `${apiHost}/derivedmodel/create`,
   getDerivedModels: `${apiHost}/derivedmodel/listings`,
   getDerivedModelFilterAndSortOptions: `${apiHost}/derivedmodel/filters-and-sort-options`,
-  intelligenceChat: `${apiHost}/chat`,
 }

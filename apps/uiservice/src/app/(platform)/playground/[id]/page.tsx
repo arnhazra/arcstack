@@ -34,7 +34,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const threadId = searchParams.get("threadId")
   const model: UseQueryResult<DerivedModel, Error> = useFetch({
     queryKey: ["model", modelId ?? ""],
-    queryUrl: `${endPoints.getDerivedModel}/${modelId}`,
+    queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
   const [prompt, setPrompt] = useState("")

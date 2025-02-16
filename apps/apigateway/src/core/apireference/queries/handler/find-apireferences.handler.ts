@@ -9,7 +9,6 @@ export class FindAPIReferencesQueryHandler
   constructor(private readonly repository: ApiReferenceRepository) {}
 
   async execute(query: FindAPIReferencesQuery) {
-    const { productName } = query
-    return await this.repository.findAll({ productName })
+    return await this.repository.findAll({})
   }
 }

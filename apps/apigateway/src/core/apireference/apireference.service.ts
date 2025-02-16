@@ -7,12 +7,12 @@ import { ApiReference } from "./schemas/apireference.schema"
 export class ApiReferenceService {
   constructor(private readonly queryBus: QueryBus) {}
 
-  async getApiReferenceByProductName(productName: string) {
+  async getApiReference() {
     try {
       const data = await this.queryBus.execute<
         FindAPIReferencesQuery,
         ApiReference[]
-      >(new FindAPIReferencesQuery(productName))
+      >(new FindAPIReferencesQuery())
       if (!data.length) {
         throw new BadRequestException()
       }

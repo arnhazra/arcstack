@@ -44,9 +44,9 @@ export type Subscription = {
   endsAt: string
 }
 
-export type AccessKey = {
+export type APIKey = {
   _id: string
   userId: string
-  accessKey: string
+  apiKey: string
   createdAt: string
 }
