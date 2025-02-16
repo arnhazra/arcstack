@@ -41,18 +41,18 @@ export default function useConfirm() {
 
   const confirmDialog = () => (
     <AlertDialog open={show}>
-      <AlertDialogContent>
+      <AlertDialogContent className="bg-zinc-900 text-white border-zinc-800">
         <AlertDialogHeader>
           <AlertDialogTitle>{message}</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogDescription className="text-zinc-300">
             {uiConstants.confirmDescription}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button variant="outline" onClick={() => handleConfirm(false)}>
+          <Button variant="secondary" onClick={() => handleConfirm(false)}>
             Cancel
           </Button>
-          <Button variant="default" onClick={() => handleConfirm(true)}>
+          <Button variant="destructive" onClick={() => handleConfirm(true)}>
             Continue
           </Button>
         </AlertDialogFooter>

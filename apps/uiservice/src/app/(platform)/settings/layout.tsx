@@ -21,6 +21,7 @@ import { uiConstants } from "@/shared/constants/global-constants"
 import { toast } from "@/shared/components/ui/use-toast"
 import { generateRandomKey } from "@/shared/lib/random-key-gen"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
+import Show from "@/shared/components/show"
 
 const mapTabIcons: Record<Tabs, ReactElement> = {
   user: <User />,
@@ -93,7 +94,9 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
               <p className="text-sm font-semibold">{user.email}</p>
             </div>
           </div>
-          <Button onClick={createAPIKey}>Create New API Key</Button>
+          <Show condition={pathname.includes("settings/apikey")}>
+            <Button onClick={createAPIKey}>Create API Key</Button>
+          </Show>
         </div>
       </div>
       <div className="mx-auto grid w-full items-start gap-4 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]">

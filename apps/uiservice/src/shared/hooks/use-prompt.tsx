@@ -52,11 +52,11 @@ export default function usePrompt() {
 
   const promptDialog = () => (
     <AlertDialog open={show}>
-      <AlertDialogContent>
+      <AlertDialogContent className="bg-zinc-900 text-white border-zinc-800">
         <AlertDialogHeader className="mb-2">
           <AlertDialogTitle className="mb-2">{message}</AlertDialogTitle>
           <Input
-            className="prompt-input"
+            className="prompt-input bg-zinc-800 border-zinc-700"
             required
             type="text"
             placeholder={`Enter ${message}`}
@@ -65,12 +65,12 @@ export default function usePrompt() {
           />
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button variant="outline" onClick={() => handleConfirm(false)}>
+          <Button variant="secondary" onClick={() => handleConfirm(false)}>
             Cancel
           </Button>
           <Button
             type="submit"
-            variant="default"
+            variant="destructive"
             onClick={() => handleConfirm(true)}
           >
             Proceed
