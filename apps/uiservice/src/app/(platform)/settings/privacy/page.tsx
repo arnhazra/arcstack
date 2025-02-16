@@ -35,33 +35,35 @@ export default function Page() {
         icon={<PieChart className="scale-75" />}
         title="Activity Log"
         content="Choose whether to save the things you do to get more relevant results"
-        actionComponent={
+        actionComponents={[
           <Switch
             className="bg-white"
             checked={user.activityLog}
             onCheckedChange={(value): Promise<void> =>
               saveActivityLogSettings(value)
             }
-          />
-        }
+          />,
+        ]}
       />
       <SectionPanel
         icon={<Fingerprint className="scale-75" />}
         title="Access Token"
         content={localStorage.getItem("accessToken") ?? ""}
         masked
-        actionComponent={
-          <CopyToClipboard value={localStorage.getItem("accessToken") ?? ""} />
-        }
+        actionComponents={[
+          <CopyToClipboard value={localStorage.getItem("accessToken") ?? ""} />,
+        ]}
       />
       <SectionPanel
         icon={<ScanFace className="scale-75" />}
         title="Refresh Token"
         content={localStorage.getItem("refreshToken") ?? ""}
         masked
-        actionComponent={
-          <CopyToClipboard value={localStorage.getItem("refreshToken") ?? ""} />
-        }
+        actionComponents={[
+          <CopyToClipboard
+            value={localStorage.getItem("refreshToken") ?? ""}
+          />,
+        ]}
       />
     </section>
   )

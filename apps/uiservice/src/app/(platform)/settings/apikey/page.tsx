@@ -5,30 +5,40 @@ import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
 import { GlobalContext } from "@/context/globalstate.provider"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
-import { generateUUID } from "@/shared/lib/uuid-gen"
+import { generateRandomKey } from "@/shared/lib/random-key-gen"
 import { useConfirmContext } from "@/shared/providers/confirm.provider"
 import ky from "ky"
 import { useContext } from "react"
 import { APIKey } from "@/shared/types"
-import { Key } from "lucide-react"
+import { Key, Trash } from "lucide-react"
 import CopyToClipboard from "@/shared/components/copy"
+import { UseQueryResult } from "@tanstack/react-query"
+import useFetch from "@/shared/hooks/use-fetch"
+import HTTPMethods from "@/shared/constants/http-methods"
+import { Button } from "@/shared/components/ui/button"
 
 export default function Page() {
-  const [{ user }, dispatch] = useContext(GlobalContext)
+  const [{ refreshId }, dispatch] = useContext(GlobalContext)
   const { confirm } = useConfirmContext()
+
+  const apiKeys: UseQueryResult<APIKey[], Error> = useFetch({
+    queryKey: ["get-apikeys", refreshId],
+    queryUrl: endPoints.apiKey,
+    method: HTTPMethods.GET,
+  })
 
   const deleteAPIKey = async (apiKeyId: string) => {
     const response = await confirm("Are you sure to delete this API Key ?")
     if (response) {
       try {
-        await ky.delete(`${endPoints.workspace}/${workspaceId}`, {
+        await ky.delete(`${endPoints.apiKey}/${apiKeyId}`, {
           timeout: FETCH_TIMEOUT,
         })
-        dispatch("setRefreshId", generateUUID())
+        dispatch("setRefreshId", generateRandomKey())
         toast({
           title: uiConstants.notification,
           description: (
-            <p className="text-slate-600">{uiConstants.workspaceDeleted}</p>
+            <p className="text-slate-600">{uiConstants.apiKeyDeleted}</p>
           ),
         })
       } catch (error) {
@@ -42,18 +52,27 @@ export default function Page() {
     }
   }
 
-  const renderAPIKeys = apiKeys?.map((apiKey: APIKey) => {
+  const renderAPIKeys = apiKeys?.data?.map((key, index) => {
     return (
       <SectionPanel
-        key={apiKey._id}
-        title={apiKey._id}
-        icon={<Key />}
-        content={apiKey.apiKey}
+        key={key._id}
+        title={`API Key ${index + 1}`}
+        icon={<Key className="scale-75" />}
+        content={key.apiKey}
         masked={true}
-        actionComponent={<CopyToClipboard value={apiKey.apiKey} />}
+        actionComponents={[
+          <CopyToClipboard value={key.apiKey} />,
+          <Button
+            size="icon"
+            variant="destructive"
+            onClick={(): Promise<void> => deleteAPIKey(key._id)}
+          >
+            <Trash className="scale-50" />
+          </Button>,
+        ]}
       />
     )
   })
 
-  return <section className="grid gap-2">{renderWorkspaces}</section>
+  return <section className="grid gap-2">{renderAPIKeys}</section>
 }

@@ -54,8 +54,8 @@ export class APIKeyService {
         FindAPIKeyByIdQuery,
         APIKey
       >(new FindAPIKeyByIdQuery(apiKeyId))
-
-      if (userId.toString() === reqUserId) {
+      const myAPIKeys = await this.findMyAPIKeys(reqUserId)
+      if (userId.toString() === reqUserId && myAPIKeys.length > 1) {
         await this.commandBus.execute(new DeleteAPIKeyCommand(apiKeyId))
         return { success: true }
       } else {

@@ -11,6 +11,6 @@ export class DeleteAPIKeyCommandHandler
 
   async execute(command: DeleteAPIKeyCommand) {
     const { apiKeyId } = command
-    return await this.repository.delete({ id: objectId(apiKeyId) })
+    return await this.repository.delete({ _id: objectId(apiKeyId) })
   }
 }

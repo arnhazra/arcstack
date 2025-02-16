@@ -6,7 +6,7 @@ import {
   ActionsMap,
   GlobalReducer,
 } from "./globalstate.reducer"
-import { generateUUID } from "@/shared/lib/uuid-gen"
+import { generateRandomKey } from "@/shared/lib/random-key-gen"
 
 export type Dispatcher = <Type extends keyof ActionsMap>(
   type: Type,
@@ -26,7 +26,7 @@ const initialState: GlobalState = {
     role: "",
   },
   subscription: null,
-  refreshId: generateUUID(),
+  refreshId: generateRandomKey(),
 }
 
 export const GlobalContext = createContext<GlobalContextInterface>([

@@ -41,19 +41,19 @@ export default function Page() {
         title={`${brandName} ID`}
         content={user._id}
         masked
-        actionComponent={<CopyToClipboard value={user._id} />}
+        actionComponents={[<CopyToClipboard value={user._id} />]}
       />
       <SectionPanel
         icon={<AtSign className="scale-75" />}
         title="Your Email"
         content={user.email}
-        actionComponent={<CopyToClipboard value={user.email} />}
+        actionComponents={[<CopyToClipboard value={user.email} />]}
       />
       <SectionPanel
         icon={<CircleArrowRight className="scale-75" />}
         title="Sign Out"
         content="Sign out from all logged in devices"
-        actionComponent={
+        actionComponents={[
           <Button
             size="icon"
             className="rounded-full"
@@ -61,8 +61,8 @@ export default function Page() {
             onClick={(): Promise<void> => signOut("all")}
           >
             <CircleArrowRight className="scale-75" />
-          </Button>
-        }
+          </Button>,
+        ]}
       />
     </section>
   )

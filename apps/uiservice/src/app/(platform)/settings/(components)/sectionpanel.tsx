@@ -2,20 +2,21 @@
 import { ReactNode } from "react"
 import Show from "@/shared/components/show"
 import MaskText from "@/shared/components/mask"
+import { generateRandomKey } from "@/shared/lib/random-key-gen"
 
 interface SectionPanelProps {
   title: string
   icon: ReactNode
   content: string
   masked?: boolean
-  actionComponent?: ReactNode
+  actionComponents?: ReactNode[]
 }
 
 export default function SectionPanel({
   title,
   content,
   masked,
-  actionComponent,
+  actionComponents,
   icon,
 }: SectionPanelProps) {
   return (
@@ -33,7 +34,13 @@ export default function SectionPanel({
           </div>
         </div>
         <div>
-          <Show condition={!!actionComponent}>{actionComponent}</Show>
+          <Show condition={!!actionComponents?.length}>
+            <div className="flex gap-4">
+              {actionComponents?.map((item) => (
+                <div key={generateRandomKey()}>{item}</div>
+              ))}
+            </div>
+          </Show>
         </div>
       </div>
     </section>

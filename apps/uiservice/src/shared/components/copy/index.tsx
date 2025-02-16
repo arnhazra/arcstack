@@ -21,7 +21,7 @@ export default function CopyToClipboard({ value }: { value: string }) {
       size="icon"
       onClick={copyValue}
       title="Copy to Clipboard"
-      className="bg-zinc-800"
+      className="bg-zinc-700 hover:bg-zinc-700"
     >
       <Show
         condition={!isCopied}

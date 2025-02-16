@@ -33,15 +33,15 @@ export default function Page() {
       icon={<Leaf className="scale-75" />}
       title="Reduce Carbon Emissions"
       content={`Turn this settings on to reduce carbon footprints inside ${brandName}`}
-      actionComponent={
+      actionComponents={[
         <Switch
           className="bg-green-700"
           checked={user.reduceCarbonEmissions}
           onCheckedChange={(value): Promise<void> =>
             saveSustainabilitySettings(value)
           }
-        />
-      }
+        />,
+      ]}
     />
   )
 }
