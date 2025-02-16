@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@aws-crypto/sha256-js": "^5.2.0",
-    "@llamaindex/google": "^0.0.7",
+    "@google/generative-ai": "^0.21.0",
     "@llamaindex/groq": "^0.0.51",
     "@llamaindex/openai": "^0.1.52",
     "@nestjs/common": "^11.0.9",

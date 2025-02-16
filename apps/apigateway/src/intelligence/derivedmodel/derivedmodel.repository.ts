@@ -23,10 +23,7 @@ export class DerivedModelRepository extends BaseRepository<DerivedModel> {
   }
 
   async findOneModel(modelId: string) {
-    return await this.derivedModelModel
-      .findById(modelId)
-      .populate("baseModel")
-      .select("-systemPrompt")
+    return await this.derivedModelModel.findById(modelId).populate("baseModel")
   }
 
   async findAllModels(findDerivedModelsDto: FindDerivedModelsDto) {

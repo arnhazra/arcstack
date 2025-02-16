@@ -1,21 +1,50 @@
-import { Gemini } from "@llamaindex/google"
-import { ChatMessage } from "llamaindex"
+import { envConfig } from "@/config"
+import {
+  Content,
+  GenerationConfig,
+  GoogleGenerativeAI,
+} from "@google/generative-ai"
+import { Thread } from "../schemas/thread.schema"
 
 export default async function GeminiStrategy(
   genericName: string,
   temperature: number,
   topP: number,
-  gMessages: ChatMessage[],
-  prompt: string
+  thread: Thread[],
+  prompt: string,
+  systemPrompt: string
 ) {
-  const client = new Gemini({
-    model: genericName as any,
+  const chatHistory: Content[] = []
+  const content: Content[] = thread.flatMap((chat) => [
+    {
+      role: "user",
+      parts: [{ text: chat.prompt }],
+    },
+    {
+      role: "model",
+      parts: [{ text: chat.response }],
+    },
+  ])
+  chatHistory.push(...content)
+  const client = new GoogleGenerativeAI(envConfig.geminiAPIKey)
+  const generationConfig: GenerationConfig = {
     temperature: temperature,
     topP: topP,
+  }
+
+  const model = client.getGenerativeModel({
+    model: genericName,
+    generationConfig,
+    systemInstruction: systemPrompt,
   })
-  const result = await client.chat({
-    messages: [...gMessages, { role: "user", content: prompt }],
+
+  const result = model.startChat({
+    history: [
+      { role: "system", parts: [{ text: systemPrompt }] },
+      ...chatHistory,
+    ],
   })
-  const response = result.message.content.toString()
+
+  const response = (await result.sendMessage(prompt)).response.text()
   return { response }
 }

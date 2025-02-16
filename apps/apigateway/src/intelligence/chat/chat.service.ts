@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable } from "@nestjs/common"
-import { ChatMessage } from "llamaindex"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { CreateThreadCommand } from "./commands/impl/create-thread.command"
 import { Thread } from "./schemas/thread.schema"
@@ -45,24 +44,12 @@ export class ChatService {
         return []
       }
 
-      const chatHistory: ChatMessage[] = []
       const thread = await this.queryBus.execute<
         FetchThreadByIdQuery,
         Thread[]
       >(new FetchThreadByIdQuery(threadId))
       if (!!thread && thread.length) {
-        const history: ChatMessage[] = thread.flatMap((chat) => [
-          {
-            role: "user",
-            content: chat.prompt,
-          },
-          {
-            role: "assistant",
-            content: chat.response,
-          },
-        ])
-        chatHistory.push(...history)
-        return chatHistory
+        return thread
       } else {
         throw new BadRequestException("Thread not found")
       }
@@ -76,7 +63,7 @@ export class ChatService {
       const { modelId, prompt, temperature, topP } = aiGenerationDto
       const threadId =
         aiGenerationDto.threadId ?? new Types.ObjectId().toString()
-      const gMessages = await this.getThreadById(
+      const thread = await this.getThreadById(
         threadId,
         !aiGenerationDto.threadId
       )
@@ -87,8 +74,9 @@ export class ChatService {
           gModel.baseModel.genericName,
           temperature ?? gModel.baseModel.defaultTemperature,
           topP ?? gModel.baseModel.defaultTopP,
-          gMessages,
-          prompt
+          thread,
+          prompt,
+          gModel.systemPrompt
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(threadId, prompt, response)
@@ -99,8 +87,9 @@ export class ChatService {
           gModel.baseModel.genericName,
           temperature ?? gModel.baseModel.defaultTemperature,
           topP ?? gModel.baseModel.defaultTopP,
-          gMessages,
-          prompt
+          thread,
+          prompt,
+          gModel.systemPrompt
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(threadId, prompt, response)
@@ -111,8 +100,9 @@ export class ChatService {
           gModel.baseModel.genericName,
           temperature ?? gModel.baseModel.defaultTemperature,
           topP ?? gModel.baseModel.defaultTopP,
-          gMessages,
-          prompt
+          thread,
+          prompt,
+          gModel.systemPrompt
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(threadId, prompt, response)
