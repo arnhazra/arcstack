@@ -63,7 +63,7 @@ export default function Page() {
             ))}
           </ul>
           <Link
-            className={`${cn(buttonVariants({ variant: "secondary", className: "rounded-full" }))} mt-4`}
+            className={`${cn(buttonVariants({ variant: "default", className: "bg-lime-500 hover:bg-lime-500 rounded-full" }))} mt-4`}
             href="/catalog"
           >
             {uiConstants.getStartedButton}

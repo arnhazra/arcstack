@@ -1,6 +1,6 @@
 export enum SubscriptionTier {
-  Mini = "mini",
-  Pro = "pro",
+  Free = "free tier",
+  One = "one",
 }
 
 export interface SubscriptionConfig {
@@ -12,7 +12,7 @@ export interface SubscriptionConfig {
 
 export const subscriptionPricing: SubscriptionConfig[] = [
   {
-    subscriptionTier: SubscriptionTier.Mini,
+    subscriptionTier: SubscriptionTier.Free,
     price: 0,
     platformDelay: 1000,
     features: [
@@ -24,13 +24,13 @@ export const subscriptionPricing: SubscriptionConfig[] = [
     ],
   },
   {
-    subscriptionTier: SubscriptionTier.Pro,
-    price: 19,
+    subscriptionTier: SubscriptionTier.One,
+    price: 25,
     platformDelay: 0,
     features: [
-      "Good for developers",
-      "Priority API response",
-      "Unlimited API calls",
+      "Good for startups",
+      "Fastest API response",
+      "15000 API calls per day",
       "Includes Pro Models",
       "Build & train own model",
     ],
