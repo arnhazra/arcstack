@@ -12,7 +12,7 @@ import { brandName, uiConstants } from "@/shared/constants/global-constants"
 
 export default function Header() {
   return (
-    <header className="top-0 z-50 flex h-[72px] items-center bg-black text-white px-4 md:px-6">
+    <header className="top-0 z-999 flex h-[72px] items-center bg-black text-white px-4 md:px-6">
       <div className="flex w-full items-center justify-between lg:container lg:max-w-[75rem]">
         <Link
           href="/"

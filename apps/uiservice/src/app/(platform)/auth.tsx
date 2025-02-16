@@ -87,10 +87,10 @@ export default function AuthenticationPage({
     <>
       <Header />
       <div className="fixed inset-0 overflow-y-auto flex justify-center items-center auth-landing">
-        <Card className="mx-auto max-w-sm">
+        <Card className="mx-auto max-w-sm bg-zinc-900 border-zinc-800 text-white">
           <CardHeader>
             <CardTitle className="text-2xl">{brandName} Auth</CardTitle>
-            <CardDescription>
+            <CardDescription className="text-white">
               <Show
                 condition={authStep === 1}
                 fallback="Enter the OTP we sent to your email"
@@ -106,7 +106,7 @@ export default function AuthenticationPage({
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
-                      className="h-11"
+                      className="h-11 bg-zinc-900 border-zinc-800 text-white"
                       type="email"
                       placeholder="someone@example.com"
                       required
@@ -122,7 +122,7 @@ export default function AuthenticationPage({
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full h-11 mt-4"
+                    className="w-full h-11 mt-4 bg-lime-500 hover:bg-lime-400"
                     disabled={isAuthLoading}
                   >
                     <Show
@@ -145,7 +145,7 @@ export default function AuthenticationPage({
                       <div className="grid gap-2">
                         <Label htmlFor="name">Your Name</Label>
                         <Input
-                          className="h-11"
+                          className="h-11 bg-zinc-900 border-zinc-800 text-white"
                           type="text"
                           placeholder="Your Name"
                           required
@@ -159,7 +159,7 @@ export default function AuthenticationPage({
                     <div className="grid gap-2">
                       <Label htmlFor="otp">One Time Password</Label>
                       <Input
-                        className="h-11"
+                        className="h-11 bg-zinc-900 border-zinc-800 text-white"
                         type="password"
                         placeholder="Enter OTP sent to your email"
                         required
@@ -176,7 +176,7 @@ export default function AuthenticationPage({
                       variant="default"
                       type="submit"
                       disabled={isAuthLoading}
-                      className="w-full h-11"
+                      className="w-full h-11 mt-4 bg-lime-500 hover:bg-lime-400"
                     >
                       <Show
                         condition={!isAuthLoading}
@@ -195,7 +195,7 @@ export default function AuthenticationPage({
                 </form>
               </Show>
             </div>
-            <div className="mt-4 text-center text-sm text-zinc-600">
+            <div className="mt-4 text-center text-sm text-zinc-200">
               {uiConstants.privacyPolicyStatement}
             </div>
           </CardContent>
