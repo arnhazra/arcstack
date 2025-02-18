@@ -16,7 +16,7 @@ import { ChevronLeft, ChevronRight, SortAsc } from "lucide-react"
 import { useContext, useEffect, useState } from "react"
 import Loading from "@/app/loading"
 import { Badge } from "@/shared/components/ui/badge"
-import { ModelCard } from "@/shared/components/modelcard"
+import { DerivedModelCard } from "@/shared/components/modelcard"
 import { DerivedModel } from "@/shared/types"
 import { GlobalContext } from "@/context/globalstate.provider"
 
@@ -114,7 +114,7 @@ export default function Page() {
   )
 
   const renderModels = models?.data?.map((model: DerivedModel) => {
-    return <ModelCard key={model._id} model={model} />
+    return <DerivedModelCard key={model._id} model={model} />
   })
 
   const prevPage = () => {

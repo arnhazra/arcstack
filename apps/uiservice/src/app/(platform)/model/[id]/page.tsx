@@ -23,7 +23,7 @@ import { use } from "react"
 import Loading from "@/app/loading"
 import { UseQueryResult } from "@tanstack/react-query"
 import { DerivedModel } from "@/shared/types"
-import { ModelCard } from "@/shared/components/modelcard"
+import { DerivedModelCard } from "@/shared/components/modelcard"
 import Error from "@/app/error"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -75,7 +75,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }
 
   const renderRelatedModels = relatedModels?.data?.map((model) => {
-    return <ModelCard key={model._id} model={model} />
+    return <DerivedModelCard key={model._id} model={model} />
   })
 
   return (
