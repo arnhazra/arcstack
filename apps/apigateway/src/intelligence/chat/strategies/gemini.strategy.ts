@@ -39,12 +39,10 @@ export default async function GeminiStrategy(
   })
 
   const result = model.startChat({
-    history: [
-      { role: "system", parts: [{ text: systemPrompt }] },
-      ...chatHistory,
-    ],
+    history: [...chatHistory],
   })
 
   const response = (await result.sendMessage(prompt)).response.text()
+  console.log(response)
   return { response }
 }

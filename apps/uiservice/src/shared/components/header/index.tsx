@@ -12,7 +12,7 @@ import { brandName, uiConstants } from "@/shared/constants/global-constants"
 
 export default function Header() {
   return (
-    <header className="top-0 z-999 flex h-[72px] items-center bg-black text-white px-4 md:px-6">
+    <header className="relative z-50 top-0 flex h-[72px] items-center bg-black text-white px-4 md:px-6">
       <div className="flex w-full items-center justify-between lg:container lg:max-w-[75rem]">
         <Link
           href="/"
@@ -22,27 +22,19 @@ export default function Header() {
           {brandName}
         </Link>
         <nav className="hidden md:flex items-center justify-end gap-2 flex-1">
-          {generalUserLinks.map(
-            (item, index) =>
-              !item.mainLink && (
-                <Link
-                  key={index}
-                  href={item.link}
-                  className="text-md font-medium text-foreground hover:text-primary mx-3"
-                  target={item.external ? "_blank" : ""}
-                  rel={item.external ? "noopener noreferrer" : ""}
-                >
-                  {item.displayName}
-                </Link>
-              )
-          )}
+          {generalUserLinks.map((item, index) => (
+            <Link
+              key={index}
+              href={item.link}
+              className="text-md font-medium text-foreground hover:text-primary mx-3"
+              target={item.external ? "_blank" : ""}
+              rel={item.external ? "noopener noreferrer" : ""}
+            >
+              {item.displayName}
+            </Link>
+          ))}
         </nav>
         <div className="flex items-center space-x-4">
-          <Link href="/catalog">
-            <Button variant="secondary" className="ms-4 rounded-full">
-              {uiConstants.getStartedButton}
-            </Button>
-          </Link>
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -69,11 +61,7 @@ export default function Header() {
                   <Link
                     key={index}
                     href={item.link}
-                    className={
-                      item.mainLink
-                        ? "text-foreground text-lg"
-                        : "text-foreground"
-                    }
+                    className="text-foreground"
                     target={item.external ? "_blank" : ""}
                     rel={item.external ? "noopener noreferrer" : ""}
                   >

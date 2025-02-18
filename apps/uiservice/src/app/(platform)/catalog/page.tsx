@@ -13,11 +13,12 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
 import { ChevronLeft, ChevronRight, SortAsc } from "lucide-react"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import Loading from "@/app/loading"
 import { Badge } from "@/shared/components/ui/badge"
-import { ModelCard } from "@/shared/components/modelcard"
+import { DerivedModelCard } from "@/shared/components/modelcard"
 import { DerivedModel } from "@/shared/types"
+import { GlobalContext } from "@/context/globalstate.provider"
 
 export interface FindModelRequestState {
   searchQuery: string
@@ -27,9 +28,10 @@ export interface FindModelRequestState {
 }
 
 export default function Page() {
+  const [{ searchQuery }] = useContext(GlobalContext)
   const [findModelRequestState, setFindModelRequestState] =
     useState<FindModelRequestState>({
-      searchQuery: "",
+      searchQuery: searchQuery ?? "",
       selectedFilter: "All",
       selectedSortOption: "-_id",
       offset: 0,
@@ -39,12 +41,18 @@ export default function Page() {
     queryUrl: endPoints.getDerivedModelFilterAndSortOptions,
     method: HTTPMethods.GET,
   })
+
+  useEffect(() => {
+    setFindModelRequestState({ ...findModelRequestState, searchQuery })
+  }, [searchQuery])
+
   const models = useFetch({
     queryKey: [
       "models-listings",
       findModelRequestState.selectedFilter,
       findModelRequestState.selectedSortOption,
       String(findModelRequestState.offset),
+      searchQuery,
     ],
     queryUrl: endPoints.getDerivedModels,
     method: HTTPMethods.POST,
@@ -106,7 +114,7 @@ export default function Page() {
   )
 
   const renderModels = models?.data?.map((model: DerivedModel) => {
-    return <ModelCard key={model._id} model={model} />
+    return <DerivedModelCard key={model._id} model={model} />
   })
 
   const prevPage = () => {

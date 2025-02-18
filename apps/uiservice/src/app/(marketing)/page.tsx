@@ -7,18 +7,19 @@ import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { BaseModel, Subscription } from "@/shared/types"
 import { brandName, uiConstants } from "@/shared/constants/global-constants"
-import { CheckCircle2, Dot } from "lucide-react"
+import { Dot } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
 import { buttonVariants } from "@/shared/components/ui/button"
 import Show from "@/shared/components/show"
 import Loading from "../loading"
 import useFetch from "@/shared/hooks/use-fetch"
-import { AIBaseModelCard } from "./(components)/basemodel-card"
 import SafetySection from "./(components)/safety-section"
+import { BaseModelCard } from "@/shared/components/modelcard"
+import { UseQueryResult } from "@tanstack/react-query"
 
 export default function Page() {
-  const models = useFetch({
+  const models: UseQueryResult<BaseModel[], Error> = useFetch({
     queryKey: ["display-models"],
     queryUrl: endPoints.getDisplayModels,
     method: HTTPMethods.GET,
@@ -30,8 +31,8 @@ export default function Page() {
     method: HTTPMethods.GET,
   })
 
-  const renderBaseModels = models?.data?.map((model: BaseModel) => (
-    <AIBaseModelCard key={model._id} model={model} />
+  const renderBaseModels = models?.data?.map((model) => (
+    <BaseModelCard key={model._id} model={model} />
   ))
 
   const renderPricingTiers = pricing?.data?.map((tier: Subscription) => {
@@ -63,7 +64,7 @@ export default function Page() {
             ))}
           </ul>
           <Link
-            className={`${cn(buttonVariants({ variant: "default", className: "bg-lime-500 hover:bg-lime-500 rounded-full" }))} mt-4`}
+            className={`${cn(buttonVariants({ variant: "default", className: "bg-lime-500 hover:bg-lime-500" }))} mt-4`}
             href="/catalog"
           >
             {uiConstants.getStartedButton}

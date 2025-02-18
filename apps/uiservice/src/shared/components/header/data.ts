@@ -4,7 +4,6 @@ interface LinkData {
   displayName: string
   link: string
   external?: boolean
-  mainLink?: boolean
 }
 
 export const generalUserLinks: LinkData[] = [
@@ -24,5 +23,9 @@ export const generalUserLinks: LinkData[] = [
     displayName: "Developer",
     link: uiConstants.linkedinUri,
     external: true,
+  },
+  {
+    displayName: "Get Started",
+    link: "/catalog",
   },
 ]

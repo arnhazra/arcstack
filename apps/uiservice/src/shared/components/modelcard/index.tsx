@@ -4,18 +4,99 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card"
-import { DerivedModel } from "@/shared/types"
-import { Brain, CircleFadingPlus, Heart, Variable } from "lucide-react"
+import { BaseModel, DerivedModel } from "@/shared/types"
+import { AudioLines, Brain, CircleFadingPlus } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "../ui/badge"
-import ActivityLog from "../activity"
 
-interface ModelProps {
+interface BaseModelCardProps {
+  model: BaseModel
+}
+
+interface DerivedModelCardProps {
   model: DerivedModel
 }
 
-export function ModelCard({ model }: ModelProps) {
-  const { _id, baseModel, category, displayName, isFineTuned, isPro } = model
+export function BaseModelCard({ model }: BaseModelCardProps) {
+  const {
+    _id,
+    displayName,
+    architecture,
+    contextWindow,
+    defaultTemperature,
+    genericName,
+    parameters,
+    series,
+    vendor,
+  } = model
+
+  return (
+    <Link href={`/model/${_id}`}>
+      <Card className="w-full max-w-xs mx-auto h-[23rem] flex flex-col relative hover:shadow-md transition-shadow bg-zinc-900 border-zinc-800 text-white">
+        <CardHeader className="pb-2">
+          <div className="flex items-start">
+            <Brain className="w-8 h-8 text-primary mr-3 mt-1 text-lime-400" />
+            <div className="flex flex-col min-w-0">
+              <div className="flex items-center space-x-2">
+                <CardTitle
+                  className="text-lg font-bold truncate"
+                  title={displayName}
+                >
+                  {displayName}
+                </CardTitle>
+              </div>
+              <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-1">
+                <div className="flex items-center" title="Number of Parameters">
+                  <AudioLines className="w-3 h-3 mr-1 text-green-400" />
+                  <span>{parameters}</span>
+                </div>
+                <div className="flex items-center" title="Context Window">
+                  <CircleFadingPlus className="w-3 h-3 mr-1 text-red-400" />
+                  <span>{contextWindow}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="flex-grow py-2">
+          <dl className="grid gap-3">
+            <div className="space-y-1">
+              <dt className="text-xs font-medium text-zinc-300">
+                Architecture
+              </dt>
+              <dd className="text-sm font-semibold">{architecture}</dd>
+            </div>
+            <div className="space-y-1">
+              <dt className="text-xs font-medium text-zinc-300">Vendor</dt>
+              <dd className="text-sm font-semibold capitalize">{vendor}</dd>
+            </div>
+            <div className="space-y-1">
+              <dt className="text-xs font-medium text-zinc-300">Series</dt>
+              <dd className="text-sm font-semibold">{series}</dd>
+            </div>
+            <div className="space-y-1">
+              <dt className="text-xs font-medium text-zinc-300">
+                Generic Name
+              </dt>
+              <dd className="text-sm font-semibold capitalize">
+                {genericName}
+              </dd>
+            </div>
+            <div className="space-y-1">
+              <dt className="text-xs font-medium text-zinc-300">
+                Default Temperature
+              </dt>
+              <dd className="text-sm font-semibold">{defaultTemperature}</dd>
+            </div>
+          </dl>
+        </CardContent>
+      </Card>
+    </Link>
+  )
+}
+
+export function DerivedModelCard({ model }: DerivedModelCardProps) {
+  const { _id, baseModel, category, displayName, isPro } = model
 
   return (
     <Link href={`/model/${_id}`}>
@@ -36,14 +117,12 @@ export function ModelCard({ model }: ModelProps) {
                 )}
               </div>
               <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-1">
-                <div
-                  className="flex items-center"
-                  title="Number of Model Views"
-                >
-                  <ActivityLog keyword={_id} />
-                </div>
                 <div className="flex items-center" title="Number of Parameters">
-                  <CircleFadingPlus className="w-3 h-3 mr-1 text-red-500" />
+                  <AudioLines className="w-3 h-3 mr-1 text-green-400" />
+                  <span>{model?.baseModel?.parameters}</span>
+                </div>
+                <div className="flex items-center" title="Context Window">
+                  <CircleFadingPlus className="w-3 h-3 mr-1 text-red-400" />
                   <span>{model?.baseModel?.contextWindow}</span>
                 </div>
               </div>
@@ -63,10 +142,14 @@ export function ModelCard({ model }: ModelProps) {
               </dd>
             </div>
             <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">Parameters</dt>
+              <dt className="text-xs font-medium text-zinc-300">Vendor</dt>
               <dd className="text-sm font-semibold capitalize">
-                {baseModel.parameters}
+                {baseModel.vendor}
               </dd>
+            </div>
+            <div className="space-y-1">
+              <dt className="text-xs font-medium text-zinc-300">Series</dt>
+              <dd className="text-sm font-semibold">{baseModel.series}</dd>
             </div>
             <div className="space-y-1">
               <dt className="text-xs font-medium text-zinc-300">
@@ -74,12 +157,6 @@ export function ModelCard({ model }: ModelProps) {
               </dt>
               <dd className="text-sm font-semibold">
                 {baseModel.architecture}
-              </dd>
-            </div>
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">Fine Tuned</dt>
-              <dd className="text-sm font-semibold">
-                {isFineTuned ? "Yes" : "No"}
               </dd>
             </div>
           </dl>
