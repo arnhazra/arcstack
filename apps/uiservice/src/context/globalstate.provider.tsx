@@ -27,6 +27,7 @@ const initialState: GlobalState = {
   },
   subscription: null,
   refreshId: generateRandomKey(),
+  searchQuery: "",
 }
 
 export const GlobalContext = createContext<GlobalContextInterface>([

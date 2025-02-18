@@ -4,12 +4,14 @@ export type GlobalState = {
   user: User
   subscription: Subscription | null
   refreshId: string
+  searchQuery: string
 }
 
 export type ActionsMap = {
   setUser: Partial<User>
   setSubscription: Subscription | null
   setRefreshId: string
+  setSearchQuery: string
 }
 
 export type Actions = {
@@ -40,6 +42,12 @@ export const GlobalReducer = (
       return {
         ...state,
         refreshId: action.payload,
+      }
+
+    case "setSearchQuery":
+      return {
+        ...state,
+        searchQuery: action.payload,
       }
 
     default:
