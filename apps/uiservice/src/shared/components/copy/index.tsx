@@ -25,7 +25,7 @@ export default function CopyToClipboard({ value }: { value: string }) {
     >
       <Show
         condition={!isCopied}
-        fallback={<CheckCircle2 className="scale-65 text-green-500" />}
+        fallback={<CheckCircle2 className="scale-65 text-lime-500" />}
       >
         <Clipboard className="scale-65" />
       </Show>

@@ -97,7 +97,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="flex gap-4">
                       <ActivityLog keyword={modelId} />
                       <Show condition={!!model?.data?.isPro}>
-                        <Badge className="bg-green-500">Pro</Badge>
+                        <Badge className="bg-lime-500">Pro</Badge>
                       </Show>
                     </div>
                   </CardTitle>
@@ -108,7 +108,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <CardContent className="flex gap-4 mt-4 -mb-4">
                   <Button
                     size="sm"
-                    className="bg-green-500 hover:bg-green-500"
+                    className="bg-lime-500 hover:bg-lime-500"
                     onClick={(): void => router.push(`/playground/${modelId}`)}
                   >
                     <FlaskConical className="me-2 scale-75" />

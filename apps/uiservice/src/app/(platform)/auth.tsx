@@ -10,7 +10,6 @@ import { Label } from "@/shared/components/ui/label"
 import LoaderIcon from "@/shared/components/loaderIcon"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import Header from "../../shared/components/header"
 import {
   Card,
   CardContent,
@@ -18,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card"
+import Link from "next/link"
 
 interface AuthProviderProps {
   onAuthorized: (isAuthorized: boolean) => void
@@ -85,12 +85,13 @@ export default function AuthenticationPage({
 
   return (
     <>
-      <Header />
       <div className="fixed inset-0 overflow-y-auto flex justify-center items-center auth-landing">
-        <Card className="mx-auto max-w-sm bg-zinc-900 border-zinc-800 text-white">
+        <Card className="mx-auto max-w-sm bg-neutral-900 border-neutral-800 text-white">
           <CardHeader>
-            <CardTitle className="text-2xl">{brandName} Auth</CardTitle>
-            <CardDescription className="text-white">
+            <CardTitle className="text-2xl text-center">
+              {brandName} Auth
+            </CardTitle>
+            <CardDescription className="text-white text-center">
               <Show
                 condition={authStep === 1}
                 fallback="Enter the OTP we sent to your email"
@@ -106,7 +107,7 @@ export default function AuthenticationPage({
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
-                      className="h-11 bg-zinc-900 border-zinc-800 text-white"
+                      className="h-12 bg-zinc-900 border-zinc-800 text-white"
                       type="email"
                       placeholder="someone@example.com"
                       required
@@ -122,7 +123,7 @@ export default function AuthenticationPage({
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full h-11 mt-4 bg-green-500 hover:bg-green-400"
+                    className="w-full h-11 mt-4 bg-lime-500 hover:bg-lime-400"
                     disabled={isAuthLoading}
                   >
                     <Show
@@ -176,7 +177,7 @@ export default function AuthenticationPage({
                       variant="default"
                       type="submit"
                       disabled={isAuthLoading}
-                      className="w-full h-11 mt-4 bg-green-500 hover:bg-green-400"
+                      className="w-full h-11 mt-4 bg-lime-500 hover:bg-lime-400"
                     >
                       <Show
                         condition={!isAuthLoading}
@@ -197,6 +198,9 @@ export default function AuthenticationPage({
             </div>
             <div className="mt-4 text-center text-sm text-zinc-200">
               {uiConstants.privacyPolicyStatement}
+            </div>
+            <div className="text-center mt-4 underline">
+              <Link href={"/"}>Back to Homepage</Link>
             </div>
           </CardContent>
         </Card>
