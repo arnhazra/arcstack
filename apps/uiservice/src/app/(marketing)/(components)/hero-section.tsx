@@ -18,8 +18,8 @@ export default function HeroSection() {
           className={cn(
             buttonVariants({
               size: "lg",
-              variant: "secondary",
-              className: "rounded-full",
+              variant: "default",
+              className: "rounded-full bg-green-600 hover:bg-green-500",
             })
           )}
         >

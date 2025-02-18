@@ -43,7 +43,7 @@ export default function Page() {
         <div className="flex flex-col justify-between rounded-md p-6">
           <div className="space-y-2">
             <h2 className="font-bold text-md capitalize">{brandName}</h2>
-            <h1 className="font-bolder text-md capitalize text-3xl text-lime-500">
+            <h1 className="font-bolder text-md capitalize text-3xl text-green-500">
               {tier.subscriptionTier}
             </h1>
             <div className="flex">
@@ -63,7 +63,7 @@ export default function Page() {
             ))}
           </ul>
           <Link
-            className={`${cn(buttonVariants({ variant: "default", className: "bg-lime-500 hover:bg-lime-500 rounded-full" }))} mt-4`}
+            className={`${cn(buttonVariants({ variant: "default", className: "bg-green-500 hover:bg-green-500" }))} mt-4`}
             href="/catalog"
           >
             {uiConstants.getStartedButton}

@@ -166,7 +166,7 @@ export default function Page() {
               variant="default"
               onClick={prevPage}
               size="icon"
-              className="rounded-full bg-lime-500 hover:bg-lime:500"
+              className="rounded-full bg-green-500 hover:bg-green:500"
             >
               <ChevronLeft className="scale-75" />
             </Button>
@@ -175,7 +175,7 @@ export default function Page() {
               variant="default"
               onClick={nextPage}
               size="icon"
-              className="rounded-full bg-lime-500 hover:bg-lime:500"
+              className="rounded-full bg-green-500 hover:bg-green:500"
             >
               <ChevronRight className="scale-75" />
             </Button>

@@ -14,7 +14,7 @@ export default function ActivityLog({ keyword }: { keyword: string }) {
   return (
     <div className="flex gap-4">
       <div className="flex items-center text-zinc-100 text-sm">
-        <Eye className="w-3 h-3 mr-1 text-lime-300" />
+        <Eye className="w-3 h-3 mr-1 text-green-300" />
         {activityCount?.data?.totalUsage ?? "..."}
       </div>
     </div>

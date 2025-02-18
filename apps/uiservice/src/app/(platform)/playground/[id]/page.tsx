@@ -162,7 +162,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="flex items-center pt-0">
                       <Button
                         size="sm"
-                        className="ml-auto gap-1.5 mt-4 bg-lime-500 hover:bg-lime-500"
+                        className="ml-auto gap-1.5 mt-4 bg-green-500 hover:bg-green-500"
                         type="submit"
                         disabled={isLoading}
                       >

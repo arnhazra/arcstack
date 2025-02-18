@@ -19,7 +19,7 @@ export function AIBaseModelCard({ model }: AIBaseModelCardProps) {
     >
       <CardHeader className="flex-shrink-0 pb-2">
         <div className="flex items-start">
-          <Brain className="w-8 h-8 mr-3 mt-1 flex-shrink-0 text-lime-500" />
+          <Brain className="w-8 h-8 mr-3 mt-1 flex-shrink-0 text-green-500" />
           <div className="flex flex-col min-w-0">
             <CardTitle
               className="text-lg font-bold truncate"
@@ -29,7 +29,7 @@ export function AIBaseModelCard({ model }: AIBaseModelCardProps) {
             </CardTitle>
             <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-1">
               <div className="flex items-center">
-                <CircleFadingPlus className="w-3 h-3 mr-1 text-lime-500" />
+                <CircleFadingPlus className="w-3 h-3 mr-1 text-green-500" />
                 <span>{model.contextWindow}</span>
               </div>
               <div className="flex items-center">

@@ -122,7 +122,7 @@ export default function AuthenticationPage({
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full h-11 mt-4 bg-lime-500 hover:bg-lime-400"
+                    className="w-full h-11 mt-4 bg-green-500 hover:bg-green-400"
                     disabled={isAuthLoading}
                   >
                     <Show
@@ -176,7 +176,7 @@ export default function AuthenticationPage({
                       variant="default"
                       type="submit"
                       disabled={isAuthLoading}
-                      className="w-full h-11 mt-4 bg-lime-500 hover:bg-lime-400"
+                      className="w-full h-11 mt-4 bg-green-500 hover:bg-green-400"
                     >
                       <Show
                         condition={!isAuthLoading}
