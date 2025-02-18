@@ -19,7 +19,6 @@ interface DerivedModelCardProps {
 
 export function BaseModelCard({ model }: BaseModelCardProps) {
   const {
-    _id,
     displayName,
     architecture,
     contextWindow,
@@ -31,7 +30,7 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
   } = model
 
   return (
-    <Link href={`/model/${_id}`}>
+    <Link href="/catalog">
       <Card className="w-full max-w-xs mx-auto h-[23rem] flex flex-col relative hover:shadow-md transition-shadow bg-zinc-900 border-zinc-800 text-white">
         <CardHeader className="pb-2">
           <div className="flex items-start">
