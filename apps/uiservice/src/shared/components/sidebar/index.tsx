@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { Book, DraftingCompass, PanelLeft, Settings } from "lucide-react"
+import { DraftingCompass, PanelLeft, Settings } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -30,7 +30,7 @@ export default function Sidebar() {
     return "flex h-9 w-9 items-center justify-center rounded-lg bg-accent transition-colors md:h-8 md:w-8"
   }
 
-  const renderSheetProducts = sidebarLinks.map((link) => {
+  const renderSheetLinks = sidebarLinks.map((link) => {
     return (
       <Link
         key={link.link}
@@ -43,7 +43,7 @@ export default function Sidebar() {
     )
   })
 
-  const renderSideBarProducts = sidebarLinks.map((link) => {
+  const renderSideBarLinks = sidebarLinks.map((link) => {
     return (
       <Tooltip key={link.link}>
         <TooltipTrigger asChild>
@@ -69,7 +69,7 @@ export default function Sidebar() {
             <DraftingCompass className="h-4 w-4 transition-all group-hover:scale-110" />
             <span className="sr-only">Catalog</span>
           </Link>
-          {renderSideBarProducts}
+          {renderSideBarLinks}
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
           <Tooltip>
@@ -119,7 +119,7 @@ export default function Sidebar() {
                   <DraftingCompass className="scale-75" />
                   Catalog
                 </Link>
-                {renderSheetProducts}
+                {renderSheetLinks}
                 <Link
                   href="/settings/user"
                   className="flex items-center gap-4 px-2.5"

@@ -47,7 +47,7 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="bg-primary text-white border-none"
+              className="bg-main text-white border-none"
             >
               <SheetTitle></SheetTitle>
               <nav className="grid gap-6 text-lg font-medium">
