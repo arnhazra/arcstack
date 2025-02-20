@@ -36,7 +36,6 @@ export type User = {
 export type Subscription = {
   _id: string
   subscriptionTier: string
-  xp: number
   price: number
   platformDelay: number
   features: string[]

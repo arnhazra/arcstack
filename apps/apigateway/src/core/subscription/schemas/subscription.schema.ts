@@ -15,7 +15,7 @@ export class Subscription extends Document {
   subscriptionTier: SubscriptionTier
 
   @Prop({ required: true })
-  purchasePrice: number
+  price: number
 
   @Prop({
     type: Date,

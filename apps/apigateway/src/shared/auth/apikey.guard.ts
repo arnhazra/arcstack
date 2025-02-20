@@ -22,33 +22,35 @@ export class APIKeyGuard implements CanActivate {
 
     try {
       if (!apiKey) {
-        throw new ForbiddenException(statusMessages.noCredentialsProvided)
+        throw new ForbiddenException(statusMessages.noAPIKeyProvided)
       } else {
-        const accessKeyResponse: APIKey[] = await this.eventEmitter.emitAsync(
+        const apiKeyResponse: APIKey[] = await this.eventEmitter.emitAsync(
           EventsUnion.GetAPIKeyDetails,
-          {
-            apiKey,
-          }
+          apiKey
         )
 
         if (
-          !accessKeyResponse ||
-          !accessKeyResponse.length ||
-          (accessKeyResponse &&
-            accessKeyResponse.length &&
-            accessKeyResponse[0] === null)
+          !apiKeyResponse ||
+          !apiKeyResponse.length ||
+          (apiKeyResponse &&
+            apiKeyResponse.length &&
+            apiKeyResponse[0] === null)
         ) {
-          throw new ForbiddenException(statusMessages.invalidCredentials)
+          throw new ForbiddenException(statusMessages.invalidAPIKey)
         } else {
-          const apiKey = accessKeyResponse.shift()
+          const apiKey = apiKeyResponse.shift()
           const userId = String(apiKey.userId)
           const userResponse: User[] = await this.eventEmitter.emitAsync(
             EventsUnion.GetUserDetails,
             { _id: userId }
           )
 
-          if (!userResponse || !userResponse.length) {
-            throw new ForbiddenException(statusMessages.invalidCredentials)
+          if (
+            !userResponse ||
+            !userResponse.length ||
+            (userResponse && userResponse.length && userResponse[0] === null)
+          ) {
+            throw new ForbiddenException(statusMessages.invalidAPIKey)
           } else {
             const user = userResponse.shift()
             const subscriptionRes: Subscription[] =
@@ -57,7 +59,13 @@ export class APIKeyGuard implements CanActivate {
                 userId
               )
 
-            if (!subscriptionRes || !subscriptionRes.length) {
+            if (
+              !subscriptionRes ||
+              !subscriptionRes.length ||
+              (subscriptionRes &&
+                subscriptionRes.length &&
+                subscriptionRes[0] === null)
+            ) {
               throw new ForbiddenException(statusMessages.subscriptionNotFound)
             } else {
               const subscription = subscriptionRes.shift()
@@ -77,6 +85,7 @@ export class APIKeyGuard implements CanActivate {
         }
       }
     } catch (error) {
+      // console.log(error)
       throw error
     }
   }

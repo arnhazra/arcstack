@@ -64,6 +64,7 @@ export default function Page() {
           <CopyToClipboard value={key.apiKey} />,
           <Button
             size="icon"
+            disabled={apiKeys?.data?.length === 1}
             variant="destructive"
             onClick={(): Promise<void> => deleteAPIKey(key._id)}
           >

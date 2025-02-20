@@ -4,6 +4,6 @@ export class CreateSubscriptionCommand {
   constructor(
     public readonly userId: string,
     public readonly subscriptionTier: SubscriptionTier,
-    public readonly purchasePrice: number
+    public readonly price: number
   ) {}
 }

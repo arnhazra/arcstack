@@ -15,7 +15,6 @@ interceptor.on("request", ({ request }) => {
     "refresh_token",
     `${localStorage.getItem("refreshToken")}`
   )
-  request.headers.set("api_key", `${localStorage.getItem("apiKey")}`)
 })
 
 interceptor.on("response", ({ response }) => {

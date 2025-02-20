@@ -56,16 +56,13 @@ export default function Page() {
   }, [searchParams])
 
   const isSubscriptionActive =
-    subscription &&
-    subscription.xp > 0 &&
-    new Date(subscription.endsAt) > new Date()
+    subscription && new Date(subscription.endsAt) > new Date()
 
   const canActivateNewSubscription =
     !subscription ||
     (subscription &&
-      (subscription.xp < 2 ||
-        new Date(subscription.endsAt).getTime() - new Date().getTime() <=
-          24 * 60 * 60 * 1000))
+      new Date(subscription.endsAt).getTime() - new Date().getTime() <=
+        24 * 60 * 60 * 1000)
 
   const renderPricingTiers = pricing?.data?.map((tier) => {
     return (
@@ -161,11 +158,6 @@ export default function Page() {
               subscription?.endsAt ? new Date(subscription.endsAt) : new Date(),
               "MMM, do yyyy, h:mm a"
             )}
-          />
-          <SectionPanel
-            icon={<Coins className="scale-75" />}
-            title="Remaining XP"
-            content={subscription?.xp.toFixed(2).toString() ?? "0"}
           />
         </section>
       </Show>

@@ -21,7 +21,7 @@ import LoaderIcon from "@/shared/components/loaderIcon"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import HTTPMethods from "@/shared/constants/http-methods"
 import useQuery from "@/shared/hooks/use-query"
-import { DerivedModel } from "@/shared/types"
+import { APIKey, DerivedModel } from "@/shared/types"
 import { UseQueryResult } from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
 import Loading from "@/app/loading"
@@ -37,6 +37,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
+  const apiKeys: UseQueryResult<APIKey[], Error> = useQuery({
+    queryKey: ["get-apikeys-pg"],
+    queryUrl: endPoints.apiKey,
+    method: HTTPMethods.GET,
+  })
+
   const [prompt, setPrompt] = useState("")
   const [requestBody, setRequestBody] = useState({
     modelId: modelId,
@@ -57,6 +63,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       const res = await ky
         .post(`${endPoints.intelligenceChat}`, {
           json: { ...requestBody, threadId: threadId ?? undefined },
+          headers: {
+            "x-api-key": apiKeys && apiKeys.data ? apiKeys.data[0].apiKey : "",
+          },
           timeout: FETCH_TIMEOUT,
         })
         .json()
@@ -98,7 +107,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="grid gap-3">
                       <Label htmlFor="model">Base Model</Label>
                       <Input
-                        className="bg-background border-border text-white border-lightborder"
+                        className="bg-background border-border text-white"
                         disabled
                         defaultValue={model.data?.baseModel?.displayName}
                       />
@@ -106,7 +115,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="grid gap-3">
                       <Label htmlFor="temperature">Temperature</Label>
                       <Input
-                        className="bg-background border-border text-white border-lightborder"
+                        className="bg-background border-border text-white"
                         id="temperature"
                         type="number"
                         defaultValue={model?.data?.baseModel.defaultTemperature}
@@ -121,7 +130,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="grid gap-3">
                       <Label htmlFor="top-p">Top P</Label>
                       <Input
-                        className="bg-background border-border text-white border-lightborder"
+                        className="bg-background border-border text-white"
                         id="top-p"
                         type="number"
                         defaultValue={model?.data?.baseModel.defaultTopP}
@@ -150,7 +159,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       value={prompt}
                       required
                       placeholder="Type your message here..."
-                      className="min-h-12 resize-none border-0 p-3 shadow-none bg-border text-white border-lightborder"
+                      className="min-h-12 resize-none border-0 p-3 shadow-none bg-border text-white"
                       onChange={(e): void => {
                         setPrompt(e.target.value)
                         setRequestBody({

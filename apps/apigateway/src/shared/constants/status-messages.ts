@@ -5,9 +5,8 @@ export const statusMessages = {
   invalidOTP: "Invalid OTP",
   otpEmail: "Check OTP in Email",
   invalidUser: "Invalid User",
-  invalidCredentials: "Invalid Credentials",
-  noCredentialsProvided: "No Credentials Provided",
-  insufficientXPCredits: "Insufficient XP for this transaction",
+  invalidAPIKey: "Invalid API Key",
+  noAPIKeyProvided: "No API Key Provided",
   keyAlreadyExists: "Same Key Exists",
   keyDoesNotExist: "Key does not exist",
   subscriptionNotFound:
