@@ -16,7 +16,7 @@ export function TeachCard() {
         </Button>
       </div>
       <div className="flex gap-8 mb-8 justify-center">
-        <div className="w-16 h-16 bg-black rounded-full" />
+        <div className="w-16 h-16 bg-background rounded-full" />
         <div className="w-16 h-16 bg-zinc-100 rounded-full" />
       </div>
       <p className="text-md leading-relaxed">
@@ -90,21 +90,21 @@ export function ShareCard() {
         <div className="space-y-4">
           <div className="w-16 h-16">
             <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
-            <div className="w-16 h-8 bg-black rounded-b-full" />
+            <div className="w-16 h-8 bg-background rounded-b-full" />
           </div>
           <div className="w-16 h-16">
             <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
-            <div className="w-16 h-8 bg-black rounded-b-full" />
+            <div className="w-16 h-8 bg-background rounded-b-full" />
           </div>
         </div>
         <div className="space-y-4">
           <div className="w-16 h-16">
             <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
-            <div className="w-16 h-8 bg-black rounded-b-full" />
+            <div className="w-16 h-8 bg-background rounded-b-full" />
           </div>
           <div className="w-16 h-16 relative">
             <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
-            <div className="w-16 h-8 bg-black rounded-b-full" />
+            <div className="w-16 h-8 bg-background rounded-b-full" />
             <div className="absolute bottom-0 right-0 bg-primary p-1 rounded-lg">
               <svg
                 width="16"

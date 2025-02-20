@@ -46,7 +46,7 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
               </div>
               <div className="flex items-center space-x-2 text-xs mt-1">
                 <div className="flex items-center" title="Number of Parameters">
-                  <AudioLines className="w-3 h-3 mr-1 text-green-400" />
+                  <AudioLines className="w-3 h-3 mr-1 text-primary" />
                   <span>{parameters}</span>
                 </div>
                 <div className="flex items-center" title="Context Window">
@@ -117,7 +117,7 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
               </div>
               <div className="flex items-center space-x-2 text-xs mt-1">
                 <div className="flex items-center" title="Number of Parameters">
-                  <AudioLines className="w-3 h-3 mr-1 text-green-400" />
+                  <AudioLines className="w-3 h-3 mr-1 text-primary" />
                   <span>{model?.baseModel?.parameters}</span>
                 </div>
                 <div className="flex items-center" title="Context Window">

@@ -37,7 +37,6 @@ export default function Page() {
         content="Choose whether to save the things you do to get more relevant results"
         actionComponents={[
           <Switch
-            className="bg-white"
             checked={user.activityLog}
             onCheckedChange={(value): Promise<void> =>
               saveActivityLogSettings(value)
