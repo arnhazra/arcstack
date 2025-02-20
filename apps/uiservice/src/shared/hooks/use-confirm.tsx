@@ -41,7 +41,7 @@ export default function useConfirm() {
 
   const confirmDialog = () => (
     <AlertDialog open={show}>
-      <AlertDialogContent className="bg-zinc-900 text-white border-zinc-800">
+      <AlertDialogContent className="bg-background text-white border-border">
         <AlertDialogHeader>
           <AlertDialogTitle>{message}</AlertDialogTitle>
           <AlertDialogDescription className="text-zinc-300">

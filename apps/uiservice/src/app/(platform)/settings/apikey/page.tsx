@@ -1,5 +1,5 @@
 "use client"
-import SectionPanel from "../(components)/sectionpanel"
+import SectionPanel from "../../../../shared/components/sectionpanel"
 import { toast } from "@/shared/components/ui/use-toast"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
@@ -13,7 +13,7 @@ import { APIKey } from "@/shared/types"
 import { Key, Trash } from "lucide-react"
 import CopyToClipboard from "@/shared/components/copy"
 import { UseQueryResult } from "@tanstack/react-query"
-import useFetch from "@/shared/hooks/use-fetch"
+import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { Button } from "@/shared/components/ui/button"
 
@@ -21,7 +21,7 @@ export default function Page() {
   const [{ refreshId }, dispatch] = useContext(GlobalContext)
   const { confirm } = useConfirmContext()
 
-  const apiKeys: UseQueryResult<APIKey[], Error> = useFetch({
+  const apiKeys: UseQueryResult<APIKey[], Error> = useQuery({
     queryKey: ["get-apikeys", refreshId],
     queryUrl: endPoints.apiKey,
     method: HTTPMethods.GET,

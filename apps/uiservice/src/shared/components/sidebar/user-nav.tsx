@@ -29,7 +29,7 @@ export function UserNav() {
         <Button
           variant="default"
           size="icon"
-          className="overflow-hidden rounded-full bg-zinc-800"
+          className="overflow-hidden rounded-full bg-border"
         >
           <User className="scale-75" />
         </Button>
@@ -38,9 +38,7 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{user.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {user.email}
-            </p>
+            <p className="text-xs leading-none">{user.email}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

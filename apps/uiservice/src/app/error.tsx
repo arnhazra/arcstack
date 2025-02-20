@@ -11,7 +11,7 @@ import {
 export default function Error() {
   return (
     <div className="fixed inset-0 overflow-y-auto flex justify-center items-center">
-      <Card className="mx-auto max-w-sm bg-zinc-900 border-zinc-800 text-white">
+      <Card className="mx-auto max-w-sm bg-background border-border text-white">
         <CardHeader>
           <CardTitle className="text-2xl">Error</CardTitle>
           <CardDescription className="text-white">
@@ -21,7 +21,7 @@ export default function Error() {
         <CardFooter>
           <Button
             size="lg"
-            className="w-full bg-lime-500 hover:bg-lime-500"
+            className="w-full bg-primary hover:bg-primary"
             onClick={(): void => window.location.reload()}
           >
             Retry

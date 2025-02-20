@@ -1,5 +1,5 @@
 import { brandName } from "@/shared/constants/global-constants"
-import SectionPanel from "../(components)/sectionpanel"
+import SectionPanel from "../../../../shared/components/sectionpanel"
 import { InfoIcon } from "lucide-react"
 
 export default function Page() {

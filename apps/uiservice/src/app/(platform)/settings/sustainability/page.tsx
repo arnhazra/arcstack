@@ -1,5 +1,5 @@
 "use client"
-import SectionPanel from "../(components)/sectionpanel"
+import SectionPanel from "../../../../shared/components/sectionpanel"
 import { Switch } from "@/shared/components/ui/switch"
 import { toast } from "@/shared/components/ui/use-toast"
 import { endPoints } from "@/shared/constants/api-endpoints"
@@ -35,7 +35,7 @@ export default function Page() {
       content={`Turn this settings on to reduce carbon footprints inside ${brandName}`}
       actionComponents={[
         <Switch
-          className="bg-lime-700"
+          className="bg-primary"
           checked={user.reduceCarbonEmissions}
           onCheckedChange={(value): Promise<void> =>
             saveSustainabilitySettings(value)

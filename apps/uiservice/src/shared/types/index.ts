@@ -50,3 +50,15 @@ export type APIKey = {
   apiKey: string
   createdAt: string
 }
+
+export type FilterAndSortOptions = {
+  filters: string[]
+  sortOptions: {
+    value: string
+    label: string
+  }[]
+}
+
+export type ActivityTrends = {
+  totalUsage: number
+}

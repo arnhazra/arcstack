@@ -1,29 +1,30 @@
 "use client"
-import SectionPanel from "../(components)/sectionpanel"
+import SectionPanel from "../../../../shared/components/sectionpanel"
 import Show from "@/shared/components/show"
 import { Button } from "@/shared/components/ui/button"
 import { toast } from "@/shared/components/ui/use-toast"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { uiConstants } from "@/shared/constants/global-constants"
+import { brandName, uiConstants } from "@/shared/constants/global-constants"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { GlobalContext } from "@/context/globalstate.provider"
-import useFetch from "@/shared/hooks/use-fetch"
+import useQuery from "@/shared/hooks/use-query"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import { Subscription } from "@/shared/types"
 import { format } from "date-fns"
 import ky from "ky"
-import { Bolt, CalendarClock, CheckCircle2, Coins } from "lucide-react"
+import { Bolt, CalendarClock, Coins, Dot } from "lucide-react"
 import { useContext, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "next/navigation"
 import Loading from "@/app/loading"
+import { UseQueryResult } from "@tanstack/react-query"
 
 export default function Page() {
   const [{ user, subscription }] = useContext(GlobalContext)
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const pricing = useFetch({
+  const pricing: UseQueryResult<Subscription[], Error> = useQuery({
     queryKey: ["pricing-settings"],
     queryUrl: endPoints.getSubscriptionPricing,
     method: HTTPMethods.GET,
@@ -66,17 +67,18 @@ export default function Page() {
         new Date(subscription.endsAt).getTime() - new Date().getTime() <=
           24 * 60 * 60 * 1000))
 
-  const renderPricingTiers = pricing?.data?.map((tier: Subscription) => {
+  const renderPricingTiers = pricing?.data?.map((tier) => {
     return (
       <div
-        className="relative overflow-hidden rounded-lg border bg-white"
+        className="relative overflow-hidden rounded-lg border bg-background border-border text-white"
         key={tier.subscriptionTier}
       >
         <div className="flex flex-col justify-between rounded-md p-6">
           <div className="space-y-2">
-            <h2 className="font-bold text-md capitalize text-zinc-700">
+            <h2 className="font-bold text-md capitalize">{brandName}</h2>
+            <h1 className="font-bolder text-md capitalize text-3xl text-primary">
               {tier.subscriptionTier}
-            </h2>
+            </h1>
             <div className="flex">
               <h2 className="font-bold text-3xl capitalize">${tier.price}</h2>
               <span className="flex flex-col justify-end text-sm mb-1">
@@ -84,27 +86,17 @@ export default function Page() {
               </span>
             </div>
           </div>
-          <p className="text-zinc-600 text-sm mt-4 mb-4">{tier.features[0]}</p>
-          <ul className="grid gap-3 text-sm text-muted-foreground">
+          <p className="text-sm mt-4 mb-4">{tier.features[0]}</p>
+          <ul className="grid gap-3 text-sm">
             {tier.features.slice(1).map((feature) => (
-              <li
-                className="flex text-xs items-center text-zinc-600"
-                key={feature}
-              >
-                <CheckCircle2 className="scale-75 me-2" />
+              <li className="flex text-xs items-center" key={feature}>
+                <Dot className="scale-150 me-2" />
                 {feature}
               </li>
             ))}
-            <li
-              className="flex text-xs items-center text-zinc-600"
-              key={tier.xp}
-            >
-              <CheckCircle2 className="scale-75 me-2" />
-              {tier.xp} XP for a month
-            </li>
           </ul>
           <Button
-            className="mt-4"
+            className="mt-4 bg-primary hover:bg-primary"
             onClick={() => activateSubscription(tier.subscriptionTier)}
           >
             Activate
@@ -178,8 +170,10 @@ export default function Page() {
         </section>
       </Show>
       <Show condition={!!canActivateNewSubscription}>
-        <div className="mx-auto mt-4 grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-          {renderPricingTiers}
+        <div className="mt-4">
+          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 lg:max-w-[40rem]">
+            {renderPricingTiers}
+          </div>
         </div>
       </Show>
     </Show>

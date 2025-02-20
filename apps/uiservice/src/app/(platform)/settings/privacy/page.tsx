@@ -1,6 +1,6 @@
 "use client"
 import CopyToClipboard from "@/shared/components/copy"
-import SectionPanel from "../(components)/sectionpanel"
+import SectionPanel from "../../../../shared/components/sectionpanel"
 import { Switch } from "@/shared/components/ui/switch"
 import { toast } from "@/shared/components/ui/use-toast"
 import { endPoints } from "@/shared/constants/api-endpoints"
@@ -37,7 +37,6 @@ export default function Page() {
         content="Choose whether to save the things you do to get more relevant results"
         actionComponents={[
           <Switch
-            className="bg-white"
             checked={user.activityLog}
             onCheckedChange={(value): Promise<void> =>
               saveActivityLogSettings(value)
