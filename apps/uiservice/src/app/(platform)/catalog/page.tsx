@@ -146,7 +146,7 @@ export default function Page() {
                   <Button
                     variant="default"
                     size="sm"
-                    className="h-8 gap-1 bg-background hover:bg-background"
+                    className="h-8 gap-1 bg-border hover:bg-border"
                   >
                     <SortAsc className="h-3.5 w-3.5" />
                     <span>Sort</span>
