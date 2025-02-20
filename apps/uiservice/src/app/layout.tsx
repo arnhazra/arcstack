@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className={quickSand.className}>
         <Providers>
-          <main className="min-h-screen w-full bg-background">{children}</main>
+          <main className="min-h-screen w-full bg-main">{children}</main>
         </Providers>
       </body>
     </html>

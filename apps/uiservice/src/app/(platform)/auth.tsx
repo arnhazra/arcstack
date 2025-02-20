@@ -107,7 +107,7 @@ export default function AuthenticationPage({
                   <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
-                      className="h-12 bg-zinc-900 border-zinc-800 text-white"
+                      className="h-12 bg-background border-border text-white"
                       type="email"
                       placeholder="someone@example.com"
                       required
@@ -146,7 +146,7 @@ export default function AuthenticationPage({
                       <div className="grid gap-2">
                         <Label htmlFor="name">Your Name</Label>
                         <Input
-                          className="h-11 bg-zinc-900 border-zinc-800 text-white"
+                          className="h-11 bg-background border-border text-white"
                           type="text"
                           placeholder="Your Name"
                           required
@@ -160,7 +160,7 @@ export default function AuthenticationPage({
                     <div className="grid gap-2">
                       <Label htmlFor="otp">One Time Password</Label>
                       <Input
-                        className="h-11 bg-zinc-900 border-zinc-800 text-white"
+                        className="h-11 bg-background border-border text-white"
                         type="password"
                         placeholder="Enter OTP sent to your email"
                         required

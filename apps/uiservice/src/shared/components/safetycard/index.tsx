@@ -3,7 +3,7 @@ import { Button } from "../ui/button"
 
 export function TeachCard() {
   return (
-    <div className="bg-zinc-900 border-white p-8 rounded-lg">
+    <div className="bg-background border-white p-8 rounded-lg">
       <div className="flex justify-between items-center mb-12">
         <h2 className="text-3xl">Teach</h2>
         <Button
@@ -16,7 +16,7 @@ export function TeachCard() {
         </Button>
       </div>
       <div className="flex gap-8 mb-8 justify-center">
-        <div className="w-16 h-16 bg-background rounded-full" />
+        <div className="w-16 h-16 bg-main rounded-full" />
         <div className="w-16 h-16 bg-zinc-100 rounded-full" />
       </div>
       <p className="text-md leading-relaxed">
@@ -29,7 +29,7 @@ export function TeachCard() {
 
 export function TestCard() {
   return (
-    <div className="bg-zinc-900 border-zinc-800 p-8 rounded-lg">
+    <div className="bg-background border-border p-8 rounded-lg">
       <div className="flex justify-between items-center mb-12">
         <h2 className="text-3xl">Test</h2>
         <Button
@@ -74,7 +74,7 @@ export function TestCard() {
 
 export function ShareCard() {
   return (
-    <div className="bg-zinc-900 p-8 rounded-lg">
+    <div className="bg-background p-8 rounded-lg">
       <div className="flex justify-between items-center mb-12">
         <h2 className="text-3xl">Share</h2>
         <Button
@@ -90,21 +90,21 @@ export function ShareCard() {
         <div className="space-y-4">
           <div className="w-16 h-16">
             <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
-            <div className="w-16 h-8 bg-background rounded-b-full" />
+            <div className="w-16 h-8 bg-main rounded-b-full" />
           </div>
           <div className="w-16 h-16">
             <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
-            <div className="w-16 h-8 bg-background rounded-b-full" />
+            <div className="w-16 h-8 bg-main rounded-b-full" />
           </div>
         </div>
         <div className="space-y-4">
           <div className="w-16 h-16">
             <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
-            <div className="w-16 h-8 bg-background rounded-b-full" />
+            <div className="w-16 h-8 bg-main rounded-b-full" />
           </div>
           <div className="w-16 h-16 relative">
             <div className="w-16 h-8 bg-zinc-100 rounded-t-full" />
-            <div className="w-16 h-8 bg-background rounded-b-full" />
+            <div className="w-16 h-8 bg-main rounded-b-full" />
             <div className="absolute bottom-0 right-0 bg-primary p-1 rounded-lg">
               <svg
                 width="16"

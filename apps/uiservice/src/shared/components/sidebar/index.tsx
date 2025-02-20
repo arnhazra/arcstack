@@ -24,7 +24,7 @@ export default function Sidebar() {
 
   const generateLinkClassName = (uri: string) => {
     if (pathName.includes(uri)) {
-      return "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-800 text-lg font-semibold md:h-8 md:w-8 md:text-base"
+      return "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-border text-lg font-semibold md:h-8 md:w-8 md:text-base"
     }
 
     return "flex h-9 w-9 items-center justify-center rounded-lg bg-accent transition-colors md:h-8 md:w-8"
@@ -63,7 +63,7 @@ export default function Sidebar() {
 
   return (
     <>
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background text-white border-zinc-800 sm:flex">
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-main text-white border-border sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link href="/catalog" className={generateLinkClassName("catalog")}>
             <DraftingCompass className="h-4 w-4 transition-all group-hover:scale-110" />
@@ -87,7 +87,7 @@ export default function Sidebar() {
         </nav>
       </aside>
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 lg:-mb-4">
-        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+        <header className="sticky top-0 z-30 flex h-14 items-center gap-4 bg-main px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
           <Sheet>
             <SheetTrigger asChild>
               <Button
@@ -101,13 +101,13 @@ export default function Sidebar() {
             </SheetTrigger>
             <SheetContent
               side="left"
-              className="bg-background text-white border-none"
+              className="bg-main text-white border-none"
             >
               <SheetTitle></SheetTitle>
               <nav className="grid gap-6 text-lg font-medium">
                 <Link
                   href="/catalog"
-                  className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-background text-lg font-semibold md:text-base"
+                  className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-main text-lg font-semibold md:text-base"
                 >
                   <DraftingCompass className="scale-75" />
                   <span className="sr-only">{brandName}</span>

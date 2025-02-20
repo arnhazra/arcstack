@@ -52,11 +52,11 @@ export default function usePrompt() {
 
   const promptDialog = () => (
     <AlertDialog open={show}>
-      <AlertDialogContent className="bg-zinc-900 text-white border-zinc-800">
+      <AlertDialogContent className="bg-background text-white border-border">
         <AlertDialogHeader className="mb-2">
           <AlertDialogTitle className="mb-2">{message}</AlertDialogTitle>
           <Input
-            className="prompt-input bg-zinc-800 border-zinc-700"
+            className="prompt-input bg-border border-lightborder"
             required
             type="text"
             placeholder={`Enter ${message}`}

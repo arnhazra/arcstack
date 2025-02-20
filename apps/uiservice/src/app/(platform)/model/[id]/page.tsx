@@ -54,7 +54,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       if (item.length > 5) {
         return (
           <Badge
-            className="me-2 mb-2 bg-zinc-800 hover:bg-zinc-800 ps-2 pe-2 pt-1 pb-1"
+            className="me-2 mb-2 bg-border hover:bg-border ps-2 pe-2 pt-1 pb-1"
             variant="default"
             key={index}
           >
@@ -90,7 +90,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <div className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
             <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-              <Card className="sm:col-span-4 pb-4 text-white bg-zinc-900 border-zinc-800">
+              <Card className="sm:col-span-4 pb-4 text-white bg-background border-border">
                 <CardHeader className="pb-3">
                   <CardTitle className="flex flex-wrap justify-between">
                     {model?.data?.displayName}
@@ -124,7 +124,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               {renderRelatedModels}
             </div>
           </div>
-          <Card className="overflow-hidden bg-zinc-900 text-white border-zinc-800">
+          <Card className="overflow-hidden bg-background text-white border-border">
             <CardHeader className="flex flex-row items-start bg-muted/50">
               <div className="grid gap-0.5">
                 <CardTitle className="group flex items-center gap-2 text-lg">
@@ -185,7 +185,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </li>
                 </ul>
               </div>
-              <Separator className="my-4 bg-zinc-800" />
+              <Separator className="my-4 bg-border" />
               <div className="grid gap-3">
                 <div className="font-semibold text-lg">Model Tags</div>
                 <div>{renderModelTags}</div>
@@ -194,7 +194,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <CardFooter className="flex flex-row items-center bg-muted/50 px-6 py-3">
               <Button
                 variant="default"
-                className="w-full bg-zinc-800 hover:bg-zinc-800"
+                className="w-full bg-border hover:bg-border"
                 onClick={(): void => router.push(`/apireference/${modelId}`)}
               >
                 Data API Reference

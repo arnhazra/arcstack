@@ -80,7 +80,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <Show condition={!model.isLoading} fallback={<Loading />}>
       <Show condition={!model.error} fallback={<Error />}>
-        <Card className="xl:col-span-2 bg-zinc-900 border-zinc-800 text-white">
+        <Card className="xl:col-span-2 bg-background border-border text-white">
           <CardHeader className="px-7">
             <CardTitle>{model.data?.displayName}</CardTitle>
             <CardDescription className="text-zinc-200">
@@ -91,14 +91,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <div className="grid flex-1 gap-4 overflow-auto p-4 md:grid-cols-2 lg:grid-cols-3">
               <div className="relative flex-col items-start gap-8 md:flex">
                 <div className="grid w-full items-start gap-6">
-                  <fieldset className="grid gap-6 rounded-lg border border-zinc-800 p-4">
+                  <fieldset className="grid gap-6 rounded-lg border border-border p-4">
                     <legend className="px-1 text-sm font-medium">
                       Settings
                     </legend>
                     <div className="grid gap-3">
                       <Label htmlFor="model">Base Model</Label>
                       <Input
-                        className="bg-zinc-800 text-white border-zinc-700"
+                        className="bg-border text-white border-lightborder"
                         disabled
                         defaultValue={model.data?.baseModel?.displayName}
                       />
@@ -106,7 +106,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="grid gap-3">
                       <Label htmlFor="temperature">Temperature</Label>
                       <Input
-                        className="bg-zinc-800 text-white border-zinc-700"
+                        className="bg-border text-white border-lightborder"
                         id="temperature"
                         type="number"
                         defaultValue={model?.data?.baseModel.defaultTemperature}
@@ -121,7 +121,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="grid gap-3">
                       <Label htmlFor="top-p">Top P</Label>
                       <Input
-                        className="bg-zinc-800 text-white border-zinc-700"
+                        className="bg-border text-white border-lightborder"
                         id="top-p"
                         type="number"
                         defaultValue={model?.data?.baseModel.defaultTopP}
@@ -141,7 +141,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </div>
               <div className="relative flex h-full flex-col rounded-xl bg-muted/50 pt-4 lg:col-span-2">
                 <form onSubmit={hitAPI}>
-                  <div className="relative overflow-hidden rounded-lg border-none bg-background -mt-2">
+                  <div className="relative overflow-hidden rounded-lg border-none bg-main -mt-2">
                     <Label htmlFor="message" className="sr-only">
                       Message
                     </Label>
@@ -150,7 +150,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       value={prompt}
                       required
                       placeholder="Type your message here..."
-                      className="min-h-12 resize-none border-0 p-3 shadow-none bg-zinc-800 text-white border-zinc-700"
+                      className="min-h-12 resize-none border-0 p-3 shadow-none bg-border text-white border-lightborder"
                       onChange={(e): void => {
                         setPrompt(e.target.value)
                         setRequestBody({

@@ -2,8 +2,8 @@
 @tailwind components
 @tailwind utilities
 
-$backGround: #121212
-$backgroundOpaque: #121212e4
+$main: #121212
+$mainOpaque: #121212e4
 ::-webkit-scrollbar
   width: 0
 
@@ -11,10 +11,10 @@ body
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
   -webkit-font-smoothing: antialiased
-  background: $backGround
+  background: $main
 
 .auth-landing
-  background: linear-gradient(to top, $backGround 40%, $backgroundOpaque 100%), url("../assets/hero.jpg")
+  background: linear-gradient(to top, $main 40%, $mainOpaque 100%), url("../assets/hero.jpg")
   -webkit-background-size: cover
   -moz-background-size: cover
   -o-background-size: cover
@@ -22,7 +22,7 @@ body
   background-attachment: fixed
 
 .hero-landing
-  background: linear-gradient(to top, $backGround 40%, $backgroundOpaque 100%), url("../assets/hero.jpg")
+  background: linear-gradient(to top, $main 40%, $mainOpaque 100%), url("../assets/hero.jpg")
   -webkit-background-size: cover
   -moz-background-size: cover
   -o-background-size: cover

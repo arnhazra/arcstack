@@ -82,12 +82,12 @@ export default function Page() {
           rel="noreferrer"
           className="flex"
         >
-          <div className="flex h-10 w-10 items-center justify-center space-x-2 rounded-md border border-zinc-800 bg-zinc-900">
+          <div className="flex h-10 w-10 items-center justify-center space-x-2 rounded-md border border-border bg-background">
             <Github />
           </div>
           <div className="flex items-center">
-            <div className="h-4 w-4 border-y-8 border-l-0 border-r-8 border-solid border-zinc-800 border-y-transparent"></div>
-            <div className="flex h-10 items-center rounded-md border border-zinc-800 bg-zinc-900 px-4 font-medium">
+            <div className="h-4 w-4 border-y-8 border-l-0 border-r-8 border-solid border-border border-y-transparent"></div>
+            <div className="flex h-10 items-center rounded-md border border-border bg-background px-4 font-medium">
               {""} Stars on GitHub
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function Page() {
   const renderPricingTiers = pricing?.data?.map((tier) => {
     return (
       <div
-        className="relative overflow-hidden rounded-lg border bg-zinc-900 border-zinc-800"
+        className="relative overflow-hidden rounded-lg border bg-background border-border"
         key={tier.subscriptionTier}
       >
         <div className="flex flex-col justify-between rounded-md p-6">
@@ -137,7 +137,7 @@ export default function Page() {
 
   const renderFooterSection = (
     <footer>
-      <div className="bg-background text-white">
+      <div className="bg-main text-white">
         <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
           <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
             <p className="text-center text-sm leading-loose md:text-left">

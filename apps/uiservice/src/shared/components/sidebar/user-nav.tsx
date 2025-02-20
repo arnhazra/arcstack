@@ -29,7 +29,7 @@ export function UserNav() {
         <Button
           variant="default"
           size="icon"
-          className="overflow-hidden rounded-full bg-zinc-800"
+          className="overflow-hidden rounded-full bg-border"
         >
           <User className="scale-75" />
         </Button>

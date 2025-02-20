@@ -5,7 +5,7 @@ import { LoaderCircle } from "lucide-react"
 export default function Loading() {
   return (
     <>
-      <div className="fixed inset-0 flex justify-center items-center z-50 bg-background">
+      <div className="fixed inset-0 flex justify-center items-center z-50 bg-main">
         <LoaderCircle
           width="48"
           height="48"

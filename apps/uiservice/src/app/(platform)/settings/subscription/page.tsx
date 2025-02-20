@@ -70,7 +70,7 @@ export default function Page() {
   const renderPricingTiers = pricing?.data?.map((tier) => {
     return (
       <div
-        className="relative overflow-hidden rounded-lg border bg-zinc-900 border-zinc-800 text-white"
+        className="relative overflow-hidden rounded-lg border bg-background border-border text-white"
         key={tier.subscriptionTier}
       >
         <div className="flex flex-col justify-between rounded-md p-6">
