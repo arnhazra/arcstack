@@ -1,6 +1,9 @@
 "use client"
 import ky from "ky"
-import { useQuery } from "@tanstack/react-query"
+import {
+  useQuery as useReactQuery,
+  UseQueryResult,
+} from "@tanstack/react-query"
 import { useContext } from "react"
 import { GlobalContext } from "@/context/globalstate.provider"
 import HTTPMethods from "@/shared/constants/http-methods"
@@ -14,7 +17,7 @@ interface QueryType {
   enabled?: boolean
 }
 
-export default function useFetch({
+export default function useQuery({
   queryKey,
   queryUrl,
   method,
@@ -32,7 +35,7 @@ export default function useFetch({
     return data
   }
 
-  return useQuery({
+  return useReactQuery({
     enabled,
     queryKey,
     queryFn,

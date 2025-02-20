@@ -20,7 +20,7 @@ import Show from "@/shared/components/show"
 import LoaderIcon from "@/shared/components/loaderIcon"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import HTTPMethods from "@/shared/constants/http-methods"
-import useFetch from "@/shared/hooks/use-fetch"
+import useQuery from "@/shared/hooks/use-query"
 import { DerivedModel } from "@/shared/types"
 import { UseQueryResult } from "@tanstack/react-query"
 import { useRouter, useSearchParams } from "next/navigation"
@@ -32,7 +32,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const searchParams = useSearchParams()
   const router = useRouter()
   const threadId = searchParams.get("threadId")
-  const model: UseQueryResult<DerivedModel, Error> = useFetch({
+  const model: UseQueryResult<DerivedModel, Error> = useQuery({
     queryKey: ["model", modelId ?? ""],
     queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,

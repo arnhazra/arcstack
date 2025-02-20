@@ -7,7 +7,7 @@ import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { GlobalContext } from "@/context/globalstate.provider"
-import useFetch from "@/shared/hooks/use-fetch"
+import useQuery from "@/shared/hooks/use-query"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import { Subscription } from "@/shared/types"
 import { format } from "date-fns"
@@ -24,7 +24,7 @@ export default function Page() {
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const pricing: UseQueryResult<Subscription[], Error> = useFetch({
+  const pricing: UseQueryResult<Subscription[], Error> = useQuery({
     queryKey: ["pricing-settings"],
     queryUrl: endPoints.getSubscriptionPricing,
     method: HTTPMethods.GET,

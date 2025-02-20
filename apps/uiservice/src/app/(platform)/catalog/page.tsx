@@ -3,7 +3,7 @@ import Show from "@/shared/components/show"
 import { Button } from "@/shared/components/ui/button"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
-import useFetch from "@/shared/hooks/use-fetch"
+import useQuery from "@/shared/hooks/use-query"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -37,7 +37,7 @@ export default function Page() {
       offset: 0,
     })
   const filtersAndSortOptions: UseQueryResult<FilterAndSortOptions, Error> =
-    useFetch({
+    useQuery({
       queryKey: ["filter-and-sort-options"],
       queryUrl: endPoints.getDerivedModelFilterAndSortOptions,
       method: HTTPMethods.GET,
@@ -47,7 +47,7 @@ export default function Page() {
     setFindModelRequestState({ ...findModelRequestState, searchQuery })
   }, [searchQuery])
 
-  const models = useFetch({
+  const models = useQuery({
     queryKey: [
       "models-listings",
       findModelRequestState.selectedFilter,

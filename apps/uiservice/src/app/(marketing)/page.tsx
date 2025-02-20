@@ -13,19 +13,19 @@ import { cn } from "@/shared/lib/utils"
 import { buttonVariants } from "@/shared/components/ui/button"
 import Show from "@/shared/components/show"
 import Loading from "../loading"
-import useFetch from "@/shared/hooks/use-fetch"
+import useQuery from "@/shared/hooks/use-query"
 import SafetySection from "./(components)/safety-section"
 import { BaseModelCard } from "@/shared/components/modelcard"
 import { UseQueryResult } from "@tanstack/react-query"
 
 export default function Page() {
-  const models: UseQueryResult<BaseModel[], Error> = useFetch({
+  const models: UseQueryResult<BaseModel[], Error> = useQuery({
     queryKey: ["display-models"],
     queryUrl: endPoints.getDisplayModels,
     method: HTTPMethods.GET,
   })
 
-  const pricing: UseQueryResult<Subscription[], Error> = useFetch({
+  const pricing: UseQueryResult<Subscription[], Error> = useQuery({
     queryKey: ["pricing"],
     queryUrl: endPoints.getSubscriptionPricing,
     method: HTTPMethods.GET,

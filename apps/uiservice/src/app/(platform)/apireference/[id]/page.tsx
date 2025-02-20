@@ -1,7 +1,7 @@
 "use client"
 import { apiHost, endPoints } from "@/shared/constants/api-endpoints"
 import { Book } from "lucide-react"
-import useFetch from "@/shared/hooks/use-fetch"
+import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
 import SnippetPanel from "../(components)/snippet"
 import { useRouter } from "next/navigation"

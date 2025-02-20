@@ -12,7 +12,7 @@ import {
 } from "@/shared/components/ui/card"
 import { Separator } from "@/shared/components/ui/separator"
 import { useRouter } from "next/navigation"
-import useFetch from "@/shared/hooks/use-fetch"
+import useQuery from "@/shared/hooks/use-query"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import Show from "@/shared/components/show"
@@ -29,13 +29,13 @@ import Error from "@/app/error"
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
   const router = useRouter()
-  const model: UseQueryResult<DerivedModel, Error> = useFetch({
+  const model: UseQueryResult<DerivedModel, Error> = useQuery({
     queryKey: ["model", modelId ?? ""],
     queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
 
-  const relatedModels: UseQueryResult<DerivedModel[], Error> = useFetch({
+  const relatedModels: UseQueryResult<DerivedModel[], Error> = useQuery({
     queryKey: ["related-models", model?.data?.category as any],
     queryUrl: endPoints.getDerivedModels,
     method: HTTPMethods.POST,
