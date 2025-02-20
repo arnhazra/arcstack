@@ -97,7 +97,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="flex gap-4">
                       <ActivityLog keyword={modelId} />
                       <Show condition={!!model?.data?.isPro}>
-                        <Badge className="bg-lime-500">Pro</Badge>
+                        <Badge className="bg-primary">Pro</Badge>
                       </Show>
                     </div>
                   </CardTitle>
@@ -108,7 +108,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <CardContent className="flex gap-4 mt-4 -mb-4">
                   <Button
                     size="sm"
-                    className="bg-lime-500 hover:bg-lime-500"
+                    className="bg-primary hover:bg-primary"
                     onClick={(): void => router.push(`/playground/${modelId}`)}
                   >
                     <FlaskConical className="me-2 scale-75" />
@@ -140,53 +140,47 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <div className="font-semibold text-lg">Model Details</div>
                 <ul className="grid gap-3">
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Architecture</span>
+                    <span>Architecture</span>
                     <span>{model?.data?.baseModel.architecture}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Vendor</span>
+                    <span>Vendor</span>
                     <span>{model?.data?.baseModel.vendor}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Base Model</span>
+                    <span>Base Model</span>
                     <span>{model?.data?.baseModel.displayName}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Series</span>
+                    <span>Series</span>
                     <span>{model?.data?.baseModel.series}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">
-                      Context Window
-                    </span>
+                    <span>Context Window</span>
                     <span>{model?.data?.baseModel.contextWindow}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">
-                      Default Temerature
-                    </span>
+                    <span>Default Temerature</span>
                     <span>{model?.data?.baseModel.defaultTemperature}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Default Top P</span>
+                    <span>Default Top P</span>
                     <span>{model?.data?.baseModel.defaultTopP}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Parameters</span>
+                    <span>Parameters</span>
                     <span>{model?.data?.baseModel.parameters}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Generic Name</span>
+                    <span>Generic Name</span>
                     <span>{model?.data?.baseModel.genericName}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Fine Tuned</span>
+                    <span>Fine Tuned</span>
                     <span>{model?.data?.isFineTuned ? "Yes" : "No"}</span>
                   </li>
                   <li className="flex items-center justify-between">
-                    <span className="text-muted-foreground">
-                      Response Format
-                    </span>
+                    <span>Response Format</span>
                     <span>{model?.data?.responseFormat}</span>
                   </li>
                 </ul>

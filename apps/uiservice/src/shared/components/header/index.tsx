@@ -8,11 +8,11 @@ import {
   SheetTrigger,
 } from "@/shared/components/ui/sheet"
 import { generalUserLinks } from "./data"
-import { brandName, uiConstants } from "@/shared/constants/global-constants"
+import { brandName } from "@/shared/constants/global-constants"
 
 export default function Header() {
   return (
-    <header className="relative z-50 top-0 flex h-[72px] items-center bg-black text-white px-4 md:px-6">
+    <header className="relative z-50 top-0 flex h-[72px] items-center bg-background text-white px-4 md:px-6">
       <div className="flex w-full items-center justify-between lg:container lg:max-w-[75rem]">
         <Link
           href="/"
@@ -26,7 +26,7 @@ export default function Header() {
             <Link
               key={index}
               href={item.link}
-              className="text-md font-medium text-foreground hover:text-primary mx-3"
+              className="text-md font-medium text-white hover:text-primary mx-3"
               target={item.external ? "_blank" : ""}
               rel={item.external ? "noopener noreferrer" : ""}
             >
@@ -47,7 +47,7 @@ export default function Header() {
             </SheetTrigger>
             <SheetContent
               side="right"
-              className="bg-black text-white border-none"
+              className="bg-primary text-white border-none"
             >
               <SheetTitle></SheetTitle>
               <nav className="grid gap-6 text-lg font-medium">
@@ -61,7 +61,7 @@ export default function Header() {
                   <Link
                     key={index}
                     href={item.link}
-                    className="text-foreground"
+                    className="text-white hover:text-primary"
                     target={item.external ? "_blank" : ""}
                     rel={item.external ? "noopener noreferrer" : ""}
                   >

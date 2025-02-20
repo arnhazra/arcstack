@@ -86,7 +86,7 @@ export default function Page() {
             </div>
           </div>
           <p className="text-zinc-600 text-sm mt-4 mb-4">{tier.features[0]}</p>
-          <ul className="grid gap-3 text-sm text-muted-foreground">
+          <ul className="grid gap-3 text-sm">
             {tier.features.slice(1).map((feature) => (
               <li
                 className="flex text-xs items-center text-zinc-600"

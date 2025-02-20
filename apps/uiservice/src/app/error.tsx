@@ -21,7 +21,7 @@ export default function Error() {
         <CardFooter>
           <Button
             size="lg"
-            className="w-full bg-lime-500 hover:bg-lime-500"
+            className="w-full bg-primary hover:bg-primary"
             onClick={(): void => window.location.reload()}
           >
             Retry

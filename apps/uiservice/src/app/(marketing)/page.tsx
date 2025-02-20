@@ -4,16 +4,16 @@ import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { BaseModel, Subscription } from "@/shared/types"
 import { brandName, uiConstants } from "@/shared/constants/global-constants"
-import { Dot, Github } from "lucide-react"
+import { CircleArrowRight, Dot, Github } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
 import { buttonVariants } from "@/shared/components/ui/button"
 import Show from "@/shared/components/show"
 import Loading from "../loading"
 import useQuery from "@/shared/hooks/use-query"
-import SafetySection from "./safety-section"
 import { BaseModelCard } from "@/shared/components/modelcard"
 import { UseQueryResult } from "@tanstack/react-query"
+import { ShareCard, TeachCard, TestCard } from "@/shared/components/safetycard"
 
 export default function Page() {
   const models: UseQueryResult<BaseModel[], Error> = useQuery({
@@ -47,11 +47,12 @@ export default function Page() {
             buttonVariants({
               size: "lg",
               variant: "default",
-              className: "rounded-full bg-lime-500 hover:bg-lime-500",
+              className: "rounded-full bg-primary hover:bg-primary",
             })
           )}
         >
-          {uiConstants.getStartedButton}
+          {uiConstants.getStartedButton}{" "}
+          <CircleArrowRight className="ms-2 scale-75" />
         </Link>
       </div>
     </section>
@@ -104,7 +105,7 @@ export default function Page() {
         <div className="flex flex-col justify-between rounded-md p-6">
           <div className="space-y-2">
             <h2 className="font-bold text-md capitalize">{brandName}</h2>
-            <h1 className="font-bolder text-md capitalize text-3xl text-lime-500">
+            <h1 className="font-bolder text-md capitalize text-3xl text-primary">
               {tier.subscriptionTier}
             </h1>
             <div className="flex">
@@ -115,7 +116,7 @@ export default function Page() {
             </div>
           </div>
           <p className="text-sm mt-4 mb-4">{tier.features[0]}</p>
-          <ul className="grid gap-3 text-sm text-muted-foreground">
+          <ul className="grid gap-3 text-sm">
             {tier.features.slice(1).map((feature) => (
               <li className="flex text-xs items-center" key={feature}>
                 <Dot className="scale-150 me-2" />
@@ -124,7 +125,7 @@ export default function Page() {
             ))}
           </ul>
           <Link
-            className={`${cn(buttonVariants({ variant: "default", className: "bg-lime-500 hover:bg-lime-500" }))} mt-4`}
+            className={`${cn(buttonVariants({ variant: "default", className: "bg-primary hover:bg-primary" }))} mt-4`}
             href="/catalog"
           >
             {uiConstants.getStartedButton}
@@ -136,7 +137,7 @@ export default function Page() {
 
   const renderFooterSection = (
     <footer>
-      <div className="bg-black text-white">
+      <div className="bg-background text-white">
         <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
           <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
             <p className="text-center text-sm leading-loose md:text-left">
@@ -154,7 +155,7 @@ export default function Page() {
       condition={!models.isLoading && !pricing.isLoading}
       fallback={<Loading />}
     >
-      <div className="min-h-screen w-full bg-black text-white">
+      <div className="min-h-screen w-full text-white">
         <Header />
         {renderHeroSection}
         <section
@@ -186,7 +187,11 @@ export default function Page() {
               {uiConstants.safetyHeader}
             </p>
           </div>
-          <SafetySection />
+          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-1 md:max-w-[35rem] md:grid-cols-1 lg:max-w-[50rem] lg:grid-cols-2 xl:max-w-[68rem] xl:grid-cols-3">
+            <TeachCard />
+            <TestCard />
+            <ShareCard />
+          </div>
         </section>
         <section id="plans" className="container py-8 md:py-12 lg:py-24">
           <div className="mx-auto flex max-w-[70rem] flex-col items-center justify-center gap-4 text-center mb-8">

@@ -34,7 +34,7 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
       <Card className="w-full max-w-xs mx-auto h-[23rem] flex flex-col relative hover:shadow-md transition-shadow bg-zinc-900 border-zinc-800 text-white">
         <CardHeader className="pb-2">
           <div className="flex items-start">
-            <Brain className="w-8 h-8 text-primary mr-3 mt-1 text-lime-400" />
+            <Brain className="w-8 h-8 text-primary mr-3 mt-1 text-primary" />
             <div className="flex flex-col min-w-0">
               <div className="flex items-center space-x-2">
                 <CardTitle
@@ -44,7 +44,7 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
                   {displayName}
                 </CardTitle>
               </div>
-              <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-1">
+              <div className="flex items-center space-x-2 text-xs mt-1">
                 <div className="flex items-center" title="Number of Parameters">
                   <AudioLines className="w-3 h-3 mr-1 text-green-400" />
                   <span>{parameters}</span>
@@ -102,7 +102,7 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
       <Card className="w-full max-w-xs mx-auto h-[23rem] flex flex-col relative hover:shadow-md transition-shadow bg-zinc-900 border-zinc-800 text-white">
         <CardHeader className="pb-2">
           <div className="flex items-start">
-            <Brain className="w-8 h-8 text-primary mr-3 mt-1 text-lime-400" />
+            <Brain className="w-8 h-8 text-primary mr-3 mt-1 text-primary" />
             <div className="flex flex-col min-w-0">
               <div className="flex items-center space-x-2">
                 <CardTitle
@@ -112,10 +112,10 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
                   {displayName}
                 </CardTitle>
                 {isPro && (
-                  <Badge className="bg-lime-500 hover:bg-lime-500 ">Pro</Badge>
+                  <Badge className="bg-primary hover:bg-primary ">Pro</Badge>
                 )}
               </div>
-              <div className="flex items-center space-x-2 text-xs text-muted-foreground mt-1">
+              <div className="flex items-center space-x-2 text-xs mt-1">
                 <div className="flex items-center" title="Number of Parameters">
                   <AudioLines className="w-3 h-3 mr-1 text-green-400" />
                   <span>{model?.baseModel?.parameters}</span>

@@ -23,7 +23,7 @@ export default function NotFound() {
         <CardFooter>
           <Link
             href="/catalog"
-            className={`w-full ${cn(buttonVariants({ variant: "default", className: "bg-lime-500 hover:bg-lime-500" }))} `}
+            className={`w-full ${cn(buttonVariants({ variant: "default", className: "bg-primary hover:bg-primary" }))} `}
           >
             Go Back
           </Link>
