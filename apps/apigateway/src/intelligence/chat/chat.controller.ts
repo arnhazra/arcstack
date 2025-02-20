@@ -15,7 +15,10 @@ export class ChatController {
     @Body() aiGenerationDto: AIGenerationDto
   ) {
     try {
-      return await this.service.generateRecommendation(aiGenerationDto)
+      return await this.service.generateRecommendation(
+        aiGenerationDto,
+        request.user.userId
+      )
     } catch (error) {
       throw error
     }

@@ -43,6 +43,5 @@ export default async function GeminiStrategy(
   })
 
   const response = (await result.sendMessage(prompt)).response.text()
-  console.log(response)
   return { response }
 }

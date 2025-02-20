@@ -10,6 +10,9 @@ export class Thread extends Document {
   @Prop({ type: Types.ObjectId, required: true })
   readonly threadId: Types.ObjectId
 
+  @Prop({ type: Types.ObjectId, required: true })
+  readonly userId: Types.ObjectId
+
   @Prop({ required: true })
   readonly prompt: string
 

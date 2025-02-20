@@ -66,9 +66,41 @@ export class APIKeyGuard implements CanActivate {
                 subscriptionRes.length &&
                 subscriptionRes[0] === null)
             ) {
-              throw new ForbiddenException(statusMessages.subscriptionNotFound)
+              const threadCountRes: number[] =
+                await this.eventEmitter.emitAsync(
+                  EventsUnion.GetThreadCount,
+                  userId
+                )
+              if (
+                !threadCountRes ||
+                !threadCountRes.length ||
+                (threadCountRes &&
+                  threadCountRes.length &&
+                  threadCountRes[0] === null)
+              ) {
+                throw new ForbiddenException(statusMessages.invalidAPIKey)
+              } else {
+                const threadCount = threadCountRes.shift()
+
+                if (threadCount < 200) {
+                  request.user = { userId, role: user.role }
+                  if (user.activityLog) {
+                    const { method, url: apiUri } = request
+                    this.eventEmitter.emit(EventsUnion.CreateActivity, {
+                      userId,
+                      method,
+                      apiUri,
+                    })
+                  }
+
+                  return true
+                } else {
+                  throw new ForbiddenException(
+                    statusMessages.freeTierLimitReached
+                  )
+                }
+              }
             } else {
-              const subscription = subscriptionRes.shift()
               request.user = { userId, role: user.role }
               if (user.activityLog) {
                 const { method, url: apiUri } = request
@@ -85,7 +117,6 @@ export class APIKeyGuard implements CanActivate {
         }
       }
     } catch (error) {
-      // console.log(error)
       throw error
     }
   }

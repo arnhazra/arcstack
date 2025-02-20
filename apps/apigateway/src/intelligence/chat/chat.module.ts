@@ -8,6 +8,7 @@ import { CreateThreadCommandHandler } from "./commands/handler/create-thread.han
 import { ChatRepository } from "./chat.repository"
 import { DatabaseModule } from "src/shared/database/database.module"
 import { FetchThreadByIdQueryHandler } from "./queries/handler/fetch-thread-by-id.handler"
+import { GetUsageByUserIdQueryHandler } from "./queries/handler/get-usage-by-user-id.handler"
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { FetchThreadByIdQueryHandler } from "./queries/handler/fetch-thread-by-i
     ChatRepository,
     CreateThreadCommandHandler,
     FetchThreadByIdQueryHandler,
+    GetUsageByUserIdQueryHandler,
   ],
 })
 export class ChatModule {}

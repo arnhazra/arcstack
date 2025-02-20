@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { CreateThreadCommand } from "./commands/impl/create-thread.command"
 import { Thread } from "./schemas/thread.schema"
-import { EventEmitter2 } from "@nestjs/event-emitter"
+import { EventEmitter2, OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "@/shared/utils/events.union"
 import { AIGenerationDto } from "./dto/ai-generate.dto"
 import { Types } from "mongoose"
@@ -11,6 +11,7 @@ import { DerivedModelResponseDto } from "../derivedmodel/dto/response/derived-mo
 import GeminiStrategy from "./strategies/gemini.strategy"
 import GroqStrategy from "./strategies/groq.strategy"
 import OpenAIStrategy from "./strategies/openai.strategy"
+import { GetUsageByUserIdQuery } from "./queries/impl/get-usage-by-user-id.query"
 
 @Injectable()
 export class ChatService {
@@ -58,7 +59,21 @@ export class ChatService {
     }
   }
 
-  async generateRecommendation(aiGenerationDto: AIGenerationDto) {
+  @OnEvent(EventsUnion.GetThreadCount)
+  async getTodaysUsageByUserId(userId: string) {
+    try {
+      return await this.queryBus.execute<GetUsageByUserIdQuery, number>(
+        new GetUsageByUserIdQuery(userId)
+      )
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async generateRecommendation(
+    aiGenerationDto: AIGenerationDto,
+    userId: string
+  ) {
     try {
       const { modelId, prompt, temperature, topP } = aiGenerationDto
       const threadId =
@@ -79,7 +94,7 @@ export class ChatService {
           gModel.systemPrompt
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
-          new CreateThreadCommand(threadId, prompt, response)
+          new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
       } else if (gModel.baseModel.genericName.includes("gpt")) {
@@ -92,7 +107,7 @@ export class ChatService {
           gModel.systemPrompt
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
-          new CreateThreadCommand(threadId, prompt, response)
+          new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
       } else {
@@ -105,7 +120,7 @@ export class ChatService {
           gModel.systemPrompt
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
-          new CreateThreadCommand(threadId, prompt, response)
+          new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
       }

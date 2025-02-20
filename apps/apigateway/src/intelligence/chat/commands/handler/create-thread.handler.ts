@@ -10,8 +10,9 @@ export class CreateThreadCommandHandler
   constructor(private readonly repository: ChatRepository) {}
 
   async execute(command: CreateThreadCommand) {
-    const { threadId, prompt, response } = command
+    const { userId, threadId, prompt, response } = command
     return await this.repository.create({
+      userId: objectId(userId),
       threadId: objectId(threadId),
       prompt,
       response,
