@@ -86,7 +86,7 @@ export default function AuthenticationPage({
   return (
     <>
       <div className="fixed inset-0 overflow-y-auto flex justify-center items-center auth-landing">
-        <Card className="mx-auto max-w-sm bg-neutral-900 border-neutral-800 text-white">
+        <Card className="mx-auto max-w-sm bg-background border-border text-white">
           <CardHeader>
             <CardTitle className="text-2xl text-center">
               {brandName} Auth

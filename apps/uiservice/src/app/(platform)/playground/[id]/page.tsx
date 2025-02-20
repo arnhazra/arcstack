@@ -98,7 +98,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="grid gap-3">
                       <Label htmlFor="model">Base Model</Label>
                       <Input
-                        className="bg-border text-white border-lightborder"
+                        className="bg-background border-border text-white border-lightborder"
                         disabled
                         defaultValue={model.data?.baseModel?.displayName}
                       />
@@ -106,7 +106,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="grid gap-3">
                       <Label htmlFor="temperature">Temperature</Label>
                       <Input
-                        className="bg-border text-white border-lightborder"
+                        className="bg-background border-border text-white border-lightborder"
                         id="temperature"
                         type="number"
                         defaultValue={model?.data?.baseModel.defaultTemperature}
@@ -121,7 +121,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                     <div className="grid gap-3">
                       <Label htmlFor="top-p">Top P</Label>
                       <Input
-                        className="bg-border text-white border-lightborder"
+                        className="bg-background border-border text-white border-lightborder"
                         id="top-p"
                         type="number"
                         defaultValue={model?.data?.baseModel.defaultTopP}
@@ -141,7 +141,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </div>
               <div className="relative flex h-full flex-col rounded-xl bg-muted/50 pt-4 lg:col-span-2">
                 <form onSubmit={hitAPI}>
-                  <div className="relative overflow-hidden rounded-lg border-none bg-main -mt-2">
+                  <div className="relative overflow-hidden rounded-lg border-none bg-background -mt-2">
                     <Label htmlFor="message" className="sr-only">
                       Message
                     </Label>

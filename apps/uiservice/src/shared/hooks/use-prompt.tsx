@@ -56,7 +56,7 @@ export default function usePrompt() {
         <AlertDialogHeader className="mb-2">
           <AlertDialogTitle className="mb-2">{message}</AlertDialogTitle>
           <Input
-            className="prompt-input bg-border border-lightborder"
+            className="prompt-input bg-background border-border"
             required
             type="text"
             placeholder={`Enter ${message}`}
