@@ -9,7 +9,6 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
 import { ChevronLeft, ChevronRight, SortAsc } from "lucide-react"
@@ -17,8 +16,9 @@ import { useContext, useEffect, useState } from "react"
 import Loading from "@/app/loading"
 import { Badge } from "@/shared/components/ui/badge"
 import { DerivedModelCard } from "@/shared/components/modelcard"
-import { DerivedModel } from "@/shared/types"
+import { DerivedModel, FilterAndSortOptions } from "@/shared/types"
 import { GlobalContext } from "@/context/globalstate.provider"
+import { UseQueryResult } from "@tanstack/react-query"
 
 export interface FindModelRequestState {
   searchQuery: string
@@ -36,11 +36,12 @@ export default function Page() {
       selectedSortOption: "-_id",
       offset: 0,
     })
-  const filtersAndSortOptions = useFetch({
-    queryKey: ["filter-and-sort-options"],
-    queryUrl: endPoints.getDerivedModelFilterAndSortOptions,
-    method: HTTPMethods.GET,
-  })
+  const filtersAndSortOptions: UseQueryResult<FilterAndSortOptions, Error> =
+    useFetch({
+      queryKey: ["filter-and-sort-options"],
+      queryUrl: endPoints.getDerivedModelFilterAndSortOptions,
+      method: HTTPMethods.GET,
+    })
 
   useEffect(() => {
     setFindModelRequestState({ ...findModelRequestState, searchQuery })
@@ -63,38 +64,36 @@ export default function Page() {
     if (!findModelRequestState.searchQuery) models.refetch()
   }, [findModelRequestState.searchQuery])
 
-  const renderFilters = filtersAndSortOptions?.data?.filters?.map(
-    (item: string) => {
-      return (
-        <Badge
-          key={item}
-          className={
-            findModelRequestState.selectedFilter === item
-              ? "mr-2 p-2 ps-6 pe-6 cursor-pointer"
-              : "mr-2 p-2 ps-6 pe-6 cursor-pointer bg-zinc-900 hover:bg-zinc-800"
-          }
-          variant={
-            findModelRequestState.selectedFilter === item
-              ? "secondary"
-              : "default"
-          }
-          onClick={(): void =>
-            setFindModelRequestState({
-              ...findModelRequestState,
-              selectedFilter: item,
-              offset: 0,
-              searchQuery: "",
-            })
-          }
-        >
-          {item}
-        </Badge>
-      )
-    }
-  )
+  const renderFilters = filtersAndSortOptions?.data?.filters?.map((item) => {
+    return (
+      <Badge
+        key={item}
+        className={
+          findModelRequestState.selectedFilter === item
+            ? "mr-2 p-2 ps-6 pe-6 cursor-pointer"
+            : "mr-2 p-2 ps-6 pe-6 cursor-pointer bg-zinc-900 hover:bg-zinc-800"
+        }
+        variant={
+          findModelRequestState.selectedFilter === item
+            ? "secondary"
+            : "default"
+        }
+        onClick={(): void =>
+          setFindModelRequestState({
+            ...findModelRequestState,
+            selectedFilter: item,
+            offset: 0,
+            searchQuery: "",
+          })
+        }
+      >
+        {item}
+      </Badge>
+    )
+  })
 
   const renderSortOptions = filtersAndSortOptions?.data?.sortOptions?.map(
-    (item: any) => {
+    (item) => {
       return (
         <DropdownMenuCheckboxItem
           key={item.value}

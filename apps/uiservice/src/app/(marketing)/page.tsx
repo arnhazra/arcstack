@@ -25,7 +25,7 @@ export default function Page() {
     method: HTTPMethods.GET,
   })
 
-  const pricing = useFetch({
+  const pricing: UseQueryResult<Subscription[], Error> = useFetch({
     queryKey: ["pricing"],
     queryUrl: endPoints.getSubscriptionPricing,
     method: HTTPMethods.GET,
@@ -35,7 +35,7 @@ export default function Page() {
     <BaseModelCard key={model._id} model={model} />
   ))
 
-  const renderPricingTiers = pricing?.data?.map((tier: Subscription) => {
+  const renderPricingTiers = pricing?.data?.map((tier) => {
     return (
       <div
         className="relative overflow-hidden rounded-lg border bg-zinc-900 border-zinc-800"

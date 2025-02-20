@@ -11,6 +11,7 @@ interface QueryType {
   queryUrl: string
   method: HTTPMethods
   requestBody?: object
+  enabled?: boolean
 }
 
 export default function useFetch({
@@ -18,6 +19,7 @@ export default function useFetch({
   queryUrl,
   method,
   requestBody,
+  enabled,
 }: QueryType) {
   const [{ user }] = useContext(GlobalContext)
 
@@ -31,6 +33,7 @@ export default function useFetch({
   }
 
   return useQuery({
+    enabled,
     queryKey,
     queryFn,
     refetchInterval: user.reduceCarbonEmissions ? 0 : 30000,

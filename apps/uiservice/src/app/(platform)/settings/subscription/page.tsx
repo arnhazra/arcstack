@@ -17,13 +17,14 @@ import { useContext, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "next/navigation"
 import Loading from "@/app/loading"
+import { UseQueryResult } from "@tanstack/react-query"
 
 export default function Page() {
   const [{ user, subscription }] = useContext(GlobalContext)
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const pricing = useFetch({
+  const pricing: UseQueryResult<Subscription[], Error> = useFetch({
     queryKey: ["pricing-settings"],
     queryUrl: endPoints.getSubscriptionPricing,
     method: HTTPMethods.GET,
@@ -66,7 +67,7 @@ export default function Page() {
         new Date(subscription.endsAt).getTime() - new Date().getTime() <=
           24 * 60 * 60 * 1000))
 
-  const renderPricingTiers = pricing?.data?.map((tier: Subscription) => {
+  const renderPricingTiers = pricing?.data?.map((tier) => {
     return (
       <div
         className="relative overflow-hidden rounded-lg border bg-white"
