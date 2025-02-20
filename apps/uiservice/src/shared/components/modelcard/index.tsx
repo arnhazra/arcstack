@@ -50,7 +50,7 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
                   <span>{parameters}</span>
                 </div>
                 <div className="flex items-center" title="Context Window">
-                  <CircleFadingPlus className="w-3 h-3 mr-1 text-red-400" />
+                  <CircleFadingPlus className="w-3 h-3 mr-1 text-secondary" />
                   <span>{contextWindow}</span>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
                   <span>{model?.baseModel?.parameters}</span>
                 </div>
                 <div className="flex items-center" title="Context Window">
-                  <CircleFadingPlus className="w-3 h-3 mr-1 text-red-400" />
+                  <CircleFadingPlus className="w-3 h-3 mr-1 text-secondary" />
                   <span>{model?.baseModel?.contextWindow}</span>
                 </div>
               </div>
