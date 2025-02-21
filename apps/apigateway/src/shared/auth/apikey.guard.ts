@@ -16,6 +16,28 @@ import { User } from "@/core/user/schemas/user.schema"
 export class APIKeyGuard implements CanActivate {
   constructor(private readonly eventEmitter: EventEmitter2) {}
 
+  private isValidResponse(response: any[]): boolean {
+    return (
+      Array.isArray(response) &&
+      response.length > 0 &&
+      response[0] !== null &&
+      response[0] !== undefined
+    )
+  }
+
+  private createActivityLog(user: User, request: ModRequest): void {
+    const userId = String(user._id)
+
+    if (user.activityLog) {
+      const { method, url: apiUri } = request
+      this.eventEmitter.emit(EventsUnion.CreateActivity, {
+        userId,
+        method,
+        apiUri,
+      })
+    }
+  }
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request: ModRequest = context.switchToHttp().getRequest()
     const apiKey = request.headers["x-api-key"]
@@ -23,98 +45,59 @@ export class APIKeyGuard implements CanActivate {
     try {
       if (!apiKey) {
         throw new ForbiddenException(statusMessages.noAPIKeyProvided)
-      } else {
-        const apiKeyResponse: APIKey[] = await this.eventEmitter.emitAsync(
-          EventsUnion.GetAPIKeyDetails,
-          apiKey
+      }
+
+      const apiKeyResArr = await this.eventEmitter.emitAsync(
+        EventsUnion.GetAPIKeyDetails,
+        apiKey
+      )
+
+      if (!this.isValidResponse(apiKeyResArr)) {
+        throw new ForbiddenException(statusMessages.invalidAPIKey)
+      }
+
+      const apiKeyRes: APIKey = apiKeyResArr.shift()
+      const userId = String(apiKeyRes.userId)
+
+      const userResArr = await this.eventEmitter.emitAsync(
+        EventsUnion.GetUserDetails,
+        { _id: userId }
+      )
+
+      if (!this.isValidResponse(userResArr)) {
+        throw new ForbiddenException(statusMessages.invalidAPIKey)
+      }
+
+      const userRes: User = userResArr.shift()
+
+      const subscriptionResArr: Subscription[] =
+        await this.eventEmitter.emitAsync(
+          EventsUnion.GetSubscriptionDetails,
+          userId
         )
 
-        if (
-          !apiKeyResponse ||
-          !apiKeyResponse.length ||
-          (apiKeyResponse &&
-            apiKeyResponse.length &&
-            apiKeyResponse[0] === null)
-        ) {
+      if (!this.isValidResponse(subscriptionResArr)) {
+        const threadCountResArr = await this.eventEmitter.emitAsync(
+          EventsUnion.GetThreadCount,
+          userId
+        )
+        if (!this.isValidResponse(threadCountResArr)) {
           throw new ForbiddenException(statusMessages.invalidAPIKey)
-        } else {
-          const apiKey = apiKeyResponse.shift()
-          const userId = String(apiKey.userId)
-          const userResponse: User[] = await this.eventEmitter.emitAsync(
-            EventsUnion.GetUserDetails,
-            { _id: userId }
-          )
-
-          if (
-            !userResponse ||
-            !userResponse.length ||
-            (userResponse && userResponse.length && userResponse[0] === null)
-          ) {
-            throw new ForbiddenException(statusMessages.invalidAPIKey)
-          } else {
-            const user = userResponse.shift()
-            const subscriptionRes: Subscription[] =
-              await this.eventEmitter.emitAsync(
-                EventsUnion.GetSubscriptionDetails,
-                userId
-              )
-
-            if (
-              !subscriptionRes ||
-              !subscriptionRes.length ||
-              (subscriptionRes &&
-                subscriptionRes.length &&
-                subscriptionRes[0] === null)
-            ) {
-              const threadCountRes: number[] =
-                await this.eventEmitter.emitAsync(
-                  EventsUnion.GetThreadCount,
-                  userId
-                )
-              if (
-                !threadCountRes ||
-                !threadCountRes.length ||
-                (threadCountRes &&
-                  threadCountRes.length &&
-                  threadCountRes[0] === null)
-              ) {
-                throw new ForbiddenException(statusMessages.invalidAPIKey)
-              } else {
-                const threadCount = threadCountRes.shift()
-
-                if (threadCount < 200) {
-                  request.user = { userId, role: user.role }
-                  if (user.activityLog) {
-                    const { method, url: apiUri } = request
-                    this.eventEmitter.emit(EventsUnion.CreateActivity, {
-                      userId,
-                      method,
-                      apiUri,
-                    })
-                  }
-
-                  return true
-                } else {
-                  throw new ForbiddenException(
-                    statusMessages.freeTierLimitReached
-                  )
-                }
-              }
-            } else {
-              request.user = { userId, role: user.role }
-              if (user.activityLog) {
-                const { method, url: apiUri } = request
-                this.eventEmitter.emit(EventsUnion.CreateActivity, {
-                  userId,
-                  method,
-                  apiUri,
-                })
-              }
-
-              return true
-            }
-          }
         }
+
+        const threadCountRes: number = threadCountResArr.shift()
+
+        if (!(threadCountRes < 200)) {
+          throw new ForbiddenException(statusMessages.freeTierLimitReached)
+        }
+
+        request.user = { userId, role: userRes.role }
+        this.createActivityLog(userRes, request)
+        return true
+      } else {
+        request.user = { userId, role: userRes.role }
+        this.createActivityLog(userRes, request)
+        return true
       }
     } catch (error) {
       throw error
