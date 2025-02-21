@@ -25,6 +25,7 @@ import { UseQueryResult } from "@tanstack/react-query"
 import { DerivedModel } from "@/shared/types"
 import { DerivedModelCard } from "@/shared/components/modelcard"
 import Error from "@/app/error"
+import Share from "@/shared/components/share"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
@@ -87,45 +88,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         condition={!model.error && !relatedModels.error}
         fallback={<Error />}
       >
-        <div className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8 lg:grid-cols-3 xl:grid-cols-3">
-          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2">
-            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-              <Card className="sm:col-span-4 pb-4 text-white bg-background border-border">
-                <CardHeader className="pb-3">
-                  <CardTitle className="flex flex-wrap justify-between">
-                    {model?.data?.displayName}
-                    <div className="flex gap-4">
-                      <ActivityLog keyword={modelId} />
-                      <Show condition={!!model?.data?.isPro}>
-                        <Badge className="bg-primary">Pro</Badge>
-                      </Show>
-                    </div>
-                  </CardTitle>
-                  <CardDescription className="w-full text-zinc-200">
-                    {model?.data?.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex gap-4 mt-4 -mb-4">
-                  <Button
-                    size="sm"
-                    className="bg-primary hover:bg-primary"
-                    onClick={(): void => router.push(`/playground/${modelId}`)}
-                  >
-                    <FlaskConical className="me-2 scale-75" />
-                    Open Playground
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-            <p className="text-xl ms-1 -mb-4 -mt-2 text-white">
-              Related Models
-            </p>
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4">
-              {renderRelatedModels}
-            </div>
-          </div>
-          <Card className="overflow-hidden bg-background text-white border-border">
-            <CardHeader className="flex flex-row items-start bg-muted/50">
+        <div className="grid flex-1 items-start gap-4 sm:py-0 md:gap-8 lg:grid-cols-4 xl:grid-cols-4">
+          <Card className="overflow-hidden bg-background text-white border-border lg:col-span-2 xl:col-span-1">
+            <CardHeader className="flex flex-row items-start">
               <div className="grid gap-0.5">
                 <CardTitle className="group flex items-center gap-2 text-lg">
                   {model?.data?.displayName}
@@ -133,6 +98,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 <CardDescription className="text-white">
                   {model?.data?.category}
                 </CardDescription>
+              </div>
+              <div className="ml-auto flex items-center gap-1">
+                <Share />
               </div>
             </CardHeader>
             <CardContent className="p-6 text-sm">
@@ -202,6 +170,42 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </Button>
             </CardFooter>
           </Card>
+          <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2 xl:col-span-3">
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
+              <Card className="sm:col-span-4 pb-4 text-white bg-background border-border">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex flex-wrap justify-between">
+                    {model?.data?.displayName}
+                    <div className="flex gap-4">
+                      <ActivityLog keyword={modelId} />
+                      <Show condition={!!model?.data?.isPro}>
+                        <Badge className="bg-primary">Pro</Badge>
+                      </Show>
+                    </div>
+                  </CardTitle>
+                  <CardDescription className="w-full text-zinc-200">
+                    {model?.data?.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex gap-4 mt-4 -mb-4">
+                  <Button
+                    size="sm"
+                    className="bg-primary hover:bg-primary"
+                    onClick={(): void => router.push(`/playground/${modelId}`)}
+                  >
+                    <FlaskConical className="me-2 scale-75" />
+                    Open Playground
+                  </Button>
+                </CardContent>
+              </Card>
+            </div>
+            <p className="text-xl ms-1 -mb-4 -mt-2 text-white">
+              Related Models
+            </p>
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4">
+              {renderRelatedModels}
+            </div>
+          </div>
         </div>
       </Show>
     </Show>
