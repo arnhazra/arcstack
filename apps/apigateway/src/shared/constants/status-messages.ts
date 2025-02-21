@@ -8,7 +8,7 @@ export const statusMessages = {
   invalidAPIKey: "Invalid API Key",
   noAPIKeyProvided: "No API Key Provided",
   keyAlreadyExists: "Same Key Exists",
-  freeTierLimitReached: "You've exhausted your free tier limit for today",
+  tierLimitReached: "You've exhausted your tier limit for today",
   keyDoesNotExist: "Key does not exist",
   subscriptionNotFound:
     "No subscriptions exist, please subscribe to use the product",

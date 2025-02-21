@@ -105,8 +105,8 @@ export default function Page() {
         <div className="flex flex-col justify-between rounded-md p-6">
           <div className="space-y-2">
             <h2 className="font-bold text-md capitalize">{brandName}</h2>
-            <h1 className="font-bolder text-md capitalize text-3xl text-primary">
-              {tier.subscriptionTier}
+            <h1 className="font-bolder text-md capitalize text-xl text-primary">
+              {tier.subscriptionTier} Subscription
             </h1>
             <div className="flex">
               <h2 className="font-bold text-3xl capitalize">${tier.price}</h2>

@@ -12,7 +12,7 @@ import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import { Subscription } from "@/shared/types"
 import { format } from "date-fns"
 import ky from "ky"
-import { Bolt, CalendarClock, Coins, Dot } from "lucide-react"
+import { ArrowRightCircle, Bolt, CalendarClock, Coins, Dot } from "lucide-react"
 import { useContext, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "next/navigation"
@@ -20,7 +20,7 @@ import Loading from "@/app/loading"
 import { UseQueryResult } from "@tanstack/react-query"
 
 export default function Page() {
-  const [{ user, subscription }] = useContext(GlobalContext)
+  const [{ subscription }] = useContext(GlobalContext)
   const searchParams = useSearchParams()
   const router = useRouter()
 
@@ -64,44 +64,46 @@ export default function Page() {
       new Date(subscription.endsAt).getTime() - new Date().getTime() <=
         24 * 60 * 60 * 1000)
 
-  const renderPricingTiers = pricing?.data?.map((tier) => {
-    return (
-      <div
-        className="relative overflow-hidden rounded-lg border bg-background border-border text-white"
-        key={tier.subscriptionTier}
-      >
-        <div className="flex flex-col justify-between rounded-md p-6">
-          <div className="space-y-2">
-            <h2 className="font-bold text-md capitalize">{brandName}</h2>
-            <h1 className="font-bolder text-md capitalize text-3xl text-primary">
-              {tier.subscriptionTier}
-            </h1>
-            <div className="flex">
-              <h2 className="font-bold text-3xl capitalize">${tier.price}</h2>
-              <span className="flex flex-col justify-end text-sm mb-1">
-                /month
-              </span>
+  const renderPricingTiers = pricing?.data
+    ?.filter((sub) => sub.price !== 0)
+    .map((tier) => {
+      return (
+        <div
+          className="relative overflow-hidden rounded-lg border bg-background border-border text-white"
+          key={tier.subscriptionTier}
+        >
+          <div className="flex flex-col justify-between rounded-md p-6">
+            <div className="space-y-2">
+              <h2 className="font-bold text-md capitalize">{brandName}</h2>
+              <h1 className="font-bolder text-md capitalize text-xl text-primary">
+                {tier.subscriptionTier} Subscription
+              </h1>
+              <div className="flex">
+                <h2 className="font-bold text-3xl capitalize">${tier.price}</h2>
+                <span className="flex flex-col justify-end text-sm mb-1">
+                  /month
+                </span>
+              </div>
             </div>
+            <p className="text-sm mt-4 mb-4">{tier.features[0]}</p>
+            <ul className="grid gap-3 text-sm md:grid-cols-2">
+              {tier.features.slice(1).map((feature) => (
+                <li className="flex text-xs items-center" key={feature}>
+                  <Dot className="scale-150 me-2" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
           </div>
-          <p className="text-sm mt-4 mb-4">{tier.features[0]}</p>
-          <ul className="grid gap-3 text-sm">
-            {tier.features.slice(1).map((feature) => (
-              <li className="flex text-xs items-center" key={feature}>
-                <Dot className="scale-150 me-2" />
-                {feature}
-              </li>
-            ))}
-          </ul>
           <Button
-            className="mt-4 bg-primary hover:bg-primary"
+            className="mb-6 ms-6 bg-primary hover:bg-primary"
             onClick={() => activateSubscription(tier.subscriptionTier)}
           >
-            Activate
+            Activate <ArrowRightCircle className="ms-2 scale-75" />
           </Button>
         </div>
-      </div>
-    )
-  })
+      )
+    })
 
   const activateSubscription = async (tier: string) => {
     try {
@@ -122,24 +124,19 @@ export default function Page() {
 
   return (
     <Show condition={!pricing.isLoading} fallback={<Loading />}>
-      <Show condition={!subscription}>
+      <Show condition={!subscription || !isSubscriptionActive}>
         <SectionPanel
           icon={<CalendarClock className="scale-75" />}
           title="Your Subscription"
-          content="You do not have an active subscription"
+          content="You are on free tier"
         />
       </Show>
-      <Show condition={!!subscription}>
+      <Show condition={!!subscription && !!isSubscriptionActive}>
         <section className="grid gap-2">
           <SectionPanel
             icon={<Bolt className="scale-75" />}
             title="Your Subscription Tier"
             content={subscription?.subscriptionTier.toUpperCase() ?? ""}
-          />
-          <SectionPanel
-            icon={<Bolt className="scale-75" />}
-            title="Subscription Status"
-            content={isSubscriptionActive ? "Active" : "Inactive"}
           />
           <SectionPanel
             icon={<CalendarClock className="scale-75" />}
@@ -163,7 +160,7 @@ export default function Page() {
       </Show>
       <Show condition={!!canActivateNewSubscription}>
         <div className="mt-4">
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 lg:max-w-[40rem]">
+          <div className="mx-auto grid justify-center grid-cols-1">
             {renderPricingTiers}
           </div>
         </div>

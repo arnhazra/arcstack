@@ -2,7 +2,7 @@ import Stripe from "stripe"
 import { Injectable, BadRequestException } from "@nestjs/common"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { envConfig } from "src/config"
-import { EventEmitter2, OnEvent } from "@nestjs/event-emitter"
+import { OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
 import { subscriptionPricing, SubscriptionTier } from "./subscription.config"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
@@ -15,7 +15,6 @@ export class SubscriptionService {
   private readonly stripe: Stripe
 
   constructor(
-    private readonly eventEmitter: EventEmitter2,
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus
   ) {
