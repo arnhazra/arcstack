@@ -9,7 +9,6 @@ import {
   Request,
 } from "@nestjs/common"
 import { SubscriptionService } from "./subscription.service"
-import { CreateCheckoutSessionDto } from "./dto/checkout.dto"
 import { TokenGuard } from "src/shared/auth/token.guard"
 import { ModRequest } from "src/shared/auth/types/mod-request.interface"
 import { getRediretUriUI } from "./utils/redirect-uri"
@@ -29,13 +28,9 @@ export class SubscriptionController {
 
   @UseGuards(TokenGuard)
   @Post("checkout")
-  async createCheckoutSession(
-    @Request() request: ModRequest,
-    @Body() createCheckoutSessionDto: CreateCheckoutSessionDto
-  ) {
+  async createCheckoutSession(@Request() request: ModRequest) {
     try {
       const session = await this.subscriptionService.createCheckoutSession(
-        createCheckoutSessionDto.tier,
         request.user.userId
       )
       return { redirectUrl: session.url }

@@ -11,10 +11,6 @@ import { ModRequest } from "./types/mod-request.interface"
 import { APIKey } from "@/core/apikey/schemas/apikey.schema"
 import { Subscription } from "src/core/subscription/schemas/subscription.schema"
 import { User } from "@/core/user/schemas/user.schema"
-import {
-  subscriptionPricing,
-  SubscriptionTier,
-} from "@/core/subscription/subscription.config"
 
 @Injectable()
 export class APIKeyGuard implements CanActivate {
@@ -113,13 +109,8 @@ export class APIKeyGuard implements CanActivate {
         subscriptionRes && new Date(subscriptionRes.endsAt) > new Date()
 
       if (!subscriptionRes || !isSubscriptionActive) {
-        this.introduceDelay(
-          subscriptionPricing.find(
-            (sub) => sub.subscriptionTier === SubscriptionTier.Free
-          ).platformDelay
-        )
         if (threadCountRes >= 200) {
-          throw new ForbiddenException(statusMessages.tierLimitReached)
+          throw new ForbiddenException(statusMessages.limitReached)
         }
         request.user = { userId, role: userRes.role }
         this.createActivityLog(userRes, request)

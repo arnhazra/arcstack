@@ -9,26 +9,35 @@ import HTTPMethods from "@/shared/constants/http-methods"
 import { GlobalContext } from "@/context/globalstate.provider"
 import useQuery from "@/shared/hooks/use-query"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
-import { Subscription } from "@/shared/types"
+import { Subscription, SubscriptionConfig } from "@/shared/types"
 import { format } from "date-fns"
 import ky from "ky"
-import { ArrowRightCircle, Bolt, CalendarClock, Coins, Dot } from "lucide-react"
+import {
+  ArrowRightCircle,
+  Bolt,
+  CalendarClock,
+  Check,
+  CircleArrowRight,
+  Dot,
+} from "lucide-react"
 import { useContext, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "next/navigation"
 import Loading from "@/app/loading"
 import { UseQueryResult } from "@tanstack/react-query"
+import Link from "next/link"
 
 export default function Page() {
   const [{ subscription }] = useContext(GlobalContext)
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const pricing: UseQueryResult<Subscription[], Error> = useQuery({
-    queryKey: ["pricing-settings"],
-    queryUrl: endPoints.getSubscriptionPricing,
-    method: HTTPMethods.GET,
-  })
+  const subscriptionPricing: UseQueryResult<SubscriptionConfig, Error> =
+    useQuery({
+      queryKey: ["pricing-settings"],
+      queryUrl: endPoints.getSubscriptionPricing,
+      method: HTTPMethods.GET,
+    })
 
   useEffect(() => {
     const subscriptionSuccess = searchParams.get("subscriptionSuccess")
@@ -64,52 +73,10 @@ export default function Page() {
       new Date(subscription.endsAt).getTime() - new Date().getTime() <=
         24 * 60 * 60 * 1000)
 
-  const renderPricingTiers = pricing?.data
-    ?.filter((sub) => sub.price !== 0)
-    .map((tier) => {
-      return (
-        <div
-          className="relative overflow-hidden rounded-lg border bg-background border-border text-white"
-          key={tier.subscriptionTier}
-        >
-          <div className="flex flex-col justify-between rounded-md p-6">
-            <div className="space-y-2">
-              <h2 className="font-bold text-md capitalize">{brandName}</h2>
-              <h1 className="font-bolder text-md capitalize text-xl text-primary">
-                {tier.subscriptionTier} Subscription
-              </h1>
-              <div className="flex">
-                <h2 className="font-bold text-3xl capitalize">${tier.price}</h2>
-                <span className="flex flex-col justify-end text-sm mb-1">
-                  /month
-                </span>
-              </div>
-            </div>
-            <p className="text-sm mt-4 mb-4">{tier.features[0]}</p>
-            <ul className="grid gap-3 text-sm md:grid-cols-2">
-              {tier.features.slice(1).map((feature) => (
-                <li className="flex text-xs items-center" key={feature}>
-                  <Dot className="scale-150 me-2" />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <Button
-            className="mb-6 ms-6 bg-primary hover:bg-primary"
-            onClick={() => activateSubscription(tier.subscriptionTier)}
-          >
-            Activate <ArrowRightCircle className="ms-2 scale-75" />
-          </Button>
-        </div>
-      )
-    })
-
-  const activateSubscription = async (tier: string) => {
+  const activateSubscription = async () => {
     try {
       const response: any = await ky
         .post(endPoints.createCheckoutSession, {
-          json: { tier },
           timeout: FETCH_TIMEOUT,
         })
         .json()
@@ -122,21 +89,56 @@ export default function Page() {
     }
   }
 
+  const renderProSubscription = (
+    <>
+      <div className="grid gap-6">
+        <h3 className="text-xl font-bold sm:text-2xl">
+          What's included in the {subscriptionPricing.data?.subscriptionName}
+        </h3>
+        <ul className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+          {subscriptionPricing.data?.features.map((feature) => {
+            return (
+              <li className="flex items-center" key={feature}>
+                <Check className="mr-2 h-4 w-4" /> {feature}
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+      <div className="flex flex-col gap-4 text-center">
+        <div>
+          <h4 className="text-7xl font-bold">
+            ${subscriptionPricing.data?.price}
+          </h4>
+          <p className="text-sm font-medium text-muted-foreground">
+            Billed Monthly
+          </p>
+        </div>
+        <Button
+          className="mb-6 ms-6 bg-primary hover:bg-primary"
+          onClick={activateSubscription}
+        >
+          Upgrade <ArrowRightCircle className="ms-2 scale-75" />
+        </Button>
+      </div>
+    </>
+  )
+
   return (
-    <Show condition={!pricing.isLoading} fallback={<Loading />}>
+    <Show condition={!subscriptionPricing.isLoading} fallback={<Loading />}>
       <Show condition={!subscription || !isSubscriptionActive}>
         <SectionPanel
           icon={<CalendarClock className="scale-75" />}
           title="Your Subscription"
-          content="You are on free tier"
+          content="You are on free subscription"
         />
       </Show>
       <Show condition={!!subscription && !!isSubscriptionActive}>
         <section className="grid gap-2">
           <SectionPanel
             icon={<Bolt className="scale-75" />}
-            title="Your Subscription Tier"
-            content={subscription?.subscriptionTier.toUpperCase() ?? ""}
+            title="Your Subscription"
+            content="You are on Pro subscription"
           />
           <SectionPanel
             icon={<CalendarClock className="scale-75" />}
@@ -160,8 +162,8 @@ export default function Page() {
       </Show>
       <Show condition={!!canActivateNewSubscription}>
         <div className="mt-4">
-          <div className="mx-auto grid justify-center grid-cols-1">
-            {renderPricingTiers}
+          <div className="grid w-full text-white items-start gap-10 rounded-lg border border-border p-10 md:grid-cols-[1fr_200px]">
+            {renderProSubscription}
           </div>
         </div>
       </Show>

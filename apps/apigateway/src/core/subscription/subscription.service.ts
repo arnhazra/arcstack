@@ -4,7 +4,7 @@ import { statusMessages } from "@/shared/constants/status-messages"
 import { envConfig } from "src/config"
 import { OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
-import { subscriptionPricing, SubscriptionTier } from "./subscription.config"
+import { subscriptionPricing } from "./subscription.config"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { CreateSubscriptionCommand } from "./commands/impl/create-subscription.command"
 import { FindSubscriptionByUserIdQuery } from "./queries/impl/find-subscription-by-user-id.query"
@@ -30,13 +30,10 @@ export class SubscriptionService {
   }
 
   async createCheckoutSession(
-    tier: SubscriptionTier,
     userId: string
   ): Promise<Stripe.Checkout.Session> {
     try {
-      const { price } = subscriptionPricing.find(
-        (item) => item.subscriptionTier === tier
-      )
+      const { price } = subscriptionPricing
       const session = await this.stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [
@@ -44,7 +41,7 @@ export class SubscriptionService {
             price_data: {
               currency: "usd",
               product_data: {
-                name: `${envConfig.brandName} ${tier.toUpperCase()} subscription`,
+                name: `${envConfig.brandName} Pro subscription`,
               },
               unit_amount: price * 100,
             },
@@ -57,7 +54,6 @@ export class SubscriptionService {
         metadata: {
           userId,
           price,
-          tier,
         },
       })
 
@@ -70,14 +66,10 @@ export class SubscriptionService {
   async handleSubscribe(sessionId: string) {
     try {
       const session = await this.stripe.checkout.sessions.retrieve(sessionId)
-      const { userId, price, tier } = session.metadata
+      const { userId, price } = session.metadata
 
       await this.commandBus.execute(
-        new CreateSubscriptionCommand(
-          userId,
-          tier as SubscriptionTier,
-          Number(price)
-        )
+        new CreateSubscriptionCommand(userId, Number(price))
       )
       return { success: true }
     } catch (error) {
