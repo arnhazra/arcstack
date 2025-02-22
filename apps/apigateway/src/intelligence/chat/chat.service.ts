@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from "@nestjs/common"
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+} from "@nestjs/common"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { CreateThreadCommand } from "./commands/impl/create-thread.command"
 import { Thread } from "./schemas/thread.schema"
@@ -12,6 +16,7 @@ import GeminiStrategy from "./strategies/gemini.strategy"
 import GroqStrategy from "./strategies/groq.strategy"
 import OpenAIStrategy from "./strategies/openai.strategy"
 import { GetUsageByUserIdQuery } from "./queries/impl/get-usage-by-user-id.query"
+import { statusMessages } from "@/shared/constants/status-messages"
 
 @Injectable()
 export class ChatService {
@@ -72,7 +77,8 @@ export class ChatService {
 
   async generateRecommendation(
     aiGenerationDto: AIGenerationDto,
-    userId: string
+    userId: string,
+    hasProSubscription: boolean
   ) {
     try {
       const { modelId, prompt, temperature, topP } = aiGenerationDto
@@ -83,6 +89,10 @@ export class ChatService {
         !aiGenerationDto.threadId
       )
       const gModel = await this.getModelById(modelId)
+
+      if (gModel.isPro && !hasProSubscription) {
+        throw new ForbiddenException(statusMessages.subscriptionNotFound)
+      }
 
       if (gModel.baseModel.genericName.includes("gemini")) {
         const { response } = await GeminiStrategy(
