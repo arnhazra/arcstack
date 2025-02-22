@@ -8,7 +8,6 @@ import {
 } from "@/shared/components/ui/card"
 import { Light as SyntaxHighlighter } from "react-syntax-highlighter"
 import { Input } from "@/shared/components/ui/input"
-import HTTPMethods from "@/shared/constants/http-methods"
 import { Badge } from "@/shared/components/ui/badge"
 import Show from "@/shared/components/show"
 import { stackoverflowLight } from "react-syntax-highlighter/dist/esm/styles/hljs"
@@ -16,7 +15,8 @@ import CopyToClipboard from "@/shared/components/copy"
 
 interface SnippetPanelProps {
   title: string
-  method: HTTPMethods
+  description: string
+  method: string
   url: string
   request: Object
   response: Object
@@ -24,19 +24,25 @@ interface SnippetPanelProps {
 
 export default function SnippetPanel({
   title,
+  description,
   url,
   method,
   request,
   response,
 }: SnippetPanelProps) {
   return (
-    <Card>
+    <Card className="mt-2 bg-background border-border text-white">
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
+        <p className="text-zinc-300">{description}</p>
       </CardHeader>
       <CardContent className="flex gap-3">
-        <Badge variant="outline">{method}</Badge>
-        <Input value={url} disabled />
+        <Badge variant="destructive">{method}</Badge>
+        <Input
+          value={url}
+          disabled
+          className="bg-background border-border text-white"
+        />
         <CopyToClipboard value={url} />
       </CardContent>
       <CardFooter className="block">
@@ -45,7 +51,14 @@ export default function SnippetPanel({
           <SyntaxHighlighter
             language="json"
             style={stackoverflowLight}
-            customStyle={{ maxHeight: "15rem" }}
+            customStyle={{
+              maxHeight: "15rem",
+              background: "#18181b",
+              color: "#ffffff",
+              borderColor: "#27272a",
+              border: "1px solid #27272a",
+              borderRadius: "0.5rem",
+            }}
           >
             {JSON.stringify(request, null, 2)}
           </SyntaxHighlighter>
@@ -56,7 +69,14 @@ export default function SnippetPanel({
             wrapLongLines
             language="json"
             style={stackoverflowLight}
-            customStyle={{ maxHeight: "15rem" }}
+            customStyle={{
+              maxHeight: "15rem",
+              background: "#18181b",
+              color: "#ffffff",
+              borderColor: "#27272a",
+              border: "1px solid #27272a",
+              borderRadius: "0.5rem",
+            }}
           >
             {JSON.stringify(response, null, 2)}
           </SyntaxHighlighter>

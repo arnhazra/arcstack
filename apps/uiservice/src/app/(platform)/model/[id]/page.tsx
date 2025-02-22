@@ -163,9 +163,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <Button
                 variant="default"
                 className="w-full bg-border hover:bg-border"
-                onClick={(): void => router.push(`/apireference/${modelId}`)}
+                onClick={(): void => router.push(`/apireference`)}
               >
-                Data API Reference
+                API Reference
                 <BookMarked className="scale-75" />
               </Button>
             </CardFooter>

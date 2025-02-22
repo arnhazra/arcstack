@@ -1,4 +1,4 @@
-import { Bolt, GitCompare, Heart, History, Newspaper } from "lucide-react"
+import { Bolt, Book, GitCompare, Heart, History, Newspaper } from "lucide-react"
 import { ReactNode } from "react"
 
 interface LinkData {
@@ -32,5 +32,10 @@ export const sidebarLinks: LinkData[] = [
     displayName: "NewsRoom",
     link: "/newsroom",
     icon: <Newspaper className="scale-75" />,
+  },
+  {
+    displayName: "API Reference",
+    link: "/apireference",
+    icon: <Book className="scale-75" />,
   },
 ]
