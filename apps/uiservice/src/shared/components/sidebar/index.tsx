@@ -24,7 +24,7 @@ export default function Sidebar() {
 
   const generateLinkClassName = (uri: string) => {
     if (pathName.includes(uri)) {
-      return "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-border text-lg font-semibold md:h-8 md:w-8 md:text-base"
+      return "group flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-border text-lg font-semibold md:h-8 md:w-8 md:text-base text-primary"
     }
 
     return "flex h-9 w-9 items-center justify-center rounded-lg bg-accent transition-colors md:h-8 md:w-8"
