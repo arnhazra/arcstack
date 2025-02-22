@@ -93,7 +93,7 @@ export default function Sidebar() {
               <Button
                 size="icon"
                 variant="default"
-                className="shrink-0 md:hidden"
+                className="shrink-0 sm:hidden"
               >
                 <PanelLeft className="scale-75" />
                 <span className="sr-only">Toggle Menu</span>
