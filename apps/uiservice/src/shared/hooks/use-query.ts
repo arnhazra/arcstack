@@ -39,6 +39,7 @@ export default function useQuery({
     enabled,
     queryKey,
     queryFn,
+    refetchOnWindowFocus: !user.reduceCarbonEmissions,
     refetchInterval: user.reduceCarbonEmissions ? 0 : 30000,
   })
 }

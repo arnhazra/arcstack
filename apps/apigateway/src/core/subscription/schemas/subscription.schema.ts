@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Document, Types } from "mongoose"
-import { SubscriptionTier } from "../subscription.config"
 
 @Schema({
   versionKey: false,
@@ -10,9 +9,6 @@ import { SubscriptionTier } from "../subscription.config"
 export class Subscription extends Document {
   @Prop({ type: Types.ObjectId, ref: "user", required: true, unique: true })
   userId: Types.ObjectId
-
-  @Prop({ required: true })
-  subscriptionTier: SubscriptionTier
 
   @Prop({ required: true })
   price: number

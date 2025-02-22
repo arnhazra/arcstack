@@ -35,7 +35,6 @@ export default function Page() {
       content={`Turn this settings on to reduce carbon footprints inside ${brandName}`}
       actionComponents={[
         <Switch
-          className="bg-primary"
           checked={user.reduceCarbonEmissions}
           onCheckedChange={(value): Promise<void> =>
             saveSustainabilitySettings(value)

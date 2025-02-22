@@ -4,10 +4,10 @@ import { Document } from "mongoose"
 @Schema({ versionKey: false, collection: "apireferences" })
 export class ApiReference extends Document {
   @Prop({ required: true })
-  productName: string
+  apiName: string
 
   @Prop({ required: true })
-  apiName: string
+  apiDescription: string
 
   @Prop({ required: true })
   apiUri: string

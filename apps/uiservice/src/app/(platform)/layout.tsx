@@ -67,7 +67,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
     queryFn: getUserDetails,
     refetchInterval: 0,
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    refetchOnMount: true,
   })
 
   const appLayout = (

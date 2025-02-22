@@ -33,12 +33,16 @@ export type User = {
   createdAt: string
 }
 
+export type SubscriptionConfig = {
+  subscriptionName: string
+  price: number
+  features: string[]
+}
+
 export type Subscription = {
   _id: string
-  subscriptionTier: string
+  userId: string
   price: number
-  platformDelay: number
-  features: string[]
   createdAt: string
   endsAt: string
 }
@@ -60,4 +64,14 @@ export type FilterAndSortOptions = {
 
 export type ActivityTrends = {
   totalUsage: number
+}
+
+export type APIReference = {
+  _id: string
+  apiName: string
+  apiDescription: string
+  apiUri: string
+  apiMethod: string
+  sampleRequestBody: Record<string, any>
+  sampleResponseBody: Record<string, any>
 }

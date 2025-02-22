@@ -1,15 +1,7 @@
 "use client"
 import { ReactElement, ReactNode, useContext } from "react"
 import { Button } from "@/shared/components/ui/button"
-import {
-  CalendarClock,
-  Info,
-  Key,
-  Leaf,
-  PlusCircle,
-  ShieldCheck,
-  User,
-} from "lucide-react"
+import { CalendarClock, Info, Key, Leaf, ShieldCheck, User } from "lucide-react"
 import { GlobalContext } from "@/context/globalstate.provider"
 import { Tabs, tabsList } from "./data"
 import Link from "next/link"
@@ -42,7 +34,7 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
       <Link
         key={tab}
         className={`cursor-pointer flex capitalize ${
-          pathname.includes(tab) ? "text-white" : "text-zinc-400"
+          pathname.includes(tab) ? "text-primary" : "text-zinc-200"
         }`}
         href={`/settings/${tab}`}
       >

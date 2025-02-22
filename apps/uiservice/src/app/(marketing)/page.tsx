@@ -2,9 +2,9 @@
 import Header from "@/shared/components/header"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
-import { BaseModel, Subscription } from "@/shared/types"
+import { BaseModel, SubscriptionConfig } from "@/shared/types"
 import { brandName, uiConstants } from "@/shared/constants/global-constants"
-import { CircleArrowRight, Dot, Github } from "lucide-react"
+import { Check, CircleArrowRight, Github } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
 import { buttonVariants } from "@/shared/components/ui/button"
@@ -22,11 +22,12 @@ export default function Page() {
     method: HTTPMethods.GET,
   })
 
-  const pricing: UseQueryResult<Subscription[], Error> = useQuery({
-    queryKey: ["pricing"],
-    queryUrl: endPoints.getSubscriptionPricing,
-    method: HTTPMethods.GET,
-  })
+  const subscriptionPricing: UseQueryResult<SubscriptionConfig, Error> =
+    useQuery({
+      queryKey: ["subscription-pricing"],
+      queryUrl: endPoints.getSubscriptionPricing,
+      method: HTTPMethods.GET,
+    })
 
   const renderBaseModels = models?.data?.map((model) => (
     <BaseModelCard key={model._id} model={model} />
@@ -96,44 +97,45 @@ export default function Page() {
     </section>
   )
 
-  const renderPricingTiers = pricing?.data?.map((tier) => {
-    return (
-      <div
-        className="relative overflow-hidden rounded-lg border bg-background border-border"
-        key={tier.subscriptionTier}
-      >
-        <div className="flex flex-col justify-between rounded-md p-6">
-          <div className="space-y-2">
-            <h2 className="font-bold text-md capitalize">{brandName}</h2>
-            <h1 className="font-bolder text-md capitalize text-3xl text-primary">
-              {tier.subscriptionTier}
-            </h1>
-            <div className="flex">
-              <h2 className="font-bold text-3xl capitalize">${tier.price}</h2>
-              <span className="flex flex-col justify-end text-sm mb-1">
-                /month
-              </span>
-            </div>
-          </div>
-          <p className="text-sm mt-4 mb-4">{tier.features[0]}</p>
-          <ul className="grid gap-3 text-sm">
-            {tier.features.slice(1).map((feature) => (
-              <li className="flex text-xs items-center" key={feature}>
-                <Dot className="scale-150 me-2" />
-                {feature}
+  const renderProSubscription = (
+    <>
+      <div className="grid gap-6">
+        <h3 className="text-xl font-bold sm:text-2xl">
+          What's included in the {subscriptionPricing.data?.subscriptionName}
+        </h3>
+        <ul className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+          {subscriptionPricing.data?.features.map((feature) => {
+            return (
+              <li className="flex items-center" key={feature}>
+                <Check className="mr-2 h-4 w-4" /> {feature}
               </li>
-            ))}
-          </ul>
-          <Link
-            className={`${cn(buttonVariants({ variant: "default", className: "bg-primary hover:bg-primary" }))} mt-4`}
-            href="/catalog"
-          >
-            {uiConstants.getStartedButton}
-          </Link>
-        </div>
+            )
+          })}
+        </ul>
       </div>
-    )
-  })
+      <div className="flex flex-col gap-4 text-center">
+        <div>
+          <h4 className="text-7xl font-bold">
+            ${subscriptionPricing.data?.price}
+          </h4>
+          <p className="text-sm font-medium text-muted-foreground">
+            Billed Monthly
+          </p>
+        </div>
+        <Link
+          href="/catalog"
+          className={cn(
+            buttonVariants({
+              size: "lg",
+              className: "bg-primary hover:bg-primary",
+            })
+          )}
+        >
+          Get Started <CircleArrowRight className="ms-2 scale-75" />
+        </Link>
+      </div>
+    </>
+  )
 
   const renderFooterSection = (
     <footer>
@@ -152,7 +154,7 @@ export default function Page() {
 
   return (
     <Show
-      condition={!models.isLoading && !pricing.isLoading}
+      condition={!models.isLoading && !subscriptionPricing.isLoading}
       fallback={<Loading />}
     >
       <div className="min-h-screen w-full text-white">
@@ -193,17 +195,20 @@ export default function Page() {
             <ShareCard />
           </div>
         </section>
-        <section id="plans" className="container py-8 md:py-12 lg:py-24">
-          <div className="mx-auto flex max-w-[70rem] flex-col items-center justify-center gap-4 text-center mb-8">
+        <section
+          id="pro"
+          className="container py-8 md:py-12 lg:py-24 md:max-w-[64rem]"
+        >
+          <div className="mx-auto flex max-w-[64rem] flex-col items-center justify-center gap-4 text-center mb-8">
             <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-5xl">
-              Simple, transparent pricing
+              {uiConstants.pricingTitle}
             </h2>
             <p className="max-w-[85%] leading-normal sm:text-lg sm:leading-7">
-              {uiConstants.pricingTierHeader}
+              {uiConstants.pricingHeader}
             </p>
           </div>
-          <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 lg:max-w-[40rem]">
-            {renderPricingTiers}
+          <div className="grid w-full items-start gap-10 rounded-lg border border-border p-10 md:grid-cols-[1fr_200px]">
+            {renderProSubscription}
           </div>
         </section>
       </div>

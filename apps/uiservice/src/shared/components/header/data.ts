@@ -16,8 +16,8 @@ export const generalUserLinks: LinkData[] = [
     link: "/#safety",
   },
   {
-    displayName: "Plans",
-    link: "/#plans",
+    displayName: "Explore Pro",
+    link: "/#pro",
   },
   {
     displayName: "Developer",
