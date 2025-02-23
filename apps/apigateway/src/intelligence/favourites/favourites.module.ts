@@ -7,8 +7,8 @@ import { DatabaseModule } from "@/shared/database/database.module"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
 import { Favourite, FavouriteSchema } from "./schemas/favourites.schema"
 import { FindAllFavouritesQueryHandler } from "./queries/handler/find-all-favourites.handler"
-import { CreateFavouriteHandler } from "./commands/handler/create-favourite.handler"
-import { RemoveFavouriteHandler } from "./commands/handler/remove-favourite.handler"
+import { CreateFavouriteCommandHandler } from "./commands/handler/create-favourite.handler"
+import { RemoveFavouriteCommandHandler } from "./commands/handler/remove-favourite.handler"
 import { FindIfFavouritedQueryHandler } from "./queries/handler/find-if-favourited.handler"
 
 @Module({
@@ -23,8 +23,8 @@ import { FindIfFavouritedQueryHandler } from "./queries/handler/find-if-favourit
   providers: [
     FavouritesService,
     FavouritesRepository,
-    CreateFavouriteHandler,
-    RemoveFavouriteHandler,
+    CreateFavouriteCommandHandler,
+    RemoveFavouriteCommandHandler,
     FindAllFavouritesQueryHandler,
     FindIfFavouritedQueryHandler,
   ],

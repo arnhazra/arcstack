@@ -6,6 +6,7 @@ import { envConfig } from "@/config"
 import { DatabaseModule } from "@/shared/database/database.module"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
 import { DerivedModelModule } from "./derivedmodel/derivedmodel.module"
+import { HistoryModule } from "./history/history.module"
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { DerivedModelModule } from "./derivedmodel/derivedmodel.module"
     DerivedModelModule,
     ChatModule,
     FavouritesModule,
+    HistoryModule,
   ],
 })
 export class IntelligenceModule {}

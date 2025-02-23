@@ -4,7 +4,7 @@ import { CreateFavouriteCommand } from "../impl/create-favourite.command"
 import objectId from "@/shared/utils/convert-objectid"
 
 @CommandHandler(CreateFavouriteCommand)
-export class CreateFavouriteHandler
+export class CreateFavouriteCommandHandler
   implements ICommandHandler<CreateFavouriteCommand>
 {
   constructor(private readonly repository: FavouritesRepository) {}

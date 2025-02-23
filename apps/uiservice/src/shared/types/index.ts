@@ -30,6 +30,13 @@ export type Favourites = {
   createdAt: string
 }
 
+export type History = {
+  _id: string
+  userId: string
+  derivedModel: DerivedModel
+  createdAt: string
+}
+
 export type User = {
   _id: string
   email: string

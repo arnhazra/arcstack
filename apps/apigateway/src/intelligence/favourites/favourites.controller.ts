@@ -41,7 +41,6 @@ export class FavouritesController {
     try {
       return this.service.findIfFavourited(request.user.userId, id)
     } catch (error) {
-      console.log(error)
       throw error
     }
   }
