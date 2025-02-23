@@ -28,4 +28,5 @@ export const endPoints = {
   createDerivedModel: `${apiHost}/derivedmodel/create`,
   getDerivedModels: `${apiHost}/derivedmodel/listings`,
   getDerivedModelFilterAndSortOptions: `${apiHost}/derivedmodel/filters-and-sort-options`,
+  favourites: `${apiHost}/favourites`,
 }

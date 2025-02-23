@@ -23,6 +23,13 @@ export type DerivedModel = {
   responseFormat: string
 }
 
+export type Favourites = {
+  _id: string
+  userId: string
+  derivedModel: DerivedModel
+  createdAt: string
+}
+
 export type User = {
   _id: string
   email: string

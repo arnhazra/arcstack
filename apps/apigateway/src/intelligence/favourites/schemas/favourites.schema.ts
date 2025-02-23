@@ -13,7 +13,7 @@ export class Favourite extends Document {
   readonly userId: Types.ObjectId
 
   @Prop({ type: Types.ObjectId, required: true, ref: DerivedModel.name })
-  readonly modelId: Types.ObjectId
+  readonly derivedModel: Types.ObjectId
 }
 
 export const FavouriteSchema = SchemaFactory.createForClass(Favourite)

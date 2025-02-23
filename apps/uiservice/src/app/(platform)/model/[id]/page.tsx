@@ -1,5 +1,5 @@
 "use client"
-import { BookMarked, FlaskConical } from "lucide-react"
+import { BookMarked, FlaskConical, Heart } from "lucide-react"
 import { Badge } from "@/shared/components/ui/badge"
 import { buttonVariants } from "@/shared/components/ui/button"
 import {
@@ -15,22 +15,30 @@ import useQuery from "@/shared/hooks/use-query"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import Show from "@/shared/components/show"
-import { toast } from "@/shared/components/ui/use-toast"
-import { uiConstants } from "@/shared/constants/global-constants"
 import ActivityLog from "@/shared/components/activity"
-import { use } from "react"
+import { use, useEffect, useState } from "react"
 import { DerivedModel } from "@/shared/types"
 import { DerivedModelCard } from "@/shared/components/modelcard"
 import Error from "@/app/error"
 import Share from "@/shared/components/share"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
+import ky from "ky"
+import { toast } from "@/shared/components/ui/use-toast"
+import { uiConstants } from "@/shared/constants/global-constants"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
+  const [isFavourited, setFavourited] = useState(false)
   const model = useQuery<DerivedModel>({
     queryKey: ["model", modelId ?? ""],
     queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
+    method: HTTPMethods.GET,
+  })
+
+  const favouriteCheck = useQuery<{ isFavourited: boolean }>({
+    queryKey: ["is-favourited", modelId ?? ""],
+    queryUrl: `${endPoints.favourites}/${modelId}`,
     method: HTTPMethods.GET,
   })
 
@@ -45,6 +53,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       offset: 0,
     },
   })
+
+  useEffect(() => {
+    setFavourited(favouriteCheck.data?.isFavourited ?? false)
+  }, [favouriteCheck.data])
 
   const renderModelTags = model?.data?.description
     ?.split(" ")
@@ -63,19 +75,27 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }
     })
 
-  const copyModelId = () => {
-    navigator.clipboard.writeText(modelId ?? "")
-    toast({
-      title: uiConstants.notification,
-      description: (
-        <p className="text-zinc-600">{uiConstants.copiedToClipBoard}</p>
-      ),
-    })
-  }
-
   const renderRelatedModels = relatedModels?.data?.map((model) => {
     return <DerivedModelCard key={model._id} model={model} />
   })
+
+  const toggleFavourite = async (): Promise<void> => {
+    try {
+      setFavourited(!isFavourited)
+      if (isFavourited) {
+        await ky.delete(`${endPoints.favourites}/${modelId}`)
+      } else {
+        await ky.post(`${endPoints.favourites}/${modelId}`)
+      }
+    } catch (error) {
+      toast({
+        title: uiConstants.notification,
+        description: (
+          <p className="text-zinc-600">{uiConstants.connectionErrorMessage}</p>
+        ),
+      })
+    }
+  }
 
   return (
     <Show condition={!model.error && !relatedModels.error} fallback={<Error />}>
@@ -182,7 +202,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   {model?.data?.description}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="flex gap-4 mt-4 -mb-4">
+              <CardContent className="flex justify-between gap-4 mt-4 -mb-4">
                 <Link
                   className={cn(
                     buttonVariants({
@@ -195,6 +215,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <FlaskConical className="me-2 scale-75" />
                   Open Playground
                 </Link>
+                <Heart
+                  fill={isFavourited ? "#ff2056" : "#18181b"}
+                  className="mt-3 text-secondary cursor-pointer"
+                  onClick={toggleFavourite}
+                />
               </CardContent>
             </Card>
           </div>
