@@ -1,6 +1,5 @@
 import { IQueryHandler, QueryHandler } from "@nestjs/cqrs"
 import { ChatRepository } from "../../chat.repository"
-import objectId from "src/shared/utils/convert-objectid"
 import { GetUsageByUserIdQuery } from "../impl/get-usage-by-user-id.query"
 
 @QueryHandler(GetUsageByUserIdQuery)

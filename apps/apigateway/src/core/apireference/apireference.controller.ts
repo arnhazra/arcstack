@@ -1,10 +1,4 @@
-import {
-  Controller,
-  BadRequestException,
-  Get,
-  UseGuards,
-  Param,
-} from "@nestjs/common"
+import { Controller, BadRequestException, Get, UseGuards } from "@nestjs/common"
 import { ApiReferenceService } from "./apireference.service"
 import { TokenGuard } from "src/shared/auth/token.guard"
 
