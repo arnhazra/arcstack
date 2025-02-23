@@ -16,12 +16,23 @@ export class HistoryRepository extends BaseRepository<History> {
   }
 
   async findHistoryByUser(userId: string) {
-    return await this.historyModel.find({ userId: objectId(userId) }).populate({
-      path: "derivedModel",
-      select: "-systemPrompt",
-      populate: {
-        path: "baseModel",
-      },
-    })
+    return await this.historyModel
+      .find({ userId: objectId(userId) })
+      .populate({
+        path: "derivedModel",
+        select: "-systemPrompt",
+        populate: {
+          path: "baseModel",
+        },
+      })
+      .then((history) => {
+        const seen = new Set()
+        return history.filter((entry) => {
+          const idStr = entry.derivedModel._id.toString()
+          if (seen.has(idStr)) return false
+          seen.add(idStr)
+          return true
+        })
+      })
   }
 }
