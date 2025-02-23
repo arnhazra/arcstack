@@ -1,7 +1,7 @@
 "use client"
 import { BookMarked, FlaskConical } from "lucide-react"
 import { Badge } from "@/shared/components/ui/badge"
-import { Button } from "@/shared/components/ui/button"
+import { buttonVariants } from "@/shared/components/ui/button"
 import {
   Card,
   CardContent,
@@ -11,7 +11,6 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card"
 import { Separator } from "@/shared/components/ui/separator"
-import { useRouter } from "next/navigation"
 import useQuery from "@/shared/hooks/use-query"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
@@ -21,22 +20,22 @@ import { uiConstants } from "@/shared/constants/global-constants"
 import ActivityLog from "@/shared/components/activity"
 import { use } from "react"
 import Loading from "@/app/loading"
-import { UseQueryResult } from "@tanstack/react-query"
 import { DerivedModel } from "@/shared/types"
 import { DerivedModelCard } from "@/shared/components/modelcard"
 import Error from "@/app/error"
 import Share from "@/shared/components/share"
+import Link from "next/link"
+import { cn } from "@/shared/lib/utils"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
-  const router = useRouter()
-  const model: UseQueryResult<DerivedModel, Error> = useQuery({
+  const model = useQuery<DerivedModel>({
     queryKey: ["model", modelId ?? ""],
     queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
 
-  const relatedModels: UseQueryResult<DerivedModel[], Error> = useQuery({
+  const relatedModels = useQuery<DerivedModel[]>({
     queryKey: ["related-models", model?.data?.category as any],
     queryUrl: endPoints.getDerivedModels,
     method: HTTPMethods.POST,
@@ -160,14 +159,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </div>
             </CardContent>
             <CardFooter className="flex flex-row items-center bg-muted/50 px-6 py-3">
-              <Button
-                variant="default"
-                className="w-full bg-border hover:bg-border"
-                onClick={(): void => router.push(`/apireference`)}
+              <Link
+                className={cn(
+                  buttonVariants({
+                    variant: "default",
+                    className: "w-full bg-border hover:bg-border",
+                  })
+                )}
+                href="/apireference"
               >
                 API Reference
                 <BookMarked className="scale-75" />
-              </Button>
+              </Link>
             </CardFooter>
           </Card>
           <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2 xl:col-span-3">
@@ -188,14 +191,18 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex gap-4 mt-4 -mb-4">
-                  <Button
-                    size="sm"
-                    className="bg-primary hover:bg-primary"
-                    onClick={(): void => router.push(`/playground/${modelId}`)}
+                  <Link
+                    className={cn(
+                      buttonVariants({
+                        variant: "default",
+                        className: "bg-primary hover:bg-primary",
+                      })
+                    )}
+                    href={`/playground/${modelId}`}
                   >
                     <FlaskConical className="me-2 scale-75" />
                     Open Playground
-                  </Button>
+                  </Link>
                 </CardContent>
               </Card>
             </div>

@@ -1,7 +1,9 @@
 "use client"
 import ky from "ky"
 import {
-  useQuery as useReactQuery,
+  useSuspenseQuery,
+  useQuery as useNormalQuery,
+  UseSuspenseQueryResult,
   UseQueryResult,
 } from "@tanstack/react-query"
 import { useContext } from "react"
@@ -9,21 +11,21 @@ import { GlobalContext } from "@/context/globalstate.provider"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 
-interface QueryType {
+interface QueryType<T> {
   queryKey: string[]
   queryUrl: string
   method: HTTPMethods
   requestBody?: object
-  enabled?: boolean
+  suspense?: boolean
 }
 
-export default function useQuery({
+export default function useQuery<T>({
   queryKey,
   queryUrl,
   method,
   requestBody,
-  enabled,
-}: QueryType) {
+  suspense = true,
+}: QueryType<T>): UseSuspenseQueryResult<T, Error> | UseQueryResult<T, Error> {
   const [{ user }] = useContext(GlobalContext)
 
   const queryFn = async () => {
@@ -35,11 +37,17 @@ export default function useQuery({
     return data
   }
 
-  return useReactQuery({
-    enabled,
-    queryKey,
-    queryFn,
-    refetchOnWindowFocus: !user.reduceCarbonEmissions,
-    refetchInterval: user.reduceCarbonEmissions ? 0 : 30000,
-  })
+  return suspense
+    ? useSuspenseQuery({
+        queryKey,
+        queryFn,
+        refetchOnWindowFocus: !user.reduceCarbonEmissions,
+        refetchInterval: user.reduceCarbonEmissions ? 0 : 30000,
+      })
+    : useNormalQuery({
+        queryKey,
+        queryFn,
+        refetchOnWindowFocus: !user.reduceCarbonEmissions,
+        refetchInterval: user.reduceCarbonEmissions ? 0 : 30000,
+      })
 }

@@ -4,40 +4,30 @@ import Show from "@/shared/components/show"
 import { Button } from "@/shared/components/ui/button"
 import { toast } from "@/shared/components/ui/use-toast"
 import { endPoints } from "@/shared/constants/api-endpoints"
-import { brandName, uiConstants } from "@/shared/constants/global-constants"
+import { uiConstants } from "@/shared/constants/global-constants"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { GlobalContext } from "@/context/globalstate.provider"
 import useQuery from "@/shared/hooks/use-query"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
-import { Subscription, SubscriptionConfig } from "@/shared/types"
+import { SubscriptionConfig } from "@/shared/types"
 import { format } from "date-fns"
 import ky from "ky"
-import {
-  ArrowRightCircle,
-  Bolt,
-  CalendarClock,
-  Check,
-  CircleArrowRight,
-  Dot,
-} from "lucide-react"
+import { ArrowRightCircle, Bolt, CalendarClock, Check } from "lucide-react"
 import { useContext, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
-import { useRouter } from "next/navigation"
+import { useRouter } from "nextjs-toploader/app"
 import Loading from "@/app/loading"
-import { UseQueryResult } from "@tanstack/react-query"
-import Link from "next/link"
 
 export default function Page() {
   const [{ subscription }] = useContext(GlobalContext)
   const searchParams = useSearchParams()
   const router = useRouter()
 
-  const subscriptionPricing: UseQueryResult<SubscriptionConfig, Error> =
-    useQuery({
-      queryKey: ["pricing-settings"],
-      queryUrl: endPoints.getSubscriptionPricing,
-      method: HTTPMethods.GET,
-    })
+  const subscriptionPricing = useQuery<SubscriptionConfig>({
+    queryKey: ["pricing-settings"],
+    queryUrl: endPoints.getSubscriptionPricing,
+    method: HTTPMethods.GET,
+  })
 
   useEffect(() => {
     const subscriptionSuccess = searchParams.get("subscriptionSuccess")

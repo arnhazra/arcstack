@@ -23,13 +23,13 @@ import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import HTTPMethods from "@/shared/constants/http-methods"
 import useQuery from "@/shared/hooks/use-query"
 import { APIKey, DerivedModel } from "@/shared/types"
-import { UseQueryResult } from "@tanstack/react-query"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "nextjs-toploader/app"
 import Loading from "@/app/loading"
 import Error from "@/app/error"
 import { GlobalContext } from "@/context/globalstate.provider"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
+import { useSearchParams } from "next/navigation"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
@@ -39,12 +39,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const isSubscriptionActive =
     subscription && new Date(subscription.endsAt) > new Date()
   const threadId = searchParams.get("threadId")
-  const model: UseQueryResult<DerivedModel, Error> = useQuery({
+  const model = useQuery<DerivedModel>({
     queryKey: ["model", modelId ?? ""],
     queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
-  const apiKeys: UseQueryResult<APIKey[], Error> = useQuery({
+  const apiKeys = useQuery<APIKey[]>({
     queryKey: ["get-apikeys-pg"],
     queryUrl: endPoints.apiKey,
     method: HTTPMethods.GET,

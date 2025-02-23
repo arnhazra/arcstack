@@ -18,7 +18,6 @@ import { Badge } from "@/shared/components/ui/badge"
 import { DerivedModelCard } from "@/shared/components/modelcard"
 import { DerivedModel, FilterAndSortOptions } from "@/shared/types"
 import { GlobalContext } from "@/context/globalstate.provider"
-import { UseQueryResult } from "@tanstack/react-query"
 
 export interface FindModelRequestState {
   searchQuery: string
@@ -36,18 +35,17 @@ export default function Page() {
       selectedSortOption: "-_id",
       offset: 0,
     })
-  const filtersAndSortOptions: UseQueryResult<FilterAndSortOptions, Error> =
-    useQuery({
-      queryKey: ["filter-and-sort-options"],
-      queryUrl: endPoints.getDerivedModelFilterAndSortOptions,
-      method: HTTPMethods.GET,
-    })
+  const filtersAndSortOptions = useQuery<FilterAndSortOptions>({
+    queryKey: ["filter-and-sort-options"],
+    queryUrl: endPoints.getDerivedModelFilterAndSortOptions,
+    method: HTTPMethods.GET,
+  })
 
   useEffect(() => {
     setFindModelRequestState({ ...findModelRequestState, searchQuery })
   }, [searchQuery])
 
-  const models = useQuery({
+  const models = useQuery<DerivedModel[]>({
     queryKey: [
       "models-listings",
       findModelRequestState.selectedFilter,
@@ -112,7 +110,7 @@ export default function Page() {
     }
   )
 
-  const renderModels = models?.data?.map((model: DerivedModel) => {
+  const renderModels = models?.data?.map((model) => {
     return <DerivedModelCard key={model._id} model={model} />
   })
 

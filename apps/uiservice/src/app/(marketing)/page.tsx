@@ -12,22 +12,22 @@ import Show from "@/shared/components/show"
 import Loading from "../loading"
 import useQuery from "@/shared/hooks/use-query"
 import { BaseModelCard } from "@/shared/components/modelcard"
-import { UseQueryResult } from "@tanstack/react-query"
 import { ShareCard, TeachCard, TestCard } from "@/shared/components/safetycard"
 
 export default function Page() {
-  const models: UseQueryResult<BaseModel[], Error> = useQuery({
+  const models = useQuery<BaseModel[]>({
     queryKey: ["display-models"],
     queryUrl: endPoints.getDisplayModels,
     method: HTTPMethods.GET,
+    suspense: false,
   })
 
-  const subscriptionPricing: UseQueryResult<SubscriptionConfig, Error> =
-    useQuery({
-      queryKey: ["subscription-pricing"],
-      queryUrl: endPoints.getSubscriptionPricing,
-      method: HTTPMethods.GET,
-    })
+  const subscriptionPricing = useQuery<SubscriptionConfig>({
+    queryKey: ["subscription-pricing"],
+    queryUrl: endPoints.getSubscriptionPricing,
+    method: HTTPMethods.GET,
+    suspense: false,
+  })
 
   const renderBaseModels = models?.data?.map((model) => (
     <BaseModelCard key={model._id} model={model} />

@@ -4,10 +4,9 @@ import { apiHost, endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import useQuery from "@/shared/hooks/use-query"
 import { APIReference } from "@/shared/types"
-import { UseQueryResult } from "@tanstack/react-query"
 
 export default function Page() {
-  const apiReference: UseQueryResult<APIReference[], Error> = useQuery({
+  const apiReference = useQuery<APIReference[]>({
     method: HTTPMethods.GET,
     queryKey: ["get-apireference"],
     queryUrl: endPoints.getapireference,

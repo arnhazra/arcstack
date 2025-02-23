@@ -11,12 +11,11 @@ import {
 } from "@/shared/components/ui/dropdown-menu"
 import { GlobalContext } from "@/context/globalstate.provider"
 import { User } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { useContext } from "react"
+import Link from "next/link"
 
 export function UserNav() {
   const [{ user }] = useContext(GlobalContext)
-  const router = useRouter()
 
   const signOut = async () => {
     localStorage.clear()
@@ -43,12 +42,12 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={(): void => router.push("/settings/user")}>
-            Settings
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={(): void => router.push("/")}>
-            Home Page
-          </DropdownMenuItem>
+          <Link href="/settings/user">
+            <DropdownMenuItem>Settings</DropdownMenuItem>
+          </Link>
+          <Link href="/">
+            <DropdownMenuItem>Home Page</DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={signOut}>Sign out</DropdownMenuItem>

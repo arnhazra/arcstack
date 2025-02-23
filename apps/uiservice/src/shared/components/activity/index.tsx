@@ -2,15 +2,15 @@ import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { Eye } from "lucide-react"
 import useQuery from "@/shared/hooks/use-query"
-import { UseQueryResult } from "@tanstack/react-query"
 import { ActivityTrends } from "@/shared/types"
 
 export default function ActivityLog({ keyword }: { keyword: string }) {
-  const activityCount: UseQueryResult<ActivityTrends, any> = useQuery({
+  const activityCount = useQuery<ActivityTrends>({
     queryKey: ["activity-search", keyword],
     queryUrl: endPoints.activityTrends,
     method: HTTPMethods.POST,
     requestBody: { searchKeyword: keyword },
+    suspense: false,
   })
 
   return (
