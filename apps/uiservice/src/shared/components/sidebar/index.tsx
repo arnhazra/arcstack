@@ -56,7 +56,12 @@ export default function Sidebar() {
             <span className="sr-only">{link.displayName}</span>
           </Link>
         </TooltipTrigger>
-        <TooltipContent side="right">{link.displayName}</TooltipContent>
+        <TooltipContent
+          side="right"
+          className="bg-background border-border text-white"
+        >
+          {link.displayName}
+        </TooltipContent>
       </Tooltip>
     )
   })
@@ -82,7 +87,12 @@ export default function Sidebar() {
                 <span className="sr-only">Settings</span>
               </Link>
             </TooltipTrigger>
-            <TooltipContent side="right">Settings</TooltipContent>
+            <TooltipContent
+              side="right"
+              className="bg-background border-border text-white"
+            >
+              Settings
+            </TooltipContent>
           </Tooltip>
         </nav>
       </aside>
