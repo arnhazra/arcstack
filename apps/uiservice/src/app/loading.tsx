@@ -1,18 +1,17 @@
 "use client"
-import { cn } from "@/shared/lib/utils"
-import { LoaderCircle } from "lucide-react"
+import { Progress } from "@/shared/components/ui/progress"
+import { brandName } from "@/shared/constants/global-constants"
+import { DraftingCompass } from "lucide-react"
 
 export default function Loading() {
   return (
-    <>
-      <div className="fixed inset-0 flex justify-center items-center z-50 bg-main">
-        <LoaderCircle
-          width="48"
-          height="48"
-          className={cn("animate-spin", "text-white")}
-          style={{ animation: "spin 1s linear infinite" }}
-        />
-      </div>
-    </>
+    <div className="fixed inset-0 flex flex-col justify-center items-center z-50 bg-main space-y-4">
+      <DraftingCompass className="text-white" width={48} height={48} />
+      <p className="text-white">Loading {brandName}</p>
+      <Progress
+        indeterminate
+        className="xl:w-[20%] lg:w-[25%] md:w-[30%] w-[50%] rounded-xs"
+      />
+    </div>
   )
 }

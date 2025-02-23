@@ -130,7 +130,7 @@ export default function Sidebar() {
               </nav>
             </SheetContent>
           </Sheet>
-          <Link href="/catalog" className="hidden md:flex text-white">
+          <Link href="/catalog" className="hidden sm:flex text-white text-lg">
             {brandName}
           </Link>
           <div className="relative ml-auto flex-1 md:grow-0">

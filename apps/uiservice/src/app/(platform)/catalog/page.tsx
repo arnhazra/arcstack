@@ -13,7 +13,6 @@ import {
 } from "@/shared/components/ui/dropdown-menu"
 import { ChevronLeft, ChevronRight, SortAsc } from "lucide-react"
 import { useContext, useEffect, useState } from "react"
-import Loading from "@/app/loading"
 import { Badge } from "@/shared/components/ui/badge"
 import { DerivedModelCard } from "@/shared/components/modelcard"
 import { DerivedModel, FilterAndSortOptions } from "@/shared/types"
@@ -130,63 +129,58 @@ export default function Page() {
   }
 
   return (
-    <Show
-      condition={!filtersAndSortOptions.isLoading && !models.isLoading}
-      fallback={<Loading />}
-    >
-      <div className="mx-auto grid w-full items-start gap-6">
-        <section>
-          <div className="flex">
-            <div>{renderFilters}</div>
-            <div className="ml-auto flex items-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="h-8 gap-1 bg-border hover:bg-border"
-                  >
-                    <SortAsc className="h-3.5 w-3.5" />
-                    <span>Sort</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="bg-background border-border text-white"
+    <div className="mx-auto grid w-full items-start gap-6">
+      <section>
+        <div className="flex">
+          <div>{renderFilters}</div>
+          <div className="ml-auto flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="h-8 gap-1 bg-border hover:bg-border"
                 >
-                  <DropdownMenuLabel>Sort</DropdownMenuLabel>
-                  {renderSortOptions}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+                  <SortAsc className="h-3.5 w-3.5" />
+                  <span>Sort</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="bg-background border-border text-white"
+              >
+                <DropdownMenuLabel>Sort</DropdownMenuLabel>
+                {renderSortOptions}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4">
-            {renderModels}
-          </div>
-        </section>
-        <Show condition={!findModelRequestState.searchQuery}>
-          <div className="flex gap-4">
-            <Button
-              disabled={findModelRequestState.offset === 0}
-              variant="default"
-              onClick={prevPage}
-              size="icon"
-              className="rounded-full bg-primary hover:bg-primary"
-            >
-              <ChevronLeft className="scale-75" />
-            </Button>
-            <Button
-              disabled={models?.data?.length !== 30}
-              variant="default"
-              onClick={nextPage}
-              size="icon"
-              className="rounded-full bg-primary hover:bg-primary"
-            >
-              <ChevronRight className="scale-75" />
-            </Button>
-          </div>
-        </Show>
-      </div>
-    </Show>
+        </div>
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4">
+          {renderModels}
+        </div>
+      </section>
+      <Show condition={!findModelRequestState.searchQuery}>
+        <div className="flex gap-4">
+          <Button
+            disabled={findModelRequestState.offset === 0}
+            variant="default"
+            onClick={prevPage}
+            size="icon"
+            className="rounded-full bg-primary hover:bg-primary"
+          >
+            <ChevronLeft className="scale-75" />
+          </Button>
+          <Button
+            disabled={models?.data?.length !== 30}
+            variant="default"
+            onClick={nextPage}
+            size="icon"
+            className="rounded-full bg-primary hover:bg-primary"
+          >
+            <ChevronRight className="scale-75" />
+          </Button>
+        </div>
+      </Show>
+    </div>
   )
 }

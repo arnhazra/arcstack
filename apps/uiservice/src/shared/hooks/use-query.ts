@@ -25,7 +25,7 @@ export default function useQuery<T>({
   method,
   requestBody,
   suspense = true,
-}: QueryType<T>): UseSuspenseQueryResult<T, Error> | UseQueryResult<T, Error> {
+}: QueryType<T>) {
   const [{ user }] = useContext(GlobalContext)
 
   const queryFn = async () => {
@@ -38,13 +38,13 @@ export default function useQuery<T>({
   }
 
   return suspense
-    ? useSuspenseQuery({
+    ? useSuspenseQuery<T, Error>({
         queryKey,
         queryFn,
         refetchOnWindowFocus: !user.reduceCarbonEmissions,
         refetchInterval: user.reduceCarbonEmissions ? 0 : 30000,
       })
-    : useNormalQuery({
+    : useNormalQuery<T, Error>({
         queryKey,
         queryFn,
         refetchOnWindowFocus: !user.reduceCarbonEmissions,

@@ -16,7 +16,6 @@ import { ArrowRightCircle, Bolt, CalendarClock, Check } from "lucide-react"
 import { useContext, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "nextjs-toploader/app"
-import Loading from "@/app/loading"
 
 export default function Page() {
   const [{ subscription }] = useContext(GlobalContext)
@@ -115,7 +114,7 @@ export default function Page() {
   )
 
   return (
-    <Show condition={!subscriptionPricing.isLoading} fallback={<Loading />}>
+    <>
       <Show condition={!subscription || !isSubscriptionActive}>
         <SectionPanel
           icon={<CalendarClock className="scale-75" />}
@@ -157,6 +156,6 @@ export default function Page() {
           </div>
         </div>
       </Show>
-    </Show>
+    </>
   )
 }
