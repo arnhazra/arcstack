@@ -18,6 +18,7 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card"
 import Link from "next/link"
+import Header from "@/shared/components/header"
 
 interface AuthProviderProps {
   onAuthorized: (isAuthorized: boolean) => void
@@ -85,8 +86,9 @@ export default function AuthenticationPage({
 
   return (
     <>
+      <Header />
       <div className="fixed inset-0 overflow-y-auto flex justify-center items-center auth-landing">
-        <Card className="mx-auto max-w-sm bg-background border-border text-white">
+        <Card className="mx-auto max-w-sm bg-main border-none text-white">
           <CardHeader>
             <CardTitle className="text-2xl text-center">
               {brandName} Auth
@@ -198,9 +200,6 @@ export default function AuthenticationPage({
             </div>
             <div className="mt-4 text-center text-sm text-zinc-200">
               {uiConstants.privacyPolicyStatement}
-            </div>
-            <div className="text-center mt-4 underline">
-              <Link href={"/"}>Back to Homepage</Link>
             </div>
           </CardContent>
         </Card>
