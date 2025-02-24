@@ -1,7 +1,15 @@
 "use client"
 import { ReactElement, ReactNode, useContext } from "react"
 import { Button } from "@/shared/components/ui/button"
-import { CalendarClock, Info, Key, Leaf, ShieldCheck, User } from "lucide-react"
+import {
+  Bell,
+  CalendarClock,
+  Info,
+  Key,
+  Leaf,
+  ShieldCheck,
+  User,
+} from "lucide-react"
 import { GlobalContext } from "@/context/globalstate.provider"
 import { Tabs, tabsList } from "./data"
 import Link from "next/link"
@@ -10,7 +18,7 @@ import { useConfirmContext } from "@/shared/providers/confirm.provider"
 import ky from "ky"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
-import { toast } from "@/shared/components/ui/use-toast"
+import { toast } from "sonner"
 import { generateRandomKey } from "@/shared/lib/random-key-gen"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import Show from "@/shared/components/show"
@@ -52,18 +60,14 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
           timeout: FETCH_TIMEOUT,
         })
         dispatch("setRefreshId", generateRandomKey())
-        toast({
-          title: uiConstants.notification,
-          description: (
-            <p className="text-slate-600">{uiConstants.apiKeyCreated}</p>
-          ),
+        toast(uiConstants.notification, {
+          icon: <Bell className="scale-75" />,
+          description: uiConstants.apiKeyCreated,
         })
       } catch (error) {
-        toast({
-          title: uiConstants.notification,
-          description: (
-            <p className="text-slate-600">{uiConstants.toastError}</p>
-          ),
+        toast(uiConstants.notification, {
+          icon: <Bell className="scale-75" />,
+          description: uiConstants.toastError,
         })
       }
     }
@@ -77,7 +81,7 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
             <Button
               variant="default"
               size="icon"
-              className="rounded-full bg-background"
+              className="rounded-full bg-border"
             >
               <User className="scale-75" />
             </Button>

@@ -1,6 +1,6 @@
 "use client"
 import SectionPanel from "../../../../shared/components/sectionpanel"
-import { toast } from "@/shared/components/ui/use-toast"
+import { toast } from "sonner"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
 import { GlobalContext } from "@/context/globalstate.provider"
@@ -10,7 +10,7 @@ import { useConfirmContext } from "@/shared/providers/confirm.provider"
 import ky from "ky"
 import { useContext } from "react"
 import { APIKey } from "@/shared/types"
-import { Key, Trash } from "lucide-react"
+import { Bell, Key, Trash } from "lucide-react"
 import CopyToClipboard from "@/shared/components/copy"
 import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
@@ -34,18 +34,14 @@ export default function Page() {
           timeout: FETCH_TIMEOUT,
         })
         dispatch("setRefreshId", generateRandomKey())
-        toast({
-          title: uiConstants.notification,
-          description: (
-            <p className="text-slate-600">{uiConstants.apiKeyDeleted}</p>
-          ),
+        toast(uiConstants.notification, {
+          icon: <Bell className="scale-75" />,
+          description: uiConstants.apiKeyDeleted,
         })
       } catch (error) {
-        toast({
-          title: uiConstants.notification,
-          description: (
-            <p className="text-slate-600">{uiConstants.toastError}</p>
-          ),
+        toast(uiConstants.notification, {
+          icon: <Bell className="scale-75" />,
+          description: uiConstants.toastError,
         })
       }
     }

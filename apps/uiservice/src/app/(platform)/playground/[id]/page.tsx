@@ -1,5 +1,5 @@
 "use client"
-import { CornerDownLeft } from "lucide-react"
+import { Bell, CornerDownLeft } from "lucide-react"
 import { Button, buttonVariants } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 import { Label } from "@/shared/components/ui/label"
@@ -15,7 +15,7 @@ import {
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { use, useContext, useState } from "react"
 import ky from "ky"
-import { toast } from "@/shared/components/ui/use-toast"
+import { toast } from "sonner"
 import { uiConstants } from "@/shared/constants/global-constants"
 import Show from "@/shared/components/show"
 import LoaderIcon from "@/shared/components/loaderIcon"
@@ -72,7 +72,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         .post(`${endPoints.intelligenceChat}`, {
           json: { ...requestBody, threadId: threadId ?? undefined },
           headers: {
-            "x-api-key": apiKeys && apiKeys.data ? apiKeys.data[0].apiKey : "",
+            "x-api-key": !!apiKeys?.data?.length ? apiKeys.data[0].apiKey : "",
           },
           timeout: FETCH_TIMEOUT,
         })
@@ -83,11 +83,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       }
     } catch (error: any) {
       setReseponse({})
-      toast({
-        title: uiConstants.notification,
-        description: (
-          <p className="text-zinc-600">{uiConstants.connectionErrorMessage}</p>
-        ),
+      toast(uiConstants.notification, {
+        icon: <Bell className="scale-75" />,
+        description: uiConstants.connectionErrorMessage,
       })
     } finally {
       setLoading(false)

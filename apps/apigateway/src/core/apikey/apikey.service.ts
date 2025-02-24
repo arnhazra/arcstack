@@ -17,6 +17,7 @@ export class APIKeyService {
     private readonly commandBus: CommandBus
   ) {}
 
+  @OnEvent(EventsUnion.CreateAPIKey)
   async createAPIKey(userId: string) {
     try {
       return await this.commandBus.execute<CreateAPIKeyCommand, APIKey>(
@@ -27,6 +28,7 @@ export class APIKeyService {
     }
   }
 
+  @OnEvent(EventsUnion.GetAPIKeys)
   async findMyAPIKeys(userId: string) {
     try {
       return await this.queryBus.execute<FindAllAPIKeyQuery, APIKey[]>(

@@ -2,7 +2,7 @@
 import SectionPanel from "../../../../shared/components/sectionpanel"
 import Show from "@/shared/components/show"
 import { Button } from "@/shared/components/ui/button"
-import { toast } from "@/shared/components/ui/use-toast"
+import { toast } from "sonner"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
 import HTTPMethods from "@/shared/constants/http-methods"
@@ -12,7 +12,13 @@ import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import { SubscriptionConfig } from "@/shared/types"
 import { format } from "date-fns"
 import ky from "ky"
-import { ArrowRightCircle, Bolt, CalendarClock, Check } from "lucide-react"
+import {
+  ArrowRightCircle,
+  Bell,
+  Bolt,
+  CalendarClock,
+  Check,
+} from "lucide-react"
 import { useContext, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "nextjs-toploader/app"
@@ -32,21 +38,17 @@ export default function Page() {
     const subscriptionSuccess = searchParams.get("subscriptionSuccess")
     if (subscriptionSuccess !== null) {
       if (subscriptionSuccess === "true") {
-        toast({
-          title: uiConstants.notification,
-          description: (
-            <p className="text-zinc-600">Subscription Activation Success</p>
-          ),
+        toast(uiConstants.notification, {
+          icon: <Bell className="scale-75" />,
+          description: "Subscription Activation Success",
         })
         router.push("/settings/subscription")
       }
 
       if (subscriptionSuccess === "false") {
-        toast({
-          title: uiConstants.notification,
-          description: (
-            <p className="text-zinc-600">Subscription Activation Failure</p>
-          ),
+        toast(uiConstants.notification, {
+          icon: <Bell className="scale-75" />,
+          description: "Subscription Activation Failure",
         })
         router.push("/settings/subscription")
       }
@@ -71,9 +73,9 @@ export default function Page() {
         .json()
       window.location = response.redirectUrl
     } catch (error) {
-      toast({
-        title: uiConstants.notification,
-        description: <p className="text-zinc-600">{uiConstants.toastError}</p>,
+      toast(uiConstants.notification, {
+        icon: <Bell className="scale-75" />,
+        description: uiConstants.toastError,
       })
     }
   }
