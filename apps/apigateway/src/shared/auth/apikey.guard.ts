@@ -112,6 +112,7 @@ export class APIKeyGuard implements CanActivate {
         if (threadCountRes >= 200) {
           throw new ForbiddenException(statusMessages.limitReached)
         }
+        this.introduceDelay(1000)
         request.user = { userId, role: userRes.role, hasProSubscription: false }
         this.createActivityLog(userRes, request)
         return true

@@ -12,7 +12,7 @@ import { DerivedModelService } from "./derivedmodel.service"
 import { TokenGuard } from "@/shared/auth/token.guard"
 import { FindDerivedModelsDto } from "./dto/request/find-dervied-models.request.dto"
 import { CreateDerivedModelDto } from "./dto/request/create-derived-model.request.dto"
-import { EventEmitter2, OnEvent } from "@nestjs/event-emitter"
+import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "@/shared/utils/events.union"
 import { sortOptions } from "./data/model-sort-options"
 import { ModRequest } from "@/shared/auth/types/mod-request.interface"
@@ -57,7 +57,6 @@ export class DerivedModelController {
 
   @UseGuards(TokenGuard)
   @Get(":modelId")
-  @OnEvent(EventsUnion.GetDerivedModelDetails)
   async findOneModel(
     @Request() request: ModRequest,
     @Param("modelId") modelId: string

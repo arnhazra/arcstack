@@ -73,6 +73,14 @@ export class UserService {
             { userId: user.id }
           )
 
+          const apiKeys = (
+            await this.eventEmitter.emitAsync(EventsUnion.GetAPIKeys, user.id)
+          ).shift()
+
+          if (!apiKeys || !apiKeys.length) {
+            await this.eventEmitter.emitAsync(EventsUnion.CreateAPIKey, user.id)
+          }
+
           if (refreshTokenFromRedis.toString()) {
             const refreshToken = refreshTokenFromRedis.toString()
             const tokenPayload = {
@@ -122,6 +130,10 @@ export class UserService {
             userId: newUser.id,
             token: refreshToken,
           })
+          await this.eventEmitter.emitAsync(
+            EventsUnion.CreateAPIKey,
+            newUser.id
+          )
           return { accessToken, refreshToken, user: newUser, success: true }
         }
       } else {

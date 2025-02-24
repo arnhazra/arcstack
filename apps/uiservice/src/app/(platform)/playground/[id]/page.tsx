@@ -72,7 +72,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         .post(`${endPoints.intelligenceChat}`, {
           json: { ...requestBody, threadId: threadId ?? undefined },
           headers: {
-            "x-api-key": apiKeys && apiKeys.data ? apiKeys.data[0].apiKey : "",
+            "x-api-key": !!apiKeys?.data?.length ? apiKeys.data[0].apiKey : "",
           },
           timeout: FETCH_TIMEOUT,
         })
