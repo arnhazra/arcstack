@@ -24,7 +24,7 @@ export default function Page() {
         <div className="flex">
           <p className="text-white text-lg">Your Favourites</p>
         </div>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4 py-4">
           {renderModels}
         </div>
       </section>
