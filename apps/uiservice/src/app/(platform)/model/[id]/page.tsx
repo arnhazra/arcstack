@@ -1,5 +1,5 @@
 "use client"
-import { BookMarked, FlaskConical, Heart } from "lucide-react"
+import { Bell, BookMarked, FlaskConical, Heart } from "lucide-react"
 import { Badge } from "@/shared/components/ui/badge"
 import { buttonVariants } from "@/shared/components/ui/button"
 import {
@@ -24,7 +24,7 @@ import Share from "@/shared/components/share"
 import Link from "next/link"
 import { cn } from "@/shared/lib/utils"
 import ky from "ky"
-import { toast } from "@/shared/components/ui/use-toast"
+import { toast } from "sonner"
 import { uiConstants } from "@/shared/constants/global-constants"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
@@ -88,11 +88,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         await ky.post(`${endPoints.favourites}/${modelId}`)
       }
     } catch (error) {
-      toast({
-        title: uiConstants.notification,
-        description: (
-          <p className="text-zinc-600">{uiConstants.connectionErrorMessage}</p>
-        ),
+      toast(uiConstants.notification, {
+        icon: <Bell className="scale-75" />,
+        description: uiConstants.connectionErrorMessage,
       })
     }
   }

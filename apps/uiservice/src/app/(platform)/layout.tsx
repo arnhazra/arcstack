@@ -4,7 +4,7 @@ import { uiConstants } from "@/shared/constants/global-constants"
 import { GlobalContext } from "@/context/globalstate.provider"
 import ky from "ky"
 import { ReactNode, useContext, useState } from "react"
-import { toast } from "@/shared/components/ui/use-toast"
+import { toast } from "sonner"
 import Show from "@/shared/components/show"
 import AuthProvider from "./auth"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
@@ -12,6 +12,7 @@ import { Subscription, User } from "@/shared/types"
 import Loading from "../loading"
 import { useQuery } from "@tanstack/react-query"
 import Sidebar from "@/shared/components/sidebar"
+import { Bell } from "lucide-react"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const [{ refreshId }, dispatch] = useContext(GlobalContext)
@@ -37,23 +38,15 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           if (error.response.status === 401) {
             setAuthorized(false)
           } else {
-            toast({
-              title: uiConstants.notification,
-              description: (
-                <p className="text-zinc-600">
-                  {uiConstants.connectionErrorMessage}
-                </p>
-              ),
+            toast(uiConstants.notification, {
+              icon: <Bell className="scale-75" />,
+              description: uiConstants.connectionErrorMessage,
             })
           }
         } else {
-          toast({
-            title: uiConstants.notification,
-            description: (
-              <p className="text-zinc-600">
-                {uiConstants.connectionErrorMessage}
-              </p>
-            ),
+          toast(uiConstants.notification, {
+            icon: <Bell className="scale-75" />,
+            description: uiConstants.toastError,
           })
         }
       } finally {

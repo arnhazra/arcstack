@@ -4,8 +4,8 @@ import { FetchProvider } from "./fetch.provider"
 import { GlobalStateProvider } from "../../context/globalstate.provider"
 import { ConfirmProvider } from "./confirm.provider"
 import { PromptProvider } from "./prompt.provider"
-import { Toaster } from "../components/ui/toaster"
 import { TooltipProvider } from "../components/ui/tooltip"
+import { Toaster } from "sonner"
 
 export default function Providers({ children }: { children: ReactNode }) {
   return (
@@ -15,7 +15,20 @@ export default function Providers({ children }: { children: ReactNode }) {
           <ConfirmProvider>
             <PromptProvider>{children}</PromptProvider>
           </ConfirmProvider>
-          <Toaster />
+          <Toaster
+            toastOptions={{
+              style: {
+                background: "#18181b",
+                borderColor: "#27272a",
+                color: "#ffffff",
+              },
+            }}
+            style={{
+              background: "#18181b",
+              borderColor: "#27272a",
+              color: "#ffffff",
+            }}
+          />
         </GlobalStateProvider>
       </FetchProvider>
     </TooltipProvider>

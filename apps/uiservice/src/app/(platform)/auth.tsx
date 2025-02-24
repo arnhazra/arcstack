@@ -2,7 +2,7 @@
 import { brandName, uiConstants } from "@/shared/constants/global-constants"
 import ky from "ky"
 import { useState } from "react"
-import { toast } from "@/shared/components/ui/use-toast"
+import { toast } from "sonner"
 import Show from "@/shared/components/show"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
@@ -17,8 +17,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card"
-import Link from "next/link"
 import Header from "@/shared/components/header"
+import { Bell } from "lucide-react"
 
 interface AuthProviderProps {
   onAuthorized: (isAuthorized: boolean) => void
@@ -47,11 +47,9 @@ export default function AuthenticationPage({
       setNewUser(response.newUser)
       setAuthStep(2)
     } catch (error) {
-      toast({
-        title: uiConstants.notification,
-        description: (
-          <p className="text-zinc-600">{uiConstants.connectionErrorMessage}</p>
-        ),
+      toast(uiConstants.notification, {
+        icon: <Bell className="scale-75" />,
+        description: uiConstants.connectionErrorMessage,
       })
     } finally {
       setAuthLoading(false)
@@ -74,9 +72,9 @@ export default function AuthenticationPage({
       localStorage.setItem("refreshToken", response.refreshToken)
       onAuthorized(true)
     } catch (error: any) {
-      toast({
-        title: uiConstants.notification,
-        description: <p className="text-zinc-600">{uiConstants.invalidOTP}</p>,
+      toast(uiConstants.notification, {
+        icon: <Bell className="scale-75" />,
+        description: uiConstants.invalidOTP,
       })
       onAuthorized(false)
     } finally {
