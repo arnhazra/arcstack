@@ -7,6 +7,6 @@ export class GetModelsQueryHandler implements IQueryHandler<GetModelsQuery> {
   constructor(private readonly repository: ModelsRepository) {}
 
   async execute(query: GetModelsQuery) {
-    return await this.repository.findAll()
+    return await this.repository.find()
   }
 }

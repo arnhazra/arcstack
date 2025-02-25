@@ -3,10 +3,10 @@ import { InjectModel } from "@nestjs/mongoose"
 import { ApiReference } from "./schemas/apireference.schema"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { Model } from "mongoose"
-import { BaseRepository } from "src/shared/database/database.repository"
+import { EntityRepository } from "@/shared/database/entity.repository"
 
 @Injectable()
-export class ApiReferenceRepository extends BaseRepository<ApiReference> {
+export class ApiReferenceRepository extends EntityRepository<ApiReference> {
   constructor(
     @InjectModel(ApiReference.name, DbConnectionMap.Core)
     private apiReferenceModel: Model<ApiReference>

@@ -3,11 +3,11 @@ import { InjectModel } from "@nestjs/mongoose"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { Favourite } from "./schemas/favourites.schema"
 import { Model } from "mongoose"
-import { BaseRepository } from "src/shared/database/database.repository"
+import { EntityRepository } from "@/shared/database/entity.repository"
 import objectId from "@/shared/utils/convert-objectid"
 
 @Injectable()
-export class FavouritesRepository extends BaseRepository<Favourite> {
+export class FavouritesRepository extends EntityRepository<Favourite> {
   constructor(
     @InjectModel(Favourite.name, DbConnectionMap.Platform)
     private favouriteModel: Model<Favourite>

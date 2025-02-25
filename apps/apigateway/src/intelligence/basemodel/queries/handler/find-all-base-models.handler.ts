@@ -10,6 +10,6 @@ export class FindAllBaseModelsQueryHandler
   constructor(private readonly repository: BaseModelsRepository) {}
 
   async execute(query: FindAllBaseModelsQuery): Promise<BaseModel[]> {
-    return await this.repository.findAll()
+    return await this.repository.find()
   }
 }

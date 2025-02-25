@@ -5,11 +5,11 @@ import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { FilterQuery, Model } from "mongoose"
 import { OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
-import { BaseRepository } from "src/shared/database/database.repository"
+import { EntityRepository } from "@/shared/database/entity.repository"
 import objectId from "src/shared/utils/convert-objectid"
 
 @Injectable()
-export class UserRepository extends BaseRepository<User> {
+export class UserRepository extends EntityRepository<User> {
   constructor(
     @InjectModel(User.name, DbConnectionMap.Core)
     private userModel: Model<User>
@@ -18,7 +18,7 @@ export class UserRepository extends BaseRepository<User> {
   }
 
   @OnEvent(EventsUnion.GetUserDetails)
-  async find<K extends keyof User>(
+  async findUser<K extends keyof User>(
     filter: Pick<User, K>
   ): Promise<User | null> {
     return await super.findOne(filter as FilterQuery<User>)

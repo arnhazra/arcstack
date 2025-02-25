@@ -3,11 +3,11 @@ import { InjectModel } from "@nestjs/mongoose"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { DerivedModel } from "./schemas/derivedmodel.schema"
 import { Model } from "mongoose"
-import { BaseRepository } from "@/shared/database/database.repository"
+import { EntityRepository } from "@/shared/database/entity.repository"
 import { FindDerivedModelsDto } from "./dto/request/find-dervied-models.request.dto"
 
 @Injectable()
-export class DerivedModelRepository extends BaseRepository<DerivedModel> {
+export class DerivedModelRepository extends EntityRepository<DerivedModel> {
   constructor(
     @InjectModel(DerivedModel.name, DbConnectionMap.Platform)
     private derivedModelModel: Model<DerivedModel>

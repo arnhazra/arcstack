@@ -3,11 +3,11 @@ import { InjectModel } from "@nestjs/mongoose"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { History } from "./schemas/history.schema"
 import { Model } from "mongoose"
-import { BaseRepository } from "src/shared/database/database.repository"
+import { EntityRepository } from "@/shared/database/entity.repository"
 import objectId from "@/shared/utils/convert-objectid"
 
 @Injectable()
-export class HistoryRepository extends BaseRepository<History> {
+export class HistoryRepository extends EntityRepository<History> {
   constructor(
     @InjectModel(History.name, DbConnectionMap.Platform)
     private historyModel: Model<History>

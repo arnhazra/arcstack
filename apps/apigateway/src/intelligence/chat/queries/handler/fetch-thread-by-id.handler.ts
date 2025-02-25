@@ -11,7 +11,7 @@ export class FetchThreadByIdQueryHandler
 
   async execute(query: FetchThreadByIdQuery) {
     const { threadId } = query
-    return await this.repository.findAll({
+    return await this.repository.find({
       threadId: objectId(threadId),
     })
   }

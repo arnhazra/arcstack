@@ -3,11 +3,11 @@ import { InjectModel } from "@nestjs/mongoose"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { Thread } from "./schemas/thread.schema"
 import { Model } from "mongoose"
-import { BaseRepository } from "src/shared/database/database.repository"
+import { EntityRepository } from "@/shared/database/entity.repository"
 import objectId from "@/shared/utils/convert-objectid"
 
 @Injectable()
-export class ChatRepository extends BaseRepository<Thread> {
+export class ChatRepository extends EntityRepository<Thread> {
   constructor(
     @InjectModel(Thread.name, DbConnectionMap.Platform)
     private threadModel: Model<Thread>
