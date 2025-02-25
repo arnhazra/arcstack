@@ -3,17 +3,12 @@ import { Model, Document, FilterQuery, UpdateQuery } from "mongoose"
 export abstract class EntityRepository<T extends Document> {
   constructor(protected readonly entityModel: Model<T>) {}
 
-  async findOne(
-    entityFilterQuery: FilterQuery<T>,
-    projection?: Record<string, unknown>
-  ): Promise<T | null> {
-    return await this.entityModel
-      .findOne(entityFilterQuery, { ...projection })
-      .exec()
+  async findOne(entityFilterQuery: FilterQuery<T>): Promise<T | null> {
+    return await this.entityModel.findOne(entityFilterQuery).exec()
   }
 
-  async find(entityFilterQuery: FilterQuery<T> = {}): Promise<T[] | null> {
-    return await this.entityModel.find(entityFilterQuery).exec()
+  async find(entityFilterQuery: FilterQuery<T> = {}) {
+    return this.entityModel.find(entityFilterQuery).exec()
   }
 
   async create(createEntityDto: Partial<T>): Promise<T> {
