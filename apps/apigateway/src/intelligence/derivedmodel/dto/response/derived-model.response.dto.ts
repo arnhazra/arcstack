@@ -7,7 +7,6 @@ export class DerivedModelResponseDto {
   category: string
   baseModel: BaseModel
   isFineTuned: boolean
-  promptStyle: string
   systemPrompt: string
   responseFormat: string
 }

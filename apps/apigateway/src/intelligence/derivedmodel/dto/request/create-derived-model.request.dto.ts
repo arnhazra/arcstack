@@ -17,9 +17,6 @@ export class CreateDerivedModelDto {
   readonly isFineTuned: boolean
 
   @IsNotEmpty()
-  readonly promptStyle: string
-
-  @IsNotEmpty()
   readonly systemPrompt: string
 
   @IsNotEmpty()

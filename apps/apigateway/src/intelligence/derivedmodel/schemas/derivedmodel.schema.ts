@@ -20,9 +20,6 @@ export class DerivedModel extends Document {
   isFineTuned: boolean
 
   @Prop({ required: true })
-  promptStyle: string
-
-  @Prop({ required: true })
   systemPrompt: string
 
   @Prop({ required: true })

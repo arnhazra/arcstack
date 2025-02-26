@@ -19,7 +19,6 @@ export type DerivedModel = {
   category: string
   baseModel: BaseModel
   isFineTuned: boolean
-  promptStyle: string
   responseFormat: string
 }
 
