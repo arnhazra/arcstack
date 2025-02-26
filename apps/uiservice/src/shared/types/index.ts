@@ -3,7 +3,7 @@ export type BaseModel = {
   genericName: string
   displayName: string
   series: string
-  vendor: string
+  provider: string
   defaultTemperature: number
   defaultTopP: number
   architecture: string

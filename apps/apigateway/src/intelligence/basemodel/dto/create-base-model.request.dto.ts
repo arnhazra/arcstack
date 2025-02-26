@@ -11,7 +11,7 @@ export class CreateBaseModelDto {
   readonly series: string
 
   @IsNotEmpty()
-  readonly vendor: string
+  readonly provider: string
 
   @IsNotEmpty()
   parameters: string

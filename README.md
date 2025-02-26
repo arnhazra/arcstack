@@ -1,6 +1,6 @@
 ## ArcStack
 
-This application is an AI model marketplace that simplifies access to multiple AI models from different vendors. It gathers, fine-tunes, and lists these models for developers to use. In addition to choosing from existing models, developers can also create their own by building on base models like OpenAI’s GPT-4o.
+This application is an AI model marketplace that simplifies access to multiple AI models from different providers. It gathers, fine-tunes, and lists these models for developers to use. In addition to choosing from existing models, developers can also create their own by building on base models like OpenAI’s GPT-4o.
 This allows for customization and flexibility without the need to train a model from scratch.
 The marketplace makes it easier to experiment, integrate, and deploy AI models in various applications, saving time and effort while providing a wide range of options in one place.
 
