@@ -6,15 +6,17 @@ import { uiConstants } from "@/shared/constants/global-constants"
 import { GlobalContext } from "@/context/globalstate.provider"
 import { format } from "date-fns"
 import { Bell, Bolt, CalendarClock } from "lucide-react"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 import { useRouter } from "nextjs-toploader/app"
 import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
+import { Button } from "@/shared/components/ui/button"
 
 export default function Page() {
   const [{ subscription }] = useContext(GlobalContext)
   const searchParams = useSearchParams()
   const router = useRouter()
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     const subscriptionSuccess = searchParams.get("subscriptionSuccess")
@@ -48,12 +50,20 @@ export default function Page() {
 
   return (
     <>
+      <SubscriptionModal open={isOpen} onOpenChange={setIsOpen} />
       <Show condition={!subscription || !isSubscriptionActive}>
         <SectionPanel
           icon={<CalendarClock className="scale-75" />}
           title="Your Subscription"
           content="You are on free subscription"
-          actionComponents={[<SubscriptionModal />]}
+          actionComponents={[
+            <Button
+              className="bg-primary hover:bg-primary"
+              onClick={() => setIsOpen(true)}
+            >
+              Upgrade to Pro
+            </Button>,
+          ]}
         />
       </Show>
       <Show condition={!!subscription && !!isSubscriptionActive}>
@@ -64,7 +74,12 @@ export default function Page() {
             content="You are on Pro subscription"
             actionComponents={[
               <Show condition={!!canActivateNewSubscription}>
-                <SubscriptionModal />
+                <Button
+                  className="bg-primary hover:bg-primary"
+                  onClick={() => setIsOpen(true)}
+                >
+                  Upgrade to Pro
+                </Button>
               </Show>,
             ]}
           />

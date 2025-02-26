@@ -1,4 +1,4 @@
-import { ArrowRightCircle, Bell, Check, CircleArrowUp } from "lucide-react"
+import { ArrowRightCircle, Bell, Check } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import {
   Dialog,
@@ -6,7 +6,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/shared/components/ui/dialog"
 import useQuery from "@/shared/hooks/use-query"
 import { SubscriptionConfig } from "@/shared/types"
@@ -16,11 +15,20 @@ import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import ky from "ky"
 import { toast } from "sonner"
 import { brandName, uiConstants } from "@/shared/constants/global-constants"
-import { useState } from "react"
+import { useRouter } from "next/navigation"
 
-export function SubscriptionModal() {
-  console.log("here")
-  const [open, setOpen] = useState(false)
+interface SubscriptionModalProps {
+  open: boolean
+  customMessage?: string
+  onOpenChange: (open: boolean) => void
+}
+
+export function SubscriptionModal({
+  open,
+  customMessage,
+  onOpenChange,
+}: SubscriptionModalProps) {
+  const router = useRouter()
   const subscriptionPricing = useQuery<SubscriptionConfig>({
     queryKey: ["pricing-settings"],
     queryUrl: endPoints.getSubscriptionPricing,
@@ -44,21 +52,16 @@ export function SubscriptionModal() {
   }
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
-          onClick={(): void => setOpen(true)}
-          variant="default"
-          className="bg-primary hover:bg-primary"
-        >
-          Upgrade to Pro <CircleArrowUp className="ml-2 scale-75" />
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-md bg-background border-border text-white -mb-4">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        className="sm:max-w-md bg-background border-border text-white -mb-4"
+        onInteractOutside={(event) => event.preventDefault()}
+      >
         <DialogHeader>
           <DialogTitle>{brandName} Pro</DialogTitle>
           <DialogDescription className="text-zinc-300">
-            What's included in the {subscriptionPricing.data?.subscriptionName}
+            {customMessage ??
+              `What's included in the ${subscriptionPricing.data?.subscriptionName}`}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-6">
@@ -90,7 +93,10 @@ export function SubscriptionModal() {
           <Button
             variant="link"
             className="text-primary"
-            onClick={(): void => setOpen(false)}
+            onClick={(): void => {
+              router.push("/settings/subscription")
+              onOpenChange(false)
+            }}
           >
             I'll do this later
           </Button>

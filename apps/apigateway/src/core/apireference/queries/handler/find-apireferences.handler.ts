@@ -9,6 +9,6 @@ export class FindAPIReferencesQueryHandler
   constructor(private readonly repository: ApiReferenceRepository) {}
 
   async execute(query: FindAPIReferencesQuery) {
-    return await this.repository.find({})
+    return await this.repository.find()
   }
 }
