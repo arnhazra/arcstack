@@ -11,13 +11,16 @@ export class CreateBaseModelDto {
   readonly series: string
 
   @IsNotEmpty()
-  readonly vendor: string
+  readonly provider: string
 
   @IsNotEmpty()
   parameters: string
 
   @IsNotEmpty()
   contextWindow: string
+
+  @IsNotEmpty()
+  readonly isPro: boolean
 
   @IsNotEmpty()
   architecture: string

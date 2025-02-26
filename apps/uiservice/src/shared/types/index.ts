@@ -3,11 +3,12 @@ export type BaseModel = {
   genericName: string
   displayName: string
   series: string
-  vendor: string
+  provider: string
   defaultTemperature: number
   defaultTopP: number
   architecture: string
   contextWindow: string
+  isPro: boolean
   parameters: string
 }
 
@@ -18,8 +19,6 @@ export type DerivedModel = {
   category: string
   baseModel: BaseModel
   isFineTuned: boolean
-  promptStyle: string
-  isPro: boolean
   responseFormat: string
 }
 

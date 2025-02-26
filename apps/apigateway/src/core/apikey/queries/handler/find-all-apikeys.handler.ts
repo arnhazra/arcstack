@@ -11,7 +11,7 @@ export class FindAllAPIKeyQueryHandler
 
   async execute(query: FindAllAPIKeyQuery) {
     const { userId } = query
-    return await this.repository.findAll({
+    return await this.repository.find({
       userId: objectId(userId),
     })
   }

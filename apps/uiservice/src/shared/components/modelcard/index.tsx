@@ -26,7 +26,7 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
     genericName,
     parameters,
     series,
-    vendor,
+    provider,
   } = model
 
   return (
@@ -66,8 +66,8 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
               <dd className="text-sm font-semibold">{architecture}</dd>
             </div>
             <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">Vendor</dt>
-              <dd className="text-sm font-semibold capitalize">{vendor}</dd>
+              <dt className="text-xs font-medium text-zinc-300">Provider</dt>
+              <dd className="text-sm font-semibold capitalize">{provider}</dd>
             </div>
             <div className="space-y-1">
               <dt className="text-xs font-medium text-zinc-300">Series</dt>
@@ -95,7 +95,7 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
 }
 
 export function DerivedModelCard({ model }: DerivedModelCardProps) {
-  const { _id, baseModel, category, displayName, isPro } = model
+  const { _id, baseModel, category, displayName } = model
 
   return (
     <Link href={`/model/${_id}`}>
@@ -111,7 +111,7 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
                 >
                   {displayName}
                 </CardTitle>
-                {isPro && (
+                {baseModel.isPro && (
                   <Badge className="bg-primary hover:bg-primary ">Pro</Badge>
                 )}
               </div>
@@ -141,9 +141,9 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
               </dd>
             </div>
             <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">Vendor</dt>
+              <dt className="text-xs font-medium text-zinc-300">Provider</dt>
               <dd className="text-sm font-semibold capitalize">
-                {baseModel.vendor}
+                {baseModel.provider}
               </dd>
             </div>
             <div className="space-y-1">

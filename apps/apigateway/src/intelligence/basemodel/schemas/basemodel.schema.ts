@@ -13,7 +13,7 @@ export class BaseModel extends Document {
   series: string
 
   @Prop({ required: true })
-  vendor: string
+  provider: string
 
   @Prop({ required: true })
   parameters: string
@@ -23,6 +23,9 @@ export class BaseModel extends Document {
 
   @Prop({ required: true })
   architecture: string
+
+  @Prop({ required: true })
+  isPro: boolean
 
   @Prop({ required: true, default: 0.7 })
   defaultTemperature: number

@@ -13,19 +13,21 @@ export class CreateBaseModelCommandHandler
       displayName,
       genericName,
       series,
-      vendor,
+      provider,
       contextWindow,
       parameters,
       architecture,
+      isPro,
     } = command.createBaseModelDto
     return await this.repository.create({
       displayName,
       genericName,
       series,
-      vendor,
+      provider,
       contextWindow,
       parameters,
       architecture,
+      isPro,
     })
   }
 }

@@ -90,7 +90,7 @@ export class ChatService {
       )
       const gModel = await this.getModelById(modelId)
 
-      if (gModel.isPro && !hasProSubscription) {
+      if (gModel.baseModel.isPro && !hasProSubscription) {
         throw new ForbiddenException(statusMessages.subscriptionNotFound)
       }
 

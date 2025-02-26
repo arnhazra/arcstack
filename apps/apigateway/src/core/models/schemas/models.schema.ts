@@ -13,7 +13,7 @@ export class Model extends Document {
   series: string
 
   @Prop({ required: true })
-  vendor: string
+  provider: string
 
   @Prop({ required: true })
   parameters: string

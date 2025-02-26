@@ -3,10 +3,10 @@ import { InjectModel } from "@nestjs/mongoose"
 import { Subscription } from "./schemas/subscription.schema"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { Model } from "mongoose"
-import { BaseRepository } from "src/shared/database/database.repository"
+import { EntityRepository } from "@/shared/database/entity.repository"
 
 @Injectable()
-export class SubscriptionRepository extends BaseRepository<Subscription> {
+export class SubscriptionRepository extends EntityRepository<Subscription> {
   constructor(
     @InjectModel(Subscription.name, DbConnectionMap.Core)
     private subscriptionModel: Model<Subscription>

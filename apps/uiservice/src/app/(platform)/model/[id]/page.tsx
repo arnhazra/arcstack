@@ -121,8 +121,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <span>{model?.data?.baseModel.architecture}</span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Vendor</span>
-                  <span>{model?.data?.baseModel.vendor}</span>
+                  <span>Provider</span>
+                  <span>{model?.data?.baseModel.provider}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Base Model</span>
@@ -191,7 +191,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   {model?.data?.displayName}
                   <div className="flex gap-4">
                     <ActivityLog keyword={modelId} />
-                    <Show condition={!!model?.data?.isPro}>
+                    <Show condition={!!model?.data?.baseModel.isPro}>
                       <Badge className="bg-primary">Pro</Badge>
                     </Show>
                   </div>
