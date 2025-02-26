@@ -95,7 +95,7 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
 }
 
 export function DerivedModelCard({ model }: DerivedModelCardProps) {
-  const { _id, baseModel, category, displayName, isPro } = model
+  const { _id, baseModel, category, displayName } = model
 
   return (
     <Link href={`/model/${_id}`}>
@@ -111,7 +111,7 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
                 >
                   {displayName}
                 </CardTitle>
-                {isPro && (
+                {baseModel.isPro && (
                   <Badge className="bg-primary hover:bg-primary ">Pro</Badge>
                 )}
               </div>

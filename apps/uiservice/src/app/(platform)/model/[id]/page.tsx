@@ -191,7 +191,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   {model?.data?.displayName}
                   <div className="flex gap-4">
                     <ActivityLog keyword={modelId} />
-                    <Show condition={!!model?.data?.isPro}>
+                    <Show condition={!!model?.data?.baseModel.isPro}>
                       <Badge className="bg-primary">Pro</Badge>
                     </Show>
                   </div>

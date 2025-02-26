@@ -9,6 +9,5 @@ export class DerivedModelResponseDto {
   isFineTuned: boolean
   promptStyle: string
   systemPrompt: string
-  isPro: boolean
   responseFormat: string
 }

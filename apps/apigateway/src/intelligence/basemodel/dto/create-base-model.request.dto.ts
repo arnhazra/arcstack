@@ -20,5 +20,8 @@ export class CreateBaseModelDto {
   contextWindow: string
 
   @IsNotEmpty()
+  readonly isPro: boolean
+
+  @IsNotEmpty()
   architecture: string
 }

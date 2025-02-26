@@ -24,6 +24,9 @@ export class BaseModel extends Document {
   @Prop({ required: true })
   architecture: string
 
+  @Prop({ required: true })
+  isPro: boolean
+
   @Prop({ required: true, default: 0.7 })
   defaultTemperature: number
 

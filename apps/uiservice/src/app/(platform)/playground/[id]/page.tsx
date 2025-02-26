@@ -47,7 +47,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     method: HTTPMethods.GET,
   })
 
-  const guardActive = (model.data?.isPro as boolean) && !isSubscriptionActive
+  const guardActive =
+    (model.data?.baseModel.isPro as boolean) && !isSubscriptionActive
 
   const [prompt, setPrompt] = useState("")
   const [requestBody, setRequestBody] = useState({

@@ -8,6 +8,7 @@ export type BaseModel = {
   defaultTopP: number
   architecture: string
   contextWindow: string
+  isPro: boolean
   parameters: string
 }
 
@@ -19,7 +20,6 @@ export type DerivedModel = {
   baseModel: BaseModel
   isFineTuned: boolean
   promptStyle: string
-  isPro: boolean
   responseFormat: string
 }
 

@@ -26,9 +26,6 @@ export class DerivedModel extends Document {
   systemPrompt: string
 
   @Prop({ required: true })
-  isPro: boolean
-
-  @Prop({ required: true })
   responseFormat: string
 }
 
