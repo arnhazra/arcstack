@@ -28,8 +28,12 @@ export class HistoryRepository extends EntityRepository<History> {
       .then((history) => {
         const seen = new Set()
         return history.filter((entry) => {
-          const idStr = entry.derivedModel._id.toString()
-          if (seen.has(idStr)) return false
+          const derivedModel = entry.derivedModel
+          if (!derivedModel) return false
+
+          const idStr = derivedModel._id?.toString()
+          if (!idStr || seen.has(idStr)) return false
+
           seen.add(idStr)
           return true
         })
