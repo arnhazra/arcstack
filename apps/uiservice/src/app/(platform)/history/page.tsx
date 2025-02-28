@@ -12,8 +12,9 @@ export default function Page() {
     method: HTTPMethods.GET,
   })
 
-  const renderModels = history?.data?.map((item) => {
-    return <DerivedModelCard key={item._id} model={item.derivedModel} />
+  const renderModels = history?.data?.map((history) => {
+    if (!history.derivedModel) return null
+    return <DerivedModelCard key={history._id} model={history.derivedModel} />
   })
 
   return (

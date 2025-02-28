@@ -118,39 +118,39 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <ul className="grid gap-3">
                 <li className="flex items-center justify-between">
                   <span>Architecture</span>
-                  <span>{model?.data?.baseModel.architecture}</span>
+                  <span>{model?.data?.baseModel?.architecture}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Provider</span>
-                  <span>{model?.data?.baseModel.provider}</span>
+                  <span>{model?.data?.baseModel?.provider}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Base Model</span>
-                  <span>{model?.data?.baseModel.displayName}</span>
+                  <span>{model?.data?.baseModel?.displayName}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Series</span>
-                  <span>{model?.data?.baseModel.series}</span>
+                  <span>{model?.data?.baseModel?.series}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Context Window</span>
-                  <span>{model?.data?.baseModel.contextWindow}</span>
+                  <span>{model?.data?.baseModel?.contextWindow}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Default Temerature</span>
-                  <span>{model?.data?.baseModel.defaultTemperature}</span>
+                  <span>{model?.data?.baseModel?.defaultTemperature}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Default Top P</span>
-                  <span>{model?.data?.baseModel.defaultTopP}</span>
+                  <span>{model?.data?.baseModel?.defaultTopP}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Parameters</span>
-                  <span>{model?.data?.baseModel.parameters}</span>
+                  <span>{model?.data?.baseModel?.parameters}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Generic Name</span>
-                  <span>{model?.data?.baseModel.genericName}</span>
+                  <span>{model?.data?.baseModel?.genericName}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Fine Tuned</span>
@@ -191,7 +191,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   {model?.data?.displayName}
                   <div className="flex gap-4">
                     <ActivityLog keyword={modelId} />
-                    <Show condition={!!model?.data?.baseModel.isPro}>
+                    <Show condition={!!model?.data?.baseModel?.isPro}>
                       <Badge className="bg-primary">Pro</Badge>
                     </Show>
                   </div>

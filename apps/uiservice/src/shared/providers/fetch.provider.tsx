@@ -36,8 +36,8 @@ export function FetchProvider({ children }: { children: ReactNode }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            retry: 3,
-            retryDelay: 2500,
+            retry: 2,
+            retryDelay: 1000,
           },
         },
       })

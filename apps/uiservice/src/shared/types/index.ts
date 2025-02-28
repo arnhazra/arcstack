@@ -17,7 +17,7 @@ export type DerivedModel = {
   displayName: string
   description: string
   category: string
-  baseModel: BaseModel
+  baseModel: BaseModel | null | undefined
   isFineTuned: boolean
   responseFormat: string
 }
@@ -25,14 +25,14 @@ export type DerivedModel = {
 export type Favourites = {
   _id: string
   userId: string
-  derivedModel: DerivedModel
+  derivedModel: DerivedModel | null | undefined
   createdAt: string
 }
 
 export type History = {
   _id: string
   userId: string
-  derivedModel: DerivedModel
+  derivedModel: DerivedModel | null | undefined
   createdAt: string
 }
 

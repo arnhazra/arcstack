@@ -111,7 +111,7 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
                 >
                   {displayName}
                 </CardTitle>
-                {baseModel.isPro && (
+                {baseModel?.isPro && (
                   <Badge className="bg-primary hover:bg-primary ">Pro</Badge>
                 )}
               </div>
@@ -137,25 +137,25 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
             <div className="space-y-1">
               <dt className="text-xs font-medium text-zinc-300">Base Model</dt>
               <dd className="text-sm font-semibold capitalize">
-                {baseModel.displayName}
+                {baseModel?.displayName}
               </dd>
             </div>
             <div className="space-y-1">
               <dt className="text-xs font-medium text-zinc-300">Provider</dt>
               <dd className="text-sm font-semibold capitalize">
-                {baseModel.provider}
+                {baseModel?.provider}
               </dd>
             </div>
             <div className="space-y-1">
               <dt className="text-xs font-medium text-zinc-300">Series</dt>
-              <dd className="text-sm font-semibold">{baseModel.series}</dd>
+              <dd className="text-sm font-semibold">{baseModel?.series}</dd>
             </div>
             <div className="space-y-1">
               <dt className="text-xs font-medium text-zinc-300">
                 Architecture
               </dt>
               <dd className="text-sm font-semibold">
-                {baseModel.architecture}
+                {baseModel?.architecture}
               </dd>
             </div>
           </dl>

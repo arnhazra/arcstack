@@ -13,6 +13,7 @@ export default function Page() {
   })
 
   const renderModels = favourites?.data?.map((favourite) => {
+    if (!favourite.derivedModel) return null
     return (
       <DerivedModelCard key={favourite._id} model={favourite.derivedModel} />
     )

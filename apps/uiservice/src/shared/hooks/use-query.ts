@@ -3,8 +3,6 @@ import ky from "ky"
 import {
   useSuspenseQuery,
   useQuery as useNormalQuery,
-  UseSuspenseQueryResult,
-  UseQueryResult,
 } from "@tanstack/react-query"
 import { useContext } from "react"
 import { GlobalContext } from "@/context/globalstate.provider"
