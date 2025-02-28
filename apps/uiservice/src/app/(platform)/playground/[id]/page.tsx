@@ -48,14 +48,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   })
 
   const guardActive =
-    (model.data?.baseModel.isPro as boolean) && !isSubscriptionActive
+    (model.data?.baseModel?.isPro as boolean) && !isSubscriptionActive
 
   const [prompt, setPrompt] = useState("")
   const [requestBody, setRequestBody] = useState({
     modelId: modelId,
     prompt: "",
-    temperature: model?.data?.baseModel.defaultTemperature ?? 0.7,
-    topP: model?.data?.baseModel.defaultTemperature ?? 1,
+    temperature: model?.data?.baseModel?.defaultTemperature ?? 0.7,
+    topP: model?.data?.baseModel?.defaultTemperature ?? 1,
   })
   const [response, setReseponse] = useState<any>({})
   const [isLoading, setLoading] = useState(false)
@@ -125,7 +125,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       className="bg-background border-border text-white"
                       id="temperature"
                       type="number"
-                      defaultValue={model?.data?.baseModel.defaultTemperature}
+                      defaultValue={model?.data?.baseModel?.defaultTemperature}
                       onChange={(e): void =>
                         setRequestBody({
                           ...requestBody,
@@ -140,7 +140,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                       className="bg-background border-border text-white"
                       id="top-p"
                       type="number"
-                      defaultValue={model?.data?.baseModel.defaultTopP}
+                      defaultValue={model?.data?.baseModel?.defaultTopP}
                       onChange={(e): void =>
                         setRequestBody({
                           ...requestBody,
