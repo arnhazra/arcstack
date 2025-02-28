@@ -13,10 +13,12 @@ import Loading from "../loading"
 import { useQuery } from "@tanstack/react-query"
 import Sidebar from "@/shared/components/sidebar"
 import { Bell } from "lucide-react"
+import { usePathname } from "next/navigation"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   const [{ refreshId }, dispatch] = useContext(GlobalContext)
   const [isAuthorized, setAuthorized] = useState<boolean>(false)
+  const pathName = usePathname()
 
   const getUserDetails = async () => {
     if (!localStorage.getItem("accessToken")) {
@@ -64,7 +66,9 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
   })
 
   const appLayout = (
-    <div className="min-h-screen w-full">
+    <div
+      className={`min-h-screen w-full ${pathName.includes("/playground") ? "fixed" : ""}`}
+    >
       <Sidebar />
       <div className="flex min-h-screen w-full flex-col">
         <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
