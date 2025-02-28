@@ -83,10 +83,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         router.push(`?threadId=${(res as any).threadId}`)
       }
     } catch (error: any) {
-      toast(uiConstants.notification, {
-        icon: <Bell className="scale-75" />,
-        description: uiConstants.connectionErrorMessage,
-      })
+      setMessages((prevMessages) => [
+        ...prevMessages.slice(0, -1),
+        "An error occurred",
+      ])
     } finally {
       setLoading(false)
     }
