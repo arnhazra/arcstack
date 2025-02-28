@@ -1,8 +1,4 @@
 name: CI-CD-PIPELINE
-env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_API_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PROD_API }}
-  VERCEL_UI_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PROD_UI }}
 
 on:
   push:
@@ -12,6 +8,9 @@ on:
 jobs:
   api-gateway:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PROD_API }}
     steps:
       - uses: actions/checkout@v2
 
@@ -42,6 +41,9 @@ jobs:
 
   ui-service:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_PROD_UI }}
     steps:
       - uses: actions/checkout@v2
 
