@@ -33,6 +33,7 @@ export class DerivedModelRepository extends EntityRepository<DerivedModel> {
         path: "modelOwner",
         model: this.coreConnection.model(User.name),
       })
+      .lean()
   }
 
   async findAllModels(findDerivedModelsDto: FindDerivedModelsDto) {
