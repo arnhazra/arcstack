@@ -14,12 +14,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <title>{brandName}</title>
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
         />
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#18181b" />
         <meta
           name="description"
-          content="This Software-as-a-Service (SaaS) platform offers an extensive array of applications catering to diverse needs. Its ecosystem hosts a multifaceted suite of tools and services, each designed to streamline and enhance various aspects of operations across industries."
+          content="AI models marketplace for developers"
         />
       </head>
       <body className={quickSand.className}>
