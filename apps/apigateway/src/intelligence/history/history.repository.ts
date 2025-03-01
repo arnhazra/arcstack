@@ -9,7 +9,7 @@ import objectId from "@/shared/utils/convert-objectid"
 @Injectable()
 export class HistoryRepository extends EntityRepository<History> {
   constructor(
-    @InjectModel(History.name, DbConnectionMap.Platform)
+    @InjectModel(History.name, DbConnectionMap.Intelligence)
     private historyModel: Model<History>
   ) {
     super(historyModel)

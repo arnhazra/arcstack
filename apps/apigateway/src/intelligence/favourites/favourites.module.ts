@@ -16,7 +16,7 @@ import { FindIfFavouritedQueryHandler } from "./queries/handler/find-if-favourit
     CqrsModule,
     DatabaseModule.forFeature(
       [{ name: Favourite.name, schema: FavouriteSchema }],
-      DbConnectionMap.Platform
+      DbConnectionMap.Intelligence
     ),
   ],
   controllers: [FavouritesController],

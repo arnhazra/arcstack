@@ -16,7 +16,7 @@ import { FindFilterCategoriesQueryHandler } from "./queries/handler/find-filter-
     CqrsModule,
     DatabaseModule.forFeature(
       [{ name: DerivedModel.name, schema: DerivedModelSchema }],
-      DbConnectionMap.Platform
+      DbConnectionMap.Intelligence
     ),
   ],
   controllers: [DerivedModelController],

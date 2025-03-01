@@ -15,7 +15,7 @@ import { GetUsageByUserIdQueryHandler } from "./queries/handler/get-usage-by-use
     CqrsModule,
     DatabaseModule.forFeature(
       [{ name: Thread.name, schema: ThreadSchema }],
-      DbConnectionMap.Platform
+      DbConnectionMap.Intelligence
     ),
   ],
   controllers: [ChatController],

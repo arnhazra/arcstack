@@ -11,8 +11,8 @@ import { HistoryModule } from "./history/history.module"
 @Module({
   imports: [
     DatabaseModule.forRoot(
-      envConfig.platformDatabaseURI,
-      DbConnectionMap.Platform
+      envConfig.intelligenceDatabaseURI,
+      DbConnectionMap.Intelligence
     ),
     BaseModelModule,
     DerivedModelModule,

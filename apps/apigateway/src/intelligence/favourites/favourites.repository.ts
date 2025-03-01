@@ -9,7 +9,7 @@ import objectId from "@/shared/utils/convert-objectid"
 @Injectable()
 export class FavouritesRepository extends EntityRepository<Favourite> {
   constructor(
-    @InjectModel(Favourite.name, DbConnectionMap.Platform)
+    @InjectModel(Favourite.name, DbConnectionMap.Intelligence)
     private favouriteModel: Model<Favourite>
   ) {
     super(favouriteModel)

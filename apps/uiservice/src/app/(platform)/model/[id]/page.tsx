@@ -149,8 +149,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <span>{model?.data?.baseModel?.parameters}</span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Generic Name</span>
-                  <span>{model?.data?.baseModel?.genericName}</span>
+                  <span>Model Owner</span>
+                  <span>{model?.data?.modelOwner?.name}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Fine Tuned</span>

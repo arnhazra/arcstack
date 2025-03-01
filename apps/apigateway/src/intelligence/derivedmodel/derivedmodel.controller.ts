@@ -37,9 +37,15 @@ export class DerivedModelController {
 
   @UseGuards(TokenGuard)
   @Post("create")
-  async createDerivedModel(@Body() createModelDto: CreateDerivedModelDto) {
+  async createDerivedModel(
+    @Request() request: ModRequest,
+    @Body() createModelDto: CreateDerivedModelDto
+  ) {
     try {
-      return await this.service.createDerivedModel(createModelDto)
+      return await this.service.createDerivedModel(
+        request.user.userId,
+        createModelDto
+      )
     } catch (error) {
       throw new BadRequestException()
     }

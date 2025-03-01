@@ -27,6 +27,7 @@ export class CreateDerivedModelCommandHandler
       responseFormat,
       systemPrompt,
       displayName,
+      modelOwner: objectId(command.userId),
     })
   }
 }

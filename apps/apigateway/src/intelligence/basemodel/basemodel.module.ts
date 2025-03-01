@@ -15,7 +15,7 @@ import { BaseModel, BaseModelSchema } from "./schemas/basemodel.schema"
     CqrsModule,
     DatabaseModule.forFeature(
       [{ name: BaseModel.name, schema: BaseModelSchema }],
-      DbConnectionMap.Platform
+      DbConnectionMap.Intelligence
     ),
   ],
   controllers: [BaseModelController],

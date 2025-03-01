@@ -9,7 +9,7 @@ import objectId from "@/shared/utils/convert-objectid"
 @Injectable()
 export class ChatRepository extends EntityRepository<Thread> {
   constructor(
-    @InjectModel(Thread.name, DbConnectionMap.Platform)
+    @InjectModel(Thread.name, DbConnectionMap.Intelligence)
     private threadModel: Model<Thread>
   ) {
     super(threadModel)

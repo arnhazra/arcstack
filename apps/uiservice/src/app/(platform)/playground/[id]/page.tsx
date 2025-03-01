@@ -146,7 +146,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Show condition={!thread.isLoading && messages.length === 0}>
           <CardContent className="flex-1 flex justify-center items-center h-full">
             <div className="flex flex-col items-center gap-2 text-center">
-              <MessageSquare className="w-8 h-8 text-zinc-400" />
+              <MessageSquare className="w-16 h-16 text-zinc-400" />
               <p className="text-zinc-400 text-lg">
                 Type a message to start a conversation
               </p>

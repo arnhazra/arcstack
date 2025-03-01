@@ -32,12 +32,15 @@ export class DerivedModelService {
     }
   }
 
-  async createDerivedModel(createDerivedModelDto: CreateDerivedModelDto) {
+  async createDerivedModel(
+    userId: string,
+    createDerivedModelDto: CreateDerivedModelDto
+  ) {
     try {
       return await this.commandBus.execute<
         CreateDerivedModelCommand,
         DerivedModel
-      >(new CreateDerivedModelCommand(createDerivedModelDto))
+      >(new CreateDerivedModelCommand(userId, createDerivedModelDto))
     } catch (error) {
       throw error
     }
