@@ -124,7 +124,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
       <Card className="relative flex flex-col h-[89vh] bg-background border-none text-white">
         <CardHeader className="h-[8vh] -mb-8">
           <div className="flex justify-end">
-            <CardTitle className="text-xs p-2 px-6 border rounded-md border-lightborder">
+            <CardTitle className="text-xs p-2 px-6 bg-background z-50 border rounded-md border-lightborder">
               {model.data?.displayName}
             </CardTitle>
           </div>
