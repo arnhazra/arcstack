@@ -1,5 +1,5 @@
 "use client"
-import { Bell, BookMarked, FlaskConical, Heart } from "lucide-react"
+import { Bell, BookMarked, Heart, MessageSquare } from "lucide-react"
 import { Badge } from "@/shared/components/ui/badge"
 import { buttonVariants } from "@/shared/components/ui/button"
 import {
@@ -210,8 +210,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   )}
                   href={`/playground/${modelId}`}
                 >
-                  <FlaskConical className="me-2 scale-75" />
-                  Open Playground
+                  <MessageSquare className="me-2 scale-75" />
+                  Chat Playground
                 </Link>
                 <Heart
                   fill={isFavourited ? "#ff2056" : "#18181b"}

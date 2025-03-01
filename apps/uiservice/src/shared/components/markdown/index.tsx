@@ -1,7 +1,6 @@
 import React, { ReactNode } from "react"
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
-import { Button } from "../ui/button"
 
 const MarkdownRenderer = ({
   markdown,
@@ -11,14 +10,8 @@ const MarkdownRenderer = ({
   user: ReactNode
 }) => {
   return (
-    <div className="flex gap-4 mb-4">
-      <Button
-        size={"icon"}
-        variant={"default"}
-        className="bg-zinc-800 border-lightborder rounded-full -mt-2"
-      >
-        {user}
-      </Button>
+    <div className="gap-4 mb-4">
+      <p className="text-zinc-400">{user}</p>
       <div className="block">
         <ReactMarkdown
           rehypePlugins={[rehypeRaw]}

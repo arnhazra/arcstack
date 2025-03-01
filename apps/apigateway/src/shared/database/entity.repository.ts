@@ -8,7 +8,7 @@ export abstract class EntityRepository<T extends Document> {
   }
 
   async find(entityFilterQuery: FilterQuery<T> = {}) {
-    return this.entityModel.find(entityFilterQuery).exec()
+    return await this.entityModel.find(entityFilterQuery).exec()
   }
 
   async create(createEntityDto: Partial<T>): Promise<T> {

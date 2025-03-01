@@ -1,5 +1,5 @@
 "use client"
-import { Bell, Brain, Send, User } from "lucide-react"
+import { MessageSquare, Send } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 import {
@@ -11,13 +11,11 @@ import {
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { use, useContext, useEffect, useRef, useState } from "react"
 import ky from "ky"
-import { toast } from "sonner"
-import { uiConstants } from "@/shared/constants/global-constants"
 import Show from "@/shared/components/show"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import HTTPMethods from "@/shared/constants/http-methods"
 import useQuery from "@/shared/hooks/use-query"
-import { APIKey, DerivedModel } from "@/shared/types"
+import { APIKey, DerivedModel, Thread } from "@/shared/types"
 import { useRouter } from "nextjs-toploader/app"
 import Error from "@/app/error"
 import { GlobalContext } from "@/context/globalstate.provider"
@@ -28,28 +26,40 @@ import MarkdownRenderer from "@/shared/components/markdown"
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
   const searchParams = useSearchParams()
+  const threadId = searchParams.get("threadId")
   const router = useRouter()
   const [{ subscription }] = useContext(GlobalContext)
   const isSubscriptionActive =
     subscription && new Date(subscription.endsAt) > new Date()
-  const threadId = searchParams.get("threadId")
-
+  const [prompt, setPrompt] = useState("")
   const model = useQuery<DerivedModel>({
     queryKey: ["model", modelId ?? ""],
     queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
+
   const apiKeys = useQuery<APIKey[]>({
     queryKey: ["get-apikeys-pg"],
     queryUrl: endPoints.apiKey,
     method: HTTPMethods.GET,
   })
 
+  const thread = useQuery<Thread[]>({
+    queryKey: ["thread", threadId ?? ""],
+    queryUrl: `${endPoints.intelligenceChat}/${threadId}`,
+    method: HTTPMethods.GET,
+    suspense: false,
+    enabled: !!threadId,
+  })
+
   const guardActive =
     (model.data?.baseModel?.isPro as boolean) && !isSubscriptionActive
-
-  const [prompt, setPrompt] = useState("")
-  const [messages, setMessages] = useState<string[]>([])
+  const [messages, setMessages] = useState<string[]>(
+    thread.data?.flatMap(({ prompt, response }) => [
+      prompt ?? "",
+      response ?? "",
+    ]) ?? []
+  )
   const [requestBody, setRequestBody] = useState({
     modelId: modelId,
     prompt: "",
@@ -93,8 +103,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   }
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }, [messages])
+    const messages = thread.data?.flatMap(({ prompt, response }) => [
+      prompt ?? "",
+      response ?? "",
+    ])
+    setMessages(messages ?? [])
+  }, [thread.data, thread.isLoading])
 
   return (
     <Show condition={!model.error} fallback={<Error />}>
@@ -103,32 +117,38 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         customMessage="You need Pro subscription to access this model"
         onOpenChange={(): void => undefined}
       />
-      <Card className="relative flex flex-col h-[87vh] bg-background border-none text-white">
-        <CardHeader className="px-7">
+      <Card className="relative flex flex-col h-[89vh] bg-background border-none text-white">
+        <CardHeader className="h-[8vh] -mb-8">
           <div className="flex justify-end">
-            <CardTitle className="flex gap-2 text-xs p-2 px-6 border rounded-md border-lightborder">
+            <CardTitle className="text-xs p-2 px-6 border rounded-md border-lightborder">
               {model.data?.displayName}
             </CardTitle>
           </div>
         </CardHeader>
-        <CardContent className="flex-1 overflow-auto p-4">
-          <div className="mt-4 ms-2 mb-8 pb-8">
-            {messages.map((message, index) => (
-              <MarkdownRenderer
-                user={
-                  index % 2 === 0 ? (
-                    <User className="scale-75" />
-                  ) : (
-                    <Brain className="scale-75" />
-                  )
-                }
-                key={index}
-                markdown={message}
-              />
-            ))}
-            <div ref={messagesEndRef} />
-          </div>
-        </CardContent>
+        <Show condition={messages.length > 0}>
+          <CardContent className="flex-1 overflow-auto p-4">
+            <div className="ms-4 mb-8 pb-8">
+              {messages.map((message, index) => (
+                <MarkdownRenderer
+                  user={index % 2 === 0 ? "You" : "Asssistant"}
+                  key={index}
+                  markdown={message}
+                />
+              ))}
+              <div ref={messagesEndRef} />
+            </div>
+          </CardContent>
+        </Show>
+        <Show condition={!thread.isLoading && messages.length === 0}>
+          <CardContent className="flex-1 flex justify-center items-center h-full">
+            <div className="flex flex-col items-center gap-2 text-center">
+              <MessageSquare className="w-8 h-8 text-zinc-400" />
+              <p className="text-zinc-400 text-lg">
+                Type a message to start a conversation
+              </p>
+            </div>
+          </CardContent>
+        </Show>
         <div className="absolute bottom-0 left-0 w-full p-4 bg-background rounded-md">
           <form onSubmit={hitAPI} className="flex items-center gap-2">
             <Input

@@ -15,6 +15,7 @@ interface QueryType<T> {
   method: HTTPMethods
   requestBody?: object
   suspense?: boolean
+  enabled?: boolean
 }
 
 export default function useQuery<T>({
@@ -23,6 +24,7 @@ export default function useQuery<T>({
   method,
   requestBody,
   suspense = true,
+  enabled = true,
 }: QueryType<T>) {
   const [{ user }] = useContext(GlobalContext)
 
@@ -47,5 +49,6 @@ export default function useQuery<T>({
         queryFn,
         refetchOnWindowFocus: !user.reduceCarbonEmissions,
         refetchInterval: user.reduceCarbonEmissions ? 0 : 30000,
+        enabled,
       })
 }

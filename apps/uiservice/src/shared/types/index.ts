@@ -88,3 +88,12 @@ export type APIReference = {
   sampleRequestBody: Record<string, any>
   sampleResponseBody: Record<string, any>
 }
+
+export type Thread = {
+  _id: string
+  threadId: string
+  userId: string
+  prompt: string | null | undefined
+  response: string | null | undefined
+  createdAt: string
+}
