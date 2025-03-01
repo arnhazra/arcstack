@@ -24,6 +24,7 @@ import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 import MarkdownRenderer from "@/shared/components/markdown"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const { id: modelId = "" } = use(params)
   const searchParams = useSearchParams()
   const threadId = searchParams.get("threadId")
@@ -67,7 +68,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     topP: model?.data?.baseModel?.defaultTemperature ?? 1,
   })
   const [isLoading, setLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
   const hitAPI = async (e: any) => {
     e.preventDefault()
@@ -109,6 +109,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     ])
     setMessages(messages ?? [])
   }, [thread.data, thread.isLoading])
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }, [messages])
 
   return (
     <Show condition={!model.error} fallback={<Error />}>
