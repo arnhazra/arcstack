@@ -134,7 +134,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <div className="ms-4 mb-8 pb-8">
               {messages.map((message, index) => (
                 <MarkdownRenderer
-                  user={index % 2 === 0 ? "You" : "Asssistant"}
+                  user={index % 2 === 0 ? "You" : "Assistant"}
                   key={index}
                   markdown={message}
                 />
