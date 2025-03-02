@@ -17,4 +17,5 @@ export const envConfig = {
   refreshToken: process.env.GCLOUD_REFRESH_TOKEN,
   mailerEmail: process.env.MAILER_EMAIL,
   jwtSecret: process.env.JWT_SECRET,
+  newsAPIKey: process.env.NEWS_API_ORG_KEY,
 }

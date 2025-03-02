@@ -31,4 +31,5 @@ export const endPoints = {
   getDerivedModelFilterAndSortOptions: `${apiHost}/derivedmodel/filters-and-sort-options`,
   favourites: `${apiHost}/favourites`,
   history: `${apiHost}/history`,
+  newsroom: `${apiHost}/newsroom`,
 }
