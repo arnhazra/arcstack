@@ -14,6 +14,7 @@ import { DerivedModelResponseDto } from "./dto/response/derived-model.response.d
 import { FindFilterCategoriesQuery } from "./queries/impl/find-filter-categories.query"
 import { OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "@/shared/utils/events.union"
+import { FindMyBuildsQuery } from "./queries/impl/find-my-builds.query"
 
 @Injectable()
 export class DerivedModelService {
@@ -52,6 +53,17 @@ export class DerivedModelService {
         FindAllDerivedModelsQuery,
         DerivedModelResponseDto[]
       >(new FindAllDerivedModelsQuery(findDerivedModelsDto))
+    } catch (error) {
+      throw error
+    }
+  }
+
+  async findMyBuilds(userId: string) {
+    try {
+      return await this.queryBus.execute<
+        FindMyBuildsQuery,
+        DerivedModelResponseDto[]
+      >(new FindMyBuildsQuery(userId))
     } catch (error) {
       throw error
     }

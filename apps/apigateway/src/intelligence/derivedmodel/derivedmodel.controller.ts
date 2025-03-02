@@ -62,6 +62,16 @@ export class DerivedModelController {
   }
 
   @UseGuards(TokenGuard)
+  @Get("mybuilds")
+  async findMyBuilds(@Request() request: ModRequest) {
+    try {
+      return await this.service.findMyBuilds(request.user.userId)
+    } catch (error) {
+      throw new BadRequestException()
+    }
+  }
+
+  @UseGuards(TokenGuard)
   @Get(":modelId")
   async findOneModel(
     @Request() request: ModRequest,
