@@ -5,9 +5,10 @@ import {
   CardTitle,
 } from "@/shared/components/ui/card"
 import { BaseModel, DerivedModel } from "@/shared/types"
-import { AudioLines, Brain, CircleFadingPlus } from "lucide-react"
+import { AudioLines, Brain, CircleFadingPlus, Globe } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "../ui/badge"
+import Show from "../show"
 
 interface BaseModelCardProps {
   model: BaseModel
@@ -95,7 +96,8 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
 }
 
 export function DerivedModelCard({ model }: DerivedModelCardProps) {
-  const { _id, baseModel, category, displayName } = model
+  const { _id, baseModel, category, displayName, hasWebSearchCapability } =
+    model
 
   return (
     <Link href={`/model/${_id}`}>
@@ -111,9 +113,13 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
                 >
                   {displayName}
                 </CardTitle>
-                {baseModel?.isPro && (
+
+                <Show condition={hasWebSearchCapability}>
                   <Badge className="bg-primary hover:bg-primary ">Pro</Badge>
-                )}
+                </Show>
+                <Show condition={hasWebSearchCapability}>
+                  <Globe className="scale-75 text-cyan-400" />
+                </Show>
               </div>
               <div className="flex items-center space-x-2 text-xs mt-1">
                 <div className="flex items-center" title="Number of Parameters">
