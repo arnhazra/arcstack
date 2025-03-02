@@ -10,6 +10,7 @@ import { FindOneDerivedModelQueryHandler } from "./queries/handler/find-one-deri
 import { DerivedModelController } from "./derivedmodel.controller"
 import { DerivedModelService } from "./derivedmodel.service"
 import { FindFilterCategoriesQueryHandler } from "./queries/handler/find-filter-categories.handler"
+import { FindMyBuildsQueryHandler } from "./queries/handler/find-my-builds.handler"
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { FindFilterCategoriesQueryHandler } from "./queries/handler/find-filter-
     FindAllDerivedModelsQueryHandler,
     FindOneDerivedModelQueryHandler,
     FindFilterCategoriesQueryHandler,
+    FindMyBuildsQueryHandler,
   ],
 })
 export class DerivedModelModule {}
