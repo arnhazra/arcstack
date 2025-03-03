@@ -3,6 +3,7 @@ import { Subscription, User } from "@/shared/types"
 export type GlobalState = {
   user: User
   subscription: Subscription | null
+  isSubscriptionActive: boolean
   refreshId: string
   searchQuery: string
 }
@@ -11,6 +12,7 @@ export type ActionsMap = {
   setUser: Partial<User>
   setSubscription: Subscription | null
   setRefreshId: string
+  setSubscriptionActive: boolean
   setSearchQuery: string
 }
 
@@ -42,6 +44,18 @@ export const GlobalReducer = (
       return {
         ...state,
         refreshId: action.payload,
+      }
+
+    case "setSubscriptionActive":
+      return {
+        ...state,
+        isSubscriptionActive: action.payload,
+      }
+
+    case "setSearchQuery":
+      return {
+        ...state,
+        searchQuery: action.payload,
       }
 
     case "setSearchQuery":

@@ -29,9 +29,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const searchParams = useSearchParams()
   const threadId = searchParams.get("threadId")
   const router = useRouter()
-  const [{ subscription }] = useContext(GlobalContext)
-  const isSubscriptionActive =
-    subscription && new Date(subscription.endsAt) > new Date()
+  const [{ isSubscriptionActive }] = useContext(GlobalContext)
   const [prompt, setPrompt] = useState("")
   const model = useQuery<DerivedModel>({
     queryKey: ["model", modelId ?? ""],
@@ -53,8 +51,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     enabled: !!threadId,
   })
 
-  const guardActive =
-    (model.data?.baseModel?.isPro as boolean) && !isSubscriptionActive
   const [messages, setMessages] = useState<string[]>(
     thread.data?.flatMap(({ prompt, response }) => [
       prompt ?? "",
@@ -117,7 +113,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <Show condition={!model.error} fallback={<Error />}>
       <SubscriptionModal
-        open={guardActive}
+        open={
+          (model.data?.baseModel?.isPro as boolean) && !isSubscriptionActive
+        }
         customMessage="You need Pro subscription to access this model"
         onOpenChange={(): void => undefined}
       />

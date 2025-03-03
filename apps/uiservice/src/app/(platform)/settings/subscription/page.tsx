@@ -13,7 +13,7 @@ import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 import { Button } from "@/shared/components/ui/button"
 
 export default function Page() {
-  const [{ subscription }] = useContext(GlobalContext)
+  const [{ subscription, isSubscriptionActive }] = useContext(GlobalContext)
   const searchParams = useSearchParams()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)
@@ -39,9 +39,6 @@ export default function Page() {
     }
   }, [searchParams])
 
-  const isSubscriptionActive =
-    subscription && new Date(subscription.endsAt) > new Date()
-
   const canActivateNewSubscription =
     !subscription ||
     (subscription &&
@@ -51,7 +48,7 @@ export default function Page() {
   return (
     <>
       <SubscriptionModal open={isOpen} onOpenChange={setIsOpen} />
-      <Show condition={!subscription || !isSubscriptionActive}>
+      <Show condition={!isSubscriptionActive}>
         <SectionPanel
           icon={<CalendarClock className="scale-75" />}
           title="Your Subscription"
@@ -66,7 +63,7 @@ export default function Page() {
           ]}
         />
       </Show>
-      <Show condition={!!subscription && !!isSubscriptionActive}>
+      <Show condition={!!isSubscriptionActive}>
         <section className="grid gap-2">
           <SectionPanel
             icon={<Bolt className="scale-75" />}
@@ -78,7 +75,7 @@ export default function Page() {
                   className="bg-primary hover:bg-primary"
                   onClick={() => setIsOpen(true)}
                 >
-                  Upgrade to Pro
+                  Renew Subscription
                 </Button>
               </Show>,
             ]}
@@ -96,10 +93,16 @@ export default function Page() {
           <SectionPanel
             icon={<CalendarClock className="scale-75" />}
             title="Subscription Valid Upto"
-            content={format(
-              subscription?.endsAt ? new Date(subscription.endsAt) : new Date(),
-              "MMM, do yyyy, h:mm a"
-            )}
+            content={
+              subscription?.endsAt?.includes("9999")
+                ? "Never Expires"
+                : format(
+                    subscription?.endsAt
+                      ? new Date(subscription.endsAt)
+                      : new Date(),
+                    "MMM, do yyyy, h:mm a"
+                  )
+            }
           />
         </section>
       </Show>

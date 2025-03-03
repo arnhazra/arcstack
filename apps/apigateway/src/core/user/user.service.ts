@@ -165,7 +165,10 @@ export class UserService {
           subscription = subscriptionRes.shift()
         }
 
-        return { user, subscription }
+        const isSubscriptionActive =
+          subscription && new Date(subscription.endsAt) > new Date()
+
+        return { user, subscription, isSubscriptionActive }
       } else {
         throw new BadRequestException(statusMessages.invalidUser)
       }

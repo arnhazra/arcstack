@@ -114,7 +114,7 @@ export function DerivedModelCard({ model }: DerivedModelCardProps) {
                   {displayName}
                 </CardTitle>
 
-                <Show condition={hasWebSearchCapability}>
+                <Show condition={baseModel?.isPro || false}>
                   <Badge className="bg-primary hover:bg-primary ">Pro</Badge>
                 </Show>
                 <Show condition={hasWebSearchCapability}>
