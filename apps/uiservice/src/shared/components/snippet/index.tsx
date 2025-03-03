@@ -12,6 +12,7 @@ import { Badge } from "@/shared/components/ui/badge"
 import Show from "@/shared/components/show"
 import { stackoverflowLight } from "react-syntax-highlighter/dist/esm/styles/hljs"
 import CopyToClipboard from "@/shared/components/copy"
+import Link from "next/link"
 
 interface SnippetPanelProps {
   title: string
@@ -35,6 +36,12 @@ export default function SnippetPanel({
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
         <p className="text-zinc-300">{description}</p>
+        <div className="text-secondary">
+          You must add your API Key in x-api-key header, get your API Key{" "}
+          <Link className="underline" href="/settings/apikey">
+            here
+          </Link>
+        </div>
       </CardHeader>
       <CardContent className="flex gap-3">
         <Badge variant="destructive">{method}</Badge>
