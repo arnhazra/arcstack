@@ -121,16 +121,16 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <span>{model?.data?.baseModel?.architecture}</span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Provider</span>
-                  <span>{model?.data?.baseModel?.provider}</span>
-                </li>
-                <li className="flex items-center justify-between">
                   <span>Base Model</span>
                   <span>{model?.data?.baseModel?.displayName}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Series</span>
                   <span>{model?.data?.baseModel?.series}</span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Provider</span>
+                  <span>{model?.data?.baseModel?.provider}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Context Window</span>
@@ -234,7 +234,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Card>
           </div>
           <p className="text-xl ms-1 -mb-4 -mt-2 text-white">Related Models</p>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4 py-4">
             {renderRelatedModels}
           </div>
         </div>

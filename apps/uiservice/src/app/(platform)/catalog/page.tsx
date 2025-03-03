@@ -155,30 +155,34 @@ export default function Page() {
             </DropdownMenu>
           </div>
         </div>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4 py-4">
           {renderModels}
         </div>
       </section>
       <Show condition={!findModelRequestState.searchQuery}>
         <div className="flex gap-4">
-          <Button
-            disabled={findModelRequestState.offset === 0}
-            variant="default"
-            onClick={prevPage}
-            size="icon"
-            className="rounded-full bg-primary hover:bg-primary"
-          >
-            <ChevronLeft className="scale-75" />
-          </Button>
-          <Button
-            disabled={models?.data?.length !== 30}
-            variant="default"
-            onClick={nextPage}
-            size="icon"
-            className="rounded-full bg-primary hover:bg-primary"
-          >
-            <ChevronRight className="scale-75" />
-          </Button>
+          <Show condition={findModelRequestState.offset !== 0}>
+            <Button
+              disabled={findModelRequestState.offset === 0}
+              variant="default"
+              onClick={prevPage}
+              size="icon"
+              className="rounded-full bg-primary hover:bg-primary"
+            >
+              <ChevronLeft className="scale-75" />
+            </Button>
+          </Show>
+          <Show condition={models?.data?.length === 30}>
+            <Button
+              disabled={models?.data?.length !== 30}
+              variant="default"
+              onClick={nextPage}
+              size="icon"
+              className="rounded-full bg-primary hover:bg-primary"
+            >
+              <ChevronRight className="scale-75" />
+            </Button>
+          </Show>
         </div>
       </Show>
     </div>
