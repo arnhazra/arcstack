@@ -9,8 +9,11 @@ export class GetActivityQueryHandler
   constructor(private readonly repository: ActivityRepository) {}
 
   async execute(query: GetActivityQuery) {
-    const { getCountDto } = query
-    const { searchKeyword } = getCountDto
-    return await this.repository.findAllItems(searchKeyword)
+    const { searchKeyword } = query.getCountDto
+    const regex = new RegExp(searchKeyword, "i")
+    const totalUsage = await this.repository
+      .find({ apiUri: { $regex: regex } })
+      .countDocuments()
+    return { totalUsage }
   }
 }

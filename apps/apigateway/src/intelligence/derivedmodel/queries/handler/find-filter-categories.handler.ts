@@ -9,6 +9,9 @@ export class FindFilterCategoriesQueryHandler
   constructor(private readonly repository: DerivedModelRepository) {}
 
   async execute(query: FindFilterCategoriesQuery): Promise<string[]> {
-    return await this.repository.findUniqueCategories()
+    const categoryFilters = await this.repository.find().distinct("category")
+    categoryFilters.push("All")
+    categoryFilters.sort()
+    return categoryFilters
   }
 }

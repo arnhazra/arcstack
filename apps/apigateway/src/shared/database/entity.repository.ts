@@ -11,6 +11,10 @@ export abstract class EntityRepository<T extends Document> {
     return this.entityModel.find(entityFilterQuery)
   }
 
+  countDocuments(entityFilterQuery: FilterQuery<T> = {}) {
+    return this.entityModel.countDocuments(entityFilterQuery)
+  }
+
   async create(createEntityDto: Partial<T>): Promise<T> {
     const createdDocument = new this.entityModel(createEntityDto)
     return await createdDocument.save()
