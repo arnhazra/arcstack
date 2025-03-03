@@ -17,13 +17,17 @@ import GroqStrategy from "./strategies/groq.strategy"
 import OpenAIStrategy from "./strategies/openai.strategy"
 import { GetUsageByUserIdQuery } from "./queries/impl/get-usage-by-user-id.query"
 import { statusMessages } from "@/shared/constants/status-messages"
+import { HttpService } from "@nestjs/axios"
+import { lastValueFrom } from "rxjs"
+import { envConfig } from "@/config"
 
 @Injectable()
 export class ChatService {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    private readonly eventEmitter: EventEmitter2
+    private readonly eventEmitter: EventEmitter2,
+    private readonly httpService: HttpService
   ) {}
 
   async getModelById(modelId: string) {
@@ -75,13 +79,30 @@ export class ChatService {
     }
   }
 
+  cleanSearchResult(result: Record<string, any>): Record<string, any> {
+    const keysToRemove = [
+      "search_metadata",
+      "search_parameters",
+      "search_information",
+      "related_searches",
+      "pagination",
+      "serpapi_pagination",
+    ]
+
+    return Object.fromEntries(
+      Object.entries(result).filter(([key]) => !keysToRemove.includes(key))
+    )
+  }
+
   async generateRecommendation(
     aiGenerationDto: AIGenerationDto,
     userId: string,
     isSubscriptionActive: boolean
   ) {
     try {
-      const { modelId, prompt, temperature, topP } = aiGenerationDto
+      let webSearchResponse = ""
+      const { modelId, prompt, temperature, topP, useWebSearch } =
+        aiGenerationDto
       const threadId =
         aiGenerationDto.threadId ?? new Types.ObjectId().toString()
       const thread = await this.getThreadById(
@@ -89,6 +110,13 @@ export class ChatService {
         !aiGenerationDto.threadId
       )
       const gModel = await this.getModelById(modelId)
+
+      if (useWebSearch && gModel.hasWebSearchCapability) {
+        const uri = `https://serpapi.com/search.json?engine=google&q=${encodeURI(prompt)}&location=India&google_domain=google.com&gl=us&hl=en&api_key=${envConfig.searchAPIKey}`
+        const response = await lastValueFrom(this.httpService.get<any>(uri))
+        const cleanedData = this.cleanSearchResult(response.data)
+        webSearchResponse = JSON.stringify(cleanedData)
+      }
 
       if (gModel.baseModel.isPro && !isSubscriptionActive) {
         throw new ForbiddenException(statusMessages.subscriptionNotFound)
@@ -101,7 +129,8 @@ export class ChatService {
           topP ?? gModel.baseModel.defaultTopP,
           thread,
           prompt,
-          gModel.systemPrompt
+          gModel.systemPrompt,
+          useWebSearch && gModel.hasWebSearchCapability ? webSearchResponse : ""
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
@@ -114,7 +143,8 @@ export class ChatService {
           topP ?? gModel.baseModel.defaultTopP,
           thread,
           prompt,
-          gModel.systemPrompt
+          gModel.systemPrompt,
+          useWebSearch && gModel.hasWebSearchCapability ? webSearchResponse : ""
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)

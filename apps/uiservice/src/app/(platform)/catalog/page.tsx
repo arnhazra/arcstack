@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
-import { ChevronLeft, ChevronRight, SortAsc } from "lucide-react"
+import { ChevronLeft, ChevronRight, Filter, SortAsc } from "lucide-react"
 import { useContext, useEffect, useState } from "react"
 import { DerivedModelCard } from "@/shared/components/modelcard"
 import { DerivedModel, FilterAndSortOptions } from "@/shared/types"
@@ -124,7 +124,7 @@ export default function Page() {
                   size="sm"
                   className="h-8 gap-1 bg-border hover:bg-border"
                 >
-                  <SortAsc className="h-3.5 w-3.5" />
+                  <Filter className="h-3.5 w-3.5" />
                   <span>Filter</span>
                 </Button>
               </DropdownMenuTrigger>

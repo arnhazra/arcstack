@@ -12,7 +12,8 @@ export default async function GeminiStrategy(
   topP: number,
   thread: Thread[],
   prompt: string,
-  systemPrompt: string
+  systemPrompt: string,
+  webSearchResult?: string
 ) {
   const chatHistory: Content[] = []
   const content: Content[] = thread.flatMap((chat) => [
@@ -42,6 +43,14 @@ export default async function GeminiStrategy(
     history: [...chatHistory],
   })
 
-  const response = (await result.sendMessage(prompt)).response.text()
+  const response = (
+    await result.sendMessage(
+      !!webSearchResult
+        ? `Read the following web search data and summarize according the prompt 
+    WebSearchResult: ${webSearchResult}. 
+    Prompt: ${prompt}`
+        : prompt
+    )
+  ).response.text()
   return { response }
 }
