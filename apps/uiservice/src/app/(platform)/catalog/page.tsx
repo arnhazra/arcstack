@@ -1,5 +1,4 @@
 "use client"
-import Show from "@/shared/components/show"
 import { Button } from "@/shared/components/ui/button"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
@@ -19,17 +18,15 @@ import { DerivedModel, FilterAndSortOptions } from "@/shared/types"
 import { GlobalContext } from "@/context/globalstate.provider"
 
 export interface FindModelRequestState {
-  searchQuery: string
   selectedFilter: string
   selectedSortOption: string
   offset: number
 }
 
 export default function Page() {
-  const [{ searchQuery }] = useContext(GlobalContext)
+  const [{ searchQuery }, dispatch] = useContext(GlobalContext)
   const [findModelRequestState, setFindModelRequestState] =
     useState<FindModelRequestState>({
-      searchQuery: searchQuery ?? "",
       selectedFilter: "All",
       selectedSortOption: "-_id",
       offset: 0,
@@ -39,10 +36,6 @@ export default function Page() {
     queryUrl: endPoints.getDerivedModelFilterAndSortOptions,
     method: HTTPMethods.GET,
   })
-
-  useEffect(() => {
-    setFindModelRequestState({ ...findModelRequestState, searchQuery })
-  }, [searchQuery])
 
   const models = useQuery<DerivedModel[]>({
     queryKey: [
@@ -54,12 +47,12 @@ export default function Page() {
     ],
     queryUrl: endPoints.getDerivedModels,
     method: HTTPMethods.POST,
-    requestBody: findModelRequestState,
+    requestBody: { ...findModelRequestState, searchQuery },
   })
 
   useEffect(() => {
-    if (!findModelRequestState.searchQuery) models.refetch()
-  }, [findModelRequestState.searchQuery])
+    if (!searchQuery) models.refetch()
+  }, [searchQuery])
 
   const renderFilters = filtersAndSortOptions?.data?.filters?.map((item) => {
     return (
@@ -75,14 +68,14 @@ export default function Page() {
             ? "secondary"
             : "default"
         }
-        onClick={(): void =>
+        onClick={(): void => {
           setFindModelRequestState({
             ...findModelRequestState,
             selectedFilter: item,
             offset: 0,
-            searchQuery: "",
           })
-        }
+          dispatch("setSearchQuery", "")
+        }}
       >
         {item}
       </Badge>
@@ -159,28 +152,26 @@ export default function Page() {
           {renderModels}
         </div>
       </section>
-      <Show condition={!findModelRequestState.searchQuery}>
-        <div className="flex gap-4">
-          <Button
-            disabled={findModelRequestState.offset === 0}
-            variant="default"
-            onClick={prevPage}
-            size="icon"
-            className="rounded-full bg-primary hover:bg-primary"
-          >
-            <ChevronLeft className="scale-75" />
-          </Button>
-          <Button
-            disabled={models?.data?.length !== 30}
-            variant="default"
-            onClick={nextPage}
-            size="icon"
-            className="rounded-full bg-primary hover:bg-primary"
-          >
-            <ChevronRight className="scale-75" />
-          </Button>
-        </div>
-      </Show>
+      <div className="flex gap-4">
+        <Button
+          disabled={findModelRequestState.offset === 0}
+          variant="default"
+          onClick={prevPage}
+          size="icon"
+          className="rounded-full bg-primary hover:bg-primary"
+        >
+          <ChevronLeft className="scale-75" />
+        </Button>
+        <Button
+          disabled={models?.data?.length !== 30}
+          variant="default"
+          onClick={nextPage}
+          size="icon"
+          className="rounded-full bg-primary hover:bg-primary"
+        >
+          <ChevronRight className="scale-75" />
+        </Button>
+      </div>
     </div>
   )
 }
