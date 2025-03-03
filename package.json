@@ -11,6 +11,6 @@
   "license": "GNU AFFERO GENERAL PUBLIC LICENSE",
   "devDependencies": {
     "concurrently": "^9.1.2",
-    "prettier": "^3.5.2"
+    "prettier": "^3.5.3"
   }
 }
