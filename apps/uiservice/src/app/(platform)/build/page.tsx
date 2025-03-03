@@ -225,9 +225,9 @@ export default function Page() {
                 </SelectContent>
               </Select>
             </div>
+            <p className="text-md text-white block">{message}</p>
           </CardContent>
           <CardFooter className="flex justify-end gap-2">
-            <p className="text-md text-white">{message}</p>
             <Button
               type="submit"
               disabled={isLoading}
