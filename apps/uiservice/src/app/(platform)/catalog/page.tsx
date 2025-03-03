@@ -115,6 +115,7 @@ export default function Page() {
     <div className="mx-auto grid w-full items-start gap-6">
       <section>
         <div className="flex">
+          <p className="text-white text-lg">All Models</p>
           <div className="ml-auto flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
