@@ -23,8 +23,8 @@ import HTTPMethods from "@/shared/constants/http-methods"
 import useQuery from "@/shared/hooks/use-query"
 import { BaseModel } from "@/shared/types"
 import { useState } from "react"
-import { useMutation } from "@tanstack/react-query"
 import ky from "ky"
+import { uiConstants } from "@/shared/constants/global-constants"
 
 const categories = [
   "General",
@@ -51,6 +51,7 @@ export default function Page() {
     isPublic: false,
   })
   const [isLoading, setLoading] = useState(false)
+  const [message, setMessage] = useState("")
 
   const baseModels = useQuery<BaseModel[]>({
     queryKey: ["base-models"],
@@ -63,9 +64,13 @@ export default function Page() {
 
     try {
       setLoading(true)
+      setMessage("")
       await ky.post(endPoints.createDerivedModel, { json: state })
+      setMessage(uiConstants.modelCreated)
     } catch (error) {
-      console.log(error)
+      setMessage(uiConstants.modelCreationFailed)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -82,6 +87,7 @@ export default function Page() {
           <div className="space-y-2">
             <Label htmlFor="displayName">Display Name</Label>
             <Input
+              disabled={isLoading}
               autoComplete="off"
               className="bg-border border-lightborder"
               id="displayName"
@@ -97,6 +103,7 @@ export default function Page() {
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea
+              disabled={isLoading}
               id="description"
               name="description"
               placeholder="Describe your model's purpose and capabilities"
@@ -111,6 +118,7 @@ export default function Page() {
           <div className="space-y-2">
             <Label htmlFor="category">Category</Label>
             <Select
+              disabled={isLoading}
               name="category"
               required
               onValueChange={(value) => setState({ ...state, category: value })}
@@ -138,6 +146,7 @@ export default function Page() {
           <div className="space-y-2">
             <Label htmlFor="baseModel">Base Model</Label>
             <Select
+              disabled={isLoading}
               name="baseModel"
               required
               onValueChange={(value) =>
@@ -167,6 +176,7 @@ export default function Page() {
           <div className="space-y-2">
             <Label htmlFor="systemPrompt">System Prompt</Label>
             <Textarea
+              disabled={isLoading}
               id="systemPrompt"
               name="systemPrompt"
               placeholder="Enter the system prompt for your model"
@@ -181,6 +191,7 @@ export default function Page() {
           <div className="space-y-2">
             <Label htmlFor="isPublic">Visibility</Label>
             <Select
+              disabled={isLoading}
               name="isPublic"
               required
               onValueChange={(value) =>
@@ -205,7 +216,12 @@ export default function Page() {
           </div>
         </CardContent>
         <CardFooter className="flex justify-end gap-2">
-          <Button type="submit" className="bg-primary hover:bg-primary">
+          <p className="text-md text-white">{message}</p>
+          <Button
+            type="submit"
+            disabled={isLoading}
+            className="bg-primary hover:bg-primary"
+          >
             Create Model
           </Button>
         </CardFooter>
