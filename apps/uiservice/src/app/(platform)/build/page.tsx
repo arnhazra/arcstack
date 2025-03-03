@@ -45,7 +45,7 @@ const categories = [
 ]
 
 export default function Page() {
-  const [{ isSubscriptionActive }] = useContext(GlobalContext)
+  const [{ isSubscriptionActive, user }] = useContext(GlobalContext)
   const [state, setState] = useState({
     baseModel: "",
     category: "",
@@ -203,7 +203,8 @@ export default function Page() {
             <div className="space-y-2">
               <Label htmlFor="isPublic">Visibility</Label>
               <Select
-                disabled={isLoading}
+                value={state.isPublic ? "true" : "false"}
+                disabled={isLoading || user.role === "user"}
                 name="isPublic"
                 required
                 onValueChange={(value) =>

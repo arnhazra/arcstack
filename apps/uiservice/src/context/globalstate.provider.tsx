@@ -26,6 +26,7 @@ const initialState: GlobalState = {
     role: "",
   },
   subscription: null,
+  isSubscriptionActive: false,
   refreshId: generateRandomKey(),
   searchQuery: "",
 }
