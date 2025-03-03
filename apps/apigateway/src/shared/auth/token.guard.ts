@@ -43,7 +43,7 @@ export class TokenGuard implements CanActivate {
           throw new UnauthorizedException(statusMessages.unauthorized)
         } else {
           const { activityLog, role } = userResponse.shift()
-          request.user = { userId, role, hasProSubscription: false }
+          request.user = { userId, role }
 
           if (activityLog) {
             const { method, url: apiUri } = request
@@ -76,7 +76,7 @@ export class TokenGuard implements CanActivate {
             { _id: userId }
           )
           const { activityLog, email, role } = user.shift()
-          request.user = { userId, role, hasProSubscription: false }
+          request.user = { userId, role }
 
           if (activityLog) {
             const { method, url: apiUri } = request

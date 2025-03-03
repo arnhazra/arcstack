@@ -78,7 +78,7 @@ export class ChatService {
   async generateRecommendation(
     aiGenerationDto: AIGenerationDto,
     userId: string,
-    hasProSubscription: boolean
+    isSubscriptionActive: boolean
   ) {
     try {
       const { modelId, prompt, temperature, topP } = aiGenerationDto
@@ -90,7 +90,7 @@ export class ChatService {
       )
       const gModel = await this.getModelById(modelId)
 
-      if (gModel.baseModel.isPro && !hasProSubscription) {
+      if (gModel.baseModel.isPro && !isSubscriptionActive) {
         throw new ForbiddenException(statusMessages.subscriptionNotFound)
       }
 
