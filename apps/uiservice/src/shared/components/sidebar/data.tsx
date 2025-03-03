@@ -1,4 +1,12 @@
-import { Bolt, Book, GitCompare, Heart, History, Newspaper } from "lucide-react"
+import {
+  Bolt,
+  Book,
+  GitCompare,
+  Heart,
+  History,
+  Newspaper,
+  PenLine,
+} from "lucide-react"
 import { ReactNode } from "react"
 
 interface LinkData {
@@ -21,7 +29,7 @@ export const sidebarLinks: LinkData[] = [
   {
     displayName: "Build Model",
     link: "/build",
-    icon: <GitCompare className="scale-75" />,
+    icon: <PenLine className="scale-75" />,
   },
   {
     displayName: "My Builds",
