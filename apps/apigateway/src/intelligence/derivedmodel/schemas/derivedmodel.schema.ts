@@ -1,6 +1,5 @@
 import { User } from "@/core/user/schemas/user.schema"
 import { BaseModel } from "@/intelligence/basemodel/schemas/basemodel.schema"
-import { DbConnectionMap } from "@/shared/utils/db-connection.map"
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Document, Types } from "mongoose"
 
@@ -18,12 +17,7 @@ export class DerivedModel extends Document {
   @Prop({ type: Types.ObjectId, ref: BaseModel.name, required: true })
   baseModel: Types.ObjectId
 
-  @Prop({
-    type: Types.ObjectId,
-    ref: User.name,
-    required: true,
-    connectionName: DbConnectionMap.Core,
-  })
+  @Prop({ type: Types.ObjectId, ref: User.name, required: true })
   modelOwner: Types.ObjectId
 
   @Prop({ required: true })
