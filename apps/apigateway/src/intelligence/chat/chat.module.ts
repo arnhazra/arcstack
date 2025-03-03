@@ -9,9 +9,11 @@ import { ChatRepository } from "./chat.repository"
 import { DatabaseModule } from "src/shared/database/database.module"
 import { FetchThreadByIdQueryHandler } from "./queries/handler/fetch-thread-by-id.handler"
 import { GetUsageByUserIdQueryHandler } from "./queries/handler/get-usage-by-user-id.handler"
+import { HttpModule } from "@nestjs/axios"
 
 @Module({
   imports: [
+    HttpModule,
     CqrsModule,
     DatabaseModule.forFeature(
       [{ name: Thread.name, schema: ThreadSchema }],

@@ -17,13 +17,17 @@ import GroqStrategy from "./strategies/groq.strategy"
 import OpenAIStrategy from "./strategies/openai.strategy"
 import { GetUsageByUserIdQuery } from "./queries/impl/get-usage-by-user-id.query"
 import { statusMessages } from "@/shared/constants/status-messages"
+import { HttpService } from "@nestjs/axios"
+import { lastValueFrom } from "rxjs"
+import { envConfig } from "@/config"
 
 @Injectable()
 export class ChatService {
   constructor(
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
-    private readonly eventEmitter: EventEmitter2
+    private readonly eventEmitter: EventEmitter2,
+    private readonly httpService: HttpService
   ) {}
 
   async getModelById(modelId: string) {
@@ -75,13 +79,22 @@ export class ChatService {
     }
   }
 
+  cleanSearchResult(result: Record<string, any>): Record<string, any> {
+    const cleanedData = result?.items?.map(
+      (item: any) => item?.title + item?.snippet
+    )
+    return cleanedData
+  }
+
   async generateRecommendation(
     aiGenerationDto: AIGenerationDto,
     userId: string,
-    hasProSubscription: boolean
+    isSubscriptionActive: boolean
   ) {
     try {
-      const { modelId, prompt, temperature, topP } = aiGenerationDto
+      let webSearchResponse = ""
+      const { modelId, prompt, temperature, topP, useWebSearch } =
+        aiGenerationDto
       const threadId =
         aiGenerationDto.threadId ?? new Types.ObjectId().toString()
       const thread = await this.getThreadById(
@@ -90,7 +103,14 @@ export class ChatService {
       )
       const gModel = await this.getModelById(modelId)
 
-      if (gModel.baseModel.isPro && !hasProSubscription) {
+      if (useWebSearch && gModel.hasWebSearchCapability) {
+        const uri = `https://www.googleapis.com/customsearch/v1?key=${envConfig.searchAPIKey}&cx=${envConfig.searchEngineId}&q=${aiGenerationDto.prompt}`
+        const response = await lastValueFrom(this.httpService.get<any>(uri))
+        const cleanedData = this.cleanSearchResult(response.data)
+        webSearchResponse = JSON.stringify(cleanedData)
+      }
+
+      if (gModel.baseModel.isPro && !isSubscriptionActive) {
         throw new ForbiddenException(statusMessages.subscriptionNotFound)
       }
 
@@ -101,7 +121,8 @@ export class ChatService {
           topP ?? gModel.baseModel.defaultTopP,
           thread,
           prompt,
-          gModel.systemPrompt
+          gModel.systemPrompt,
+          useWebSearch && gModel.hasWebSearchCapability ? webSearchResponse : ""
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
@@ -114,7 +135,8 @@ export class ChatService {
           topP ?? gModel.baseModel.defaultTopP,
           thread,
           prompt,
-          gModel.systemPrompt
+          gModel.systemPrompt,
+          useWebSearch && gModel.hasWebSearchCapability ? webSearchResponse : ""
         )
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)

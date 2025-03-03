@@ -13,12 +13,4 @@ export class ActivityRepository extends EntityRepository<Activity> {
   ) {
     super(activityModel)
   }
-
-  async findAllItems(searchKeyword: string) {
-    const regex = new RegExp(searchKeyword, "i")
-    const totalUsage = await this.activityModel
-      .find({ apiUri: { $regex: regex } })
-      .countDocuments()
-    return { totalUsage }
-  }
 }

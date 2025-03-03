@@ -10,9 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
-import { ChevronLeft, ChevronRight, SortAsc } from "lucide-react"
+import { ChevronLeft, ChevronRight, Filter, SortAsc } from "lucide-react"
 import { useContext, useEffect, useState } from "react"
-import { Badge } from "@/shared/components/ui/badge"
 import { DerivedModelCard } from "@/shared/components/modelcard"
 import { DerivedModel, FilterAndSortOptions } from "@/shared/types"
 import { GlobalContext } from "@/context/globalstate.provider"
@@ -28,7 +27,7 @@ export default function Page() {
   const [findModelRequestState, setFindModelRequestState] =
     useState<FindModelRequestState>({
       selectedFilter: "All",
-      selectedSortOption: "-_id",
+      selectedSortOption: "displayName",
       offset: 0,
     })
   const filtersAndSortOptions = useQuery<FilterAndSortOptions>({
@@ -56,18 +55,9 @@ export default function Page() {
 
   const renderFilters = filtersAndSortOptions?.data?.filters?.map((item) => {
     return (
-      <Badge
+      <DropdownMenuCheckboxItem
         key={item}
-        className={
-          findModelRequestState.selectedFilter === item
-            ? "mr-2 p-2 ps-6 pe-6 cursor-pointer"
-            : "mr-2 p-2 ps-6 pe-6 cursor-pointer bg-background hover:bg-border"
-        }
-        variant={
-          findModelRequestState.selectedFilter === item
-            ? "secondary"
-            : "default"
-        }
+        checked={findModelRequestState.selectedFilter === item}
         onClick={(): void => {
           setFindModelRequestState({
             ...findModelRequestState,
@@ -78,7 +68,7 @@ export default function Page() {
         }}
       >
         {item}
-      </Badge>
+      </DropdownMenuCheckboxItem>
     )
   })
 
@@ -125,8 +115,27 @@ export default function Page() {
     <div className="mx-auto grid w-full items-start gap-6">
       <section>
         <div className="flex">
-          <div>{renderFilters}</div>
+          <p className="text-white text-lg">All Models</p>
           <div className="ml-auto flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="h-8 gap-1 bg-border hover:bg-border"
+                >
+                  <Filter className="h-3.5 w-3.5" />
+                  <span>Filter</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="end"
+                className="bg-background border-border text-white"
+              >
+                <DropdownMenuLabel>Filter Category</DropdownMenuLabel>
+                {renderFilters}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

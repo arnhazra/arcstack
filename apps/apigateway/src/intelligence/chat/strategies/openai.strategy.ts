@@ -1,8 +1,7 @@
 import { OpenAI } from "@llamaindex/openai"
 import { ChatMessage } from "llamaindex"
 import { Thread } from "../schemas/thread.schema"
-
-const AZURE_OPENAI_ENDPOINT = "https://models.inference.ai.azure.com"
+import { azureOpenAIURI } from "@/shared/constants/other-constants"
 
 export default async function OpenAIStrategy(
   genericName: string,
@@ -10,7 +9,8 @@ export default async function OpenAIStrategy(
   topP: number,
   thread: Thread[],
   prompt: string,
-  systemPrompt: string
+  systemPrompt: string,
+  webSearchResult?: string
 ) {
   const chatHistory: ChatMessage[] = []
   const content: ChatMessage[] = thread.flatMap((chat) => [
@@ -26,7 +26,7 @@ export default async function OpenAIStrategy(
   chatHistory.push(...content)
   const client = new OpenAI({
     azure: {
-      endpoint: AZURE_OPENAI_ENDPOINT,
+      endpoint: azureOpenAIURI,
       apiKey: process.env.OPENAI_API_KEY,
     },
     model: genericName as any,
@@ -40,7 +40,12 @@ export default async function OpenAIStrategy(
         content: systemPrompt,
       },
       ...chatHistory,
-      { role: "user", content: prompt },
+      {
+        role: "user",
+        content: !!webSearchResult
+          ? `Summarize the data from web search: ${webSearchResult}.`
+          : prompt,
+      },
     ],
   })
   const response = result.message.content.toString()

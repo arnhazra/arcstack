@@ -18,4 +18,6 @@ export const envConfig = {
   mailerEmail: process.env.MAILER_EMAIL,
   jwtSecret: process.env.JWT_SECRET,
   newsAPIKey: process.env.NEWS_API_ORG_KEY,
+  searchAPIKey: process.env.GOOGLE_SEARCH_API_KEY,
+  searchEngineId: process.env.GOOGLE_SEARCH_ENGINE_ID,
 }

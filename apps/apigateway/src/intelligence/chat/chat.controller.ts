@@ -27,7 +27,7 @@ export class ChatController {
       return await this.service.generateRecommendation(
         aiGenerationDto,
         request.user.userId,
-        request.user.hasProSubscription
+        request.user.isSubscriptionActive
       )
     } catch (error) {
       throw error

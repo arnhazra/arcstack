@@ -113,11 +113,19 @@ export class APIKeyGuard implements CanActivate {
           throw new ForbiddenException(statusMessages.limitReached)
         }
         this.introduceDelay(1000)
-        request.user = { userId, role: userRes.role, hasProSubscription: false }
+        request.user = {
+          userId,
+          role: userRes.role,
+          isSubscriptionActive: false,
+        }
         this.createActivityLog(userRes, request)
         return true
       } else {
-        request.user = { userId, role: userRes.role, hasProSubscription: true }
+        request.user = {
+          userId,
+          role: userRes.role,
+          isSubscriptionActive: true,
+        }
         this.createActivityLog(userRes, request)
         return true
       }

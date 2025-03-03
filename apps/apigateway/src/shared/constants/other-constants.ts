@@ -1,3 +1,4 @@
+import exp from "constants"
 import { envConfig } from "src/config"
 
 export const devUIUri = "http://localhost:3000"
@@ -5,4 +6,5 @@ export const prodUIUri = `https://${envConfig.brandName.toLowerCase()}.vercel.ap
 export const devAPIUri = "http://localhost:8000/subscription"
 export const prodAPIUri = `https://api-${envConfig.brandName.toLowerCase()}.vercel.app/subscription`
 export const newsAPIURI = `https://newsapi.org/v2/everything?q=openai&language=en&sortBy=publishedAt&apiKey=${envConfig.newsAPIKey}`
+export const azureOpenAIURI = "https://models.inference.ai.azure.com"
 export const tokenIssuer = prodUIUri
