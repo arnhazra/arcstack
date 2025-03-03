@@ -1,5 +1,5 @@
 "use client"
-import { MessageSquare, Send } from "lucide-react"
+import { MessageCircle, Send } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import { Input } from "@/shared/components/ui/input"
 import {
@@ -29,9 +29,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const searchParams = useSearchParams()
   const threadId = searchParams.get("threadId")
   const router = useRouter()
-  const [{ subscription }] = useContext(GlobalContext)
-  const isSubscriptionActive =
-    subscription && new Date(subscription.endsAt) > new Date()
+  const [{ isSubscriptionActive }] = useContext(GlobalContext)
   const [prompt, setPrompt] = useState("")
   const model = useQuery<DerivedModel>({
     queryKey: ["model", modelId ?? ""],
@@ -53,8 +51,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     enabled: !!threadId,
   })
 
-  const guardActive =
-    (model.data?.baseModel?.isPro as boolean) && !isSubscriptionActive
   const [messages, setMessages] = useState<string[]>(
     thread.data?.flatMap(({ prompt, response }) => [
       prompt ?? "",
@@ -117,7 +113,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <Show condition={!model.error} fallback={<Error />}>
       <SubscriptionModal
-        open={guardActive}
+        open={
+          (model.data?.baseModel?.isPro as boolean) && !isSubscriptionActive
+        }
         customMessage="You need Pro subscription to access this model"
         onOpenChange={(): void => undefined}
       />
@@ -146,7 +144,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <Show condition={!thread.isLoading && messages.length === 0}>
           <CardContent className="flex-1 flex justify-center items-center h-full">
             <div className="flex flex-col items-center gap-2 text-center">
-              <MessageSquare className="w-16 h-16 text-zinc-400" />
+              <MessageCircle className="w-16 h-16 text-zinc-400" />
               <p className="text-zinc-400 text-lg">
                 Type a message to start a conversation
               </p>

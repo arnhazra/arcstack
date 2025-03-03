@@ -14,6 +14,7 @@ import {
 import { Badge } from "@/shared/components/ui/badge"
 import { Button } from "@/shared/components/ui/button"
 import { Article } from "@/shared/types"
+import { uiConstants } from "@/shared/constants/global-constants"
 
 export function NewsCard({ article }: { article: Article }) {
   const [imageError, setImageError] = useState(false)
@@ -37,9 +38,11 @@ export function NewsCard({ article }: { article: Article }) {
             onError={handleImageError}
           />
         ) : (
-          <div className="flex items-center justify-center w-full h-full bg-muted">
-            <span className="text-muted-foreground">No image</span>
-          </div>
+          <img
+            src={uiConstants.fallbackImageURL}
+            alt={article.title || "News image"}
+            className="object-cover w-full h-full transition-transform duration-300 hover:scale-105 rounded-t-md"
+          />
         )}
         {article.source?.name && (
           <Badge className="absolute top-2 left-2 bg-primary/80 hover:bg-primary">
@@ -51,7 +54,7 @@ export function NewsCard({ article }: { article: Article }) {
         <CardTitle className="line-clamp-2 text-xl">
           {article.title || "Untitled"}
         </CardTitle>
-        <CardDescription className="line-clamp-3 mt-2">
+        <CardDescription className="line-clamp-3 mt-2 text-zinc-300">
           {article.description || "No description available"}
         </CardDescription>
       </CardHeader>

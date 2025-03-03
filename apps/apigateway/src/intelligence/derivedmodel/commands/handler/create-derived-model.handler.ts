@@ -14,20 +14,18 @@ export class CreateDerivedModelCommandHandler
       baseModel,
       category,
       description,
-      isFineTuned,
-      responseFormat,
       systemPrompt,
       displayName,
+      isPublic,
     } = command.createDerivedModelDto
     return await this.repository.create({
       baseModel: objectId(baseModel),
       category,
       description,
-      isFineTuned,
-      responseFormat,
       systemPrompt,
       displayName,
       modelOwner: objectId(command.userId),
+      isPublic,
     })
   }
 }

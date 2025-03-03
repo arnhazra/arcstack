@@ -29,11 +29,13 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         const response: {
           user: User
           subscription: Subscription | null
+          isSubscriptionActive: boolean
         } = await ky
           .get(endPoints.userDetails, { timeout: FETCH_TIMEOUT })
           .json()
         dispatch("setUser", response.user)
         dispatch("setSubscription", response.subscription)
+        dispatch("setSubscriptionActive", response.isSubscriptionActive)
         setAuthorized(true)
       } catch (error: any) {
         if (error.response) {

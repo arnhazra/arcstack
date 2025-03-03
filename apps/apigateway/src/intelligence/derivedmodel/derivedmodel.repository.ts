@@ -52,6 +52,7 @@ export class DerivedModelRepository extends EntityRepository<DerivedModel> {
           { description: { $regex: searchQuery, $options: "i" } },
         ],
         category: { $regex: selectedFilterCategory },
+        isPublic: true,
       })
       .populate("baseModel")
       .select("-systemPrompt")

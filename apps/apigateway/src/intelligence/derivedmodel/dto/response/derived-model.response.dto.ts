@@ -12,4 +12,5 @@ export class DerivedModelResponseDto {
   systemPrompt: string
   responseFormat: string
   hasWebSearchCapability: boolean
+  isPublic: boolean
 }

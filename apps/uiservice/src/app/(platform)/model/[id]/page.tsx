@@ -1,5 +1,5 @@
 "use client"
-import { Bell, BookMarked, Heart, MessageSquare } from "lucide-react"
+import { Bell, BookMarked, Heart, MessageCircle } from "lucide-react"
 import { Badge } from "@/shared/components/ui/badge"
 import { buttonVariants } from "@/shared/components/ui/button"
 import {
@@ -121,10 +121,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <span>{model?.data?.baseModel?.architecture}</span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Provider</span>
-                  <span>{model?.data?.baseModel?.provider}</span>
-                </li>
-                <li className="flex items-center justify-between">
                   <span>Base Model</span>
                   <span>{model?.data?.baseModel?.displayName}</span>
                 </li>
@@ -133,11 +129,15 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <span>{model?.data?.baseModel?.series}</span>
                 </li>
                 <li className="flex items-center justify-between">
+                  <span>Provider</span>
+                  <span>{model?.data?.baseModel?.provider}</span>
+                </li>
+                <li className="flex items-center justify-between">
                   <span>Context Window</span>
                   <span>{model?.data?.baseModel?.contextWindow}</span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Default Temerature</span>
+                  <span>Default Temperature</span>
                   <span>{model?.data?.baseModel?.defaultTemperature}</span>
                 </li>
                 <li className="flex items-center justify-between">
@@ -153,12 +153,24 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <span>{model?.data?.modelOwner?.name}</span>
                 </li>
                 <li className="flex items-center justify-between">
+                  <span>Realtime Web Search</span>
+                  <span>
+                    {model?.data?.hasWebSearchCapability ? "Yes" : "No"}
+                  </span>
+                </li>
+                <li className="flex items-center justify-between">
                   <span>Fine Tuned</span>
                   <span>{model?.data?.isFineTuned ? "Yes" : "No"}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Response Format</span>
-                  <span>{model?.data?.responseFormat}</span>
+                  <span className="capitalize">
+                    {model?.data?.responseFormat}
+                  </span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Model Visibility</span>
+                  <span>{model?.data?.isPublic ? "Public" : "Private"}</span>
                 </li>
               </ul>
             </div>
@@ -192,7 +204,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <div className="flex gap-4">
                     <ActivityLog keyword={modelId} />
                     <Show condition={!!model?.data?.baseModel?.isPro}>
-                      <Badge className="bg-primary">Pro</Badge>
+                      <Badge className="bg-primary hover:bg-primary">Pro</Badge>
                     </Show>
                   </div>
                 </CardTitle>
@@ -210,7 +222,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   )}
                   href={`/playground/${modelId}`}
                 >
-                  <MessageSquare className="me-2 scale-75" />
+                  <MessageCircle className="me-2 scale-75" />
                   Chat Playground
                 </Link>
                 <Heart
@@ -222,7 +234,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             </Card>
           </div>
           <p className="text-xl ms-1 -mb-4 -mt-2 text-white">Related Models</p>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(16rem,1fr))] gap-4 py-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4 py-4">
             {renderRelatedModels}
           </div>
         </div>
