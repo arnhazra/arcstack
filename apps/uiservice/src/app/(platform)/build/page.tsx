@@ -1,3 +1,215 @@
+"use client"
+import { Button } from "@/shared/components/ui/button"
+import { Input } from "@/shared/components/ui/input"
+import { Textarea } from "@/shared/components/ui/textarea"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/components/ui/select"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/shared/components/ui/card"
+import { Label } from "@/shared/components/ui/label"
+import { endPoints } from "@/shared/constants/api-endpoints"
+import HTTPMethods from "@/shared/constants/http-methods"
+import useQuery from "@/shared/hooks/use-query"
+import { BaseModel } from "@/shared/types"
+import { useState } from "react"
+import { useMutation } from "@tanstack/react-query"
+import ky from "ky"
+
+const categories = [
+  "General",
+  "Writing",
+  "Productivity",
+  "Research",
+  "Education",
+  "Lifestyle",
+  "Programming",
+  "Sports",
+  "Healthcare",
+  "Entertainment",
+  "Social Media",
+  "Others",
+]
+
 export default function Page() {
-  return <div>Page</div>
+  const [state, setState] = useState({
+    baseModel: "",
+    category: "",
+    description: "",
+    systemPrompt: "",
+    displayName: "",
+    isPublic: false,
+  })
+  const [isLoading, setLoading] = useState(false)
+
+  const baseModels = useQuery<BaseModel[]>({
+    queryKey: ["base-models"],
+    queryUrl: endPoints.baseModel,
+    method: HTTPMethods.GET,
+  })
+
+  const submitForm = async (event: any) => {
+    event.preventDefault()
+
+    try {
+      setLoading(true)
+      await ky.post(endPoints.createDerivedModel, { json: state })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <Card className="w-full max-w-2xl mx-auto bg-background border-border text-white">
+      <CardHeader>
+        <CardTitle>Create a Model</CardTitle>
+        <CardDescription className="text-zinc-300">
+          Fill out the form below to create a new model.
+        </CardDescription>
+      </CardHeader>
+      <form onSubmit={submitForm}>
+        <CardContent className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="displayName">Display Name</Label>
+            <Input
+              autoComplete="off"
+              className="bg-border border-lightborder"
+              id="displayName"
+              name="displayName"
+              placeholder="Enter a name for your model"
+              onChange={(e): void =>
+                setState({ ...state, displayName: e.target.value })
+              }
+              required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">Description</Label>
+            <Textarea
+              id="description"
+              name="description"
+              placeholder="Describe your model's purpose and capabilities"
+              className="min-h-[100px] bg-border border-lightborder"
+              required
+              onChange={(e): void =>
+                setState({ ...state, description: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="category">Category</Label>
+            <Select
+              name="category"
+              required
+              onValueChange={(value) => setState({ ...state, category: value })}
+            >
+              <SelectTrigger
+                id="category"
+                className="bg-border border-lightborder"
+              >
+                <SelectValue placeholder="Select a category" />
+              </SelectTrigger>
+              <SelectContent className="bg-border border-lightborder">
+                {categories.map((category) => (
+                  <SelectItem
+                    key={category}
+                    value={category}
+                    className="text-white"
+                  >
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="baseModel">Base Model</Label>
+            <Select
+              name="baseModel"
+              required
+              onValueChange={(value) =>
+                setState({ ...state, baseModel: value })
+              }
+            >
+              <SelectTrigger
+                id="baseModel"
+                className="bg-border border-lightborder"
+              >
+                <SelectValue placeholder="Select a base model" />
+              </SelectTrigger>
+              <SelectContent className="bg-border border-lightborder">
+                {baseModels?.data?.map((model) => (
+                  <SelectItem
+                    key={model?._id}
+                    value={model?._id}
+                    className="text-white"
+                  >
+                    {model?.displayName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="systemPrompt">System Prompt</Label>
+            <Textarea
+              id="systemPrompt"
+              name="systemPrompt"
+              placeholder="Enter the system prompt for your model"
+              className="min-h-[100px] bg-border border-lightborder"
+              required
+              onChange={(e): void =>
+                setState({ ...state, systemPrompt: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="isPublic">Visibility</Label>
+            <Select
+              name="isPublic"
+              required
+              onValueChange={(value) =>
+                setState({ ...state, isPublic: value === "true" })
+              }
+            >
+              <SelectTrigger
+                id="isPublic"
+                className="bg-border border-lightborder"
+              >
+                <SelectValue placeholder="Select visibility" />
+              </SelectTrigger>
+              <SelectContent className="bg-border border-lightborder">
+                <SelectItem value={"true"} className="text-white">
+                  Public
+                </SelectItem>
+                <SelectItem value="false" className="text-white">
+                  Private
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </CardContent>
+        <CardFooter className="flex justify-end gap-2">
+          <Button type="submit" className="bg-primary hover:bg-primary">
+            Create Model
+          </Button>
+        </CardFooter>
+      </form>
+    </Card>
+  )
 }

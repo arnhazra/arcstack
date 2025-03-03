@@ -20,7 +20,7 @@ export class DerivedModel extends Document {
   @Prop({ type: Types.ObjectId, ref: User.name, required: true })
   modelOwner: Types.ObjectId
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: true })
   isFineTuned: boolean
 
   @Prop({ required: true })
