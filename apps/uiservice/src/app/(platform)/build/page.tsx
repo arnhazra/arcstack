@@ -30,16 +30,17 @@ import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 
 const categories = [
   "General",
-  "Writing",
-  "Productivity",
-  "Research",
   "Education",
-  "Lifestyle",
-  "Programming",
-  "Sports",
-  "Healthcare",
   "Entertainment",
+  "Healthcare",
+  "Lifestyle",
+  "Productivity",
+  "Programming",
+  "Research",
   "Social Media",
+  "Sports",
+  "Travel",
+  "Writing",
   "Others",
 ]
 
