@@ -80,18 +80,10 @@ export class ChatService {
   }
 
   cleanSearchResult(result: Record<string, any>): Record<string, any> {
-    const keysToRemove = [
-      "search_metadata",
-      "search_parameters",
-      "search_information",
-      "related_searches",
-      "pagination",
-      "serpapi_pagination",
-    ]
-
-    return Object.fromEntries(
-      Object.entries(result).filter(([key]) => !keysToRemove.includes(key))
+    const cleanedData = result?.items?.map(
+      (item: any) => item?.title + item?.snippet
     )
+    return cleanedData
   }
 
   async generateRecommendation(
@@ -112,7 +104,7 @@ export class ChatService {
       const gModel = await this.getModelById(modelId)
 
       if (useWebSearch && gModel.hasWebSearchCapability) {
-        const uri = `https://serpapi.com/search.json?engine=google&q=${encodeURI(prompt)}&location=India&google_domain=google.com&gl=us&hl=en&api_key=${envConfig.searchAPIKey}`
+        const uri = `https://www.googleapis.com/customsearch/v1?key=${envConfig.searchAPIKey}&cx=${envConfig.searchEngineId}&q=${aiGenerationDto.prompt}`
         const response = await lastValueFrom(this.httpService.get<any>(uri))
         const cleanedData = this.cleanSearchResult(response.data)
         webSearchResponse = JSON.stringify(cleanedData)

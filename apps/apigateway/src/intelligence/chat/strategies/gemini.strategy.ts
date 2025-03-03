@@ -46,9 +46,7 @@ export default async function GeminiStrategy(
   const response = (
     await result.sendMessage(
       !!webSearchResult
-        ? `Read the following web search data and summarize according the prompt 
-    WebSearchResult: ${webSearchResult}. 
-    Prompt: ${prompt}`
+        ? `Summarize the data from web search: ${webSearchResult}.`
         : prompt
     )
   ).response.text()

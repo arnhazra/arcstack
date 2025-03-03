@@ -43,9 +43,7 @@ export default async function OpenAIStrategy(
       {
         role: "user",
         content: !!webSearchResult
-          ? `Read the following web search data and summarize according the prompt 
-          WebSearchResult: ${webSearchResult}. 
-          Prompt: ${prompt}`
+          ? `Summarize the data from web search: ${webSearchResult}.`
           : prompt,
       },
     ],
