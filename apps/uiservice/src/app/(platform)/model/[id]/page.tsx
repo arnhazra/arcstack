@@ -1,5 +1,5 @@
 "use client"
-import { Bell, BookMarked, Heart, MessageSquare } from "lucide-react"
+import { Bell, BookMarked, Heart, MessageCircle } from "lucide-react"
 import { Badge } from "@/shared/components/ui/badge"
 import { buttonVariants } from "@/shared/components/ui/button"
 import {
@@ -137,7 +137,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <span>{model?.data?.baseModel?.contextWindow}</span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Default Temerature</span>
+                  <span>Default Temperature</span>
                   <span>{model?.data?.baseModel?.defaultTemperature}</span>
                 </li>
                 <li className="flex items-center justify-between">
@@ -164,7 +164,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Response Format</span>
-                  <span>{model?.data?.responseFormat}</span>
+                  <span className="capitalize">
+                    {model?.data?.responseFormat}
+                  </span>
+                </li>
+                <li className="flex items-center justify-between">
+                  <span>Model Visibility</span>
+                  <span>{model?.data?.isPublic ? "Public" : "Private"}</span>
                 </li>
               </ul>
             </div>
@@ -216,7 +222,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   )}
                   href={`/playground/${modelId}`}
                 >
-                  <MessageSquare className="me-2 scale-75" />
+                  <MessageCircle className="me-2 scale-75" />
                   Chat Playground
                 </Link>
                 <Heart

@@ -31,6 +31,9 @@ export class DerivedModel extends Document {
 
   @Prop({ required: true, default: false })
   hasWebSearchCapability: boolean
+
+  @Prop({ required: true })
+  isPublic: boolean
 }
 
 export const DerivedModelSchema = SchemaFactory.createForClass(DerivedModel)

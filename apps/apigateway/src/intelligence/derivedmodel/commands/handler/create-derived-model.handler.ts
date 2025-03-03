@@ -17,6 +17,7 @@ export class CreateDerivedModelCommandHandler
       isFineTuned,
       systemPrompt,
       displayName,
+      isPublic,
     } = command.createDerivedModelDto
     return await this.repository.create({
       baseModel: objectId(baseModel),
@@ -26,6 +27,7 @@ export class CreateDerivedModelCommandHandler
       systemPrompt,
       displayName,
       modelOwner: objectId(command.userId),
+      isPublic,
     })
   }
 }

@@ -22,6 +22,7 @@ export type DerivedModel = {
   responseFormat: string
   hasWebSearchCapability: boolean
   modelOwner: User
+  isPublic: boolean
 }
 
 export type Favourites = {
