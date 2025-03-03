@@ -153,6 +153,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <span>{model?.data?.modelOwner?.name}</span>
                 </li>
                 <li className="flex items-center justify-between">
+                  <span>Realtime Web Search</span>
+                  <span>
+                    {model?.data?.hasWebSearchCapability ? "Yes" : "No"}
+                  </span>
+                </li>
+                <li className="flex items-center justify-between">
                   <span>Fine Tuned</span>
                   <span>{model?.data?.isFineTuned ? "Yes" : "No"}</span>
                 </li>

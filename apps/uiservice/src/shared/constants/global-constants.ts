@@ -29,4 +29,6 @@ export const uiConstants = {
   apiKeyDeleted: "API Key deleted",
   apiRefreneceStatement: "You must send access_key in headers to authenticate",
   aiSafetyStatement: `As an AI LLM ${brandName} Intelligence can make mistakes. Please be aware.`,
+  fallbackImageURL:
+    "https://img.freepik.com/free-photo/ai-technology-microchip-background-digital-transformation-concept_53876-124669.jpg?t=st=1740971145~exp=1740974745~hmac=090205b829b6a1d67da2257f42126467a191cdba6a955e902a4ea487d67af9e0&w=1000",
 }

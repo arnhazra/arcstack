@@ -15,7 +15,6 @@ export class CreateDerivedModelCommandHandler
       category,
       description,
       isFineTuned,
-      responseFormat,
       systemPrompt,
       displayName,
     } = command.createDerivedModelDto
@@ -24,7 +23,6 @@ export class CreateDerivedModelCommandHandler
       category,
       description,
       isFineTuned,
-      responseFormat,
       systemPrompt,
       displayName,
       modelOwner: objectId(command.userId),

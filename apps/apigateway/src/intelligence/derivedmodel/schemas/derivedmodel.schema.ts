@@ -26,7 +26,7 @@ export class DerivedModel extends Document {
   @Prop({ required: true })
   systemPrompt: string
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: "text" })
   responseFormat: string
 
   @Prop({ required: true, default: false })

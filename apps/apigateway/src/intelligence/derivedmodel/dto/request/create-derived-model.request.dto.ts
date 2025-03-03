@@ -18,7 +18,4 @@ export class CreateDerivedModelDto {
 
   @IsNotEmpty()
   readonly systemPrompt: string
-
-  @IsNotEmpty()
-  readonly responseFormat: string
 }
