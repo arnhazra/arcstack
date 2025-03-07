@@ -6,12 +6,12 @@ import { Model, ModelSchema } from "./schemas/models.schema"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { GetModelsQueryHandler } from "./queries/handler/get-models.handler"
 import { ModelsRepository } from "./models.repository"
-import { DatabaseModule } from "src/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 
 @Module({
   imports: [
     CqrsModule,
-    DatabaseModule.forFeature(
+    EntityModule.forFeature(
       [{ name: Model.name, schema: ModelSchema }],
       DbConnectionMap.Core
     ),

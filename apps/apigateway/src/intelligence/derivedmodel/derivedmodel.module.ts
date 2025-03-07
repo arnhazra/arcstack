@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common"
 import { DerivedModelRepository } from "./derivedmodel.repository"
 import { CqrsModule } from "@nestjs/cqrs"
-import { DatabaseModule } from "@/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
 import { DerivedModel, DerivedModelSchema } from "./schemas/derivedmodel.schema"
 import { CreateDerivedModelCommandHandler } from "./commands/handler/create-derived-model.handler"
@@ -15,7 +15,7 @@ import { FindMyBuildsQueryHandler } from "./queries/handler/find-my-builds.handl
 @Module({
   imports: [
     CqrsModule,
-    DatabaseModule.forFeature(
+    EntityModule.forFeature(
       [{ name: DerivedModel.name, schema: DerivedModelSchema }],
       DbConnectionMap.Intelligence
     ),

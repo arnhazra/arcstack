@@ -6,13 +6,13 @@ import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { Activity, ActivitySchema } from "./schemas/activity.schema"
 import { ActivityRepository } from "./activity.repository"
 import { CreateActivityCommandHandler } from "./commands/handler/create-activity.handler"
-import { DatabaseModule } from "src/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 import { GetActivityQueryHandler } from "./queries/handler/get-activity-count.handler"
 
 @Module({
   imports: [
     CqrsModule,
-    DatabaseModule.forFeature(
+    EntityModule.forFeature(
       [{ name: Activity.name, schema: ActivitySchema }],
       DbConnectionMap.Core
     ),

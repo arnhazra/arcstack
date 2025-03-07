@@ -3,7 +3,7 @@ import { FavouritesService } from "./favourites.service"
 import { FavouritesController } from "./favourites.controller"
 import { FavouritesRepository } from "./favourites.repository"
 import { CqrsModule } from "@nestjs/cqrs"
-import { DatabaseModule } from "@/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
 import { Favourite, FavouriteSchema } from "./schemas/favourites.schema"
 import { FindAllFavouritesQueryHandler } from "./queries/handler/find-all-favourites.handler"
@@ -14,7 +14,7 @@ import { FindIfFavouritedQueryHandler } from "./queries/handler/find-if-favourit
 @Module({
   imports: [
     CqrsModule,
-    DatabaseModule.forFeature(
+    EntityModule.forFeature(
       [{ name: Favourite.name, schema: FavouriteSchema }],
       DbConnectionMap.Intelligence
     ),

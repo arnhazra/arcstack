@@ -6,12 +6,12 @@ import { CqrsModule } from "@nestjs/cqrs"
 import { ApiReference, ApiReferenceSchema } from "./schemas/apireference.schema"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { FindAPIReferencesQueryHandler } from "./queries/handler/find-apireferences.handler"
-import { DatabaseModule } from "src/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 
 @Module({
   imports: [
     CqrsModule,
-    DatabaseModule.forFeature(
+    EntityModule.forFeature(
       [{ name: ApiReference.name, schema: ApiReferenceSchema }],
       DbConnectionMap.Core
     ),

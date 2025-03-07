@@ -5,7 +5,7 @@ import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { FilterQuery, Model } from "mongoose"
 import { OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
-import { EntityRepository } from "@/shared/database/entity.repository"
+import { EntityRepository } from "@/shared/entity/entity.repository"
 import objectId from "src/shared/utils/convert-objectid"
 
 @Injectable()

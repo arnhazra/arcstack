@@ -9,12 +9,12 @@ import { CreateUserCommandHandler } from "./commands/handler/create-user.handler
 import { FindUserByEmailQueryHandler } from "./queries/handler/find-user-by-email.handler"
 import { FindUserByIdQueryHandler } from "./queries/handler/find-user-by-id.handler"
 import { UpdateAttributeCommandHandler } from "./commands/handler/update-attribute.handler"
-import { DatabaseModule } from "src/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 
 @Module({
   imports: [
     CqrsModule,
-    DatabaseModule.forFeature(
+    EntityModule.forFeature(
       [{ name: User.name, schema: UserSchema }],
       DbConnectionMap.Core
     ),

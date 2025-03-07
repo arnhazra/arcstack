@@ -9,12 +9,12 @@ import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { ActivityModule } from "./activity/activity.module"
 import { TokenModule } from "./token/token.module"
 import { EmailModule } from "./email/email.module"
-import { DatabaseModule } from "src/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 import { NewsRoomModule } from "./newsroom/newsroom.module"
 
 @Module({
   imports: [
-    DatabaseModule.forRoot(envConfig.coreDatabaseURI, DbConnectionMap.Core),
+    EntityModule.forRoot(envConfig.coreDatabaseURI, DbConnectionMap.Core),
     ApiReferenceModule,
     ActivityModule,
     APIKeyModule,

@@ -3,14 +3,14 @@ import { BaseModelModule } from "./basemodel/basemodel.module"
 import { FavouritesModule } from "./favourites/favourites.module"
 import { ChatModule } from "./chat/chat.module"
 import { envConfig } from "@/config"
-import { DatabaseModule } from "@/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
 import { DerivedModelModule } from "./derivedmodel/derivedmodel.module"
 import { HistoryModule } from "./history/history.module"
 
 @Module({
   imports: [
-    DatabaseModule.forRoot(
+    EntityModule.forRoot(
       envConfig.intelligenceDatabaseURI,
       DbConnectionMap.Intelligence
     ),

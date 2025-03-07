@@ -10,12 +10,12 @@ import { DeleteAPIKeyCommandHandler } from "./commands/handler/delete-apikey.han
 import { FindAllAPIKeyQueryHandler } from "./queries/handler/find-all-apikeys.handler"
 import { FindAPIKeyQueryHandler } from "./queries/handler/find-apikey.handler"
 import { FindAPIKeyByIdQueryHandler } from "./queries/handler/find-apikey-by-id.handler"
-import { DatabaseModule } from "src/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 
 @Module({
   imports: [
     CqrsModule,
-    DatabaseModule.forFeature(
+    EntityModule.forFeature(
       [{ name: APIKey.name, schema: APIKeySchema }],
       DbConnectionMap.Core
     ),

@@ -3,7 +3,7 @@ import { BaseModelService } from "./basemodel.service"
 import { BaseModelController } from "./basemodel.controller"
 import { BaseModelsRepository } from "./basemodel.repository"
 import { CqrsModule } from "@nestjs/cqrs"
-import { DatabaseModule } from "@/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
 import { CreateBaseModelCommandHandler } from "./commands/handler/create-base-model.handler"
 import { FindAllBaseModelsQueryHandler } from "./queries/handler/find-all-base-models.handler"
@@ -13,7 +13,7 @@ import { BaseModel, BaseModelSchema } from "./schemas/basemodel.schema"
 @Module({
   imports: [
     CqrsModule,
-    DatabaseModule.forFeature(
+    EntityModule.forFeature(
       [{ name: BaseModel.name, schema: BaseModelSchema }],
       DbConnectionMap.Intelligence
     ),

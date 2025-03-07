@@ -3,7 +3,7 @@ import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { ModelDefinition, MongooseModule } from "@nestjs/mongoose"
 
 @Module({})
-export class DatabaseModule {
+export class EntityModule {
   static forRoot(
     uri: string,
     dbConnectionName: DbConnectionMap

@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose"
 import { ApiReference } from "./schemas/apireference.schema"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { Model } from "mongoose"
-import { EntityRepository } from "@/shared/database/entity.repository"
+import { EntityRepository } from "@/shared/entity/entity.repository"
 
 @Injectable()
 export class ApiReferenceRepository extends EntityRepository<ApiReference> {

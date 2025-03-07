@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common"
 import { CoreModule } from "./core/core.module"
 import { EventEmitterModule } from "@nestjs/event-emitter"
-import { DatabaseModule } from "./shared/database/database.module"
+import { EntityModule } from "./shared/entity/entity.module"
 import { AppController } from "./app.controller"
 import { IntelligenceModule } from "./intelligence/intelligence.module"
 
@@ -9,7 +9,7 @@ import { IntelligenceModule } from "./intelligence/intelligence.module"
   imports: [
     EventEmitterModule.forRoot(),
     CoreModule,
-    DatabaseModule,
+    EntityModule,
     IntelligenceModule,
   ],
   controllers: [AppController],

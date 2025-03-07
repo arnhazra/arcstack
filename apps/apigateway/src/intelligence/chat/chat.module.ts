@@ -6,7 +6,7 @@ import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { Thread, ThreadSchema } from "./schemas/thread.schema"
 import { CreateThreadCommandHandler } from "./commands/handler/create-thread.handler"
 import { ChatRepository } from "./chat.repository"
-import { DatabaseModule } from "src/shared/database/database.module"
+import { EntityModule } from "@/shared/entity/entity.module"
 import { FetchThreadByIdQueryHandler } from "./queries/handler/fetch-thread-by-id.handler"
 import { GetUsageByUserIdQueryHandler } from "./queries/handler/get-usage-by-user-id.handler"
 import { HttpModule } from "@nestjs/axios"
@@ -15,7 +15,7 @@ import { HttpModule } from "@nestjs/axios"
   imports: [
     HttpModule,
     CqrsModule,
-    DatabaseModule.forFeature(
+    EntityModule.forFeature(
       [{ name: Thread.name, schema: ThreadSchema }],
       DbConnectionMap.Intelligence
     ),
