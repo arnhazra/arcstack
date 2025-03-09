@@ -1,7 +1,7 @@
 import Stripe from "stripe"
 import { Injectable, BadRequestException } from "@nestjs/common"
 import { statusMessages } from "@/shared/constants/status-messages"
-import { envConfig } from "src/config"
+import { config } from "src/config"
 import { OnEvent } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
 import { subscriptionPricing } from "./subscription.config"
@@ -18,7 +18,7 @@ export class SubscriptionService {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus
   ) {
-    this.stripe = new Stripe(envConfig.stripeSecretKey)
+    this.stripe = new Stripe(config.STRIPE_SECRET_KEY)
   }
 
   getSubscriptionPricing() {
@@ -41,7 +41,7 @@ export class SubscriptionService {
             price_data: {
               currency: "usd",
               product_data: {
-                name: `${envConfig.brandName} Pro subscription`,
+                name: `${config.BRAND_NAME} Pro subscription`,
               },
               unit_amount: price * 100,
             },

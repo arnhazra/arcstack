@@ -4,7 +4,7 @@ import { APIKeyModule } from "./apikey/apikey.module"
 import { SubscriptionModule } from "./subscription/subscription.module"
 import { UserModule } from "./user/user.module"
 import { ModelsModule } from "./models/models.module"
-import { envConfig } from "src/config"
+import { config } from "src/config"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { ActivityModule } from "./activity/activity.module"
 import { TokenModule } from "./token/token.module"
@@ -14,7 +14,7 @@ import { NewsRoomModule } from "./newsroom/newsroom.module"
 
 @Module({
   imports: [
-    EntityModule.forRoot(envConfig.coreDatabaseURI, DbConnectionMap.Core),
+    EntityModule.forRoot(config.CORE_DATABASE_URI, DbConnectionMap.Core),
     ApiReferenceModule,
     ActivityModule,
     APIKeyModule,

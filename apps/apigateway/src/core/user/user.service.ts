@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common"
 import { GenerateOTPDto } from "./dto/generate-otp.dto"
 import { VerifyOTPDto } from "./dto/validate-otp.dto"
 import * as jwt from "jsonwebtoken"
-import { envConfig } from "src/config"
+import { config } from "src/config"
 import {
   generateOTP,
   verifyOTP,
@@ -34,7 +34,7 @@ export class UserService {
     private readonly queryBus: QueryBus,
     private readonly commandBus: CommandBus
   ) {
-    this.jwtSecret = envConfig.jwtSecret
+    this.jwtSecret = config.JWT_SECRET
   }
 
   async generateOTP(generateOTPDto: GenerateOTPDto) {

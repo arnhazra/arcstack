@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common"
 import { SendEmailDto } from "./dto/send-email.dto"
 import * as nodemailer from "nodemailer"
 import { google } from "googleapis"
-import { envConfig } from "../../config"
+import { config } from "../../config"
 import SMTPTransport from "nodemailer/lib/smtp-transport"
 
 @Injectable()
@@ -11,18 +11,18 @@ export class EmailService {
     try {
       const { email, subject, body } = sendEmailDto
       const {
-        gcloudClientId,
-        gcloudClientSecret,
-        redirectURI,
-        refreshToken,
-        mailerEmail,
-      } = envConfig
+        GCLOUD_CLIENT_ID,
+        GCLOUD_CLIENT_SECRET,
+        GCLOUD_REDIRECT_URI,
+        GCLOUD_REFRESH_TOKEN,
+        MAILER_EMAIL,
+      } = config
       const oAuth2Client = new google.auth.OAuth2(
-        gcloudClientId,
-        gcloudClientSecret,
-        redirectURI
+        GCLOUD_CLIENT_ID,
+        GCLOUD_CLIENT_SECRET,
+        GCLOUD_REDIRECT_URI
       )
-      oAuth2Client.setCredentials({ refresh_token: refreshToken })
+      oAuth2Client.setCredentials({ refresh_token: GCLOUD_REFRESH_TOKEN })
       const accessToken = await oAuth2Client.getAccessToken()
 
       const transporter: nodemailer.Transporter<SMTPTransport.SentMessageInfo> =
@@ -32,13 +32,13 @@ export class EmailService {
           secure: true,
           auth: {
             type: "OAuth2",
-            user: mailerEmail,
+            user: MAILER_EMAIL,
             accessToken: accessToken.token,
           },
         })
 
       await transporter.sendMail({
-        from: mailerEmail,
+        from: MAILER_EMAIL,
         to: email,
         subject,
         html: body,

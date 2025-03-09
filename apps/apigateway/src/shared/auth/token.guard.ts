@@ -6,7 +6,7 @@ import {
 } from "@nestjs/common"
 import * as jwt from "jsonwebtoken"
 import { statusMessages } from "../constants/status-messages"
-import { envConfig } from "src/config"
+import { config } from "src/config"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "../utils/events.union"
 import { ModRequest } from "./types/mod-request.interface"
@@ -28,11 +28,9 @@ export class TokenGuard implements CanActivate {
       if (!accessToken || !refreshToken) {
         throw new UnauthorizedException(statusMessages.unauthorized)
       } else {
-        const decodedAccessToken = jwt.verify(
-          accessToken,
-          envConfig.jwtSecret,
-          { algorithms: ["HS512"] }
-        )
+        const decodedAccessToken = jwt.verify(accessToken, config.JWT_SECRET, {
+          algorithms: ["HS512"],
+        })
         const userId = (decodedAccessToken as any).id
         const userResponse: User[] = await this.eventEmitter.emitAsync(
           EventsUnion.GetUserDetails,
@@ -92,7 +90,7 @@ export class TokenGuard implements CanActivate {
             email,
             iss: tokenIssuer,
           }
-          const newAccessToken = jwt.sign(tokenPayload, envConfig.jwtSecret, {
+          const newAccessToken = jwt.sign(tokenPayload, config.JWT_SECRET, {
             algorithm: "HS512",
             expiresIn: "5m",
           })

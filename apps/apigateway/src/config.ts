@@ -1,23 +1,23 @@
-import { config } from "dotenv"
-config({ path: "./.env.development" })
+import { config as envConfig } from "dotenv"
+envConfig({ path: "./.env.development" })
 
-export const envConfig = {
-  apiPort: process.env.API_PORT,
-  nodeEnv: process.env.NODE_ENV,
-  brandName: process.env.BRAND_NAME,
-  coreDatabaseURI: process.env.CORE_DATABASE_URI,
-  intelligenceDatabaseURI: process.env.INTELLIGENCE_DATABASE_URI,
-  redisURI: process.env.REDIS_URI,
-  geminiAPIKey: process.env.GEMINI_API_KEY,
-  stripeSecretKey: process.env.STRIPE_SECRET_KEY,
-  otpHashingKey: process.env.OTP_HASHING_KEY,
-  redirectURI: process.env.GCLOUD_REDIRECT_URI,
-  gcloudClientId: process.env.GCLOUD_CLIENT_ID,
-  gcloudClientSecret: process.env.GCLOUD_CLIENT_SECRET,
-  refreshToken: process.env.GCLOUD_REFRESH_TOKEN,
-  mailerEmail: process.env.MAILER_EMAIL,
-  jwtSecret: process.env.JWT_SECRET,
-  newsAPIKey: process.env.NEWS_API_ORG_KEY,
-  searchAPIKey: process.env.GOOGLE_SEARCH_API_KEY,
-  searchEngineId: process.env.GOOGLE_SEARCH_ENGINE_ID,
+export const config = {
+  API_PORT: process.env.API_PORT,
+  NODE_ENV: process.env.NODE_ENV,
+  BRAND_NAME: process.env.BRAND_NAME,
+  CORE_DATABASE_URI: process.env.CORE_DATABASE_URI,
+  INTELLIGENCE_DATABASE_URI: process.env.INTELLIGENCE_DATABASE_URI,
+  REDIS_URI: process.env.REDIS_URI,
+  GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
+  OTP_HASHING_KEY: process.env.OTP_HASHING_KEY,
+  GCLOUD_REDIRECT_URI: process.env.GCLOUD_REDIRECT_URI,
+  GCLOUD_CLIENT_ID: process.env.GCLOUD_CLIENT_ID,
+  GCLOUD_CLIENT_SECRET: process.env.GCLOUD_CLIENT_SECRET,
+  GCLOUD_REFRESH_TOKEN: process.env.GCLOUD_REFRESH_TOKEN,
+  MAILER_EMAIL: process.env.MAILER_EMAIL,
+  JWT_SECRET: process.env.JWT_SECRET,
+  NEWS_API_ORG_KEY: process.env.NEWS_API_ORG_KEY,
+  GOOGLE_SEARCH_API_KEY: process.env.GOOGLE_SEARCH_API_KEY,
+  GOOGLE_SEARCH_ENGINE_ID: process.env.GOOGLE_SEARCH_ENGINE_ID,
 }

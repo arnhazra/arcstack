@@ -1,4 +1,4 @@
-import { envConfig } from "@/config"
+import { config } from "@/config"
 import {
   Content,
   GenerationConfig,
@@ -27,7 +27,7 @@ export default async function GeminiStrategy(
     },
   ])
   chatHistory.push(...content)
-  const client = new GoogleGenerativeAI(envConfig.geminiAPIKey)
+  const client = new GoogleGenerativeAI(config.GEMINI_API_KEY)
   const generationConfig: GenerationConfig = {
     temperature: temperature,
     topP: topP,

@@ -1,4 +1,4 @@
-import { envConfig } from "src/config"
+import { config } from "src/config"
 import {
   devAPIUri,
   devUIUri,
@@ -8,11 +8,11 @@ import {
 
 export function getRediretUriUI(success: boolean) {
   if (success) {
-    return envConfig.nodeEnv === "development"
+    return config.NODE_ENV === "development"
       ? `${devUIUri}/settings/subscription?subscriptionSuccess=true`
       : `${prodUIUri}/settings/subscription?subscriptionSuccess=true`
   } else {
-    return envConfig.nodeEnv === "development"
+    return config.NODE_ENV === "development"
       ? `${devUIUri}/settings/subscription?subscriptionSuccess=false`
       : `${prodUIUri}/settings/subscription?subscriptionSuccess=false`
   }
@@ -20,11 +20,11 @@ export function getRediretUriUI(success: boolean) {
 
 export function getRediretUriAPI(success: boolean) {
   if (success) {
-    return envConfig.nodeEnv === "development"
+    return config.NODE_ENV === "development"
       ? `${devAPIUri}/subscribe`
       : `${prodAPIUri}/subscribe`
   } else {
-    return envConfig.nodeEnv === "development"
+    return config.NODE_ENV === "development"
       ? `${devAPIUri}/cancel`
       : `${prodAPIUri}/cancel`
   }
