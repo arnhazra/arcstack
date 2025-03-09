@@ -21,7 +21,7 @@ export const generalUserLinks: LinkData[] = [
   },
   {
     displayName: "Developer",
-    link: uiConstants.linkedinUri,
+    link: uiConstants.linkedinURI,
     external: true,
   },
   {

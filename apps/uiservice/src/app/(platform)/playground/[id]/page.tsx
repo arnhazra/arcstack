@@ -159,6 +159,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
         <div className="absolute bottom-0 left-0 w-full p-4 bg-background rounded-md">
           <form onSubmit={hitAPI} className="flex items-center gap-2">
             <Input
+              autoFocus
               autoComplete="off"
               id="message"
               value={prompt}

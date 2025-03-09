@@ -104,7 +104,7 @@ export class ChatService {
       const gModel = await this.getModelById(modelId)
 
       if (useWebSearch && gModel.hasWebSearchCapability) {
-        const uri = `https://www.googleapis.com/customsearch/v1?key=${config.GOOGLE_SEARCH_API_KEY}&cx=${config.GOOGLE_SEARCH_ENGINE_ID}&q=${aiGenerationDto.prompt}`
+        const uri = `${config.GOOGLE_CSE_API_URI}&q=${aiGenerationDto.prompt}`
         const response = await lastValueFrom(this.httpService.get<any>(uri))
         const cleanedData = this.cleanSearchResult(response.data)
         webSearchResponse = JSON.stringify(cleanedData)

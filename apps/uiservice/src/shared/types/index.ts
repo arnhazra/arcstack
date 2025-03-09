@@ -51,7 +51,7 @@ export type User = {
 
 export type SubscriptionConfig = {
   subscriptionName: string
-  price: number
+  price: string
   features: string[]
 }
 

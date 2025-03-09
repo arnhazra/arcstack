@@ -12,7 +12,7 @@ import { EventsUnion } from "../utils/events.union"
 import { ModRequest } from "./types/mod-request.interface"
 import { User } from "@/core/user/schemas/user.schema"
 import { Response } from "express"
-import { tokenIssuer } from "../constants/other-constants"
+import { prodUIURI } from "../constants/other-constants"
 
 @Injectable()
 export class TokenGuard implements CanActivate {
@@ -88,7 +88,7 @@ export class TokenGuard implements CanActivate {
           const tokenPayload = {
             id: userId,
             email,
-            iss: tokenIssuer,
+            iss: prodUIURI,
           }
           const newAccessToken = jwt.sign(tokenPayload, config.JWT_SECRET, {
             algorithm: "HS512",

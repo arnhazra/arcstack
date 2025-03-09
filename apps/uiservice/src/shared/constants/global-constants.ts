@@ -13,8 +13,7 @@ export const uiConstants = {
   invalidOTP: "Invalid OTP",
   getStartedButton: "Get Started",
   authVerificationSuccess: "Credentials Verified",
-  linkedinUri: "https://www.linkedin.com/in/arnhazra",
-  githubRepoUri: `https://github.com/arnhazra/${brandName.toLowerCase()}`,
+  linkedinURI: "https://www.linkedin.com/in/arnhazra",
   confirmDescription:
     "This action may not be undone. Be sure before you click on continue, you can cancel if you do not want to proceed.",
   copyrightText: "Inc, All rights reserved.",

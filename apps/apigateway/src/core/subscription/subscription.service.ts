@@ -8,7 +8,7 @@ import { subscriptionPricing } from "./subscription.config"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
 import { CreateSubscriptionCommand } from "./commands/impl/create-subscription.command"
 import { FindSubscriptionByUserIdQuery } from "./queries/impl/find-subscription-by-user-id.query"
-import { getRediretUriAPI } from "./utils/redirect-uri"
+import { getRediretURIAPI } from "./utils/redirect-uri"
 
 @Injectable()
 export class SubscriptionService {
@@ -43,14 +43,14 @@ export class SubscriptionService {
               product_data: {
                 name: `${config.BRAND_NAME} Pro subscription`,
               },
-              unit_amount: price * 100,
+              unit_amount: Number(price) * 100,
             },
             quantity: 1,
           },
         ],
         mode: "payment",
-        success_url: `${getRediretUriAPI(true)}?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: getRediretUriAPI(false),
+        success_url: `${getRediretURIAPI(true)}?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: getRediretURIAPI(false),
         metadata: {
           userId,
           price,

@@ -1,31 +1,31 @@
 import { config } from "src/config"
 import {
-  devAPIUri,
-  devUIUri,
-  prodAPIUri,
-  prodUIUri,
+  devAPIURI,
+  devUIURI,
+  prodAPIURI,
+  prodUIURI,
 } from "@/shared/constants/other-constants"
 
-export function getRediretUriUI(success: boolean) {
+export function getRediretURIUI(success: boolean) {
   if (success) {
     return config.NODE_ENV === "development"
-      ? `${devUIUri}/settings/subscription?subscriptionSuccess=true`
-      : `${prodUIUri}/settings/subscription?subscriptionSuccess=true`
+      ? `${devUIURI}/settings/subscription?subscriptionSuccess=true`
+      : `${prodUIURI}/settings/subscription?subscriptionSuccess=true`
   } else {
     return config.NODE_ENV === "development"
-      ? `${devUIUri}/settings/subscription?subscriptionSuccess=false`
-      : `${prodUIUri}/settings/subscription?subscriptionSuccess=false`
+      ? `${devUIURI}/settings/subscription?subscriptionSuccess=false`
+      : `${prodUIURI}/settings/subscription?subscriptionSuccess=false`
   }
 }
 
-export function getRediretUriAPI(success: boolean) {
+export function getRediretURIAPI(success: boolean) {
   if (success) {
     return config.NODE_ENV === "development"
-      ? `${devAPIUri}/subscribe`
-      : `${prodAPIUri}/subscribe`
+      ? `${devAPIURI}/subscribe`
+      : `${prodAPIURI}/subscribe`
   } else {
     return config.NODE_ENV === "development"
-      ? `${devAPIUri}/cancel`
-      : `${prodAPIUri}/cancel`
+      ? `${devAPIURI}/cancel`
+      : `${prodAPIURI}/cancel`
   }
 }

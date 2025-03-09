@@ -9,7 +9,7 @@ import {
   generateOTPEmailBody,
   generateOTPEmailSubject,
 } from "./user.util"
-import { tokenIssuer } from "@/shared/constants/other-constants"
+import { prodUIURI } from "@/shared/constants/other-constants"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { EventEmitter2 } from "@nestjs/event-emitter"
 import { EventsUnion } from "src/shared/utils/events.union"
@@ -86,7 +86,7 @@ export class UserService {
             const tokenPayload = {
               id: user.id,
               email: user.email,
-              iss: tokenIssuer,
+              iss: prodUIURI,
             }
             const accessToken = jwt.sign(tokenPayload, this.jwtSecret, {
               algorithm: "HS512",
@@ -97,7 +97,7 @@ export class UserService {
             const tokenPayload = {
               id: user.id,
               email: user.email,
-              iss: tokenIssuer,
+              iss: prodUIURI,
             }
             const accessToken = jwt.sign(tokenPayload, this.jwtSecret, {
               algorithm: "HS512",
@@ -119,7 +119,7 @@ export class UserService {
           const tokenPayload = {
             id: newUser.id,
             email: newUser.email,
-            iss: tokenIssuer,
+            iss: prodUIURI,
           }
           const accessToken = jwt.sign(tokenPayload, this.jwtSecret, {
             algorithm: "HS512",

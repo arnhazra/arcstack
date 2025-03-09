@@ -1,12 +1,14 @@
+import { config } from "@/config"
+
 export interface SubscriptionConfig {
   subscriptionName: string
-  price: number
+  price: string
   features: string[]
 }
 
 export const subscriptionPricing: SubscriptionConfig = {
   subscriptionName: "Pro Subscription",
-  price: 15,
+  price: config.SUBSCRIPTION_PRICE,
   features: [
     "Priority API response",
     "Unlimited API calls",

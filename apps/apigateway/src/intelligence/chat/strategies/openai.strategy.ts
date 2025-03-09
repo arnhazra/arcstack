@@ -1,7 +1,7 @@
 import { OpenAI } from "@llamaindex/openai"
 import { ChatMessage } from "llamaindex"
 import { Thread } from "../schemas/thread.schema"
-import { azureOpenAIURI } from "@/shared/constants/other-constants"
+import { config } from "@/config"
 
 export default async function OpenAIStrategy(
   genericName: string,
@@ -26,8 +26,8 @@ export default async function OpenAIStrategy(
   chatHistory.push(...content)
   const client = new OpenAI({
     azure: {
-      endpoint: azureOpenAIURI,
-      apiKey: process.env.OPENAI_API_KEY,
+      endpoint: config.AZURE_OPENAI_URI,
+      apiKey: config.OPENAI_API_KEY,
     },
     model: genericName as any,
     temperature: temperature,

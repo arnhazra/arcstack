@@ -10,7 +10,7 @@ import {
 import { SubscriptionService } from "./subscription.service"
 import { TokenGuard } from "src/shared/auth/token.guard"
 import { ModRequest } from "src/shared/auth/types/mod-request.interface"
-import { getRediretUriUI } from "./utils/redirect-uri"
+import { getRediretURIUI } from "./utils/redirect-uri"
 
 @Controller("subscription")
 export class SubscriptionController {
@@ -44,19 +44,19 @@ export class SubscriptionController {
     @Res() res: any
   ) {
     if (!sessionId) {
-      res.redirect(getRediretUriUI(false))
+      res.redirect(getRediretURIUI(false))
     } else {
       try {
         await this.subscriptionService.handleSubscribe(sessionId)
-        res.redirect(getRediretUriUI(true))
+        res.redirect(getRediretURIUI(true))
       } catch (error) {
-        res.redirect(getRediretUriUI(false))
+        res.redirect(getRediretURIUI(false))
       }
     }
   }
 
   @Get("cancel")
   handleCancel(@Res() res: any) {
-    res.redirect(getRediretUriUI(false))
+    res.redirect(getRediretURIUI(false))
   }
 }
