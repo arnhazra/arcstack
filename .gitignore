@@ -9,4 +9,4 @@ apps/uiservice/*.tsbuildinfo
 apps/uiservice/out
 .vercel
 dist
-apigateway/build
+apiservice/build

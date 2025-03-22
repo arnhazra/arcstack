@@ -18,25 +18,25 @@ jobs:
         run: npm install --global vercel
 
       - name: Build API Gateway application
-        working-directory: apps/apigateway
+        working-directory: apps/apiservice
         run: |
           npm install
           CI=false npm run build
 
       - name: Configure packages
-        working-directory: apps/apigateway
+        working-directory: apps/apiservice
         run: jq 'del(.devDependencies)' package.json > temp.json && mv temp.json package.json
 
       - name: Pull Vercel Environment Information
-        working-directory: apps/apigateway
+        working-directory: apps/apiservice
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        working-directory: apps/apigateway
+        working-directory: apps/apiservice
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Publish Project Artifacts to Vercel
-        working-directory: apps/apigateway
+        working-directory: apps/apiservice
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
   ui-service:
