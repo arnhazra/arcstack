@@ -1,12 +1,15 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Controller } from "@nestjs/common"
+import { SendEmailDto } from "./dto/send-email.dto"
+import { MessagePattern } from "@nestjs/microservices"
+import { AppService } from "./app.service"
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly service: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @MessagePattern("sendEmail")
+  async sendEmail(sendEmailDto: SendEmailDto) {
+    await this.service.sendEmail(sendEmailDto)
+    return { success: true }
   }
 }

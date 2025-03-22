@@ -23,6 +23,7 @@
     "@nestjs/cqrs": "^11.0.2",
     "@nestjs/event-emitter": "^3.0.1",
     "@nestjs/mapped-types": "^2.1.0",
+    "@nestjs/microservices": "^11.0.12",
     "@nestjs/mongoose": "^11.0.2",
     "@nestjs/platform-express": "^11.0.12",
     "axios": "^1.8.4",

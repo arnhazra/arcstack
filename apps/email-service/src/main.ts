@@ -6,11 +6,17 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     AppModule,
     {
-      transport: Transport.TCP,
-      options: { host: "127.0.0.1", port: 4001 },
+      transport: Transport.REDIS,
+      options: {
+        host: "redis-14033.c282.east-us-mz.azure.cloud.redislabs.com",
+        port: 14033,
+        password: "Dzbh2hVjmPlHZSSc8McE3sD0aD3vEoDl",
+        username: "default",
+      },
     }
   )
 
+  console.log("running")
   await app.listen()
 }
 bootstrap()
