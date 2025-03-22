@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className={quickSand.className}>
         <Providers>
-          <NextTopLoader color="#1db954" showSpinner={false} />
+          <NextTopLoader color="#1db954" showSpinner={false} height={2} />
           <main className="min-h-screen w-full bg-main">{children}</main>
         </Providers>
       </body>

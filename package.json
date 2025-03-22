@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "a saas product",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix apps/apiservice\" \"npm run dev --prefix apps/uiservice\"",
+    "dev": "concurrently \"npm run dev --prefix apps/api-service\" \"npm run dev --prefix apps/ui-service\"",
     "publish": "git add . && git commit -m publish && git push",
     "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
   },

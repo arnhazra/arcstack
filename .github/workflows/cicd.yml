@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  api-gateway:
+  api-service:
     runs-on: ubuntu-latest
     env:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
@@ -18,25 +18,25 @@ jobs:
         run: npm install --global vercel
 
       - name: Build API Gateway application
-        working-directory: apps/apiservice
+        working-directory: apps/api-service
         run: |
           npm install
           CI=false npm run build
 
       - name: Configure packages
-        working-directory: apps/apiservice
+        working-directory: apps/api-service
         run: jq 'del(.devDependencies)' package.json > temp.json && mv temp.json package.json
 
       - name: Pull Vercel Environment Information
-        working-directory: apps/apiservice
+        working-directory: apps/api-service
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        working-directory: apps/apiservice
+        working-directory: apps/api-service
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Publish Project Artifacts to Vercel
-        working-directory: apps/apiservice
+        working-directory: apps/api-service
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
 
   ui-service:
@@ -51,13 +51,13 @@ jobs:
         run: npm install --global vercel
 
       - name: Pull Vercel Environment Information
-        working-directory: apps/uiservice
+        working-directory: apps/ui-service
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        working-directory: apps/uiservice
+        working-directory: apps/ui-service
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Publish Project Artifacts to Vercel
-        working-directory: apps/uiservice
+        working-directory: apps/ui-service
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
