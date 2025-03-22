@@ -1,0 +1,38 @@
+@tailwind base
+@tailwind components
+@tailwind utilities
+
+$main: #121212
+$mainOpaque: #121212d2
+
+::-webkit-scrollbar
+  width: 0
+
+body
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  -webkit-font-smoothing: antialiased
+  background: $main
+
+.auth-landing
+  background: linear-gradient(to top, $main 40%, $mainOpaque 100%), url("../assets/hero.jpg")
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  -o-background-size: cover
+  background-size: cover
+  background-attachment: fixed
+
+.hero-landing
+  background: linear-gradient(to top, $main 40%, $mainOpaque 100%), url("../assets/hero.jpg")
+  -webkit-background-size: cover
+  -moz-background-size: cover
+  -o-background-size: cover
+  background-size: cover
+  background-attachment: fixed
+  background-repeat: no-repeat
+
+.scale-65
+  transform: scale(0.65)
+
+.prompt-input
+  height: 3rem

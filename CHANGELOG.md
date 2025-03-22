@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.2 [23 Mar 2025]
+
+- Code refactoring, dependency updates & bug fixes
+- Added 100+ different models from different categories
+- Updated some base models to latest versions
+
 ## v1.0.1 [4 Mar 2025]
 
 - Introduction of web search based content generation(Beta)

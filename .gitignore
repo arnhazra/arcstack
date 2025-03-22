@@ -3,10 +3,10 @@
 .DS_Store
 node_modules
 .env.development
-apps/uiservice/.next
-apps/uiservice/.vercel
-apps/uiservice/*.tsbuildinfo
-apps/uiservice/out
 .vercel
 dist
-apigateway/build
+apps/ui-service/.next
+apps/ui-service/.vercel
+apps/ui-service/*.tsbuildinfo
+apps/ui-service/out
+apps/api-service/build
