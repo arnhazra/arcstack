@@ -8,7 +8,6 @@ import { config } from "src/config"
 import { DbConnectionMap } from "src/shared/utils/db-connection.map"
 import { ActivityModule } from "./activity/activity.module"
 import { TokenModule } from "./token/token.module"
-import { EmailModule } from "./email/email.module"
 import { EntityModule } from "@/shared/entity/entity.module"
 import { NewsRoomModule } from "./newsroom/newsroom.module"
 
@@ -22,7 +21,6 @@ import { NewsRoomModule } from "./newsroom/newsroom.module"
     UserModule,
     ModelsModule,
     TokenModule,
-    EmailModule,
     NewsRoomModule,
   ],
 })

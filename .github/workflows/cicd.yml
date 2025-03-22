@@ -3,7 +3,7 @@ name: CI-CD-PIPELINE
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   api-service:
