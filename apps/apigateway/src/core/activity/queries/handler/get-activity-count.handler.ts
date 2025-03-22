@@ -11,9 +11,9 @@ export class GetActivityQueryHandler
   async execute(query: GetActivityQuery) {
     const { searchKeyword } = query.getCountDto
     const regex = new RegExp(searchKeyword, "i")
-    const totalUsage = await this.repository
-      .find({ apiUri: { $regex: regex } })
-      .countDocuments()
+    const totalUsage = await this.repository.countDocuments({
+      apiUri: { $regex: regex },
+    })
     return { totalUsage }
   }
 }
