@@ -9,7 +9,13 @@ export class AppController {
 
   @MessagePattern("sendEmail")
   async sendEmail(sendEmailDto: SendEmailDto) {
-    await this.service.sendEmail(sendEmailDto)
-    return { success: true }
+    try {
+      await this.service.sendEmail(sendEmailDto)
+      return { success: true }
+    } catch (error) {
+      return {
+        success: false,
+      }
+    }
   }
 }

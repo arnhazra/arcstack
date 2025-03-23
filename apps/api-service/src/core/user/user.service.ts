@@ -43,12 +43,11 @@ export class UserService {
   ) {
     this.jwtSecret = config.JWT_SECRET
     this.client = ClientProxyFactory.create({
-      transport: Transport.REDIS,
+      transport: Transport.RMQ,
       options: {
-        host: "redis-14033.c282.east-us-mz.azure.cloud.redislabs.com",
-        port: 14033,
-        password: "Dzbh2hVjmPlHZSSc8McE3sD0aD3vEoDl",
-        username: "default",
+        urls: [config.RMQ_URI],
+        queue: EventsUnion.SendEmail,
+        queueOptions: { durable: true },
       },
     })
   }
@@ -71,7 +70,6 @@ export class UserService {
       )
       return { user, hash }
     } catch (error) {
-      console.log(error)
       throw new BadRequestException(statusMessages.connectionError)
     }
   }

@@ -8,4 +8,5 @@ export const config = {
   GCLOUD_CLIENT_SECRET: process.env.GCLOUD_CLIENT_SECRET,
   GCLOUD_REFRESH_TOKEN: process.env.GCLOUD_REFRESH_TOKEN,
   MAILER_EMAIL: process.env.MAILER_EMAIL,
+  RMQ_URI: process.env.RMQ_URI,
 }
