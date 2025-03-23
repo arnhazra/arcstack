@@ -68,6 +68,7 @@ export class UserService {
           body,
         })
       )
+      this.client.close()
       return { user, hash }
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)
