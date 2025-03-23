@@ -5,6 +5,7 @@
 - Code refactoring, dependency updates & bug fixes
 - Added 100+ different models from different categories
 - Updated some base models to latest versions
+- Introduced microservice architecture
 
 ## v1.0.1 [4 Mar 2025]
 
