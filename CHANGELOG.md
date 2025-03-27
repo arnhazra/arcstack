@@ -1,9 +1,14 @@
 # Changelog
 
-## v1.0.2 [23 Mar 2025]
+## v1.0.3 [27 Mar 2025]
 
 - Code refactoring, dependency updates & bug fixes
 - Added 100+ different models from different categories
+- Bug fixes & performance improvements
+
+## v1.0.2 [23 Mar 2025]
+
+- Code refactoring, dependency updates & bug fixes
 - Updated some base models to latest versions
 - Introduced microservice architecture
 
