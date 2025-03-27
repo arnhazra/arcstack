@@ -10,7 +10,6 @@
 
 - Code refactoring, dependency updates & bug fixes
 - Updated some base models to latest versions
-- Introduced microservice architecture
 
 ## v1.0.1 [4 Mar 2025]
 
