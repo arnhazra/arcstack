@@ -24,17 +24,10 @@ import {
 } from "./commands/impl/update-attribute.command"
 import { randomUUID } from "crypto"
 import { Subscription } from "../subscription/schemas/subscription.schema"
-import {
-  ClientProxy,
-  ClientProxyFactory,
-  Transport,
-} from "@nestjs/microservices"
-import { firstValueFrom, lastValueFrom } from "rxjs"
 
 @Injectable()
 export class UserService {
   private readonly jwtSecret: string
-  private client: ClientProxy
 
   constructor(
     private readonly eventEmitter: EventEmitter2,
@@ -42,14 +35,6 @@ export class UserService {
     private readonly commandBus: CommandBus
   ) {
     this.jwtSecret = config.JWT_SECRET
-    this.client = ClientProxyFactory.create({
-      transport: Transport.RMQ,
-      options: {
-        urls: [config.RMQ_URI],
-        queue: EventsUnion.SendEmail,
-        queueOptions: { durable: true },
-      },
-    })
   }
 
   async generateOTP(generateOTPDto: GenerateOTPDto) {
@@ -61,14 +46,11 @@ export class UserService {
       const { fullHash: hash, otp } = generateOTP(email)
       const subject: string = generateOTPEmailSubject()
       const body: string = generateOTPEmailBody(otp)
-      await lastValueFrom(
-        this.client.send(EventsUnion.SendEmail, {
-          email,
-          subject,
-          body,
-        })
-      )
-      this.client.close()
+      await this.eventEmitter.emitAsync(EventsUnion.SendEmail, {
+        email,
+        subject,
+        body,
+      })
       return { user, hash }
     } catch (error) {
       throw new BadRequestException(statusMessages.connectionError)

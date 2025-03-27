@@ -23,7 +23,6 @@
     "@nestjs/cqrs": "^11.0.3",
     "@nestjs/event-emitter": "^3.0.1",
     "@nestjs/mapped-types": "^2.1.0",
-    "@nestjs/microservices": "^11.0.12",
     "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.0.12",
     "amqp-connection-manager": "^4.1.14",
