@@ -16,7 +16,7 @@ import { Button } from "@/shared/components/ui/button"
 import { Article } from "@/shared/types"
 import { uiConstants } from "@/shared/constants/global-constants"
 
-export function NewsCard({ article }: { article: Article }) {
+export function ArticleCard({ article }: { article: Article }) {
   const [imageError, setImageError] = useState(false)
 
   const handleImageError = () => {

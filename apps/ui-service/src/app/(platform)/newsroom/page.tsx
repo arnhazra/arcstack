@@ -1,6 +1,6 @@
 "use client"
 import { GlobalContext } from "@/context/globalstate.provider"
-import { NewsCard } from "@/shared/components/articlecard"
+import { ArticleCard } from "@/shared/components/articlecard"
 import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
@@ -17,7 +17,7 @@ export default function Page() {
   })
 
   const renderArticles = news?.data?.articles?.map((article, index) => {
-    return <NewsCard article={article} key={index} />
+    return <ArticleCard article={article} key={index} />
   })
 
   return (
