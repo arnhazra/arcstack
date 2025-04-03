@@ -4,7 +4,7 @@
 
 - Code refactoring, dependency updates & bug fixes
 - Added 100+ different models from different categories
-- Bug fixes & performance improvements
+- Bug fixes & performance improvement
 
 ## v1.0.2 [23 Mar 2025]
 
