@@ -12,6 +12,7 @@ import {
   GenerationConfig,
   GoogleGenerativeAI,
 } from "@google/generative-ai"
+import { statusMessages } from "@/shared/constants/status-messages"
 
 interface ChatStrategyType {
   genericName: string
@@ -31,7 +32,6 @@ export class ChatStrategy {
     description: "Use this function when user asks for current date",
     parameters: z.object({}),
     execute: () => {
-      console.log("getdate")
       return new Date().toISOString()
     },
   })
@@ -43,13 +43,16 @@ export class ChatStrategy {
       searchString: z.string().describe("The search keyword"),
     }),
     execute: async ({ searchString }: { searchString: string }) => {
-      console.log("searchString", searchString)
-      const uri = `${config.GOOGLE_CSE_API_URI}&q=${searchString}`
-      const response = await lastValueFrom(this.httpService.get<any>(uri))
-      const cleanedData = response?.data?.items?.map(
-        (item: any) => item?.title + item?.snippet
-      )
-      return JSON.stringify(cleanedData)
+      try {
+        const uri = `${config.GOOGLE_CSE_API_URI}&q=${searchString}`
+        const response = await lastValueFrom(this.httpService.get<any>(uri))
+        const cleanedData = response?.data?.items?.map(
+          (item: any) => item?.title + item?.snippet
+        )
+        return JSON.stringify(cleanedData)
+      } catch (error) {
+        return statusMessages.connectionError
+      }
     },
   })
 
@@ -60,8 +63,6 @@ export class ChatStrategy {
       city: z.string().describe("City name to get weather for"),
     }),
     execute: async ({ city }: { city: string }) => {
-      console.log("city", city)
-
       try {
         const response = await lastValueFrom(
           this.httpService.get<any>(config.WEATHER_API_URI)
@@ -69,7 +70,7 @@ export class ChatStrategy {
 
         return `Current weather in ${response.data.name}: ${JSON.stringify(response.data)}.`
       } catch (err) {
-        return `Sorry, I couldn't fetch weather for "${city}". Please try a different city.`
+        return statusMessages.connectionError
       }
     },
   })
