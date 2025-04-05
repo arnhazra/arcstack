@@ -10,5 +10,4 @@ export class AIGenerationDto {
   threadId: string
   temperature: number
   topP: number
-  useWebSearch: boolean
 }

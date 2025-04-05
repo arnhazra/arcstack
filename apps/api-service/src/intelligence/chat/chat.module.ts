@@ -10,6 +10,7 @@ import { EntityModule } from "@/shared/entity/entity.module"
 import { FetchThreadByIdQueryHandler } from "./queries/handler/fetch-thread-by-id.handler"
 import { GetUsageByUserIdQueryHandler } from "./queries/handler/get-usage-by-user-id.handler"
 import { HttpModule } from "@nestjs/axios"
+import { ChatStrategy } from "./chat.strategy"
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { HttpModule } from "@nestjs/axios"
   providers: [
     ChatService,
     ChatRepository,
+    ChatStrategy,
     CreateThreadCommandHandler,
     FetchThreadByIdQueryHandler,
     GetUsageByUserIdQueryHandler,

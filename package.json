@@ -6,7 +6,7 @@
     "api-service": "npm run dev --prefix apps/api-service",
     "email-service": "npm run dev --prefix apps/email-service",
     "ui-service": "npm run dev --prefix apps/ui-service",
-    "dev": "concurrently \"npm run api-service\" \"npm run email-service\" \"npm run ui-service\"",
+    "dev": "concurrently \"npm run api-service\" \"npm run ui-service\"",
     "publish": "git add . && git commit -m publish && git push",
     "pretty": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\""
   },
