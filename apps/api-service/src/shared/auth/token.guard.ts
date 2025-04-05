@@ -73,7 +73,7 @@ export class TokenGuard implements CanActivate {
             EventsUnion.GetUserDetails,
             { _id: userId }
           )
-          const { activityLog, email, role } = user.shift()
+          const { activityLog, email, role } = user?.shift()
           request.user = { userId, role }
 
           if (activityLog) {
