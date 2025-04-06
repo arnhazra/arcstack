@@ -1,4 +1,10 @@
-import { Model, Document, FilterQuery, UpdateQuery } from "mongoose"
+import {
+  Model,
+  Document,
+  FilterQuery,
+  UpdateQuery,
+  PipelineStage,
+} from "mongoose"
 
 export abstract class EntityRepository<T extends Document> {
   constructor(protected readonly entityModel: Model<T>) {}
@@ -31,5 +37,9 @@ export abstract class EntityRepository<T extends Document> {
 
   async delete(entityFilterQuery: FilterQuery<T>): Promise<T | null> {
     return await this.entityModel.findOneAndDelete(entityFilterQuery).exec()
+  }
+
+  async aggregate<R = any>(pipeline: PipelineStage[]): Promise<R[]> {
+    return this.entityModel.aggregate(pipeline).exec()
   }
 }

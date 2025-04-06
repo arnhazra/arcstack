@@ -10,11 +10,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
-import { ChevronLeft, ChevronRight, Filter, SortAsc } from "lucide-react"
-import { useContext, useEffect, useState } from "react"
+import { Filter, SortAsc } from "lucide-react"
+import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { DerivedModelCard } from "@/shared/components/modelcard"
 import { DerivedModel, FilterAndSortOptions } from "@/shared/types"
 import { GlobalContext } from "@/context/globalstate.provider"
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query"
 
 export interface FindModelRequestState {
   selectedFilter: string
@@ -24,6 +25,8 @@ export interface FindModelRequestState {
 
 export default function Page() {
   const [{ searchQuery }, dispatch] = useContext(GlobalContext)
+  const loaderRef = useRef(null)
+  const observer = useRef<IntersectionObserver>(null)
   const [findModelRequestState, setFindModelRequestState] =
     useState<FindModelRequestState>({
       selectedFilter: "All",
@@ -36,18 +39,48 @@ export default function Page() {
     method: HTTPMethods.GET,
   })
 
-  const models = useQuery<DerivedModel[]>({
+  const models = useSuspenseInfiniteQuery<DerivedModel[], Error>({
     queryKey: [
       "models-listings",
       findModelRequestState.selectedFilter,
       findModelRequestState.selectedSortOption,
-      String(findModelRequestState.offset),
       searchQuery,
     ],
-    queryUrl: endPoints.getDerivedModels,
-    method: HTTPMethods.POST,
-    requestBody: { ...findModelRequestState, searchQuery },
+    queryFn: async ({ pageParam = 0 }) => {
+      const res = await fetch(endPoints.getDerivedModels, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          selectedFilter: findModelRequestState.selectedFilter,
+          selectedSortOption: findModelRequestState.selectedSortOption,
+          offset: pageParam,
+          searchQuery,
+        }),
+      })
+
+      if (!res.ok) throw new Error("Failed to fetch models")
+      return res.json()
+    },
+    initialPageParam: 0, // ✅ required to fix the error
+    getNextPageParam: (lastPage, allPages) => {
+      if (lastPage.length < 30) return undefined // no more data
+      return allPages.length * 30
+    },
   })
+
+  const lastModelRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (models.isFetchingNextPage) return
+      if (observer.current) observer.current.disconnect()
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && models.hasNextPage) {
+          models.fetchNextPage()
+        }
+      })
+      if (node) observer.current.observe(node)
+    },
+    [models.isFetchingNextPage, models.hasNextPage]
+  )
 
   useEffect(() => {
     if (!searchQuery) models.refetch()
@@ -92,24 +125,16 @@ export default function Page() {
     }
   )
 
-  const renderModels = models?.data?.map((model) => {
+  const renderModels = models.data?.pages.flat().map((model, idx, arr) => {
+    if (idx === arr.length - 1) {
+      return (
+        <div ref={lastModelRef} key={model._id}>
+          <DerivedModelCard model={model} />
+        </div>
+      )
+    }
     return <DerivedModelCard key={model._id} model={model} />
   })
-
-  const prevPage = () => {
-    const prevModelReqNumber = findModelRequestState.offset - 30
-    setFindModelRequestState({
-      ...findModelRequestState,
-      offset: prevModelReqNumber,
-    })
-    window.scrollTo(0, 0)
-  }
-
-  const nextPage = () => {
-    const nextOffset = findModelRequestState.offset + 30
-    setFindModelRequestState({ ...findModelRequestState, offset: nextOffset })
-    window.scrollTo(0, 0)
-  }
 
   return (
     <div className="mx-auto grid w-full items-start gap-6">
@@ -163,26 +188,6 @@ export default function Page() {
           {renderModels}
         </div>
       </section>
-      <div className="flex gap-4">
-        <Button
-          disabled={findModelRequestState.offset === 0}
-          variant="default"
-          onClick={prevPage}
-          size="icon"
-          className="rounded-full bg-primary hover:bg-primary"
-        >
-          <ChevronLeft className="scale-75" />
-        </Button>
-        <Button
-          disabled={models?.data?.length !== 30}
-          variant="default"
-          onClick={nextPage}
-          size="icon"
-          className="rounded-full bg-primary hover:bg-primary"
-        >
-          <ChevronRight className="scale-75" />
-        </Button>
-      </div>
     </div>
   )
 }
