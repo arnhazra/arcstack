@@ -3,16 +3,11 @@ import { Thread } from "./schemas/thread.schema"
 import { HttpService } from "@nestjs/axios"
 import { lastValueFrom } from "rxjs"
 import { config } from "@/config"
-import { z } from "zod"
-import { ChatMessage, tool } from "llamaindex"
-import { Groq } from "@llamaindex/groq"
-import { OpenAIAgent, openai } from "@llamaindex/openai"
-import {
-  Content,
-  GenerationConfig,
-  GoogleGenerativeAI,
-} from "@google/generative-ai"
 import { statusMessages } from "@/shared/constants/status-messages"
+import { ChatGroq } from "@langchain/groq"
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai"
+import { ChatOpenAI } from "@langchain/openai"
+import { DynamicTool } from "@langchain/core/tools"
 
 interface ChatStrategyType {
   genericName: string
@@ -27,22 +22,18 @@ interface ChatStrategyType {
 export class ChatStrategy {
   constructor(private readonly httpService: HttpService) {}
 
-  getCurrentDate = tool({
+  getCurrentDateTool = new DynamicTool({
     name: "getCurrentDate",
     description: "Use this function when user asks for current date",
-    parameters: z.object({}),
-    execute: () => {
+    func: async () => {
       return new Date().toISOString()
     },
   })
 
-  searchWeb = tool({
+  searchWebTool = new DynamicTool({
     name: "searchWeb",
-    description: "Use this function search the web",
-    parameters: z.object({
-      searchString: z.string().describe("The search keyword"),
-    }),
-    execute: async ({ searchString }: { searchString: string }) => {
+    description: "look things up online",
+    func: async (searchString: string) => {
       try {
         const uri = `${config.GOOGLE_CSE_API_URI}&q=${searchString}`
         const response = await lastValueFrom(this.httpService.get<any>(uri))
@@ -56,13 +47,10 @@ export class ChatStrategy {
     },
   })
 
-  getWeather = tool({
+  getWeatherTool = new DynamicTool({
     name: "getWeather",
     description: "Use this tool to get current weather for a specific city",
-    parameters: z.object({
-      city: z.string().describe("City name to get weather for"),
-    }),
-    execute: async ({ city }: { city: string }) => {
+    func: async (city: string) => {
       try {
         const response = await lastValueFrom(
           this.httpService.get<any>(config.WEATHER_API_URI)
@@ -83,7 +71,23 @@ export class ChatStrategy {
     prompt,
     systemPrompt,
   }: ChatStrategyType) {
-    const chatHistory: ChatMessage[] = thread.flatMap((chat) => [
+    const llm = new ChatOpenAI({
+      model: genericName,
+      temperature: temperature,
+      apiKey: config.OPENAI_API_KEY,
+      configuration: {
+        baseURL: config.AZURE_OPENAI_URI,
+        apiKey: config.OPENAI_API_KEY,
+      },
+    })
+
+    const agent = llm.bindTools([
+      this.searchWebTool,
+      this.getCurrentDateTool,
+      this.getWeatherTool,
+    ])
+
+    const chatHistory = thread.flatMap((chat) => [
       {
         role: "user",
         content: chat.prompt,
@@ -94,32 +98,20 @@ export class ChatStrategy {
       },
     ])
 
-    const agent = new OpenAIAgent({
-      tools: [this.getCurrentDate, this.searchWeb, this.getWeather],
-      llm: openai({
-        model: genericName as any,
-        azure: {
-          endpoint: config.AZURE_OPENAI_URI,
-          apiKey: config.OPENAI_API_KEY,
-        },
-        temperature: temperature,
-        topP: topP,
-      }),
-      verbose: true,
-    })
-
-    const result = await agent.chat({
-      chatHistory: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
+    if (systemPrompt) {
+      const response = await agent.invoke([
+        { role: "system", content: systemPrompt },
         ...chatHistory,
-      ],
-      message: prompt,
-    })
-    const response = result.message.content.toString()
-    return { response }
+        { role: "user", content: prompt },
+      ])
+      return { response: response.content.toString() }
+    }
+
+    const response = await llm.invoke([
+      ...chatHistory,
+      { role: "user", content: prompt },
+    ])
+    return { response: response.content.toString() }
   }
 
   async googleStrategy({
@@ -130,47 +122,14 @@ export class ChatStrategy {
     prompt,
     systemPrompt,
   }: ChatStrategyType) {
-    const chatHistory: Content[] = []
-    const content: Content[] = thread.flatMap((chat) => [
-      {
-        role: "user",
-        parts: [{ text: chat.prompt }],
-      },
-      {
-        role: "model",
-        parts: [{ text: chat.response }],
-      },
-    ])
-    chatHistory.push(...content)
-    const client = new GoogleGenerativeAI(config.GEMINI_API_KEY)
-    const generationConfig: GenerationConfig = {
+    const llm = new ChatGoogleGenerativeAI({
+      model: genericName,
       temperature: temperature,
       topP: topP,
-    }
-
-    const model = client.getGenerativeModel({
-      model: genericName,
-      generationConfig,
-      systemInstruction: systemPrompt,
+      apiKey: config.GEMINI_API_KEY,
     })
 
-    const result = model.startChat({
-      history: [...chatHistory],
-    })
-
-    const response = (await result.sendMessage(prompt)).response.text()
-    return { response }
-  }
-
-  async groqStrategy({
-    genericName,
-    temperature,
-    topP,
-    thread,
-    prompt,
-    systemPrompt,
-  }: ChatStrategyType) {
-    const chatHistory: ChatMessage[] = thread.flatMap((chat) => [
+    const chatHistory = thread.flatMap((chat) => [
       {
         role: "user",
         content: chat.prompt,
@@ -181,23 +140,59 @@ export class ChatStrategy {
       },
     ])
 
-    const client = new Groq({
-      model: genericName as any,
-      temperature: temperature,
-      topP: topP,
-    })
-
-    const result = await client.chat({
-      messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
+    if (systemPrompt) {
+      const response = await llm.invoke([
+        { role: "system", content: systemPrompt },
         ...chatHistory,
         { role: "user", content: prompt },
-      ],
+      ])
+      return { response: response.content.toString() }
+    }
+
+    const response = await llm.invoke([
+      ...chatHistory,
+      { role: "user", content: prompt },
+    ])
+    return { response: response.content.toString() }
+  }
+
+  async groqStrategy({
+    genericName,
+    temperature,
+    thread,
+    prompt,
+    systemPrompt,
+  }: ChatStrategyType) {
+    const llm = new ChatGroq({
+      model: genericName,
+      temperature: temperature,
+      apiKey: config.GROQ_API_KEY,
     })
-    const response = result.message.content.toString()
-    return { response }
+
+    const chatHistory = thread.flatMap((chat) => [
+      {
+        role: "user",
+        content: chat.prompt,
+      },
+      {
+        role: "assistant",
+        content: chat.response,
+      },
+    ])
+
+    if (systemPrompt) {
+      const response = await llm.invoke([
+        { role: "system", content: systemPrompt },
+        ...chatHistory,
+        { role: "user", content: prompt },
+      ])
+      return { response: response.content.toString() }
+    }
+
+    const response = await llm.invoke([
+      ...chatHistory,
+      { role: "user", content: prompt },
+    ])
+    return { response: response.content.toString() }
   }
 }

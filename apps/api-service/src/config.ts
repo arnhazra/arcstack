@@ -8,6 +8,7 @@ export const config = {
   INTELLIGENCE_DATABASE_URI: process.env.INTELLIGENCE_DATABASE_URI,
   REDIS_URI: process.env.REDIS_URI,
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
+  GROQ_API_KEY: process.env.GROQ_API_KEY,
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
   OTP_HASHING_KEY: process.env.OTP_HASHING_KEY,
   JWT_SECRET: process.env.JWT_SECRET,

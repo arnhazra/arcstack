@@ -1,9 +1,9 @@
 # Dependencies
 
 - @aws-crypto/sha256-js: AWS Crypto library for computing SHA-256 hashes in JavaScript.
-- @google/generative-ai: Google’s Generative AI SDK for interacting with AI models like Gemini.
-- @llamaindex/groq: Integration of LlamaIndex with Groq, enabling efficient retrieval-augmented generation (RAG) workflows.
-- @llamaindex/openai: LlamaIndex integration with OpenAI models for efficient indexing and querying.
+- @langchain/groq: Integration of Langchain with Groq, enabling efficient retrieval-augmented generation (RAG) workflows.
+- @langchain/openai: Langchain integration with OpenAI models for efficient indexing and querying.
+- @langchain/google-genai: Langchain integration with Gemini models for efficient indexing and querying.
 - @nestjs: Fast backend framework for Node.js to build APIs, providing a robust structure for web applications.
 - class-transformer: Library for transforming plain JavaScript objects to class constructors and vice versa.
 - class-validator: Validation library for TypeScript and JavaScript that works both on the frontend and backend.
@@ -11,7 +11,7 @@
 - googleapis: Official Google library for interacting with Google APIs, including OAuth2 for authentication and authorization.
 - ioredis: In-memory data store for caching and session management, providing high-performance data storage.
 - jsonwebtoken: Generates and validates JSON Web Tokens (JWTs) for user authentication and authorization in web applications.
-- llamaindex: A data framework for connecting AI models with structured and unstructured data sources.
+- langchain: A data framework for connecting AI models with structured and unstructured data sources.
 - mongoose: Elegant MongoDB object modeling for Node.js, facilitating interaction with MongoDB databases.
 - nodemailer: Sends email from Node.js, allowing applications to send transactional emails.
 - pathe: Utility for working with file paths in Node.js, providing a simple API for path manipulation.
