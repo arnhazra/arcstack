@@ -1,9 +1,8 @@
 # Changelog
 
-## v1.0.4 [2 May 2025]
+## v1.0.4 [15 Jun 2025]
 
 - Code refactoring, dependency updates & bug fixes
-- Added 100+ different models from different categories
 - Bug fixes & performance improvement
 - Migration of Lllamaindex to Langchain
 
