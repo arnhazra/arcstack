@@ -1,6 +1,6 @@
 {
   "name": "arcstack",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "a saas product",
   "scripts": {
     "api-service": "npm run dev --prefix apps/api-service",
