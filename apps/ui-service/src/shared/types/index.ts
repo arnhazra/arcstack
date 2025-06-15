@@ -25,7 +25,7 @@ export type DerivedModel = {
   isPublic: boolean
 }
 
-export type Favourites = {
+export type Collections = {
   _id: string
   userId: string
   derivedModel: DerivedModel | null | undefined

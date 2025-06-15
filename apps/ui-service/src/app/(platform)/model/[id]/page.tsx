@@ -1,5 +1,5 @@
 "use client"
-import { Bell, BookMarked, Heart, MessageCircle } from "lucide-react"
+import { Bell, Bookmark, BookMarked, MessageCircle } from "lucide-react"
 import { Badge } from "@/shared/components/ui/badge"
 import { buttonVariants } from "@/shared/components/ui/button"
 import {
@@ -225,9 +225,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   <MessageCircle className="me-2 scale-75" />
                   Chat Playground
                 </Link>
-                <Heart
-                  fill={isFavourited ? "#ff2056" : "#18181b"}
-                  className="mt-3 text-secondary cursor-pointer"
+                <Bookmark
+                  fill={isFavourited ? "#1db954" : "#18181b"}
+                  className="mt-3 text-primary cursor-pointer"
                   onClick={toggleFavourite}
                 />
               </CardContent>

@@ -1,12 +1,4 @@
-import {
-  Bolt,
-  Book,
-  GitCompare,
-  Heart,
-  History,
-  Newspaper,
-  PenLine,
-} from "lucide-react"
+import { Bolt, Book, Bookmark, History, Newspaper, PenLine } from "lucide-react"
 import { ReactNode } from "react"
 
 interface LinkData {
@@ -17,9 +9,9 @@ interface LinkData {
 
 export const sidebarLinks: LinkData[] = [
   {
-    displayName: "Favourites",
-    link: "/favourites",
-    icon: <Heart className="scale-75" />,
+    displayName: "Collections",
+    link: "/collections",
+    icon: <Bookmark className="scale-75" />,
   },
   {
     displayName: "History",
