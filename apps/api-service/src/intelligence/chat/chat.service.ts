@@ -12,14 +12,9 @@ import { AIGenerationDto } from "./dto/ai-generate.dto"
 import { Types } from "mongoose"
 import { FetchThreadByIdQuery } from "./queries/impl/fetch-thread-by-id.query"
 import { DerivedModelResponseDto } from "../derivedmodel/dto/response/derived-model.response.dto"
-import GeminiStrategy from "./strategies/gemini.strategy"
-import GroqStrategy from "./strategies/groq.strategy"
-import OpenAIStrategy from "./strategies/openai.strategy"
 import { GetUsageByUserIdQuery } from "./queries/impl/get-usage-by-user-id.query"
 import { statusMessages } from "@/shared/constants/status-messages"
-import { HttpService } from "@nestjs/axios"
-import { lastValueFrom } from "rxjs"
-import { config } from "@/config"
+import { ChatStrategy } from "./chat.strategy"
 
 @Injectable()
 export class ChatService {
@@ -27,7 +22,7 @@ export class ChatService {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
     private readonly eventEmitter: EventEmitter2,
-    private readonly httpService: HttpService
+    private readonly chatStrategy: ChatStrategy
   ) {}
 
   async getModelById(modelId: string) {
@@ -79,22 +74,13 @@ export class ChatService {
     }
   }
 
-  cleanSearchResult(result: Record<string, any>): Record<string, any> {
-    const cleanedData = result?.items?.map(
-      (item: any) => item?.title + item?.snippet
-    )
-    return cleanedData
-  }
-
   async generateRecommendation(
     aiGenerationDto: AIGenerationDto,
     userId: string,
     isSubscriptionActive: boolean
   ) {
     try {
-      let webSearchResponse = ""
-      const { modelId, prompt, temperature, topP, useWebSearch } =
-        aiGenerationDto
+      const { modelId, prompt, temperature, topP } = aiGenerationDto
       const threadId =
         aiGenerationDto.threadId ?? new Types.ObjectId().toString()
       const thread = await this.getThreadById(
@@ -103,54 +89,45 @@ export class ChatService {
       )
       const gModel = await this.getModelById(modelId)
 
-      if (useWebSearch && gModel.hasWebSearchCapability) {
-        const uri = `${config.GOOGLE_CSE_API_URI}&q=${aiGenerationDto.prompt}`
-        const response = await lastValueFrom(this.httpService.get<any>(uri))
-        const cleanedData = this.cleanSearchResult(response.data)
-        webSearchResponse = JSON.stringify(cleanedData)
-      }
-
       if (gModel.baseModel.isPro && !isSubscriptionActive) {
         throw new ForbiddenException(statusMessages.subscriptionNotFound)
       }
 
       if (gModel.baseModel.genericName.includes("gemini")) {
-        const { response } = await GeminiStrategy(
-          gModel.baseModel.genericName,
-          temperature ?? gModel.baseModel.defaultTemperature,
-          topP ?? gModel.baseModel.defaultTopP,
+        const { response } = await this.chatStrategy.googleStrategy({
+          genericName: gModel.baseModel.genericName,
+          temperature: temperature ?? gModel.baseModel.defaultTemperature,
+          topP: topP ?? gModel.baseModel.defaultTopP,
           thread,
           prompt,
-          gModel.systemPrompt,
-          useWebSearch && gModel.hasWebSearchCapability ? webSearchResponse : ""
-        )
+          systemPrompt: gModel.systemPrompt,
+        })
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
       } else if (gModel.baseModel.genericName.includes("gpt")) {
-        const { response } = await OpenAIStrategy(
-          gModel.baseModel.genericName,
-          temperature ?? gModel.baseModel.defaultTemperature,
-          topP ?? gModel.baseModel.defaultTopP,
+        const { response } = await this.chatStrategy.openaiStrategy({
+          genericName: gModel.baseModel.genericName,
+          temperature: temperature ?? gModel.baseModel.defaultTemperature,
+          topP: topP ?? gModel.baseModel.defaultTopP,
           thread,
           prompt,
-          gModel.systemPrompt,
-          useWebSearch && gModel.hasWebSearchCapability ? webSearchResponse : ""
-        )
+          systemPrompt: gModel.systemPrompt,
+        })
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
       } else {
-        const { response } = await GroqStrategy(
-          gModel.baseModel.genericName,
-          temperature ?? gModel.baseModel.defaultTemperature,
-          topP ?? gModel.baseModel.defaultTopP,
+        const { response } = await this.chatStrategy.groqStrategy({
+          genericName: gModel.baseModel.genericName,
+          temperature: temperature ?? gModel.baseModel.defaultTemperature,
+          topP: topP ?? gModel.baseModel.defaultTopP,
           thread,
           prompt,
-          gModel.systemPrompt
-        )
+          systemPrompt: gModel.systemPrompt,
+        })
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
         )

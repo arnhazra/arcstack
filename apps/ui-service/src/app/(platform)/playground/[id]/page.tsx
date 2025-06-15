@@ -62,16 +62,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     prompt: "",
     temperature: model?.data?.baseModel?.defaultTemperature ?? 0.7,
     topP: model?.data?.baseModel?.defaultTemperature ?? 1,
-    useWebSearch: false,
   })
   const [isLoading, setLoading] = useState(false)
 
   const hitAPI = async (e: any) => {
     e.preventDefault()
-    setRequestBody({
-      ...requestBody,
-      useWebSearch: false,
-    })
     setMessages([...messages, prompt, "Thinking..."])
     setPrompt("")
 
@@ -175,22 +170,6 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 })
               }}
             />
-            <Show condition={!!model?.data?.hasWebSearchCapability}>
-              <Button
-                className={`gap-1.5 h-12 bg-border hover:bg-border ${requestBody.useWebSearch && "text-sky-400"}`}
-                type="button"
-                onClick={(): void =>
-                  setRequestBody({
-                    ...requestBody,
-                    useWebSearch: !requestBody.useWebSearch,
-                  })
-                }
-                title="Web Search (Beta)"
-                disabled={isLoading}
-              >
-                <Globe className="scale-75" />
-              </Button>
-            </Show>
             <Button
               className="gap-1.5 h-12 bg-border hover:bg-border"
               type="submit"
