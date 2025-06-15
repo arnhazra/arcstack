@@ -5,6 +5,7 @@
 - Code refactoring, dependency updates & bug fixes
 - Bug fixes & performance improvement
 - Migration of Lllamaindex to Langchain
+- Migrated to collections from favourites
 
 ## v1.0.3 [27 Mar 2025]
 

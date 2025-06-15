@@ -5,10 +5,10 @@ import { Document, Types } from "mongoose"
 
 @Schema({
   versionKey: false,
-  collection: "favourites",
+  collection: "collections",
   timestamps: { createdAt: true, updatedAt: false },
 })
-export class Favourite extends Document {
+export class Collection extends Document {
   @Prop({ type: Types.ObjectId, required: true, ref: User.name })
   readonly userId: Types.ObjectId
 
@@ -16,4 +16,4 @@ export class Favourite extends Document {
   readonly derivedModel: Types.ObjectId
 }
 
-export const FavouriteSchema = SchemaFactory.createForClass(Favourite)
+export const CollectionSchema = SchemaFactory.createForClass(Collection)

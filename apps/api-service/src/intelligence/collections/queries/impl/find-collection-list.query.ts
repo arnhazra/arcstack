@@ -1,3 +1,3 @@
-export class FindAllFavouritesQuery {
+export class FindAllCollectionsQuery {
   constructor(public readonly userId: string) {}
 }

@@ -8,7 +8,7 @@ import { Collections } from "@/shared/types"
 export default function Page() {
   const collections = useQuery<Collections[]>({
     queryKey: ["list-collections"],
-    queryUrl: `${endPoints.favourites}`,
+    queryUrl: `${endPoints.collections}`,
     method: HTTPMethods.GET,
   })
 

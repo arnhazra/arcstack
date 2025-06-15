@@ -1,12 +1,12 @@
 import { BadRequestException, Injectable } from "@nestjs/common"
 import { CommandBus, QueryBus } from "@nestjs/cqrs"
-import { CreateFavouriteCommand } from "./commands/impl/create-favourite.command"
-import { RemoveFavouriteCommand } from "./commands/impl/remove-favourite.command"
-import { FindAllFavouritesQuery } from "./queries/impl/find-all-favourites.query"
-import { FindIfFavouritedQuery } from "./queries/impl/find-if-favourited.query"
+import { CreateCollectionCommand } from "./commands/impl/add-to-collection.command"
+import { RemoveCollectionCommand } from "./commands/impl/remove-from-collection.command"
+import { FindAllCollectionsQuery } from "./queries/impl/find-collection-list.query"
+import { FindIfCollectedQuery } from "./queries/impl/find-if-collected.query"
 
 @Injectable()
-export class FavouritesService {
+export class CollectionsService {
   constructor(
     private commandBus: CommandBus,
     private queryBus: QueryBus
@@ -15,7 +15,7 @@ export class FavouritesService {
   async create(userId: string, modelId: string) {
     try {
       return await this.commandBus.execute(
-        new CreateFavouriteCommand(userId, modelId)
+        new CreateCollectionCommand(userId, modelId)
       )
     } catch (error) {
       throw new BadRequestException()
@@ -24,16 +24,16 @@ export class FavouritesService {
 
   async findAll(userId: string) {
     try {
-      return await this.queryBus.execute(new FindAllFavouritesQuery(userId))
+      return await this.queryBus.execute(new FindAllCollectionsQuery(userId))
     } catch (error) {
       throw new BadRequestException()
     }
   }
 
-  async findIfFavourited(userId: string, modelId: string) {
+  async findIfCollected(userId: string, modelId: string) {
     try {
       return await this.queryBus.execute(
-        new FindIfFavouritedQuery(userId, modelId)
+        new FindIfCollectedQuery(userId, modelId)
       )
     } catch (error) {
       throw new BadRequestException()
@@ -43,7 +43,7 @@ export class FavouritesService {
   async remove(userId: string, modelId: string) {
     try {
       return await this.commandBus.execute(
-        new RemoveFavouriteCommand(userId, modelId)
+        new RemoveCollectionCommand(userId, modelId)
       )
     } catch (error) {
       throw new BadRequestException()

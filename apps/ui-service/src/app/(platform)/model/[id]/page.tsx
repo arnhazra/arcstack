@@ -29,16 +29,16 @@ import { uiConstants } from "@/shared/constants/global-constants"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
-  const [isFavourited, setFavourited] = useState(false)
+  const [icCollected, setIsCollected] = useState(false)
   const model = useQuery<DerivedModel>({
     queryKey: ["model", modelId ?? ""],
     queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
 
-  const favouriteCheck = useQuery<{ isFavourited: boolean }>({
-    queryKey: ["is-favourited", modelId ?? ""],
-    queryUrl: `${endPoints.favourites}/${modelId}`,
+  const collectionCheck = useQuery<{ isCollected: boolean }>({
+    queryKey: ["is-collected", modelId ?? ""],
+    queryUrl: `${endPoints.collections}/${modelId}`,
     method: HTTPMethods.GET,
   })
 
@@ -55,8 +55,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   })
 
   useEffect(() => {
-    setFavourited(favouriteCheck.data?.isFavourited ?? false)
-  }, [favouriteCheck.data])
+    setIsCollected(collectionCheck.data?.isCollected ?? false)
+  }, [collectionCheck.data])
 
   const renderModelTags = model?.data?.description
     ?.split(" ")
@@ -79,13 +79,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     return <DerivedModelCard key={model._id} model={model} />
   })
 
-  const toggleFavourite = async (): Promise<void> => {
+  const toggleCollect = async (): Promise<void> => {
     try {
-      setFavourited(!isFavourited)
-      if (isFavourited) {
-        await ky.delete(`${endPoints.favourites}/${modelId}`)
+      setIsCollected(!icCollected)
+      if (icCollected) {
+        await ky.delete(`${endPoints.collections}/${modelId}`)
       } else {
-        await ky.post(`${endPoints.favourites}/${modelId}`)
+        await ky.post(`${endPoints.collections}/${modelId}`)
       }
     } catch (error) {
       toast(uiConstants.notification, {
@@ -226,9 +226,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   Chat Playground
                 </Link>
                 <Bookmark
-                  fill={isFavourited ? "#1db954" : "#18181b"}
+                  fill={icCollected ? "#1db954" : "#18181b"}
                   className="mt-3 text-primary cursor-pointer"
-                  onClick={toggleFavourite}
+                  onClick={toggleCollect}
                 />
               </CardContent>
             </Card>

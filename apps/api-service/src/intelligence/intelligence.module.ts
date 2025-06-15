@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common"
 import { BaseModelModule } from "./basemodel/basemodel.module"
-import { FavouritesModule } from "./favourites/favourites.module"
+import { CollectionsModule } from "./collections/collections.module"
 import { ChatModule } from "./chat/chat.module"
 import { config } from "@/config"
 import { EntityModule } from "@/shared/entity/entity.module"
@@ -17,7 +17,7 @@ import { HistoryModule } from "./history/history.module"
     BaseModelModule,
     DerivedModelModule,
     ChatModule,
-    FavouritesModule,
+    CollectionsModule,
     HistoryModule,
   ],
 })

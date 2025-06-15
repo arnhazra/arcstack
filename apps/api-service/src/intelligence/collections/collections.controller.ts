@@ -7,13 +7,13 @@ import {
   UseGuards,
   Request,
 } from "@nestjs/common"
-import { FavouritesService } from "./favourites.service"
+import { CollectionsService } from "./collections.service"
 import { TokenGuard } from "@/shared/auth/token.guard"
 import { ModRequest } from "@/shared/auth/types/mod-request.interface"
 
-@Controller("favourites")
-export class FavouritesController {
-  constructor(private readonly service: FavouritesService) {}
+@Controller("collections")
+export class CollectionsController {
+  constructor(private readonly service: CollectionsService) {}
 
   @UseGuards(TokenGuard)
   @Post(":id")
@@ -37,9 +37,9 @@ export class FavouritesController {
 
   @UseGuards(TokenGuard)
   @Get(":id")
-  findIfFavourited(@Request() request: ModRequest, @Param("id") id: string) {
+  findIfCollected(@Request() request: ModRequest, @Param("id") id: string) {
     try {
-      return this.service.findIfFavourited(request.user.userId, id)
+      return this.service.findIfCollected(request.user.userId, id)
     } catch (error) {
       throw error
     }

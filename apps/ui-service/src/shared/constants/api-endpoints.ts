@@ -29,7 +29,7 @@ export const endPoints = {
   getDerivedModels: `${apiHost}/derivedmodel/listings`,
   getMyBuilds: `${apiHost}/derivedmodel/mybuilds`,
   getDerivedModelFilterAndSortOptions: `${apiHost}/derivedmodel/filters-and-sort-options`,
-  favourites: `${apiHost}/favourites`,
+  collections: `${apiHost}/collections`,
   history: `${apiHost}/history`,
   newsroom: `${apiHost}/newsroom`,
 }
