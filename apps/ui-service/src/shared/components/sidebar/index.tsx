@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { MountainSnow, PanelLeft, Settings } from "lucide-react"
+import { DraftingCompass, PanelLeft, Settings } from "lucide-react"
 import {
   Tooltip,
   TooltipContent,
@@ -71,7 +71,7 @@ export default function Sidebar() {
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-main text-white border-border sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link href="/catalog" className={generateLinkClassName("catalog")}>
-            <MountainSnow className="h-4 w-4 transition-all group-hover:scale-110" />
+            <DraftingCompass className="h-4 w-4 transition-all group-hover:scale-110" />
             <span className="sr-only">Catalog</span>
           </Link>
           {renderSideBarLinks}
@@ -119,14 +119,14 @@ export default function Sidebar() {
                   href="/catalog"
                   className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-main text-lg font-semibold md:text-base"
                 >
-                  <MountainSnow className="scale-75" />
+                  <DraftingCompass className="scale-75" />
                   <span className="sr-only">{brandName}</span>
                 </Link>
                 <Link
                   href="/catalog"
                   className="flex items-center gap-4 px-2.5"
                 >
-                  <MountainSnow className="scale-75" />
+                  <DraftingCompass className="scale-75" />
                   Catalog
                 </Link>
                 {renderSheetLinks}
