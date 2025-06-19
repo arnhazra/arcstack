@@ -1,7 +1,7 @@
 "use client"
 import { ReactNode } from "react"
 import { FetchProvider } from "./fetch.provider"
-import { GlobalStateProvider } from "../../context/globalstate.provider"
+import { AppStateProvider } from "../../context/appstate.provider"
 import { ConfirmProvider } from "./confirm.provider"
 import { PromptProvider } from "./prompt.provider"
 import { TooltipProvider } from "../components/ui/tooltip"
@@ -11,7 +11,7 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <TooltipProvider>
       <FetchProvider>
-        <GlobalStateProvider>
+        <AppStateProvider>
           <ConfirmProvider>
             <PromptProvider>{children}</PromptProvider>
           </ConfirmProvider>
@@ -29,7 +29,7 @@ export default function Providers({ children }: { children: ReactNode }) {
               color: "#ffffff",
             }}
           />
-        </GlobalStateProvider>
+        </AppStateProvider>
       </FetchProvider>
     </TooltipProvider>
   )

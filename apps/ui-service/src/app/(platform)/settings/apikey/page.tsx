@@ -3,7 +3,7 @@ import SectionPanel from "../../../../shared/components/sectionpanel"
 import { toast } from "sonner"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import { generateRandomKey } from "@/shared/lib/random-key-gen"
 import { useConfirmContext } from "@/shared/providers/confirm.provider"
@@ -17,7 +17,7 @@ import HTTPMethods from "@/shared/constants/http-methods"
 import { Button } from "@/shared/components/ui/button"
 
 export default function Page() {
-  const [{ refreshId }, dispatch] = useContext(GlobalContext)
+  const [{ refreshId }, dispatch] = useContext(AppContext)
   const { confirm } = useConfirmContext()
 
   const apiKeys = useQuery<APIKey[]>({

@@ -1,13 +1,13 @@
 "use client"
 import { FormEvent, useContext, useEffect, useState } from "react"
 import { Input } from "../ui/input"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import Show from "../show"
 import { usePathname } from "next/navigation"
 
 export function Search() {
   const [searchString, setSearchString] = useState("")
-  const [, dispatch] = useContext(GlobalContext)
+  const [, dispatch] = useContext(AppContext)
   const pathname = usePathname()
 
   useEffect(() => {

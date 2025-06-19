@@ -3,7 +3,7 @@ import SectionPanel from "../../../../shared/components/sectionpanel"
 import Show from "@/shared/components/show"
 import { toast } from "sonner"
 import { uiConstants } from "@/shared/constants/global-constants"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { format } from "date-fns"
 import { Bell, Bolt, CalendarClock } from "lucide-react"
 import { useContext, useEffect, useState } from "react"
@@ -13,7 +13,7 @@ import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 import { Button } from "@/shared/components/ui/button"
 
 export default function Page() {
-  const [{ subscription, isSubscriptionActive }] = useContext(GlobalContext)
+  const [{ subscription, isSubscriptionActive }] = useContext(AppContext)
   const searchParams = useSearchParams()
   const router = useRouter()
   const [isOpen, setIsOpen] = useState(false)

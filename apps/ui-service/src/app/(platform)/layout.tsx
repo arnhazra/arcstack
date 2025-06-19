@@ -1,7 +1,7 @@
 "use client"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import ky from "ky"
 import { ReactNode, useContext, useState } from "react"
 import { toast } from "sonner"
@@ -16,7 +16,7 @@ import { Bell } from "lucide-react"
 import { usePathname } from "next/navigation"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
-  const [{ refreshId }, dispatch] = useContext(GlobalContext)
+  const [{ refreshId }, dispatch] = useContext(AppContext)
   const [isAuthorized, setAuthorized] = useState<boolean>(false)
   const pathName = usePathname()
 

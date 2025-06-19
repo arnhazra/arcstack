@@ -1,11 +1,6 @@
 "use client"
 import { ReactNode, createContext, useReducer } from "react"
-import {
-  GlobalState,
-  Actions,
-  ActionsMap,
-  GlobalReducer,
-} from "./globalstate.reducer"
+import { AppState, Actions, ActionsMap, AppReducer } from "./appstate.reducer"
 import { generateRandomKey } from "@/shared/lib/random-key-gen"
 
 export type Dispatcher = <Type extends keyof ActionsMap>(
@@ -13,9 +8,9 @@ export type Dispatcher = <Type extends keyof ActionsMap>(
   payload: ActionsMap[Type]
 ) => void
 
-type GlobalContextInterface = readonly [GlobalState, Dispatcher]
+type AppContextInterface = readonly [AppState, Dispatcher]
 
-const initialState: GlobalState = {
+const initialState: AppState = {
   user: {
     _id: "",
     activityLog: true,
@@ -31,18 +26,16 @@ const initialState: GlobalState = {
   searchQuery: "",
 }
 
-export const GlobalContext = createContext<GlobalContextInterface>([
+export const AppContext = createContext<AppContextInterface>([
   initialState,
   (): void => undefined,
 ])
 
-export function GlobalStateProvider({ children }: { children: ReactNode }) {
-  const [state, _dispatch] = useReducer(GlobalReducer, initialState)
+export function AppStateProvider({ children }: { children: ReactNode }) {
+  const [state, _dispatch] = useReducer(AppReducer, initialState)
   const dispatch: Dispatcher = (type, ...payload) => {
     _dispatch({ type, payload: payload[0] } as Actions)
   }
-  const values: GlobalContextInterface = [state, dispatch]
-  return (
-    <GlobalContext.Provider value={values}>{children}</GlobalContext.Provider>
-  )
+  const values: AppContextInterface = [state, dispatch]
+  return <AppContext.Provider value={values}>{children}</AppContext.Provider>
 }

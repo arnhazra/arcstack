@@ -18,7 +18,7 @@ import useQuery from "@/shared/hooks/use-query"
 import { APIKey, DerivedModel, Thread } from "@/shared/types"
 import { useRouter } from "nextjs-toploader/app"
 import Error from "@/app/error"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { useSearchParams } from "next/navigation"
 import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 import MarkdownRenderer from "@/shared/components/markdown"
@@ -29,7 +29,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const searchParams = useSearchParams()
   const threadId = searchParams.get("threadId")
   const router = useRouter()
-  const [{ isSubscriptionActive }] = useContext(GlobalContext)
+  const [{ isSubscriptionActive }] = useContext(AppContext)
   const [prompt, setPrompt] = useState("")
   const model = useQuery<DerivedModel>({
     queryKey: ["model", modelId ?? ""],

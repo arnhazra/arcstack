@@ -14,7 +14,7 @@ import { Filter, SortAsc } from "lucide-react"
 import { useCallback, useContext, useEffect, useRef, useState } from "react"
 import { DerivedModelCard } from "@/shared/components/modelcard"
 import { DerivedModel, FilterAndSortOptions } from "@/shared/types"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query"
 
 export interface FindModelRequestState {
@@ -24,7 +24,7 @@ export interface FindModelRequestState {
 }
 
 export default function Page() {
-  const [{ searchQuery }, dispatch] = useContext(GlobalContext)
+  const [{ searchQuery }, dispatch] = useContext(AppContext)
   const loaderRef = useRef(null)
   const observer = useRef<IntersectionObserver>(null)
   const [findModelRequestState, setFindModelRequestState] =
