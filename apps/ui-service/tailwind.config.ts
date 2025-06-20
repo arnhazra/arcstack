@@ -43,7 +43,7 @@ const config = {
         background: "#18181b",
         border: "#27272a",
         lightborder: "#3f3f46",
-        primary: "#1db954",
+        primary: "#32cd32",
         secondary: "#ff2056",
       },
     },
