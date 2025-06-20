@@ -70,18 +70,16 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
               <dd className="text-sm font-semibold">{model?.architecture}</dd>
             </div>
             <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">
-                Default Temperature
-              </dt>
-              <dd className="text-sm font-semibold">
-                {model?.defaultTemperature}
-              </dd>
+              <dt className="text-xs font-medium text-zinc-300">Deployment</dt>
+              <dd className="text-sm font-semibold">{model?.deployment}</dd>
             </div>
             <div className="space-y-1">
               <dt className="text-xs font-medium text-zinc-300">
                 Response Format
               </dt>
-              <dd className="text-sm font-semibold">{model?.responseFormat}</dd>
+              <dd className="text-sm font-semibold capitalize">
+                {model?.responseFormat}
+              </dd>
             </div>
           </dl>
         </CardContent>
