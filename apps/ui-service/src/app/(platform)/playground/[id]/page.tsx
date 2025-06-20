@@ -60,8 +60,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [requestBody, setRequestBody] = useState({
     modelId: modelId,
     prompt: "",
-    temperature: model?.data?.baseModel?.defaultTemperature ?? 0.7,
-    topP: model?.data?.baseModel?.defaultTemperature ?? 1,
+    temperature: model?.data?.defaultTemperature ?? 0.7,
+    topP: model?.data?.defaultTemperature ?? 1,
   })
   const [isLoading, setLoading] = useState(false)
 
@@ -113,9 +113,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <Show condition={!model.error} fallback={<Error />}>
       <SubscriptionModal
-        open={
-          (model.data?.baseModel?.isPro as boolean) && !isSubscriptionActive
-        }
+        open={(model.data?.isPro as boolean) && !isSubscriptionActive}
         customMessage="You need Pro subscription to access this model"
         onOpenChange={(): void => undefined}
       />

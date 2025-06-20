@@ -8,6 +8,8 @@ import { FindFilterCategoriesQuery } from "./queries/impl/find-filter-categories
 import { FindBaseModelsDto } from "./dto/find-dervied-models.request.dto"
 import { FindAllBaseModelsQuery } from "./queries/impl/find-all-base-models.query"
 import { BaseModelResponseDto } from "./dto/base-model.response.dto"
+import { OnEvent } from "@nestjs/event-emitter"
+import { EventsUnion } from "@/shared/utils/events.union"
 
 @Injectable()
 export class BaseModelService {
@@ -47,6 +49,7 @@ export class BaseModelService {
     }
   }
 
+  @OnEvent(EventsUnion.GetBaseModelDetails)
   async findOneBaseModel(modelId: string) {
     try {
       return await this.queryBus.execute<FindOneBaseModelQuery, BaseModel>(

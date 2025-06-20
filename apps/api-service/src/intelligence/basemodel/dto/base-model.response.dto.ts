@@ -1,16 +1,16 @@
-import { User } from "@/core/user/schemas/user.schema"
-import { BaseModel } from "@/intelligence/basemodel/schemas/basemodel.schema"
-
 export class BaseModelResponseDto {
   _id: string
+  genericName: string
   displayName: string
   description: string
-  category: string
-  baseModel: BaseModel
-  modelOwner: User
-  isFineTuned: boolean
-  systemPrompt: string
+  series: string
+  provider: string
+  parameters: string
+  contextWindow: string
+  isPro: boolean
+  architecture: string
+  defaultTemperature: number
+  defaultTopP: number
   responseFormat: string
   hasWebSearchCapability: boolean
-  isPublic: boolean
 }

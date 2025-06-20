@@ -15,10 +15,6 @@ export class FindHistoryQueryHandler
       .find({ userId: objectId(userId) })
       .populate({
         path: "baseModel",
-        select: "-systemPrompt",
-        populate: {
-          path: "baseModel",
-        },
       })
       .then((history) => {
         const seen = new Set()

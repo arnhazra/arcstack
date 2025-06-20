@@ -49,10 +49,10 @@ export class BaseModelController {
   }
 
   @UseGuards(TokenGuard)
-  @Get(":baseModelId")
-  async findOneBaseModel(@Param("baseModelId") baseModelId: string) {
+  @Get(":modelId")
+  async findOneBaseModel(@Param("modelId") modelId: string) {
     try {
-      return await this.service.findOneBaseModel(baseModelId)
+      return await this.service.findOneBaseModel(modelId)
     } catch (error) {
       throw new BadRequestException()
     }
