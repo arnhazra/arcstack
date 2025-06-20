@@ -150,9 +150,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Realtime Web Search</span>
-                  <span>
-                    {model?.data?.hasWebSearchCapability ? "Yes" : "No"}
-                  </span>
+                  <span>{model?.data?.canSearchWeb ? "Yes" : "No"}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Response Format</span>

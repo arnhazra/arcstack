@@ -15,7 +15,7 @@ interface BaseModelCardProps {
 }
 
 export function BaseModelCard({ model }: BaseModelCardProps) {
-  const { _id, displayName, hasWebSearchCapability } = model
+  const { _id, displayName, canSearchWeb } = model
 
   return (
     <Link href={`/model/${_id}`}>
@@ -34,7 +34,7 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
                 <Show condition={model?.isPro || false}>
                   <Badge className="bg-primary hover:bg-primary ">Pro</Badge>
                 </Show>
-                <Show condition={hasWebSearchCapability}>
+                <Show condition={canSearchWeb}>
                   <Globe className="scale-75 text-cyan-400" />
                 </Show>
               </div>

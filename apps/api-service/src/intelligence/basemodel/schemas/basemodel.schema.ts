@@ -40,7 +40,10 @@ export class BaseModel extends Document {
   responseFormat: string
 
   @Prop({ required: true, default: false })
-  hasWebSearchCapability: boolean
+  canSearchWeb: boolean
+
+  @Prop({ required: true })
+  deployment: string
 }
 
 export const BaseModelSchema = SchemaFactory.createForClass(BaseModel)

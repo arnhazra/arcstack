@@ -28,22 +28,6 @@ import { uiConstants } from "@/shared/constants/global-constants"
 import { AppContext } from "@/context/appstate.provider"
 import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 
-const categories = [
-  "General",
-  "Education",
-  "Entertainment",
-  "Healthcare",
-  "Lifestyle",
-  "Productivity",
-  "Programming",
-  "Research",
-  "Social Media",
-  "Sports",
-  "Travel",
-  "Writing",
-  "Others",
-]
-
 export default function Page() {
   const [{ isSubscriptionActive, user }] = useContext(AppContext)
   const [state, setState] = useState({
@@ -132,36 +116,6 @@ export default function Page() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="category">Category</Label>
-              <Select
-                disabled={isLoading}
-                name="category"
-                required
-                onValueChange={(value) =>
-                  setState({ ...state, category: value })
-                }
-              >
-                <SelectTrigger
-                  id="category"
-                  className="bg-border border-lightborder"
-                >
-                  <SelectValue placeholder="Select a category" />
-                </SelectTrigger>
-                <SelectContent className="bg-border border-lightborder">
-                  {categories.map((category) => (
-                    <SelectItem
-                      key={category}
-                      value={category}
-                      className="text-white"
-                    >
-                      {category}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
               <Label htmlFor="baseModel">Base Model</Label>
               <Select
                 disabled={isLoading}
@@ -206,33 +160,6 @@ export default function Page() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="isPublic">Visibility</Label>
-              <Select
-                value={state.isPublic ? "true" : "false"}
-                disabled={isLoading || user.role === "user"}
-                name="isPublic"
-                required
-                onValueChange={(value) =>
-                  setState({ ...state, isPublic: value === "true" })
-                }
-              >
-                <SelectTrigger
-                  id="isPublic"
-                  className="bg-border border-lightborder"
-                >
-                  <SelectValue placeholder="Select visibility" />
-                </SelectTrigger>
-                <SelectContent className="bg-border border-lightborder">
-                  <SelectItem value={"true"} className="text-white">
-                    Public
-                  </SelectItem>
-                  <SelectItem value="false" className="text-white">
-                    Private
-                  </SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
             <p className="text-md text-white block">{message}</p>
           </CardContent>
           <CardFooter className="flex justify-end gap-2">

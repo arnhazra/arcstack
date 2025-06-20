@@ -37,8 +37,12 @@ export class BaseModelController {
 
   @UseGuards(TokenGuard)
   @Post()
-  async createBaseModel(@Body() createBaseModelDto: CreateBaseModelDto) {
+  async createBaseModel(
+    @Request() request: ModRequest,
+    @Body() createBaseModelDto: CreateBaseModelDto
+  ) {
     try {
+      if (request.user.role !== "admin") throw new BadRequestException()
       return await this.service.createBaseModel(createBaseModelDto)
     } catch (error) {
       throw new BadRequestException()

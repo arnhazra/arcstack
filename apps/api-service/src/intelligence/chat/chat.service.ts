@@ -93,7 +93,7 @@ export class ChatService {
         throw new ForbiddenException(statusMessages.subscriptionNotFound)
       }
 
-      if (gModel.genericName.includes("gemini")) {
+      if (gModel.deployment === "Google Cloud") {
         const { response } = await this.chatStrategy.googleStrategy({
           genericName: gModel.genericName,
           temperature: temperature ?? gModel.defaultTemperature,
@@ -106,7 +106,7 @@ export class ChatService {
           new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
-      } else if (gModel.genericName.includes("gpt")) {
+      } else if (gModel.deployment === "Microsoft Azure") {
         const { response } = await this.chatStrategy.openaiStrategy({
           genericName: gModel.genericName,
           temperature: temperature ?? gModel.defaultTemperature,
@@ -119,7 +119,7 @@ export class ChatService {
           new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
-      } else {
+      } else if (gModel.deployment === "Groq Cloud") {
         const { response } = await this.chatStrategy.groqStrategy({
           genericName: gModel.genericName,
           temperature: temperature ?? gModel.defaultTemperature,
@@ -132,9 +132,10 @@ export class ChatService {
           new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
+      } else {
+        throw new BadRequestException()
       }
     } catch (error) {
-      console.log(error)
       throw error
     }
   }

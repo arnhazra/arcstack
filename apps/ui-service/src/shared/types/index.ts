@@ -12,7 +12,8 @@ export type BaseModel = {
   defaultTemperature: number
   defaultTopP: number
   responseFormat: string
-  hasWebSearchCapability: boolean
+  canSearchWeb: boolean
+  deployment: string
 }
 
 export type Collections = {
