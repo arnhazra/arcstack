@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { MountainSnow, PanelLeft } from "lucide-react"
+import { DraftingCompass, PanelLeft } from "lucide-react"
 import { Button } from "@/shared/components/ui/button"
 import {
   Sheet,
@@ -18,7 +18,7 @@ export default function Header() {
           href="/"
           className="flex items-center gap-2 text-xl font-semibold"
         >
-          <MountainSnow className="h-6 w-6" />
+          <DraftingCompass className="h-6 w-6" />
           {brandName}
         </Link>
         <nav className="hidden md:flex items-center justify-end gap-2 flex-1">
@@ -55,7 +55,7 @@ export default function Header() {
                   href="/"
                   className="flex items-center gap-2 text-lg font-semibold"
                 >
-                  <MountainSnow className="h-6 w-6" />
+                  <DraftingCompass className="h-6 w-6" />
                 </Link>
                 {generalUserLinks.map((item, index) => (
                   <Link

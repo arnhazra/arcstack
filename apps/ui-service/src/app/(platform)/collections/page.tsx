@@ -2,7 +2,7 @@
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import useQuery from "@/shared/hooks/use-query"
-import { DerivedModelCard } from "@/shared/components/modelcard"
+import { BaseModelCard } from "@/shared/components/modelcard"
 import { Collections } from "@/shared/types"
 
 export default function Page() {
@@ -13,8 +13,8 @@ export default function Page() {
   })
 
   const renderModels = collections?.data?.map((item) => {
-    if (!item.derivedModel) return null
-    return <DerivedModelCard key={item._id} model={item.derivedModel} />
+    if (!item.baseModel) return null
+    return <BaseModelCard key={item._id} model={item.baseModel} />
   })
 
   return (

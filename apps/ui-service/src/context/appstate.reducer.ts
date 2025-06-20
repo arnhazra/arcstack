@@ -1,6 +1,6 @@
 import { Subscription, User } from "@/shared/types"
 
-export type GlobalState = {
+export type AppState = {
   user: User
   subscription: Subscription | null
   isSubscriptionActive: boolean
@@ -23,10 +23,7 @@ export type Actions = {
   }
 }[keyof ActionsMap]
 
-export const GlobalReducer = (
-  state: GlobalState,
-  action: Actions
-): GlobalState => {
+export const AppReducer = (state: AppState, action: Actions): AppState => {
   switch (action.type) {
     case "setUser":
       return {

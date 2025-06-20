@@ -13,7 +13,7 @@ export class CreateCollectionCommandHandler
     const { userId, modelId } = command
     return await this.repository.create({
       userId: objectId(userId),
-      derivedModel: objectId(modelId),
+      baseModel: objectId(modelId),
     })
   }
 }

@@ -15,10 +15,10 @@ import Show from "@/shared/components/show"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import HTTPMethods from "@/shared/constants/http-methods"
 import useQuery from "@/shared/hooks/use-query"
-import { APIKey, DerivedModel, Thread } from "@/shared/types"
+import { APIKey, BaseModel, Thread } from "@/shared/types"
 import { useRouter } from "nextjs-toploader/app"
 import Error from "@/app/error"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { useSearchParams } from "next/navigation"
 import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 import MarkdownRenderer from "@/shared/components/markdown"
@@ -29,11 +29,11 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const searchParams = useSearchParams()
   const threadId = searchParams.get("threadId")
   const router = useRouter()
-  const [{ isSubscriptionActive }] = useContext(GlobalContext)
+  const [{ isSubscriptionActive }] = useContext(AppContext)
   const [prompt, setPrompt] = useState("")
-  const model = useQuery<DerivedModel>({
+  const model = useQuery<BaseModel>({
     queryKey: ["model", modelId ?? ""],
-    queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
+    queryUrl: `${endPoints.getOneBaseModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
 
@@ -60,8 +60,8 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const [requestBody, setRequestBody] = useState({
     modelId: modelId,
     prompt: "",
-    temperature: model?.data?.baseModel?.defaultTemperature ?? 0.7,
-    topP: model?.data?.baseModel?.defaultTemperature ?? 1,
+    temperature: model?.data?.defaultTemperature ?? 0.7,
+    topP: model?.data?.defaultTemperature ?? 1,
   })
   const [isLoading, setLoading] = useState(false)
 
@@ -113,9 +113,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   return (
     <Show condition={!model.error} fallback={<Error />}>
       <SubscriptionModal
-        open={
-          (model.data?.baseModel?.isPro as boolean) && !isSubscriptionActive
-        }
+        open={(model.data?.isPro as boolean) && !isSubscriptionActive}
         customMessage="You need Pro subscription to access this model"
         onOpenChange={(): void => undefined}
       />

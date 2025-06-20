@@ -1,5 +1,5 @@
 "use client"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { NewsCard } from "@/shared/components/articlecard"
 import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 import { endPoints } from "@/shared/constants/api-endpoints"
@@ -9,7 +9,7 @@ import { FindNewsResponse } from "@/shared/types"
 import { useContext } from "react"
 
 export default function Page() {
-  const [{ isSubscriptionActive }] = useContext(GlobalContext)
+  const [{ isSubscriptionActive }] = useContext(AppContext)
   const news = useQuery<FindNewsResponse>({
     queryKey: ["newsroom"],
     queryUrl: `${endPoints.newsroom}`,

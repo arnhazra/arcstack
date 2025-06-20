@@ -25,7 +25,7 @@ import { BaseModel } from "@/shared/types"
 import { useContext, useState } from "react"
 import ky from "ky"
 import { uiConstants } from "@/shared/constants/global-constants"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 
 const categories = [
@@ -45,7 +45,7 @@ const categories = [
 ]
 
 export default function Page() {
-  const [{ isSubscriptionActive, user }] = useContext(GlobalContext)
+  const [{ isSubscriptionActive, user }] = useContext(AppContext)
   const [state, setState] = useState({
     baseModel: "",
     category: "",
@@ -69,7 +69,7 @@ export default function Page() {
     try {
       setLoading(true)
       setMessage("")
-      await ky.post(endPoints.createDerivedModel, { json: state })
+      await ky.post(endPoints.createBaseModel, { json: state })
       setMessage(uiConstants.modelCreated)
     } catch (error) {
       setMessage(uiConstants.modelCreationFailed)

@@ -8,7 +8,7 @@ export enum EventsUnion {
   UpdateUserDetails = "updateUserDetails",
   GetSubscriptionDetails = "getSubscriptionDetails",
   GetAPIKeyDetails = "getAPIKeyDetails",
-  GetDerivedModelDetails = "getDerivedModelDetails",
+  GetBaseModelDetails = "getBaseModelDetails",
   GetThreadCount = "getThreadCount",
   CreateHistory = "createHistory",
   CreateAPIKey = "createAPIKey",

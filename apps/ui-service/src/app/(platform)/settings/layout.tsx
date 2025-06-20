@@ -10,7 +10,7 @@ import {
   ShieldCheck,
   User,
 } from "lucide-react"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { Tabs, tabsList } from "./data"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -33,7 +33,7 @@ const mapTabIcons: Record<Tabs, ReactElement> = {
 }
 
 export default function SetingsLayout({ children }: { children: ReactNode }) {
-  const [{ user }, dispatch] = useContext(GlobalContext)
+  const [{ user }, dispatch] = useContext(AppContext)
   const pathname = usePathname()
   const { confirm } = useConfirmContext()
 

@@ -16,8 +16,8 @@ export class CreateBaseModelCommandHandler
       provider,
       contextWindow,
       parameters,
-      architecture,
       isPro,
+      description,
     } = command.createBaseModelDto
     return await this.repository.create({
       displayName,
@@ -26,7 +26,7 @@ export class CreateBaseModelCommandHandler
       provider,
       contextWindow,
       parameters,
-      architecture,
+      description,
       isPro,
     })
   }

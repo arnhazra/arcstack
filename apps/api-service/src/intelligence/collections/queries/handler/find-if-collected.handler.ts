@@ -13,7 +13,7 @@ export class FindIfCollectedQueryHandler
     const { userId, modelId } = query
     const res = await this.repository.findOne({
       userId: objectId(userId),
-      derivedModel: objectId(modelId),
+      baseModel: objectId(modelId),
     })
 
     return { isCollected: !!res }

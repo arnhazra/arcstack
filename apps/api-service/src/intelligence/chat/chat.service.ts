@@ -11,7 +11,7 @@ import { EventsUnion } from "@/shared/utils/events.union"
 import { AIGenerationDto } from "./dto/ai-generate.dto"
 import { Types } from "mongoose"
 import { FetchThreadByIdQuery } from "./queries/impl/fetch-thread-by-id.query"
-import { DerivedModelResponseDto } from "../derivedmodel/dto/response/derived-model.response.dto"
+import { BaseModelResponseDto } from "../basemodel/dto/base-model.response.dto"
 import { GetUsageByUserIdQuery } from "./queries/impl/get-usage-by-user-id.query"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { ChatStrategy } from "./chat.strategy"
@@ -27,9 +27,9 @@ export class ChatService {
 
   async getModelById(modelId: string) {
     try {
-      const modelResponse: DerivedModelResponseDto[] =
+      const modelResponse: BaseModelResponseDto[] =
         await this.eventEmitter.emitAsync(
-          EventsUnion.GetDerivedModelDetails,
+          EventsUnion.GetBaseModelDetails,
           modelId
         )
 
@@ -89,31 +89,31 @@ export class ChatService {
       )
       const gModel = await this.getModelById(modelId)
 
-      if (gModel.baseModel.isPro && !isSubscriptionActive) {
+      if (gModel.isPro && !isSubscriptionActive) {
         throw new ForbiddenException(statusMessages.subscriptionNotFound)
       }
 
-      if (gModel.baseModel.genericName.includes("gemini")) {
+      if (gModel.genericName.includes("gemini")) {
         const { response } = await this.chatStrategy.googleStrategy({
-          genericName: gModel.baseModel.genericName,
-          temperature: temperature ?? gModel.baseModel.defaultTemperature,
-          topP: topP ?? gModel.baseModel.defaultTopP,
+          genericName: gModel.genericName,
+          temperature: temperature ?? gModel.defaultTemperature,
+          topP: topP ?? gModel.defaultTopP,
           thread,
           prompt,
-          systemPrompt: gModel.systemPrompt,
+          systemPrompt: "",
         })
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
-      } else if (gModel.baseModel.genericName.includes("gpt")) {
+      } else if (gModel.genericName.includes("gpt")) {
         const { response } = await this.chatStrategy.openaiStrategy({
-          genericName: gModel.baseModel.genericName,
-          temperature: temperature ?? gModel.baseModel.defaultTemperature,
-          topP: topP ?? gModel.baseModel.defaultTopP,
+          genericName: gModel.genericName,
+          temperature: temperature ?? gModel.defaultTemperature,
+          topP: topP ?? gModel.defaultTopP,
           thread,
           prompt,
-          systemPrompt: gModel.systemPrompt,
+          systemPrompt: "",
         })
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
@@ -121,12 +121,12 @@ export class ChatService {
         return { response, threadId }
       } else {
         const { response } = await this.chatStrategy.groqStrategy({
-          genericName: gModel.baseModel.genericName,
-          temperature: temperature ?? gModel.baseModel.defaultTemperature,
-          topP: topP ?? gModel.baseModel.defaultTopP,
+          genericName: gModel.genericName,
+          temperature: temperature ?? gModel.defaultTemperature,
+          topP: topP ?? gModel.defaultTopP,
           thread,
           prompt,
-          systemPrompt: gModel.systemPrompt,
+          systemPrompt: "",
         })
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
@@ -134,6 +134,7 @@ export class ChatService {
         return { response, threadId }
       }
     } catch (error) {
+      console.log(error)
       throw error
     }
   }

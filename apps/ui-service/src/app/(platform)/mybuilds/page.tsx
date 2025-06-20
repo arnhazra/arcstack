@@ -2,18 +2,18 @@
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
 import useQuery from "@/shared/hooks/use-query"
-import { DerivedModelCard } from "@/shared/components/modelcard"
-import { DerivedModel } from "@/shared/types"
+import { BaseModelCard } from "@/shared/components/modelcard"
+import { BaseModel } from "@/shared/types"
 
 export default function Page() {
-  const myBuilds = useQuery<DerivedModel[]>({
+  const myBuilds = useQuery<BaseModel[]>({
     queryKey: ["myBuilds"],
     queryUrl: `${endPoints.getMyBuilds}`,
     method: HTTPMethods.GET,
   })
 
   const renderModels = myBuilds?.data?.map((build) => {
-    return <DerivedModelCard key={build._id} model={build} />
+    return <BaseModelCard key={build._id} model={build} />
   })
 
   return (

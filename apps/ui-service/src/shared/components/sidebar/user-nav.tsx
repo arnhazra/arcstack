@@ -9,13 +9,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/shared/components/ui/dropdown-menu"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { User } from "lucide-react"
 import { useContext } from "react"
 import Link from "next/link"
 
 export function UserNav() {
-  const [{ user }] = useContext(GlobalContext)
+  const [{ user }] = useContext(AppContext)
 
   const signOut = async () => {
     localStorage.clear()

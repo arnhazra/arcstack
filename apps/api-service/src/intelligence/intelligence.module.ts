@@ -5,7 +5,6 @@ import { ChatModule } from "./chat/chat.module"
 import { config } from "@/config"
 import { EntityModule } from "@/shared/entity/entity.module"
 import { DbConnectionMap } from "@/shared/utils/db-connection.map"
-import { DerivedModelModule } from "./derivedmodel/derivedmodel.module"
 import { HistoryModule } from "./history/history.module"
 
 @Module({
@@ -15,7 +14,6 @@ import { HistoryModule } from "./history/history.module"
       DbConnectionMap.Intelligence
     ),
     BaseModelModule,
-    DerivedModelModule,
     ChatModule,
     CollectionsModule,
     HistoryModule,

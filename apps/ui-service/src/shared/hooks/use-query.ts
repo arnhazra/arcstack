@@ -5,7 +5,7 @@ import {
   useQuery as useNormalQuery,
 } from "@tanstack/react-query"
 import { useContext } from "react"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import HTTPMethods from "@/shared/constants/http-methods"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 
@@ -26,7 +26,7 @@ export default function useQuery<T>({
   suspense = true,
   enabled = true,
 }: QueryType<T>) {
-  const [{ user }] = useContext(GlobalContext)
+  const [{ user }] = useContext(AppContext)
 
   const queryFn = async () => {
     const data: any = await ky(queryUrl, {

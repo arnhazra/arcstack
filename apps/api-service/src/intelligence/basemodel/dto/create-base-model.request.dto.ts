@@ -2,10 +2,13 @@ import { IsNotEmpty } from "class-validator"
 
 export class CreateBaseModelDto {
   @IsNotEmpty()
+  readonly genericName: string
+
+  @IsNotEmpty()
   readonly displayName: string
 
   @IsNotEmpty()
-  readonly genericName: string
+  readonly description: string
 
   @IsNotEmpty()
   readonly series: string
@@ -14,14 +17,11 @@ export class CreateBaseModelDto {
   readonly provider: string
 
   @IsNotEmpty()
-  parameters: string
+  readonly parameters: string
 
   @IsNotEmpty()
-  contextWindow: string
+  readonly contextWindow: string
 
   @IsNotEmpty()
   readonly isPro: boolean
-
-  @IsNotEmpty()
-  architecture: string
 }

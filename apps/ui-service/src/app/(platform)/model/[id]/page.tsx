@@ -17,8 +17,8 @@ import HTTPMethods from "@/shared/constants/http-methods"
 import Show from "@/shared/components/show"
 import ActivityLog from "@/shared/components/activity"
 import { use, useEffect, useState } from "react"
-import { DerivedModel } from "@/shared/types"
-import { DerivedModelCard } from "@/shared/components/modelcard"
+import { BaseModel } from "@/shared/types"
+import { BaseModelCard } from "@/shared/components/modelcard"
 import Error from "@/app/error"
 import Share from "@/shared/components/share"
 import Link from "next/link"
@@ -30,9 +30,9 @@ import { uiConstants } from "@/shared/constants/global-constants"
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
   const [icCollected, setIsCollected] = useState(false)
-  const model = useQuery<DerivedModel>({
+  const model = useQuery<BaseModel>({
     queryKey: ["model", modelId ?? ""],
-    queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
+    queryUrl: `${endPoints.getOneBaseModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
 
@@ -42,13 +42,13 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     method: HTTPMethods.GET,
   })
 
-  const relatedModels = useQuery<DerivedModel[]>({
-    queryKey: ["related-models", model?.data?.category as any],
-    queryUrl: endPoints.getDerivedModels,
+  const relatedModels = useQuery<BaseModel[]>({
+    queryKey: ["related-models", model?.data?.provider as any],
+    queryUrl: endPoints.getBaseModels,
     method: HTTPMethods.POST,
     requestBody: {
       searchQuery: "",
-      selectedFilter: model?.data?.category,
+      selectedFilter: model?.data?.provider,
       selectedSortOption: "displayName",
       offset: 0,
     },
@@ -76,7 +76,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
     })
 
   const renderRelatedModels = relatedModels?.data?.map((model) => {
-    return <DerivedModelCard key={model._id} model={model} />
+    return <BaseModelCard key={model._id} model={model} />
   })
 
   const toggleCollect = async (): Promise<void> => {
@@ -105,7 +105,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 {model?.data?.displayName}
               </CardTitle>
               <CardDescription className="text-white">
-                {model?.data?.category}
+                {model?.data?.provider}
               </CardDescription>
             </div>
             <div className="ml-auto flex items-center gap-1">
@@ -118,39 +118,35 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <ul className="grid gap-3">
                 <li className="flex items-center justify-between">
                   <span>Architecture</span>
-                  <span>{model?.data?.baseModel?.architecture}</span>
+                  <span>{model?.data?.architecture}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Base Model</span>
-                  <span>{model?.data?.baseModel?.displayName}</span>
+                  <span>{model?.data?.displayName}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Series</span>
-                  <span>{model?.data?.baseModel?.series}</span>
+                  <span>{model?.data?.series}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Provider</span>
-                  <span>{model?.data?.baseModel?.provider}</span>
+                  <span>{model?.data?.provider}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Context Window</span>
-                  <span>{model?.data?.baseModel?.contextWindow}</span>
+                  <span>{model?.data?.contextWindow}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Default Temperature</span>
-                  <span>{model?.data?.baseModel?.defaultTemperature}</span>
+                  <span>{model?.data?.defaultTemperature}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Default Top P</span>
-                  <span>{model?.data?.baseModel?.defaultTopP}</span>
+                  <span>{model?.data?.defaultTopP}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Parameters</span>
-                  <span>{model?.data?.baseModel?.parameters}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Model Owner</span>
-                  <span>{model?.data?.modelOwner?.name}</span>
+                  <span>{model?.data?.parameters}</span>
                 </li>
                 <li className="flex items-center justify-between">
                   <span>Realtime Web Search</span>
@@ -159,18 +155,10 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   </span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span>Fine Tuned</span>
-                  <span>{model?.data?.isFineTuned ? "Yes" : "No"}</span>
-                </li>
-                <li className="flex items-center justify-between">
                   <span>Response Format</span>
                   <span className="capitalize">
                     {model?.data?.responseFormat}
                   </span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Model Visibility</span>
-                  <span>{model?.data?.isPublic ? "Public" : "Private"}</span>
                 </li>
               </ul>
             </div>
@@ -203,7 +191,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                   {model?.data?.displayName}
                   <div className="flex gap-4">
                     <ActivityLog keyword={modelId} />
-                    <Show condition={!!model?.data?.baseModel?.isPro}>
+                    <Show condition={!!model?.data?.isPro}>
                       <Badge className="bg-primary hover:bg-primary">Pro</Badge>
                     </Show>
                   </div>
@@ -233,7 +221,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </CardContent>
             </Card>
           </div>
-          <p className="text-xl ms-1 -mb-4 -mt-2 text-white">Related Models</p>
+          <p className="text-xl ms-1 -mb-4 -mt-2 text-white">
+            Models From {model?.data?.provider}
+          </p>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4 py-4">
             {renderRelatedModels}
           </div>

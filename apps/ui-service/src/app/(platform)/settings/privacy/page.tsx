@@ -5,14 +5,14 @@ import { Switch } from "@/shared/components/ui/switch"
 import { toast } from "sonner"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import { uiConstants } from "@/shared/constants/global-constants"
-import { GlobalContext } from "@/context/globalstate.provider"
+import { AppContext } from "@/context/appstate.provider"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import ky from "ky"
 import { PieChart, Fingerprint, ScanFace, Bell } from "lucide-react"
 import { useContext } from "react"
 
 export default function Page() {
-  const [{ user }, dispatch] = useContext(GlobalContext)
+  const [{ user }, dispatch] = useContext(AppContext)
 
   const saveActivityLogSettings = async (updatedSettings: boolean) => {
     try {
