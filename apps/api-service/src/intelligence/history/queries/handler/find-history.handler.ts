@@ -14,7 +14,7 @@ export class FindHistoryQueryHandler
     return await this.repository
       .find({ userId: objectId(userId) })
       .populate({
-        path: "derivedModel",
+        path: "baseModel",
         select: "-systemPrompt",
         populate: {
           path: "baseModel",
@@ -23,10 +23,10 @@ export class FindHistoryQueryHandler
       .then((history) => {
         const seen = new Set()
         return history.filter((entry) => {
-          const derivedModel = entry.derivedModel
-          if (!derivedModel) return false
+          const baseModel = entry.baseModel
+          if (!baseModel) return false
 
-          const idStr = derivedModel._id?.toString()
+          const idStr = baseModel._id?.toString()
           if (!idStr || seen.has(idStr)) return false
 
           seen.add(idStr)

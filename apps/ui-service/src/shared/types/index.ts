@@ -2,40 +2,30 @@ export type BaseModel = {
   _id: string
   genericName: string
   displayName: string
+  description: string
   series: string
   provider: string
-  defaultTemperature: number
-  defaultTopP: number
-  architecture: string
+  parameters: string
   contextWindow: string
   isPro: boolean
-  parameters: string
-}
-
-export type DerivedModel = {
-  _id: string
-  displayName: string
-  description: string
-  category: string
-  baseModel: BaseModel | null | undefined
-  isFineTuned: boolean
+  architecture: string
+  defaultTemperature: number
+  defaultTopP: number
   responseFormat: string
   hasWebSearchCapability: boolean
-  modelOwner: User
-  isPublic: boolean
 }
 
 export type Collections = {
   _id: string
   userId: string
-  derivedModel: DerivedModel | null | undefined
+  baseModel: BaseModel | null | undefined
   createdAt: string
 }
 
 export type History = {
   _id: string
   userId: string
-  derivedModel: DerivedModel | null | undefined
+  baseModel: BaseModel | null | undefined
   createdAt: string
 }
 

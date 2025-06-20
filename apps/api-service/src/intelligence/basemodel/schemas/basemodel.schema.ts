@@ -10,6 +10,9 @@ export class BaseModel extends Document {
   displayName: string
 
   @Prop({ required: true })
+  description: string
+
+  @Prop({ required: true })
   series: string
 
   @Prop({ required: true })
@@ -22,16 +25,22 @@ export class BaseModel extends Document {
   contextWindow: string
 
   @Prop({ required: true })
-  architecture: string
-
-  @Prop({ required: true })
   isPro: boolean
+
+  @Prop({ required: true, default: "Transformer" })
+  architecture: string
 
   @Prop({ required: true, default: 0.7 })
   defaultTemperature: number
 
   @Prop({ required: true, default: 1 })
   defaultTopP: number
+
+  @Prop({ required: true, default: "text" })
+  responseFormat: string
+
+  @Prop({ required: true, default: false })
+  hasWebSearchCapability: boolean
 }
 
 export const BaseModelSchema = SchemaFactory.createForClass(BaseModel)

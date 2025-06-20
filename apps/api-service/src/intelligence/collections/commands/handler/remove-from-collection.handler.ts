@@ -13,7 +13,7 @@ export class RemoveCollectionCommandHandler
     const { userId, modelId } = command
     return await this.repository.delete({
       userId: objectId(userId),
-      derivedModel: objectId(modelId),
+      baseModel: objectId(modelId),
     })
   }
 }

@@ -12,8 +12,8 @@ import {
 } from "@/shared/components/ui/dropdown-menu"
 import { Filter, SortAsc } from "lucide-react"
 import { useCallback, useContext, useEffect, useRef, useState } from "react"
-import { DerivedModelCard } from "@/shared/components/modelcard"
-import { DerivedModel, FilterAndSortOptions } from "@/shared/types"
+import { BaseModelCard } from "@/shared/components/modelcard"
+import { BaseModel, FilterAndSortOptions } from "@/shared/types"
 import { AppContext } from "@/context/appstate.provider"
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query"
 
@@ -25,7 +25,6 @@ export interface FindModelRequestState {
 
 export default function Page() {
   const [{ searchQuery }, dispatch] = useContext(AppContext)
-  const loaderRef = useRef(null)
   const observer = useRef<IntersectionObserver>(null)
   const [findModelRequestState, setFindModelRequestState] =
     useState<FindModelRequestState>({
@@ -35,11 +34,11 @@ export default function Page() {
     })
   const filtersAndSortOptions = useQuery<FilterAndSortOptions>({
     queryKey: ["filter-and-sort-options"],
-    queryUrl: endPoints.getDerivedModelFilterAndSortOptions,
+    queryUrl: endPoints.getBaseModelFilterAndSortOptions,
     method: HTTPMethods.GET,
   })
 
-  const models = useSuspenseInfiniteQuery<DerivedModel[], Error>({
+  const models = useSuspenseInfiniteQuery<BaseModel[], Error>({
     queryKey: [
       "models-listings",
       findModelRequestState.selectedFilter,
@@ -47,7 +46,7 @@ export default function Page() {
       searchQuery,
     ],
     queryFn: async ({ pageParam = 0 }) => {
-      const res = await fetch(endPoints.getDerivedModels, {
+      const res = await fetch(endPoints.getBaseModels, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -129,11 +128,11 @@ export default function Page() {
     if (idx === arr.length - 1) {
       return (
         <div ref={lastModelRef} key={model._id}>
-          <DerivedModelCard model={model} />
+          <BaseModelCard model={model} />
         </div>
       )
     }
-    return <DerivedModelCard key={model._id} model={model} />
+    return <BaseModelCard key={model._id} model={model} />
   })
 
   return (

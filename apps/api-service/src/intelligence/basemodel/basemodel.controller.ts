@@ -10,10 +10,23 @@ import {
 import { BaseModelService } from "./basemodel.service"
 import { TokenGuard } from "@/shared/auth/token.guard"
 import { CreateBaseModelDto } from "./dto/create-base-model.request.dto"
+import { FindBaseModelsDto } from "./dto/find-dervied-models.request.dto"
+import { sortOptions } from "./data/model-sort-options"
 
 @Controller("basemodel")
 export class BaseModelController {
   constructor(private readonly service: BaseModelService) {}
+
+  @UseGuards(TokenGuard)
+  @Get("filters-and-sort-options")
+  async getFiltersAndSortOptions() {
+    try {
+      const filters = await this.service.getFiltersAndSortOptions()
+      return { filters, sortOptions }
+    } catch (error) {
+      throw new BadRequestException()
+    }
+  }
 
   @UseGuards(TokenGuard)
   @Post()
@@ -26,10 +39,10 @@ export class BaseModelController {
   }
 
   @UseGuards(TokenGuard)
-  @Get()
-  async findBaseModels() {
+  @Post("listings")
+  async findModels(@Body() findAllModelsDto: FindBaseModelsDto) {
     try {
-      return await this.service.findAllBaseModels()
+      return await this.service.findModels(findAllModelsDto)
     } catch (error) {
       throw new BadRequestException()
     }

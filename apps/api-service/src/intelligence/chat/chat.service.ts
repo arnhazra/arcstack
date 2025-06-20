@@ -11,7 +11,7 @@ import { EventsUnion } from "@/shared/utils/events.union"
 import { AIGenerationDto } from "./dto/ai-generate.dto"
 import { Types } from "mongoose"
 import { FetchThreadByIdQuery } from "./queries/impl/fetch-thread-by-id.query"
-import { DerivedModelResponseDto } from "../derivedmodel/dto/response/derived-model.response.dto"
+import { BaseModelResponseDto } from "../basemodel/dto/base-model.response.dto"
 import { GetUsageByUserIdQuery } from "./queries/impl/get-usage-by-user-id.query"
 import { statusMessages } from "@/shared/constants/status-messages"
 import { ChatStrategy } from "./chat.strategy"
@@ -27,9 +27,9 @@ export class ChatService {
 
   async getModelById(modelId: string) {
     try {
-      const modelResponse: DerivedModelResponseDto[] =
+      const modelResponse: BaseModelResponseDto[] =
         await this.eventEmitter.emitAsync(
-          EventsUnion.GetDerivedModelDetails,
+          EventsUnion.GetBaseModelDetails,
           modelId
         )
 

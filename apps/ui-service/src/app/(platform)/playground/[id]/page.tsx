@@ -15,7 +15,7 @@ import Show from "@/shared/components/show"
 import { FETCH_TIMEOUT } from "@/shared/lib/fetch-timeout"
 import HTTPMethods from "@/shared/constants/http-methods"
 import useQuery from "@/shared/hooks/use-query"
-import { APIKey, DerivedModel, Thread } from "@/shared/types"
+import { APIKey, BaseModel, Thread } from "@/shared/types"
 import { useRouter } from "nextjs-toploader/app"
 import Error from "@/app/error"
 import { AppContext } from "@/context/appstate.provider"
@@ -31,9 +31,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const [{ isSubscriptionActive }] = useContext(AppContext)
   const [prompt, setPrompt] = useState("")
-  const model = useQuery<DerivedModel>({
+  const model = useQuery<BaseModel>({
     queryKey: ["model", modelId ?? ""],
-    queryUrl: `${endPoints.getOneDerivedModel}/${modelId}`,
+    queryUrl: `${endPoints.getOneBaseModel}/${modelId}`,
     method: HTTPMethods.GET,
   })
 

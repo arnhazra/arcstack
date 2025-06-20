@@ -1,7 +1,7 @@
 import { User } from "@/core/user/schemas/user.schema"
 import { BaseModel } from "@/intelligence/basemodel/schemas/basemodel.schema"
 
-export class DerivedModelResponseDto {
+export class BaseModelResponseDto {
   _id: string
   displayName: string
   description: string

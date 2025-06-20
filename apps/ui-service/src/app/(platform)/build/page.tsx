@@ -69,7 +69,7 @@ export default function Page() {
     try {
       setLoading(true)
       setMessage("")
-      await ky.post(endPoints.createDerivedModel, { json: state })
+      await ky.post(endPoints.createBaseModel, { json: state })
       setMessage(uiConstants.modelCreated)
     } catch (error) {
       setMessage(uiConstants.modelCreationFailed)

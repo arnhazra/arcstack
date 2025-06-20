@@ -12,7 +12,7 @@ export class FindAllCollectionsQueryHandler
   async execute(query: FindAllCollectionsQuery) {
     const { userId } = query
     return await this.repository.find({ userId: objectId(userId) }).populate({
-      path: "derivedModel",
+      path: "baseModel",
       select: "-systemPrompt",
       populate: {
         path: "baseModel",

@@ -1,6 +1,6 @@
 import { IsNotEmpty } from "class-validator"
 
-export class FindDerivedModelsDto {
+export class FindBaseModelsDto {
   readonly searchQuery?: string
 
   @IsNotEmpty()

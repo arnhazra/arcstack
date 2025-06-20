@@ -1,5 +1,5 @@
 import { User } from "@/core/user/schemas/user.schema"
-import { DerivedModel } from "@/intelligence/derivedmodel/schemas/derivedmodel.schema"
+import { BaseModel } from "@/intelligence/basemodel/schemas/basemodel.schema"
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose"
 import { Document, Types } from "mongoose"
 
@@ -12,8 +12,8 @@ export class History extends Document {
   @Prop({ type: Types.ObjectId, required: true, ref: User.name })
   readonly userId: Types.ObjectId
 
-  @Prop({ type: Types.ObjectId, required: true, ref: DerivedModel.name })
-  readonly derivedModel: Types.ObjectId
+  @Prop({ type: Types.ObjectId, required: true, ref: BaseModel.name })
+  readonly baseModel: Types.ObjectId
 }
 
 export const HistorySchema = SchemaFactory.createForClass(History)
