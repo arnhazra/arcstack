@@ -221,7 +221,9 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               </CardContent>
             </Card>
           </div>
-          <p className="text-xl ms-1 -mb-4 -mt-2 text-white">Related Models</p>
+          <p className="text-xl ms-1 -mb-4 -mt-2 text-white">
+            Models From {model?.data?.provider}
+          </p>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4 py-4">
             {renderRelatedModels}
           </div>
