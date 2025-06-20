@@ -16,6 +16,7 @@ import { BaseModelCard } from "@/shared/components/modelcard"
 import { BaseModel, FilterAndSortOptions } from "@/shared/types"
 import { AppContext } from "@/context/appstate.provider"
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query"
+import Show from "@/shared/components/show"
 
 export interface FindModelRequestState {
   selectedFilter: string
@@ -62,8 +63,8 @@ export default function Page() {
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length < 30) return undefined
-      return allPages.length * 30
+      if (lastPage.length < 15) return undefined
+      return allPages.length * 15
     },
   })
 
@@ -140,7 +141,12 @@ export default function Page() {
       <section>
         <div className="flex">
           <p className="text-white text-lg">
-            {findModelRequestState.selectedFilter} Models
+            <Show condition={findModelRequestState.selectedFilter === "All"}>
+              All Models
+            </Show>
+            <Show condition={findModelRequestState.selectedFilter !== "All"}>
+              Models from {findModelRequestState.selectedFilter}
+            </Show>
           </p>
           <div className="ml-auto flex items-center gap-2">
             <DropdownMenu>

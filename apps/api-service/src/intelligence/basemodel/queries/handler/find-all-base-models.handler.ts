@@ -17,7 +17,7 @@ export class FindAllBaseModelsQueryHandler
         : findAllBaseModelsDto.selectedFilter
     const selectedSortOption = findAllBaseModelsDto.selectedSortOption || "name"
     const offset = findAllBaseModelsDto.offset || 0
-    const limit = findAllBaseModelsDto.limit || 30
+    const limit = findAllBaseModelsDto.limit || 15
     return await this.repository
       .find({
         $or: [
