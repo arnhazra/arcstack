@@ -60,9 +60,9 @@ export default function Page() {
       if (!res.ok) throw new Error("Failed to fetch models")
       return res.json()
     },
-    initialPageParam: 0, // ✅ required to fix the error
+    initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {
-      if (lastPage.length < 30) return undefined // no more data
+      if (lastPage.length < 30) return undefined
       return allPages.length * 30
     },
   })

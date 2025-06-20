@@ -57,10 +57,16 @@ export default function Page() {
   const [isLoading, setLoading] = useState(false)
   const [message, setMessage] = useState("")
 
-  const baseModels = useQuery<BaseModel[]>({
-    queryKey: ["base-models"],
-    queryUrl: endPoints.baseModel,
-    method: HTTPMethods.GET,
+  const models = useQuery<BaseModel[]>({
+    queryKey: ["models-listings"],
+    queryUrl: endPoints.getBaseModels,
+    method: HTTPMethods.POST,
+    requestBody: {
+      searchQuery: "",
+      selectedFilter: "All",
+      selectedSortOption: "displayName",
+      offset: 0,
+    },
   })
 
   const submitForm = async (event: any) => {
@@ -172,7 +178,7 @@ export default function Page() {
                   <SelectValue placeholder="Select a base model" />
                 </SelectTrigger>
                 <SelectContent className="bg-border border-lightborder">
-                  {baseModels?.data?.map((model) => (
+                  {models?.data?.map((model) => (
                     <SelectItem
                       key={model?._id}
                       value={model?._id}
