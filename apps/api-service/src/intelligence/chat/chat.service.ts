@@ -14,7 +14,7 @@ import { FetchThreadByIdQuery } from "./queries/impl/fetch-thread-by-id.query"
 import { BaseModelResponseDto } from "../basemodel/dto/base-model.response.dto"
 import { GetUsageByUserIdQuery } from "./queries/impl/get-usage-by-user-id.query"
 import { statusMessages } from "@/shared/constants/status-messages"
-import { ChatStrategy } from "./chat.strategy"
+import { ChatStrategy, ChatStrategyType } from "./chat.strategy"
 
 @Injectable()
 export class ChatService {
@@ -87,50 +87,38 @@ export class ChatService {
         threadId,
         !aiGenerationDto.threadId
       )
-      const gModel = await this.getModelById(modelId)
+      const bModel = await this.getModelById(modelId)
 
-      if (gModel.isPro && !isSubscriptionActive) {
+      if (bModel.isPro && !isSubscriptionActive) {
         throw new ForbiddenException(statusMessages.subscriptionNotFound)
       }
 
-      if (gModel.deployment === "Google Cloud") {
-        const { response } = await this.chatStrategy.googleStrategy({
-          genericName: gModel.genericName,
-          temperature: temperature ?? gModel.defaultTemperature,
-          topP: topP ?? gModel.defaultTopP,
-          thread,
-          prompt,
-          systemPrompt: "",
-        })
+      const args: ChatStrategyType = {
+        genericName: bModel.genericName,
+        temperature: temperature ?? bModel.defaultTemperature,
+        topP: topP ?? bModel.defaultTopP,
+        thread,
+        prompt,
+      }
+
+      if (bModel.deployment === "Google Cloud") {
+        const { response } = await this.chatStrategy.googleStrategy(args)
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
-      } else if (gModel.deployment === "Microsoft Azure") {
-        const { response } = await this.chatStrategy.openaiStrategy({
-          genericName: gModel.genericName,
-          temperature: temperature ?? gModel.defaultTemperature,
-          topP: topP ?? gModel.defaultTopP,
-          thread,
-          prompt,
-          systemPrompt: "",
-        })
+      } else if (bModel.deployment === "Microsoft Azure") {
+        const { response } = await this.chatStrategy.azureStrategy(args)
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
         )
         return { response, threadId }
-      } else if (gModel.deployment === "Groq Cloud") {
-        const { response } = await this.chatStrategy.groqStrategy({
-          genericName: gModel.genericName,
-          temperature: temperature ?? gModel.defaultTemperature,
-          topP: topP ?? gModel.defaultTopP,
-          thread,
-          prompt,
-          systemPrompt: "",
-        })
+      } else if (bModel.deployment === "Groq Cloud") {
+        const { response } = await this.chatStrategy.groqStrategy(args)
         await this.commandBus.execute<CreateThreadCommand, Thread>(
           new CreateThreadCommand(userId, threadId, prompt, response)
         )
+
         return { response, threadId }
       } else {
         throw new BadRequestException()
