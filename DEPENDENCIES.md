@@ -4,6 +4,7 @@
 - @langchain/groq: Integration of Langchain with Groq, enabling efficient retrieval-augmented generation (RAG) workflows.
 - @langchain/openai: Langchain integration with OpenAI models for efficient indexing and querying.
 - @langchain/google-genai: Langchain integration with Gemini models for efficient indexing and querying.
+- @langchain/langgraph: Langgraph for langchain.
 - @nestjs: Fast backend framework for Node.js to build APIs, providing a robust structure for web applications.
 - class-transformer: Library for transforming plain JavaScript objects to class constructors and vice versa.
 - class-validator: Validation library for TypeScript and JavaScript that works both on the frontend and backend.

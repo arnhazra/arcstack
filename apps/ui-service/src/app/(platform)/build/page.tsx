@@ -34,7 +34,6 @@ export default function Page() {
     baseModel: "",
     category: "",
     description: "",
-    systemPrompt: "",
     displayName: "",
     isPublic: false,
   })
@@ -143,21 +142,6 @@ export default function Page() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="systemPrompt">System Prompt</Label>
-              <Textarea
-                disabled={isLoading}
-                id="systemPrompt"
-                name="systemPrompt"
-                placeholder="Enter the system prompt for your model"
-                className="min-h-[100px] bg-border border-lightborder"
-                required
-                onChange={(e): void =>
-                  setState({ ...state, systemPrompt: e.target.value })
-                }
-              />
             </div>
 
             <p className="text-md text-white block">{message}</p>

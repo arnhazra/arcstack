@@ -157,14 +157,14 @@ export default function Page() {
                   className="h-8 gap-1 bg-border hover:bg-border"
                 >
                   <Filter className="h-3.5 w-3.5" />
-                  <span>Filter</span>
+                  <span>Provider</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
                 className="bg-background border-border text-white"
               >
-                <DropdownMenuLabel>Filter Category</DropdownMenuLabel>
+                <DropdownMenuLabel>Select Provider</DropdownMenuLabel>
                 {renderFilters}
               </DropdownMenuContent>
             </DropdownMenu>
