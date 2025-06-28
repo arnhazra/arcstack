@@ -35,7 +35,5 @@
 - Added catalog page to list down models with search, sort & filter functionality
 - Added favourites page where user can see models that they marked as favourite
 - Added history page where users can view their watch history
-- Added build model page to create new models (available for Pro users)
-- Added My builds page
 - Added AI newsroom (available for Pro users)
 - Added settings page with User, privacy, apikey, subscription, sustainability & about section

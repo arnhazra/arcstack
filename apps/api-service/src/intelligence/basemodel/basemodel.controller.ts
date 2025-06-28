@@ -7,6 +7,7 @@ import {
   UseGuards,
   BadRequestException,
   Request,
+  ForbiddenException,
 } from "@nestjs/common"
 import { BaseModelService } from "./basemodel.service"
 import { TokenGuard } from "@/shared/auth/token.guard"
@@ -42,7 +43,7 @@ export class BaseModelController {
     @Body() createBaseModelDto: CreateBaseModelDto
   ) {
     try {
-      if (request.user.role !== "admin") throw new BadRequestException()
+      if (request.user.role !== "admin") throw new ForbiddenException()
       return await this.service.createBaseModel(createBaseModelDto)
     } catch (error) {
       throw new BadRequestException()

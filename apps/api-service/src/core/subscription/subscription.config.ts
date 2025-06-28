@@ -14,7 +14,6 @@ export const subscriptionPricing: SubscriptionConfig = {
     "Unlimited API calls",
     "Great for extensive usage",
     "Includes Pro Models",
-    "Build & train custom models",
     "Latest AI Newsroom Access",
   ],
 }
