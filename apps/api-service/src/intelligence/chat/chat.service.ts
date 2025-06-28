@@ -99,6 +99,8 @@ export class ChatService {
         topP: topP ?? bModel.defaultTopP,
         thread,
         prompt,
+        threadId,
+        canSearchWeb: bModel.canSearchWeb,
       }
 
       if (bModel.deployment === "Google Cloud") {
