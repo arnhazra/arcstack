@@ -17,6 +17,7 @@ import { BaseModel, FilterAndSortOptions } from "@/shared/types"
 import { AppContext } from "@/context/appstate.provider"
 import { useSuspenseInfiniteQuery } from "@tanstack/react-query"
 import Show from "@/shared/components/show"
+import ErrorPage from "@/app/error"
 
 export interface FindModelRequestState {
   selectedFilter: string
@@ -125,6 +126,8 @@ export default function Page() {
     }
   )
 
+  console.log(models.data)
+
   const renderModels = models.data?.pages.flat().map((model, idx, arr) => {
     if (idx === arr.length - 1) {
       return (
@@ -190,6 +193,15 @@ export default function Page() {
           </div>
         </div>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(16rem,1fr))] gap-4 py-4">
+          <Show condition={models.data?.pages.flat().length === 0}>
+            <ErrorPage
+              error={{
+                name: "404",
+                message:
+                  "Seems like there is no model available with this keyword",
+              }}
+            />
+          </Show>
           {renderModels}
         </div>
       </section>

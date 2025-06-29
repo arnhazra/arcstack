@@ -8,14 +8,14 @@ import {
   CardFooter,
 } from "@/shared/components/ui/card"
 
-export default function Error() {
+export default function Error({ error }: { error?: Error }) {
   return (
     <div className="fixed inset-0 overflow-y-auto flex justify-center items-center">
       <Card className="mx-auto max-w-sm bg-background border-border text-white">
         <CardHeader>
           <CardTitle className="text-2xl">Error</CardTitle>
           <CardDescription className="text-white">
-            Seems like an error occured here, click retry
+            {error?.message ?? "Seems like an error occured here, click retry"}
           </CardDescription>
         </CardHeader>
         <CardFooter>

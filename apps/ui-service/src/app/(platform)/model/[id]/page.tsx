@@ -1,12 +1,10 @@
 "use client"
 import { Bell, Bookmark, BookMarked, MessageCircle } from "lucide-react"
 import { Badge } from "@/shared/components/ui/badge"
-import { buttonVariants } from "@/shared/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/shared/components/ui/card"
@@ -21,8 +19,6 @@ import { BaseModel } from "@/shared/types"
 import { BaseModelCard } from "@/shared/components/modelcard"
 import Error from "@/app/error"
 import Share from "@/shared/components/share"
-import Link from "next/link"
-import { cn } from "@/shared/lib/utils"
 import ky from "ky"
 import { toast } from "sonner"
 import { uiConstants } from "@/shared/constants/global-constants"
