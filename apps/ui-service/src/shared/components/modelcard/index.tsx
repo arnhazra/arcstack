@@ -9,10 +9,19 @@ import { AudioLines, Brain, CircleFadingPlus, Globe } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "../ui/badge"
 import Show from "../show"
+import { formatKey, formatValue } from "@/shared/lib/format-key-value"
 
 interface BaseModelCardProps {
   model: BaseModel
 }
+
+const includedKeys = [
+  "provider",
+  "series",
+  "architecture",
+  "deployment",
+  "responseFormat",
+]
 
 export function BaseModelCard({ model }: BaseModelCardProps) {
   const { _id, displayName, canSearchWeb } = model
@@ -53,34 +62,18 @@ export function BaseModelCard({ model }: BaseModelCardProps) {
         </CardHeader>
         <CardContent className="flex-grow py-2">
           <dl className="grid gap-3">
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">Provider</dt>
-              <dd className="text-sm font-semibold capitalize">
-                {model?.provider}
-              </dd>
-            </div>
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">Series</dt>
-              <dd className="text-sm font-semibold">{model?.series}</dd>
-            </div>
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">
-                Architecture
-              </dt>
-              <dd className="text-sm font-semibold">{model?.architecture}</dd>
-            </div>
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">Deployment</dt>
-              <dd className="text-sm font-semibold">{model?.deployment}</dd>
-            </div>
-            <div className="space-y-1">
-              <dt className="text-xs font-medium text-zinc-300">
-                Response Format
-              </dt>
-              <dd className="text-sm font-semibold capitalize">
-                {model?.responseFormat}
-              </dd>
-            </div>
+            {Object.entries(model ?? {})
+              .filter(([key]) => includedKeys.includes(key))
+              .map(([key, value]) => (
+                <div key={key} className="space-y-1">
+                  <dt className="text-xs font-medium text-zinc-300">
+                    {formatKey(key)}
+                  </dt>
+                  <dd className="text-sm font-semibold">
+                    {formatValue(value)}
+                  </dd>
+                </div>
+              ))}
           </dl>
         </CardContent>
       </Card>
