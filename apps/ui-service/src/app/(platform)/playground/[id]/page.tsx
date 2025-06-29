@@ -112,11 +112,12 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
 
   return (
     <Show condition={!model.error} fallback={<Error />}>
-      <SubscriptionModal
-        open={(model.data?.isPro as boolean) && !isSubscriptionActive}
-        customMessage="You need Pro subscription to access this model"
-        onOpenChange={(): void => undefined}
-      />
+      <Show condition={(model.data?.isPro as boolean) && !isSubscriptionActive}>
+        <SubscriptionModal
+          customMessage="You need Pro subscription to access this model"
+          defaultOpen
+        />
+      </Show>
       <Card className="relative flex flex-col h-[89vh] bg-background border-none text-white">
         <CardHeader className="h-[8vh] -mb-8">
           <div className="flex justify-end">

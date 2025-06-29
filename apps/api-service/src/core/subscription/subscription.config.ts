@@ -11,7 +11,7 @@ export const subscriptionPricing: SubscriptionConfig = {
   price: config.SUBSCRIPTION_PRICE,
   features: [
     "Priority API response",
-    "Unlimited API calls",
+    "Unlimited API usage",
     "Great for extensive usage",
     "Includes Pro Models",
     "Latest AI Newsroom Access",

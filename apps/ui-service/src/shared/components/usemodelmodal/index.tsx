@@ -1,17 +1,15 @@
 "use client"
-import { Button, buttonVariants } from "@/shared/components/ui/button"
+import { Button } from "@/shared/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogTrigger,
 } from "@/shared/components/ui/dialog"
 import { Badge } from "@/shared/components/ui/badge"
-import { Copy, X, MessageCircle, Code, DraftingCompass } from "lucide-react"
+import { X, MessageCircle, Code, DraftingCompass } from "lucide-react"
 import { useContext, useState } from "react"
 import { DialogTitle } from "@radix-ui/react-dialog"
-import { cn } from "@/shared/lib/utils"
 import { APIReference, BaseModel } from "@/shared/types"
-import Link from "next/link"
 import { brandName } from "@/shared/constants/global-constants"
 import useQuery from "@/shared/hooks/use-query"
 import HTTPMethods from "@/shared/constants/http-methods"
@@ -20,6 +18,7 @@ import SnippetPanel from "../snippet"
 import { useRouter } from "next/navigation"
 import Show from "../show"
 import { AppContext } from "@/context/appstate.provider"
+import { SubscriptionModal } from "../subscriptionmodal"
 
 export default function UseThisModelModal({
   model,
@@ -120,33 +119,30 @@ export default function UseThisModelModal({
                 <p className="text-zinc-300 text-xs mb-3">
                   This model requires a Pro subscription to use.
                 </p>
+                <SubscriptionModal className="w-full" />
+              </div>
+            </Show>
+            <Show
+              condition={!model?.isPro || (model.isPro && isSubscriptionActive)}
+            >
+              <div className="p-3 rounded-lg mt-6 bg-background bg-border">
+                <h4 className="text-white font-medium text-sm mb-2">
+                  Try in Chat Playground
+                </h4>
+                <p className="text-zinc-300 text-xs mb-3">
+                  You'll be able to try this model in the chat playground
+                </p>
                 <Button
                   className="w-full bg-primary hover:bg-primary"
                   onClick={() => {
-                    router.push(`/settings/subscription`)
+                    router.push(`/playground/${model?._id}`)
                   }}
                 >
-                  Upgrade to Pro
+                  <MessageCircle className="me-2 scale-75" />
+                  Chat Playground
                 </Button>
               </div>
             </Show>
-            <div className="p-3 rounded-lg mt-6 bg-background bg-border">
-              <h4 className="text-white font-medium text-sm mb-2">
-                Try in Chat Playground
-              </h4>
-              <p className="text-zinc-300 text-xs mb-3">
-                You'll be able to try this model in the chat playground
-              </p>
-              <Button
-                className="w-full bg-primary hover:bg-primary"
-                onClick={() => {
-                  router.push(`/playground/${model?._id}`)
-                }}
-              >
-                <MessageCircle className="me-2 scale-75" />
-                Chat Playground
-              </Button>
-            </div>
           </div>
           <div className="flex-1 p-4 overflow-y-auto">
             <div className="max-w-2xl">
@@ -173,8 +169,8 @@ export default function UseThisModelModal({
                         {brandName} API Key
                       </span>
                       <Badge
-                        variant="secondary"
-                        className="text-xs bg-primary text-white"
+                        variant="default"
+                        className="text-xs bg-primary hover:bg-primary text-white"
                       >
                         {model?.isPro ? "Pro" : "Free"}
                       </Badge>

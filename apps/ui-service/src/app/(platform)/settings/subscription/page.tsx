@@ -16,7 +16,6 @@ export default function Page() {
   const [{ subscription, isSubscriptionActive }] = useContext(AppContext)
   const searchParams = useSearchParams()
   const router = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     const subscriptionSuccess = searchParams.get("subscriptionSuccess")
@@ -47,20 +46,12 @@ export default function Page() {
 
   return (
     <>
-      <SubscriptionModal open={isOpen} onOpenChange={setIsOpen} />
       <Show condition={!isSubscriptionActive}>
         <SectionPanel
           icon={<CalendarClock className="scale-75" />}
           title="Your Subscription"
           content="You are on free subscription"
-          actionComponents={[
-            <Button
-              className="bg-primary hover:bg-primary"
-              onClick={() => setIsOpen(true)}
-            >
-              Upgrade to Pro
-            </Button>,
-          ]}
+          actionComponents={[<SubscriptionModal />]}
         />
       </Show>
       <Show condition={!!isSubscriptionActive}>
@@ -71,12 +62,7 @@ export default function Page() {
             content="You are on Pro subscription"
             actionComponents={[
               <Show condition={!!canActivateNewSubscription}>
-                <Button
-                  className="bg-primary hover:bg-primary"
-                  onClick={() => setIsOpen(true)}
-                >
-                  Renew Subscription
-                </Button>
+                <SubscriptionModal buttonText="Renew Subscription" />
               </Show>,
             ]}
           />

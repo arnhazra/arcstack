@@ -1,6 +1,7 @@
 "use client"
 import { AppContext } from "@/context/appstate.provider"
 import { NewsCard } from "@/shared/components/articlecard"
+import Show from "@/shared/components/show"
 import { SubscriptionModal } from "@/shared/components/subscriptionmodal"
 import { endPoints } from "@/shared/constants/api-endpoints"
 import HTTPMethods from "@/shared/constants/http-methods"
@@ -22,11 +23,12 @@ export default function Page() {
 
   return (
     <>
-      <SubscriptionModal
-        open={!isSubscriptionActive}
-        customMessage="You need Pro subscription to access newsroom"
-        onOpenChange={(): void => undefined}
-      />
+      <Show condition={!isSubscriptionActive}>
+        <SubscriptionModal
+          customMessage="You need Pro subscription to access newsroom"
+          defaultOpen
+        />
+      </Show>
       <div className="mx-auto grid w-full items-start gap-6">
         <section>
           <div className="flex">

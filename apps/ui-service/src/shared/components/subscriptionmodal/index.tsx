@@ -16,23 +16,29 @@ import ky from "ky"
 import { toast } from "sonner"
 import { brandName, uiConstants } from "@/shared/constants/global-constants"
 import { useRouter } from "next/navigation"
+import { DialogTrigger } from "@radix-ui/react-dialog"
+import { useState } from "react"
 
 interface SubscriptionModalProps {
-  open: boolean
   customMessage?: string
-  onOpenChange: (open: boolean) => void
+  buttonText?: string
+  defaultOpen?: boolean
+  className?: string
 }
 
 export function SubscriptionModal({
-  open,
   customMessage,
-  onOpenChange,
+  buttonText,
+  defaultOpen,
+  className,
 }: SubscriptionModalProps) {
   const router = useRouter()
+  const [open, setOpen] = useState(defaultOpen ?? false)
   const subscriptionPricing = useQuery<SubscriptionConfig>({
     queryKey: ["pricing-settings"],
     queryUrl: endPoints.getSubscriptionPricing,
     method: HTTPMethods.GET,
+    suspense: false,
   })
 
   const activateSubscription = async () => {
@@ -52,9 +58,16 @@ export function SubscriptionModal({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
+      {!defaultOpen && (
+        <DialogTrigger asChild>
+          <Button className={`${className} bg-primary hover:bg-primary`}>
+            {buttonText ?? "Upgrade to Pro"}
+          </Button>
+        </DialogTrigger>
+      )}
       <DialogContent
-        className="sm:max-w-md bg-background border-border text-white -mb-4"
+        className="max-w-[22rem] bg-background border-border text-white -mb-4"
         onInteractOutside={(event) => event.preventDefault()}
       >
         <DialogHeader>
@@ -63,9 +76,13 @@ export function SubscriptionModal({
             {customMessage ??
               `What's included in the ${subscriptionPricing.data?.subscriptionName}`}
           </DialogDescription>
+          <h4 className="text-4xl font-bold">
+            ${subscriptionPricing.data?.price}
+            <span className="text-base font-normal ml-1">/month</span>
+          </h4>
         </DialogHeader>
         <div className="grid gap-6">
-          <ul className="grid gap-3 text-sm text-muted-foreground sm:grid-cols-2">
+          <ul className="grid gap-3 text-sm text-muted-foreground">
             {subscriptionPricing.data?.features.map((feature) => {
               return (
                 <li className="flex items-center" key={feature}>
@@ -76,14 +93,6 @@ export function SubscriptionModal({
           </ul>
         </div>
         <div className="flex flex-col gap-4 text-center">
-          <div>
-            <h4 className="text-7xl font-bold">
-              ${subscriptionPricing.data?.price}
-            </h4>
-            <p className="text-sm font-medium text-muted-foreground">
-              Billed Monthly
-            </p>
-          </div>
           <Button
             className="bg-primary hover:bg-primary"
             onClick={activateSubscription}
@@ -94,8 +103,8 @@ export function SubscriptionModal({
             variant="link"
             className="text-primary"
             onClick={(): void => {
+              setOpen(false)
               router.push("/settings/subscription")
-              onOpenChange(false)
             }}
           >
             I'll do this later
