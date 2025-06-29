@@ -27,7 +27,10 @@ export default function Page() {
   })
 
   const deleteAPIKey = async (apiKeyId: string) => {
-    const response = await confirm("Are you sure to delete this API Key ?")
+    const response = await confirm({
+      title: "Delete API Key",
+      desc: "Are you sure to delete this API Key ?",
+    })
     if (response) {
       try {
         await ky.delete(`${endPoints.apiKey}/${apiKeyId}`, {

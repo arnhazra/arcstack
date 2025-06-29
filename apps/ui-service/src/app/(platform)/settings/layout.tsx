@@ -53,7 +53,10 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
   })
 
   const createAPIKey = async () => {
-    const response = await confirm("Are you sure to create a new API Key ?")
+    const response = await confirm({
+      title: "Create API Key",
+      desc: "Are you sure to create a new API Key ?",
+    })
     if (response) {
       try {
         await ky.post(`${endPoints.apiKey}`, {

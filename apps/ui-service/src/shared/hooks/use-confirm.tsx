@@ -11,17 +11,22 @@ import {
 import { Button } from "@/shared/components/ui/button"
 import { uiConstants } from "@/shared/constants/global-constants"
 
+interface ModalProps {
+  title: string
+  desc: string
+}
+
 export default function useConfirm() {
   const [show, setShow] = useState(false)
-  const [message, setMessage] = useState("")
+  const [message, setMessage] = useState<ModalProps>({ title: "", desc: "" })
   const [resolveCallback, setResolveCallback] = useState<
     (choice: boolean) => void
   >(() => {})
 
   const handleClose = () => setShow(false)
 
-  const confirm = (message: string): Promise<boolean> => {
-    setMessage(message)
+  const confirm = ({ title, desc }: ModalProps): Promise<boolean> => {
+    setMessage({ title, desc })
     setShow(true)
 
     return new Promise((resolve) => {
@@ -43,16 +48,20 @@ export default function useConfirm() {
     <AlertDialog open={show}>
       <AlertDialogContent className="bg-background text-white border-border">
         <AlertDialogHeader>
-          <AlertDialogTitle>{message}</AlertDialogTitle>
+          <AlertDialogTitle>{message.title}</AlertDialogTitle>
           <AlertDialogDescription className="text-zinc-300">
-            {uiConstants.confirmDescription}
+            {message.desc ?? uiConstants.confirmDescription}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <Button variant="secondary" onClick={() => handleConfirm(false)}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={() => handleConfirm(true)}>
+          <Button
+            variant="default"
+            className="bg-primary text-white hover:bg-primary"
+            onClick={() => handleConfirm(true)}
+          >
             Continue
           </Button>
         </AlertDialogFooter>
@@ -65,5 +74,5 @@ export default function useConfirm() {
 
 export type ConfirmProps = {
   confirmDialog: () => React.ReactNode
-  confirm: (message: string) => Promise<boolean>
+  confirm: (message: ModalProps) => Promise<boolean>
 }
