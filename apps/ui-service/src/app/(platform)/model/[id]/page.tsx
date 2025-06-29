@@ -23,6 +23,11 @@ import ky from "ky"
 import { toast } from "sonner"
 import { uiConstants } from "@/shared/constants/global-constants"
 import UseThisModelModal from "@/shared/components/usemodelmodal"
+import {
+  excludedKeys,
+  formatKey,
+  formatValue,
+} from "@/shared/lib/format-key-value"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
@@ -113,48 +118,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
             <div className="grid gap-3">
               <div className="font-semibold text-lg">Model Details</div>
               <ul className="grid gap-3">
-                <li className="flex items-center justify-between">
-                  <span>Architecture</span>
-                  <span>{model?.data?.architecture}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Base Model</span>
-                  <span>{model?.data?.displayName}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Series</span>
-                  <span>{model?.data?.series}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Provider</span>
-                  <span>{model?.data?.provider}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Context Window</span>
-                  <span>{model?.data?.contextWindow}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Default Temperature</span>
-                  <span>{model?.data?.defaultTemperature}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Default Top P</span>
-                  <span>{model?.data?.defaultTopP}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Parameters</span>
-                  <span>{model?.data?.parameters}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Realtime Web Search</span>
-                  <span>{model?.data?.canSearchWeb ? "Yes" : "No"}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Response Format</span>
-                  <span className="capitalize">
-                    {model?.data?.responseFormat}
-                  </span>
-                </li>
+                {Object.entries(model.data ?? {})
+                  .filter(([key]) => !excludedKeys.includes(key))
+                  .map(([key, value]) => (
+                    <li key={key} className="flex items-center justify-between">
+                      <span>{formatKey(key)}</span>
+                      <span>{formatValue(value)}</span>
+                    </li>
+                  ))}
               </ul>
             </div>
             <Separator className="my-4 bg-border" />

@@ -6,7 +6,7 @@ import {
   DialogTrigger,
 } from "@/shared/components/ui/dialog"
 import { Badge } from "@/shared/components/ui/badge"
-import { X, MessageCircle, Code, DraftingCompass } from "lucide-react"
+import { X, MessageCircle, Code, DraftingCompass, Key } from "lucide-react"
 import { useContext, useState } from "react"
 import { DialogTitle } from "@radix-ui/react-dialog"
 import { APIReference, BaseModel } from "@/shared/types"
@@ -19,6 +19,11 @@ import { useRouter } from "next/navigation"
 import Show from "../show"
 import { AppContext } from "@/context/appstate.provider"
 import { SubscriptionModal } from "../subscriptionmodal"
+import {
+  excludedKeys,
+  formatKey,
+  formatValue,
+} from "@/shared/lib/format-key-value"
 
 export default function UseThisModelModal({
   model,
@@ -81,34 +86,14 @@ export default function UseThisModelModal({
                 Model Details
               </div>
               <ul className="grid gap-3 text-xs text-white">
-                <li className="flex items-center justify-between">
-                  <span>Architecture</span>
-                  <span>{model?.architecture}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Base Model</span>
-                  <span>{model?.displayName}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Series</span>
-                  <span>{model?.series}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Provider</span>
-                  <span>{model?.provider}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Context Window</span>
-                  <span>{model?.contextWindow}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Parameters</span>
-                  <span>{model?.parameters}</span>
-                </li>
-                <li className="flex items-center justify-between">
-                  <span>Realtime Web Search</span>
-                  <span>{model?.canSearchWeb ? "Yes" : "No"}</span>
-                </li>
+                {Object.entries(model ?? {})
+                  .filter(([key]) => !excludedKeys.includes(key))
+                  .map(([key, value]) => (
+                    <li key={key} className="flex items-center justify-between">
+                      <span>{formatKey(key)}</span>
+                      <span>{formatValue(value)}</span>
+                    </li>
+                  ))}
               </ul>
             </div>
             <Show condition={(model?.isPro && !isSubscriptionActive) ?? false}>
@@ -181,7 +166,8 @@ export default function UseThisModelModal({
                       className="text-white text-xs h-7 bg-transparent bg-primary hover:bg-primary hover:text-white border-lightborder hover:border-lightborder"
                       onClick={(): void => router.push("/settings/apikey")}
                     >
-                      Get key
+                      <Key className="w-3 h-3 me-1" />
+                      Get Key
                     </Button>
                   </div>
                   <p className="text-zinc-400 text-xs">
