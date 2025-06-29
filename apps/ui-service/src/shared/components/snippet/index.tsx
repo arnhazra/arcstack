@@ -32,19 +32,15 @@ export default function SnippetPanel({
   response,
 }: SnippetPanelProps) {
   return (
-    <Card className="mt-2 bg-background border-border text-white">
+    <Card className="mt-2 bg-background border-lightborder text-white">
       <CardHeader>
         <CardTitle className="text-lg">{title}</CardTitle>
-        <p className="text-zinc-300">{description}</p>
-        <div className="text-secondary">
-          You must add your API Key in x-api-key header, get your API Key{" "}
-          <Link className="underline" href="/settings/apikey">
-            here
-          </Link>
-        </div>
+        <p className="text-zinc-300 text-xs">{description}</p>
       </CardHeader>
       <CardContent className="flex gap-3">
-        <Badge variant="destructive">{method}</Badge>
+        <Badge variant="default" className="bg-primary hover:bg-primary">
+          {method}
+        </Badge>
         <Input
           value={url}
           disabled
@@ -65,6 +61,7 @@ export default function SnippetPanel({
               borderColor: "#27272a",
               border: "1px solid #27272a",
               borderRadius: "0.5rem",
+              fontSize: "0.75rem",
             }}
           >
             {JSON.stringify(request, null, 2)}
@@ -83,6 +80,7 @@ export default function SnippetPanel({
               borderColor: "#27272a",
               border: "1px solid #27272a",
               borderRadius: "0.5rem",
+              fontSize: "0.75rem",
             }}
           >
             {JSON.stringify(response, null, 2)}

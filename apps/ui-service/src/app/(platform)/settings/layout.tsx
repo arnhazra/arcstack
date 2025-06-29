@@ -91,7 +91,13 @@ export default function SetingsLayout({ children }: { children: ReactNode }) {
             </div>
           </div>
           <Show condition={pathname.includes("settings/apikey")}>
-            <Button onClick={createAPIKey}>Create API Key</Button>
+            <Button
+              variant="default"
+              className="bg-primary hover:bg-primary"
+              onClick={createAPIKey}
+            >
+              Create API Key
+            </Button>
           </Show>
         </div>
       </div>

@@ -26,6 +26,7 @@ import { cn } from "@/shared/lib/utils"
 import ky from "ky"
 import { toast } from "sonner"
 import { uiConstants } from "@/shared/constants/global-constants"
+import UseThisModelModal from "@/shared/components/usemodelmodal"
 
 export default function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: modelId = "" } = use(params)
@@ -166,26 +167,14 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
               <div>{renderModelTags}</div>
             </div>
           </CardContent>
-          <CardFooter className="flex flex-row items-center bg-muted/50 px-6 py-3">
-            <Link
-              className={cn(
-                buttonVariants({
-                  variant: "default",
-                  className: "w-full bg-border hover:bg-border",
-                })
-              )}
-              href="/apireference"
-            >
-              API Reference
-              <BookMarked className="scale-75" />
-            </Link>
-          </CardFooter>
         </Card>
         <div className="grid auto-rows-max items-start gap-4 md:gap-8 lg:col-span-2 xl:col-span-3">
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
             <Card className="sm:col-span-4 pb-4 text-white bg-background border-border">
               <CardHeader className="pb-3">
                 <CardTitle className="flex flex-wrap justify-between">
+                  {model?.data?.provider.toLowerCase()}
+                  {" / "}
                   {model?.data?.displayName}
                   <div className="flex gap-4">
                     <ActivityLog keyword={modelId} />
@@ -199,18 +188,7 @@ export default function Page({ params }: { params: Promise<{ id: string }> }) {
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex justify-between gap-4 mt-4 -mb-4">
-                <Link
-                  className={cn(
-                    buttonVariants({
-                      variant: "default",
-                      className: "bg-primary hover:bg-primary",
-                    })
-                  )}
-                  href={`/playground/${modelId}`}
-                >
-                  <MessageCircle className="me-2 scale-75" />
-                  Chat Playground
-                </Link>
+                <UseThisModelModal model={model.data} />
                 <Bookmark
                   fill={icCollected ? "#1db954" : "#18181b"}
                   className="mt-3 text-primary cursor-pointer"

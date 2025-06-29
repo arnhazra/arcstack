@@ -23,9 +23,4 @@ export const sidebarLinks: LinkData[] = [
     link: "/newsroom",
     icon: <Newspaper className="scale-75" />,
   },
-  {
-    displayName: "API Reference",
-    link: "/apireference",
-    icon: <Book className="scale-75" />,
-  },
 ]
