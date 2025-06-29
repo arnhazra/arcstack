@@ -1,8 +1,9 @@
 # Changelog
 
-## v1.0.5 [28 Jun 2025]
+## v1.0.5 [29 Jun 2025]
 
 - Added Langchain and langgraph agents
+- Code refactoring
 
 ## v1.0.4 [15 Jun 2025]
 
